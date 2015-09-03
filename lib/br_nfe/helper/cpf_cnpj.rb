@@ -15,7 +15,7 @@ module BrNfe
 			end
 
 			def cpf_ou_cnpj?
-				@cpf_cnpj.size > 11 ? :cnpj : :cpf
+				sem_formatacao.size > 11 ? :cnpj : :cpf
 			end
 
 			def tipo_documento(tamanho = 2)

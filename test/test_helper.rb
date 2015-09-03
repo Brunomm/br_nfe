@@ -15,6 +15,8 @@ require 'mocha/mini_test'
 
 require 'factory_girl_rails'
 
+require 'certificado'
+
 
 Minitest::Reporters.use!
 

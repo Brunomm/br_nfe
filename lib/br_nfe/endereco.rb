@@ -19,7 +19,6 @@ module BrNfe
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)
 		attr_accessor :nome_pais   # defaul: BRASIL
 
-		validates :logradouro, :numero, :bairro, :nome_municipio, :codigo_municipio, :uf, :cep, presence: true
 
 	end
 end

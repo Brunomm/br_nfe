@@ -1,12 +1,13 @@
 FactoryGirl.define do
 	factory :emitente, class:  BrNfe::Emitente do
-		logradouro       "Rua João Cândido Lopes"
-		numero           "402"
-		complemento      ""
-		bairro           "Centro"
-		nome_municipio   "Chapecó"
-		codigo_municipio "4204202"
-		uf               "SC"
-		cep              "89801-000"
+		cnpj                       "40345138000147"
+		inscricao_municipal        "123465"
+		razao_social               "EMPRESA DE TECNOLOGIA DA INFORMAÇÃO"
+		nome_fantasia              "TI"
+		telefone                   "333366558"
+		email                      "mail@mail.com"
+		regime_especial_tributacao "3"
+		optante_simples_nacional   "2"
+		incentivo_fiscal           "2"
 	end
 end
