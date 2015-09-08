@@ -15,14 +15,6 @@ module BrNfe
 		
 		attr_accessor :env
 
-		# def certificado_path
-		# 	'/home/bruno/cert.pfx'
-		# end
-
-		# def certificado_password
-		# 	'CONTA123'
-		# end
-
 		def env
 			@env ||= :production
 		end
