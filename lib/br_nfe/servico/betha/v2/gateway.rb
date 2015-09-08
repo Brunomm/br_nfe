@@ -50,20 +50,20 @@ module BrNfe
 					
 				private
 
-					# def format_data_xml_for_signature(data_xml)
-					# 	xml = Nokogiri::XML(data_xml.to_s, &:noblanks)
-					# 	node_name = xml.root.node_name
-					# 	xml = xml.root.xpath("//#{node_name}")
-					# 	xml.attr("xmlns", "http://www.betha.com.br/e-nota-contribuinte-ws")
-					# 	canonicalize xml.to_s
-					# end
+					def format_data_xml_for_signature(data_xml)
+						xml = Nokogiri::XML(data_xml.to_s, &:noblanks)
+						node_name = xml.root.node_name
+						xml = xml.root.xpath("//#{node_name}")
+						xml.attr("xmlns", "http://www.betha.com.br/e-nota-contribuinte-ws")
+						canonicalize xml.to_s
+					end
 
 					def tag_prestador(xml)
 						xml.Prestador{ 
 							xml.CpfCnpj{
 								tag_cpf_cnpj(xml, emitente.cnpj)
 							}
-							xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present?
+							xml.InscricaoMunicipal emitente.inscricao_municipal unless emitente.inscricao_municipal.blank?
 						}						
 					end
 

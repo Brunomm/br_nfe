@@ -2,7 +2,8 @@ module BrNfe
 	module Servico
 		module Betha
 			module V2
-				class Response  < BrNfe::Response
+				class Response  < BrNfe::ActiveModelBase
+					attr_accessor :xml, :nfe_method
 					
 					def messages
 						Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym }).parse(xml.to_s)["#{nfe_method.to_s}_resposta".to_sym]

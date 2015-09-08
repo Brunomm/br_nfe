@@ -6,7 +6,7 @@ module BrNfeTest
 			end
 
 			def test_HaveAddressTest_Já_inicia_com_um_endereco
-				BrNfe::Emitente.new().endereco.class.must_equal BrNfe::Endereco
+				subject.class.new.endereco.class.must_equal BrNfe::Endereco
 			end
 
 			def test_HaveAddressTest_Mesmo_setando_o_endereço_como_nil_retorna_um_novo_endereco
@@ -30,7 +30,7 @@ module BrNfeTest
 				endereco.assign_attributes(cep: '123456', logradouro: :rua_1, uf: :sc)
 				subject.endereco = {cep: '99999', logradouro: :rua_2, uf: :rs}
 				subject.endereco.cep.must_equal '99999' 
-				subject.endereco.logradouro.must_equal :rua_2  
+				subject.endereco.logradouro.must_equal 'RUA_2'
 				subject.endereco.uf.must_equal  :rs
 			end
 
@@ -42,7 +42,7 @@ module BrNfeTest
 					address.uf =         :rs
 				end
 				subject.endereco.cep.must_equal '99999' 
-				subject.endereco.logradouro.must_equal :rua_2  
+				subject.endereco.logradouro.must_equal 'RUA_2'
 				subject.endereco.uf.must_equal  :rs
 			end
 

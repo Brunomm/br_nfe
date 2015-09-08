@@ -26,7 +26,7 @@ module BrNfe
 
 					def set_response(resp)
 						method_response = (method_wsdl.to_s + "_envio_response").to_sym
-						@response = BrNfe::Servico::Betha::V1::Response.new(xml: resp.hash[:envelope][:body][method_response], nfe_method: method_wsdl)
+						@response = BrNfe::Servico::Betha::V1::BuildResponse.new(hash: resp.hash[:envelope][:body][method_response], nfe_method: method_wsdl)
 					end
 
 					def content_xml
@@ -46,17 +46,16 @@ module BrNfe
 							xml.Valores {
 								xml.ValorServicos    rps.valor_servicos   # Valores obrigatórios
 								xml.IssRetido        rps.iss_retido       # Valores obrigatórios
-								xml.BaseCalculo      rps.base_calculo     # Valores obrigatórios
-								
-								xml.ValorDeducoes    rps.valor_deducoes   if rps.valor_deducoes.present?
-								xml.ValorPis         rps.valor_pis        if rps.valor_pis.present?
-								xml.ValorCofins      rps.valor_cofins     if rps.valor_cofins.present?
-								xml.ValorInss        rps.valor_inss       if rps.valor_inss.present?
-								xml.ValorIr          rps.valor_ir         if rps.valor_ir.present?
-								xml.ValorCsll        rps.valor_csll       if rps.valor_csll.present?
-								xml.ValorIss         rps.valor_iss        if rps.valor_iss.present?
-								xml.OutrasRetencoes  rps.outras_retencoes if rps.outras_retencoes.present?
-								xml.Aliquota         rps.aliquota         if rps.aliquota.present?
+								xml.BaseCalculo      rps.base_calculo     # Valores obrigatórios								
+								xml.ValorDeducoes    rps.valor_deducoes   unless rps.valor_deducoes.blank?
+								xml.ValorPis         rps.valor_pis        unless rps.valor_pis.blank?
+								xml.ValorCofins      rps.valor_cofins     unless rps.valor_cofins.blank?
+								xml.ValorInss        rps.valor_inss       unless rps.valor_inss.blank?
+								xml.ValorIr          rps.valor_ir         unless rps.valor_ir.blank?
+								xml.ValorCsll        rps.valor_csll       unless rps.valor_csll.blank?
+								xml.ValorIss         rps.valor_iss        unless rps.valor_iss.blank?
+								xml.OutrasRetencoes  rps.outras_retencoes unless rps.outras_retencoes.blank?
+								xml.Aliquota         rps.aliquota         unless rps.aliquota.blank?
 							}
 						}
 					end

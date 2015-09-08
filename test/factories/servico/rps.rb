@@ -32,6 +32,13 @@ FactoryGirl.define do
 		trait :completo do
 			codigo_tributacao_municipio '6699'
 			condicao_pagamento        { FactoryGirl.build(:condicao_pagamento, :a_prazo) }
+			intermediario             { FactoryGirl.build(:intermediario) }
+			numero_substituicao       '555'
+			serie_substituicao        'SN'
+			tipo_substituicao         '1'
+			codigo_obra               '66'
+			codigo_art                '223'
+			outras_informacoes        'info a mais'
 		end
 	end
 end

@@ -37,7 +37,7 @@ module BrNfe
 					end
 
 					def set_response(resp)
-						@response = BrNfe::Servico::Betha::V1::Response.new(xml: resp.hash[:envelope][:body][:consultar_nfse_por_rps_envio_response], nfe_method: :consultar_nfse_rps)
+						@response = BrNfe::Servico::Betha::V1::BuildResponse.new(hash: resp.hash[:envelope][:body][:consultar_nfse_por_rps_envio_response], nfe_method: :consultar_nfse_rps).response
 					end
 					
 				end

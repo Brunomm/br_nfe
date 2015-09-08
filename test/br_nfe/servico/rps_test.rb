@@ -115,19 +115,19 @@ describe BrNfe::Servico::Rps do
 			end
 			subject.intermediario.cpf_cnpj.must_equal            '12345678901234'
 			subject.intermediario.inscricao_municipal.must_equal '3549-5'
-			subject.intermediario.razao_social.must_equal        'razao_social'
+			subject.intermediario.razao_social.must_equal        'RAZAO_SOCIAL'
 		end
 
 		it "atributos pode ser modificados em forma de bloco" do
 			subject.intermediario = {cpf_cnpj: '123', razao_social: 'razao'}
 			subject.intermediario.cpf_cnpj.must_equal '123'
-			subject.intermediario.razao_social.must_equal 'razao'
+			subject.intermediario.razao_social.must_equal 'RAZAO'
 			
 			subject.intermediario do |dest|
 				dest.cpf_cnpj            = '12345678901234'
 			end
 			subject.intermediario.cpf_cnpj.must_equal     '12345678901234'
-			subject.intermediario.razao_social.must_equal 'razao'
+			subject.intermediario.razao_social.must_equal 'RAZAO'
 		end
 
 		it "atributos pode ser atribuidos em forma de hash" do
@@ -138,7 +138,7 @@ describe BrNfe::Servico::Rps do
 			}
 			subject.intermediario.cpf_cnpj.must_equal            '12345678901234'
 			subject.intermediario.inscricao_municipal.must_equal '3549-5'
-			subject.intermediario.razao_social.must_equal        'razao_social'
+			subject.intermediario.razao_social.must_equal        'RAZAO_SOCIAL'
 		end
 
 		it "pode modificar o objeto do atributo" do

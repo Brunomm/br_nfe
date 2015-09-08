@@ -1,9 +1,9 @@
 require 'test_helper'
 
 describe BrNfe::Servico::Betha::V1::Gateway do
-	subject { FactoryGirl.build(:br_nfe_servico_betha_gateway, emitente: emitente) }
-	let(:rps) { FactoryGirl.build(:br_nfe_rps, :completo) }
-	let(:emitente) { FactoryGirl.build(:emitente) }
+	subject             { FactoryGirl.build(:br_nfe_servico_betha_gateway, emitente: emitente) }
+	let(:rps)           { FactoryGirl.build(:br_nfe_rps, :completo) }
+	let(:emitente)      { FactoryGirl.build(:emitente) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 
 	describe "inheritance class" do
@@ -34,11 +34,6 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 	end
 
 	describe "#tag_dados_servico" do
-		before do
-			# rps.numero_substituicao = 333
-			# rps.serie_substituicao = 5
-			# rps.tipo_substituicao = 9
-		end
 		it "deve vir com a estrutura adecuada com todos os valores preenchidos" do
 			xml = Nokogiri::XML::Builder.new do |xml|
 				subject.send(:tag_dados_servico, xml, rps)

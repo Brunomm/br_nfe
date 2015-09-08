@@ -19,6 +19,24 @@ module BrNfe
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)
 		attr_accessor :nome_pais   # defaul: BRASIL
 
+		def logradouro
+			"#{@logradouro}".to_valid_format
+		end
 
+		def complemento
+			"#{@complemento}".to_valid_format
+		end
+
+		def bairro
+			"#{@bairro}".to_valid_format
+		end
+
+		def nome_municipio
+			"#{@nome_municipio}".to_valid_format
+		end
+
+		def nome_pais
+			"#{@nome_pais}".to_valid_format			
+		end
 	end
 end

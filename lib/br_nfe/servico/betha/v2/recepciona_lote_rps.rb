@@ -10,10 +10,10 @@ module BrNfe
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.EnviarLoteRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
-								xml_lote_rps = lote_rps_xml.doc
+								xml_lote_rps = lote_rps_xml.doc.root
 
-								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( canonicalize(xml_lote_rps.root) )
-								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_lote_rps.root.to_s, '#lote1654564') )
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_lote_rps.to_s )
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_lote_rps.to_s, "#lote#{numero_lote_rps}") )
 							}
 						end.doc
 						
@@ -35,9 +35,9 @@ module BrNfe
 								xml.ListaRps {
 									xml.Rps do |xml_rps|
 										lote_rps.each do |rps|
-											arps = rps_xml(rps).doc
-											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( canonicalize(arps.root) ) 
-											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml( arps.root.to_s, "#rps#{rps.numero}" ) )
+											arps = rps_xml(rps).doc.root
+											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( arps.to_s) ) 
+											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml( arps.to_s, "#rps#{rps.numero}" ) )
 										end
 									end
 								}
@@ -89,7 +89,7 @@ module BrNfe
 
 									xml.IssRetido                 rps.iss_retido
 									xml.ItemListaServico          rps.item_lista_servico
-									xml.CodigoTributacaoMunicipio rps.codigo_tributacao_municipio
+									# xml.CodigoTributacaoMunicipio rps.codigo_tributacao_municipio
 									xml.Discriminacao             rps.discriminacao
 									xml.CodigoMunicipio           rps.codigo_municipio
 									xml.ExigibilidadeISS          '1'

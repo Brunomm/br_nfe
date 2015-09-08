@@ -1,17 +1,9 @@
 # -*- encoding: utf-8 -*-
 module BrNfe
 	module StringMethods
-		 # Formata o tamanho da string
-		# para o tamanho passado
-		# se a string for menor, adiciona espacos a direita
-		# se a string for maior, trunca para o num. de caracteres
-		#
-		def adjust_size_to(size, adjust=" ")
-			if self.size > size
-				truncate(size, omission: '')
-			else
-				ljust(size, adjust)
-			end
+		 
+		def to_valid_format
+			ActiveSupport::Inflector.transliterate(self).upcase
 		end
 	end
 end

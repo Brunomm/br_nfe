@@ -1,6 +1,8 @@
 module BrNfe
 	class Base < BrNfe::ActiveModelBase
 		
+		include BrNfe::Helper::HaveEmitente
+
 		attr_accessor :certificado_password
 		attr_accessor :certificado_path
 		attr_accessor :certificado_value
@@ -13,29 +15,16 @@ module BrNfe
 		
 		attr_accessor :env
 
-		def certificado_path
-			'/home/bruno/cert.pfx'
-		end
+		# def certificado_path
+		# 	'/home/bruno/cert.pfx'
+		# end
 
-		def certificado_password
-			'CONTA123'
-		end
+		# def certificado_password
+		# 	'CONTA123'
+		# end
 
 		def env
 			@env ||= :production
-		end
-
-		def emitente
-			@emitente.is_a?(BrNfe.emitente_class) ? @emitente : @emitente = BrNfe.emitente_class.new()
-		end
-
-
-		def emitente=(value)
-			if value.is_a?(BrNfe.emitente_class) 
-				@emitente = value
-			elsif value.is_a?(Hash)
-				emitente.assign_attributes(value)
-			end
 		end
 
 		def response
@@ -76,8 +65,8 @@ module BrNfe
 				env_namespace:         env_namespace,
 				wsdl:                  wsdl,
 				namespace_identifier:  namespace_identifier,
-				log:                   true,#BrNfe.client_wsdl_log,
-				pretty_print_xml:      true,#BrNfe.client_wsdl_pretty_print_xml,
+				log:                   BrNfe.client_wsdl_log,
+				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
 				ssl_verify_mode:       BrNfe.client_wsdl_ssl_verify_mode,
 				ssl_cert_file:         BrNfe.client_wsdl_ssl_cert_file,
 				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
@@ -111,7 +100,7 @@ module BrNfe
 		end
 
 		def assinatura_xml(data_xml, uri='')
-			# data_xml = format_data_xml_for_signature(data_xml)
+			data_xml = format_data_xml_for_signature(data_xml)
 			ass = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 				xml.Signature(xmlns: 'http://www.w3.org/2000/09/xmldsig#') do |signature|
 					
@@ -166,6 +155,10 @@ module BrNfe
 
 		def remove_quebras(str)
 			str.gsub(/\n/,'').gsub(/\t/,'').strip
+		end
+
+		def format_data_xml_for_signature(data_xml)
+			data_xml
 		end
 
 	end

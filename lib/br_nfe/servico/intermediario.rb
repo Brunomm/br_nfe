@@ -5,6 +5,10 @@ module BrNfe
 			attr_accessor :cpf_cnpj
 			attr_accessor :inscricao_municipal
 			attr_accessor :razao_social
+
+			def razao_social
+				"#{@razao_social}".to_valid_format
+			end
 			
 		end
 	end

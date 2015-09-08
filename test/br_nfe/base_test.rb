@@ -1,11 +1,17 @@
 require 'test_helper'
+require 'br_nfe/helper/have_emitente_test'
 
 describe BrNfe::Base do
-	subject { FactoryGirl.build(:br_nfe_base) }
+	subject { FactoryGirl.build(:br_nfe_base, emitente: emitente) }
 	let(:certificado) { Certificado.new } 
+	let(:emitente) { FactoryGirl.build(:emitente) } 
 
 	before do
 		subject.stubs(:certificado).returns(certificado)
+	end
+
+	describe "#emitente" do
+		include BrNfeTest::HelperTest::HaveEmitenteTest
 	end
 	
 	describe "#env" do

@@ -1,6 +1,10 @@
 module BrNfe
 	module Servico
 		class Rps < BrNfe::ActiveModelBase
+			include BrNfe::Helper::HaveDestinatario
+			include BrNfe::Helper::HaveIntermediario
+			include BrNfe::Helper::HaveCondicaoPagamento
+
 			attr_accessor :numero
 			attr_accessor :serie
 			attr_accessor :tipo
@@ -41,65 +45,9 @@ module BrNfe
 			attr_accessor :codigo_cnae
 			attr_accessor :outras_informacoes
 
-			########################### DADOS DO DESTINATÁRIO ###########################
-			def destinatario
-				yield(destinatario) if block_given?
-				@destinatario.is_a?(BrNfe.destinatario_class) ? @destinatario : @destinatario = BrNfe.destinatario_class.new()
-			end
-
-			def destinatario=(value)
-				if value.is_a?(BrNfe.destinatario_class) 
-					@destinatario = value
-				elsif value.is_a?(Hash)
-					destinatario.assign_attributes(value)
-				end
-			end
-			#############################################################################
-
-			########################### DADOS DO INTERMEDIÁRIO ##########################
-			def intermediario
-				yield(intermediario || new_intermediario) if block_given?
-				@intermediario.is_a?(BrNfe.intermediario_class) ? @intermediario : nil
-			end
-
-			def intermediario=(value)
-				if value.is_a?(BrNfe.intermediario_class) || value.nil? 
-					@intermediario = value
-				elsif value.is_a?(Hash)
-					intermediario ? intermediario.assign_attributes(value) : new_intermediario(value)
-				end
-			end
-			#############################################################################
-
-			####################### DADOS DO CONDICAO DE PAGAMENTO ######################
-			def condicao_pagamento
-				yield(condicao_pagamento || new_condicao_pagamento) if block_given?
-				@condicao_pagamento.is_a?(BrNfe.condicao_pagamento_class) ? @condicao_pagamento : nil
-			end
-
-			def condicao_pagamento=(value)
-				if value.is_a?(BrNfe.condicao_pagamento_class) || value.nil? 
-					@condicao_pagamento = value
-				elsif value.is_a?(Hash)
-					condicao_pagamento ? condicao_pagamento.assign_attributes(value) : new_condicao_pagamento(value)
-				end
-			end
-			#############################################################################
-
 			def contem_substituicao?
 				numero_substituicao.present? && serie_substituicao.present? && tipo_substituicao.present?
 			end
-		
-		private
-
-			def new_condicao_pagamento(params={})
-				@condicao_pagamento = BrNfe.condicao_pagamento_class.new(params)
-			end
-
-			def new_intermediario(params={})
-				@intermediario = BrNfe.intermediario_class.new(params)
-			end
-
 		end
 	end
 end

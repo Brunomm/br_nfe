@@ -12,7 +12,6 @@ module BrNfe
 					attr_accessor :data_inicial
 					attr_accessor :data_final
 
-					validates :data_inicial, :data_final, presence: true
 
 					def method_wsdl
 						:consultar_nfse

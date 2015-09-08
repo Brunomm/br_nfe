@@ -59,14 +59,23 @@ module BrNfe
 			BrNfe::Servico::Betha::V1::RecepcaoLoteRps.new do |recepcao|
 				recepcao.emitente = emitente
 				recepcao.lote_rps = rps
-				recepcao.numero_lote_rps = 1807+incremento
+				recepcao.numero_lote_rps = 1826+incremento
+				recepcao.env = :test
+			end
+		end
+
+		def recepcao_lote_rps_v2
+			BrNfe::Servico::Betha::V2::RecepcionaLoteRps.new do |recepcao|
+				recepcao.emitente = emitente
+				recepcao.lote_rps = rps
+				recepcao.numero_lote_rps = 1824+incremento
 				recepcao.env = :test
 			end
 		end
 
 		def consulta_lote_rps_v1(protocolo)
 			BrNfe::Servico::Betha::V1::ConsultaLoteRps.new do |obj|
-				obj.env = :test
+				obj.env = env
 				obj.emitente = emitente
 				obj.protocolo = protocolo
 			end
@@ -74,7 +83,7 @@ module BrNfe
 
 		def consulta_nfs_por_rps_v1
 			BrNfe::Servico::Betha::V1::ConsultaNfsPorRps.new do |obj|
-				obj.env = :test
+				obj.env = env
 				obj.emitente = emitente
 				obj.rps = rps
 			end
@@ -82,7 +91,7 @@ module BrNfe
 
 		def consulta_nfse_v1(params={})
 			BrNfe::Servico::Betha::V1::ConsultaNfse.new do |obj|
-				obj.env = :test
+				obj.env = env
 				obj.emitente = emitente
 				obj.numero_nfse  = params[:numero_nfse]
 				obj.data_inicial = params[:data_inicial] || Date.today.beginning_of_month

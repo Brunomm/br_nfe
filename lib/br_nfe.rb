@@ -6,10 +6,16 @@ require 'active_support/core_ext/enumerable'
 require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
 
+require "br_nfe/helper/string_methods"
+
 require "signer"
 require "savon"
 
 require "br_nfe/helper/have_address"
+require "br_nfe/helper/have_emitente"
+require "br_nfe/helper/have_destinatario"
+require "br_nfe/helper/have_intermediario"
+require "br_nfe/helper/have_condicao_pagamento"
 
 
 
@@ -39,13 +45,18 @@ module BrNfe
 		autoload :Rps
 		autoload :Base
 
+		module Response
+			extend ActiveSupport::Autoload
+			autoload :Default
+			autoload :NotaFiscal
+		end
 		module Betha
 			extend ActiveSupport::Autoload
 			autoload :Base
 			module V1
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :Response
+				autoload :BuildResponse
 				autoload :ConsultaLoteRps
 				autoload :ConsultaNfse
 				autoload :ConsultaNfsPorRps
@@ -66,7 +77,6 @@ module BrNfe
 	module Helper
 		extend ActiveSupport::Autoload
 		autoload :CpfCnpj
-		autoload :StringMethods
 	end
 
 

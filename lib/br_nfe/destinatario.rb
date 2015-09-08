@@ -10,6 +10,14 @@ module BrNfe
 		attr_accessor :nome_fantasia
 		attr_accessor :telefone
 		attr_accessor :email
+
+		def razao_social
+			"#{@razao_social}".to_valid_format
+		end
+
+		def nome_fantasia
+			"#{@nome_fantasia}".to_valid_format
+		end
 		
 	end
 end

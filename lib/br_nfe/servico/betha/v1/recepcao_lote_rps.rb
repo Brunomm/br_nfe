@@ -14,9 +14,9 @@ module BrNfe
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.Temp {
-								xml_lote_rps = lote_rps_xml.doc
-								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( canonicalize(xml_lote_rps.root) )
-								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_lote_rps.root.to_s, "#lote#{numero_lote_rps}") )
+								xml_lote_rps = lote_rps_xml.doc.root
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_lote_rps.to_s )
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_lote_rps.to_s, "#lote#{numero_lote_rps}") )
 							}
 						end.doc
 						
@@ -36,7 +36,7 @@ module BrNfe
 									xml.Rps do |xml_rps|
 										lote_rps.each do |rps|
 											xml_informacao_rps = xml_inf_rps(rps).doc.root
-											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( canonicalize(xml_informacao_rps) ) 
+											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_informacao_rps.to_s ) 
 											xml_rps.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml( xml_informacao_rps.to_s, "#rps#{rps.numero}" ) )
 										end
 									end
@@ -70,10 +70,9 @@ module BrNfe
 
 								tag_dados_construcao_civil(xml, rps)
 
-								xml.OutrasInformacoes rps.outras_informacoes if rps.outras_informacoes.present?
+								xml.OutrasInformacoes rps.outras_informacoes unless rps.outras_informacoes.blank?
 
 								tag_condicao_pagamento(xml, rps)
-								
 							}
 						end
 					end
