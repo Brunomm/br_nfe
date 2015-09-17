@@ -63,7 +63,7 @@ module BrNfe
 					def tag_prestador(xml)
 						xml.Prestador { 
 							tag_cpf_cnpj(xml, emitente.cnpj)
-							xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present?
+							xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present? && env == :production
 						}
 					end
 					

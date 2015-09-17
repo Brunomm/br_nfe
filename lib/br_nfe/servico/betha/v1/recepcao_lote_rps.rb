@@ -29,7 +29,7 @@ module BrNfe
 								xml.NumeroLote numero_lote_rps
 								tag_cpf_cnpj(xml, emitente.cnpj)
 								
-								xml.InscricaoMunicipal emitente.inscricao_municipal
+								xml.InscricaoMunicipal emitente.inscricao_municipal if env == :production
 
 								xml.QuantidadeRps lote_rps.size
 								xml.ListaRps {

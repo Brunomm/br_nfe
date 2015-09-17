@@ -12,7 +12,15 @@ module BrNfe
 		def certificado_value
 			@certificado_value ||= File.read(certificado_path)
 		end
-		
+
+		def certificado_path
+			'/home/bruno/cert.pfx'
+		end
+
+		def certificado_password
+			'CONTA123'
+		end
+
 		attr_accessor :env
 
 		def env
@@ -57,8 +65,9 @@ module BrNfe
 				env_namespace:         env_namespace,
 				wsdl:                  wsdl,
 				namespace_identifier:  namespace_identifier,
-				log:                   BrNfe.client_wsdl_log,
-				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
+				encoding:              "UTF-8",
+				log:                   true,#BrNfe.client_wsdl_log,
+				pretty_print_xml:      true,#BrNfe.client_wsdl_pretty_print_xml,
 				ssl_verify_mode:       BrNfe.client_wsdl_ssl_verify_mode,
 				ssl_cert_file:         BrNfe.client_wsdl_ssl_cert_file,
 				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
@@ -93,7 +102,7 @@ module BrNfe
 
 		def assinatura_xml(data_xml, uri='')
 			data_xml = format_data_xml_for_signature(data_xml)
-			ass = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+			ass = Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
 				xml.Signature(xmlns: 'http://www.w3.org/2000/09/xmldsig#') do |signature|
 					
 					info = canonicalize(signed_info(data_xml, uri).doc.root())
@@ -112,7 +121,7 @@ module BrNfe
 		end
 
 		def signed_info(data_xml, uri='')
-			Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+			Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
 				xml.SignedInfo(xmlns: "http://www.w3.org/2000/09/xmldsig#") do |info|
 					info.CanonicalizationMethod(Algorithm: 'http://www.w3.org/2001/10/xml-exc-c14n#')
 					info.SignatureMethod(Algorithm: 'http://www.w3.org/2000/09/xmldsig#rsa-sha1')

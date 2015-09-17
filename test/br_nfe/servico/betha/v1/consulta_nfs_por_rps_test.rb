@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'br_nfe/helper/have_rps'
 
 describe BrNfe::Servico::Betha::V1::ConsultaNfsPorRps do
 	subject             { FactoryGirl.build(:servico_betha_consulta_nfs_por_rps, emitente: emitente) }
@@ -26,54 +27,7 @@ describe BrNfe::Servico::Betha::V1::ConsultaNfsPorRps do
 	end
 
 	describe "rps" do
-		it 'Já_inicia_com_um_emitente' do
-			subject.class.new.rps.class.must_equal BrNfe::Servico::Rps
-		end
-
-		it 'Mesmo_setando_o_rps_como_nil_retorna_um_novo_rps' do
-			subject.rps.must_equal rps
-			
-			subject.rps = nil
-			subject.rps.class.must_equal BrNfe::Servico::Rps
-			subject.rps.wont_equal rps
-		end
-
-		it 'deve_manter_o_objeto_rps_se_ja_tiver' do
-			subject.rps.must_equal rps
-			rps.numero = 'nova-www'
-			subject.rps.numero.must_equal 'nova-www'
-		end
-
-		it 'Se_setar_o_rps_com_outra_class_deve_ignorar' do
-			subject.rps = 7777
-			subject.rps.must_equal rps
-		end
-
-		it 'posso_setar_o_rps_com_um_hash_com_os_parametros_do_rps' do
-			rps.assign_attributes(numero: '123456', serie: '123465', tipo: '1')
-			subject.rps = {numero: '99999', serie: '654389', tipo: '2'}
-			subject.rps.numero.must_equal '99999' 
-			subject.rps.serie.must_equal '654389'
-			subject.rps.tipo.must_equal  '2'
-		end
-
-		it 'posso_setar_o_rps_com_um_bloco' do
-			rps.assign_attributes(numero: '123456', serie: '316531', tipo: '1')
-			subject.rps do |address|
-				address.numero = '99999'
-				address.serie =  '11111'
-				address.tipo =   '2'
-			end
-			subject.rps.numero.must_equal '99999' 
-			subject.rps.serie.must_equal '11111'
-			subject.rps.tipo.must_equal  '2'
-		end
-
-		it 'posso_mudar_o_objeto_rps' do
-			novo_rps = FactoryGirl.build(:br_nfe_rps)
-			subject.rps = novo_rps
-			subject.rps.must_equal novo_rps
-		end
+		include BrNfeTest::HelperTest::HaveRpsTest
 	end
 
 	describe "#xml_builder" do

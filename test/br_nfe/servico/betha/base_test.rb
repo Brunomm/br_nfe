@@ -59,21 +59,18 @@ describe BrNfe::Servico::Betha::Base do
 			xml.xpath('Tomador/Contato/Email').first.text.must_equal destinatario.email
 		end
 
-		it "tags da versão 1" do
-			subject.stubs(:version).returns(:v1)
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_dados_tomador, xml, destinatario)
-			end.doc
-			xml.xpath('Tomador/IdentificacaoTomador/InscricaoEstadual').first.text.must_equal destinatario.inscricao_estadual
+		context "tags da versão 1" do
+			before do
+				subject.stubs(:version).returns(:v1)
+			end
+			it "inscricao_estadual" do
+				xml = Nokogiri::XML::Builder.new do |xml|
+					subject.send(:tag_dados_tomador, xml, destinatario)
+				end.doc
+				xml.xpath('Tomador/IdentificacaoTomador/InscricaoEstadual').first.text.must_equal destinatario.inscricao_estadual
+			end
 		end
 
-		it "tags da versão 2" do
-			subject.stubs(:version).returns(:v2)
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_dados_tomador, xml, destinatario)
-			end.doc
-			xml.xpath('Tomador/Endereco/CodigoPais').first.text.must_equal destinatario.endereco.codigo_pais
-		end
 	end
 
 	describe "#tag_dados_construcao_civil" do

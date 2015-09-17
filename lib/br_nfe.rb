@@ -12,6 +12,7 @@ require "signer"
 require "savon"
 
 require "br_nfe/helper/have_address"
+require "br_nfe/helper/have_rps"
 require "br_nfe/helper/have_emitente"
 require "br_nfe/helper/have_destinatario"
 require "br_nfe/helper/have_intermediario"
@@ -68,8 +69,13 @@ module BrNfe
 				extend ActiveSupport::Autoload
 				autoload :Gateway
 				autoload :Response
+				autoload :CancelamentoNfs
+				autoload :ConsultaNfsePorRps
+				autoload :EnvioLoteRpsSincrono
+				autoload :GeraNfse
+				autoload :SubstituicaoNfse
 				autoload :ConsultaLoteRps
-				autoload :RecepcionaLoteRps
+				autoload :RecepcaoLoteRps
 			end
 		end
 	end
@@ -101,6 +107,9 @@ module BrNfe
 
 	mattr_accessor :condicao_pagamento_class
 	@@condicao_pagamento_class = BrNfe::CondicaoPagamento
+
+	mattr_accessor :rps_class
+	@@rps_class = BrNfe::Servico::Rps
 
 	# Configurações do Cliente WSDL
 	mattr_accessor :client_wsdl_ssl_verify_mode

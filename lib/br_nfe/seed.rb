@@ -1,7 +1,7 @@
 module BrNfe
 	class Seed  < BrNfe::ActiveModelBase
 		attr_accessor :env
-		attr_accessor :incremento
+		attr_accessor :numero_lote
 		attr_accessor :numero_rps
 
 
@@ -18,7 +18,7 @@ module BrNfe
 				telefone:                   '33161107',
 				email:                      'mail@mail.com',
 				regime_especial_tributacao: '1',
-				optante_simples_nacional:   '1',
+				optante_simples_nacional:   '2',
 				incentivo_fiscal:           '2',
 				natureza_operacao:          '1',
 				endereco: {
@@ -59,19 +59,11 @@ module BrNfe
 			BrNfe::Servico::Betha::V1::RecepcaoLoteRps.new do |recepcao|
 				recepcao.emitente = emitente
 				recepcao.lote_rps = rps
-				recepcao.numero_lote_rps = 1826+incremento
+				recepcao.numero_lote_rps = numero_lote
 				recepcao.env = :test
 			end
 		end
 
-		def recepcao_lote_rps_v2
-			BrNfe::Servico::Betha::V2::RecepcionaLoteRps.new do |recepcao|
-				recepcao.emitente = emitente
-				recepcao.lote_rps = rps
-				recepcao.numero_lote_rps = 1824+incremento
-				recepcao.env = :test
-			end
-		end
 
 		def consulta_lote_rps_v1(protocolo)
 			BrNfe::Servico::Betha::V1::ConsultaLoteRps.new do |obj|
@@ -80,6 +72,7 @@ module BrNfe
 				obj.protocolo = protocolo
 			end
 		end
+
 
 		def consulta_nfs_por_rps_v1
 			BrNfe::Servico::Betha::V1::ConsultaNfsPorRps.new do |obj|
@@ -99,8 +92,6 @@ module BrNfe
 			end
 		end
 
-
-
 		def cancelamento_nfs_v1(params = {})
 			BrNfe::Servico::Betha::V1::CancelamentoNfs.new do |c|
 				c.env               = :test
@@ -109,6 +100,59 @@ module BrNfe
 				codigo_cancelamento = params[:codigo_cancelamento] || '1'
 			end
 		end
+
+		def recepcao_lote_rps_v2
+			BrNfe::Servico::Betha::V2::RecepcaoLoteRps.new do |recepcao|
+				recepcao.emitente = emitente
+				recepcao.lote_rps = rps
+				recepcao.numero_lote_rps = numero_lote
+				recepcao.env = :test
+			end
+		end
+
+		def consulta_lote_rps_v2(protocolo)
+			BrNfe::Servico::Betha::V2::ConsultaLoteRps.new do |obj|
+				obj.env = env
+				obj.emitente = emitente
+				obj.protocolo = protocolo
+			end
+		end
+
+		def consulta_nfs_por_rps_v2
+			BrNfe::Servico::Betha::V2::ConsultaNfsePorRps.new do |obj|
+				obj.env = env
+				obj.emitente = emitente
+				obj.rps = rps
+			end
+		end
+
+		def envio_lote_rps_sincrono_v2(params={})
+			BrNfe::Servico::Betha::V2::EnvioLoteRpsSincrono.new do |recepcao|
+				recepcao.emitente = emitente
+				recepcao.lote_rps = rps
+				recepcao.numero_lote_rps = numero_lote
+				recepcao.env = :test
+			end
+		end
+
+		def gera_nfse_v2(params={})
+			BrNfe::Servico::Betha::V2::GeraNfse.new do |recepcao|
+				recepcao.emitente = emitente
+				recepcao.rps = rps
+				recepcao.env = :test
+			end
+		end
+		
+		def substituicao_v2(params={})
+			BrNfe::Servico::Betha::V2::SubstituicaoNfse.new do |recepcao|
+				recepcao.emitente = emitente
+				recepcao.rps = rps
+				recepcao.numero_nfse = params[:numero_nfse]
+				recepcao.codigo_cancelamento = params[:codigo_cancelamento]
+				recepcao.env = :test
+			end
+		end
+
 
 
 		def rps
@@ -129,8 +173,8 @@ module BrNfe
 				rps.valor_ir                = '0.0'
 				rps.valor_csll              = '0.0'
 				rps.outras_retencoes        = '0.0'
-				rps.valor_iss               = '0.98'
-				rps.aliquota                = '0.02'
+				# rps.valor_iss               = '0.98'
+				# rps.aliquota                = '0.02'
 				rps.base_calculo            = '49.00'
 				rps.desconto_incondicionado = '0.0'
 				rps.desconto_condicionado   = '0.0'
@@ -138,9 +182,9 @@ module BrNfe
 				rps.iss_retido                  = '2'
 				rps.responsavel_retencao        = ''
 				rps.item_lista_servico          = '0107'
-				rps.codigo_tributacao_municipio = ''
+				rps.codigo_tributacao_municipio = '2525'
 				rps.discriminacao               = "1 MENSALIDADE PLANO LIGHT. 49,00 \n\n\n\n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
-				rps.exigibilidade_iss           = ''
+				rps.exigibilidade_iss           = '1'
 				rps.codigo_municipio            = '4204202'
 				rps.numero_processo             = ''
 				rps.codigo_cnae                 = '6202300'

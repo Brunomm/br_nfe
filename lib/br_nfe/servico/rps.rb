@@ -41,12 +41,18 @@ module BrNfe
 			attr_accessor :discriminacao
 			attr_accessor :exigibilidade_iss
 			attr_accessor :codigo_municipio
+			attr_accessor :municipio_incidencia
+			attr_accessor :codigo_pais
 			attr_accessor :numero_processo
 			attr_accessor :codigo_cnae
 			attr_accessor :outras_informacoes
 
 			def contem_substituicao?
 				numero_substituicao.present? && serie_substituicao.present? && tipo_substituicao.present?
+			end
+
+			def default_values
+				{codigo_pais: '1058'}
 			end
 		end
 	end

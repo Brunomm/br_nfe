@@ -32,7 +32,7 @@ module BrNfe
 								xml.IdentificacaoNfse{
 									xml.Numero numero_nfse
 									tag_cpf_cnpj(xml, emitente.cnpj)
-									xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present?
+									xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present? && env == :production
 									xml.CodigoMunicipio    emitente.endereco.codigo_municipio
 								}
 								xml.CodigoCancelamento codigo_cancelamento								

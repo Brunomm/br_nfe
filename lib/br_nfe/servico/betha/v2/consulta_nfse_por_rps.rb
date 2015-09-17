@@ -2,19 +2,19 @@ module BrNfe
 	module Servico
 		module Betha
 			module V2
-				class ConsultaLoteRps < BrNfe::Servico::Betha::V2::Gateway
+				class ConsultaNfsePorRps < BrNfe::Servico::Betha::V2::Gateway
+					include BrNfe::Helper::HaveRps
 					
-					attr_accessor :protocolo
-
 					def method_wsdl
-						:consultar_lote_rps
+						:consultar_nfse_por_rps
 					end
 
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new do |xml|
-							xml.ConsultarLoteRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
+							xml.ConsultarNfseRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
+								tag_identificacao_rps(xml, rps)
+
 								tag_prestador(xml)
-								xml.Protocolo protocolo
 							}
 						end.doc.root
 

@@ -29,8 +29,6 @@ module BrNfe
 
 				def tag_dados_tomador(xml, destinatario)
 					xml.Tomador{
-						xml.RazaoSocial destinatario.razao_social
-						
 						xml.IdentificacaoTomador { 
 							xml.CpfCnpj {
 								tag_cpf_cnpj(xml, destinatario.cpf_cnpj)
@@ -38,6 +36,7 @@ module BrNfe
 							xml.InscricaoMunicipal destinatario.inscricao_municipal if destinatario.inscricao_municipal.present?
 							xml.InscricaoEstadual  destinatario.inscricao_estadual  if destinatario.inscricao_estadual.present? && version == :v1
 						}
+						xml.RazaoSocial destinatario.razao_social
 
 						tag_endereco(xml, destinatario.endereco)
 						
@@ -57,7 +56,7 @@ module BrNfe
 						xml.CodigoMunicipio endereco.codigo_municipio
 						xml.Uf              endereco.uf
 						xml.Cep             endereco.cep
-						xml.CodigoPais      endereco.codigo_pais if version == :v2
+						# xml.CodigoPais      endereco.codigo_pais if version == :v2
 					}
 				end
 
