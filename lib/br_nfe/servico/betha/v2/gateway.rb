@@ -105,7 +105,7 @@ module BrNfe
 
 							xml.IssRetido                 value_true_false(rps.iss_retido?)
 							xml.ResponsavelRetencao       "#{rps.responsavel_retencao}".max_size(1) unless rps.responsavel_retencao.blank?
-							xml.ItemListaServico          "#{rps.item_lista_servico}".rjust(4,'0').max_size(5)
+							xml.ItemListaServico          BrNfe::Helper.only_number(rps.item_lista_servico).rjust(4,'0').max_size(5)
 							xml.CodigoCnae                BrNfe::Helper.only_number(rps.codigo_cnae).max_size(7) unless rps.codigo_cnae.blank?
 							xml.CodigoTributacaoMunicipio "#{rps.codigo_tributacao_municipio}".max_size(20)      unless rps.codigo_tributacao_municipio.blank?
 							xml.Discriminacao             "#{rps.discriminacao}".max_size(2_000).remove_accents

@@ -39,7 +39,7 @@ module BrNfe
 
 					def tag_dados_servico(xml, rps)
 						xml.Servico {
-							xml.ItemListaServico          "#{rps.item_lista_servico}".rjust(4,'0').max_size(4)
+							xml.ItemListaServico          BrNfe::Helper.only_number(rps.item_lista_servico).rjust(4,'0').max_size(4)
 							xml.CodigoCnae                BrNfe::Helper.only_number(rps.codigo_cnae).max_size(7) unless rps.codigo_cnae.blank?
 							xml.CodigoTributacaoMunicipio rps.codigo_tributacao_municipio unless rps.codigo_tributacao_municipio.blank?
 							xml.Discriminacao             "#{rps.discriminacao}".max_size(2_000).remove_accents
