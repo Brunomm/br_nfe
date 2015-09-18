@@ -11,12 +11,15 @@ module BrNfe
 		attr_accessor :telefone
 		attr_accessor :email
 
+		validates :cpf_cnpj, :razao_social, presence: true
+		validate :validar_endereco
+
 		def razao_social
-			"#{@razao_social}".to_valid_format
+			"#{@razao_social}".to_valid_format_nf
 		end
 
 		def nome_fantasia
-			"#{@nome_fantasia}".to_valid_format
+			"#{@nome_fantasia}".to_valid_format_nf
 		end
 		
 	end

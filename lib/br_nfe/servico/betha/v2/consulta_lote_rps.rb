@@ -14,7 +14,7 @@ module BrNfe
 						xml = Nokogiri::XML::Builder.new do |xml|
 							xml.ConsultarLoteRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
 								tag_prestador(xml)
-								xml.Protocolo protocolo
+								xml.Protocolo "#{protocolo}".max_size(50)
 							}
 						end.doc.root
 

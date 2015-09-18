@@ -12,6 +12,17 @@ module BrNfe
 					attr_accessor :data_inicial
 					attr_accessor :data_final
 
+					validates :data_inicial, :data_final, presence: true
+
+
+					def data_inicial
+						value_date(@data_inicial)
+					end
+
+					def data_final
+						value_date(@data_final)
+					end
+
 
 					def method_wsdl
 						:consultar_nfse
@@ -22,15 +33,16 @@ module BrNfe
 							xml.Temp {
 								
 								tag_prestador(xml)
-
-								xml.NumeroNfse numero_nfse if numero_nfse.present?
+								
+								xml.NumeroNfse BrNfe::Helper.only_number(numero_nfse).max_size(15) if !numero_nfse.blank?
 								xml.PeriodoEmissao {
-									xml.DataInicial data_formatada data_inicial
-									xml.DataFinal   data_formatada data_final
+									xml.DataInicial data_inicial
+									xml.DataFinal   data_final
 								}
 							}
 						end.doc.root
 					end
+
 				end
 			end
 		end

@@ -5,6 +5,10 @@ module BrNfe
 			@parcelas = [] # Para poder utilizar o << para adicionar parcelas
 			super
 		end
+
+		def default_values
+			{condicao: 'A_VISTA'}
+		end
 		
 		# A_VISTA ou A_PRAZO
 		attr_accessor :condicao
@@ -17,5 +21,6 @@ module BrNfe
 		def parcelas
 			@parcelas = [@parcelas].flatten
 		end
+		
 	end
 end

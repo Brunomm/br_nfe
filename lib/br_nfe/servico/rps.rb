@@ -5,9 +5,28 @@ module BrNfe
 			include BrNfe::Helper::HaveIntermediario
 			include BrNfe::Helper::HaveCondicaoPagamento
 
+			attr_accessor :validar_recepcao_rps
+
+			# Sempre que houver RPS, essas informações são obrigatórias
+			validates :numero, :serie, :tipo, presence: true
+
+			with_options if: :validar_recepcao_rps do |record|
+				record.validates :data_emissao, :item_lista_servico, :discriminacao, :codigo_municipio, 
+				                 :valor_servicos, :base_calculo, presence: true
+				record.validates :valor_iss, :aliquota, presence: true, unless: :iss_retido?
+				
+				record.validates :valor_servicos, :valor_deducoes, :valor_pis, :valor_cofins, :valor_inss, :valor_ir, 
+				          :valor_csll, :outras_retencoes, :valor_iss, :aliquota, :base_calculo, 
+				          :desconto_incondicionado, :desconto_condicionado, numericality: true, allow_blank: true
+
+				record.validate :validar_intermediario
+				record.validate :validar_destinatario
+			end
+
 			attr_accessor :numero
 			attr_accessor :serie
 			attr_accessor :tipo
+
 			attr_accessor :data_emissao
 			attr_accessor :status
 			attr_accessor :competencia
@@ -51,8 +70,33 @@ module BrNfe
 				numero_substituicao.present? && serie_substituicao.present? && tipo_substituicao.present?
 			end
 
+			def iss_retido?
+				BrNfe.true_values.include?(iss_retido)
+			end
+
+			def competencia
+				@competencia || data_emissao
+			end
+
 			def default_values
-				{codigo_pais: '1058'}
+				{
+					codigo_pais: '1058',
+					validar_recepcao_rps: false
+				}
+			end
+		private
+
+			def validar_intermediario
+				return true unless intermediario
+				if intermediario.invalid?
+					intermediario.errors.full_messages.map{|msg| errors.add(:intermediario, msg) }
+				end
+			end
+
+			def validar_destinatario
+				if destinatario.invalid?
+					destinatario.errors.full_messages.map{|msg| errors.add(:destinatario, msg) }
+				end
 			end
 		end
 	end

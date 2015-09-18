@@ -20,7 +20,7 @@ module BrNfe
 						Nokogiri::XML::Builder.new do |xml|
 							xml.Temp {
 								tag_prestador(xml)								
-								xml.Protocolo protocolo
+								xml.Protocolo "#{protocolo}".max_size(50)
 							}
 						end.doc.root
 					end

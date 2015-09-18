@@ -5,6 +5,8 @@ module BrNfe
 				class ConsultaNfsPorRps < BrNfe::Servico::Betha::V1::Gateway
 					include BrNfe::Helper::HaveRps
 
+					validate :validar_rps # metodo definido no module BrNfe::Helper::HaveRps
+
 					def wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarNfsePorRps?wsdl"
 					end
@@ -25,7 +27,6 @@ module BrNfe
 					def set_response(resp)
 						@response = BrNfe::Servico::Betha::V1::BuildResponse.new(hash: resp.hash[:envelope][:body][:consultar_nfse_por_rps_envio_response], nfe_method: :consultar_nfse_rps).response
 					end
-					
 				end
 			end
 		end

@@ -45,18 +45,18 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 			xml.xpath('Servico/Discriminacao').first.text.must_equal             rps.discriminacao
 			xml.xpath('Servico/CodigoMunicipio').first.text.must_equal           rps.codigo_municipio
 			
-			xml.xpath('Servico/Valores/ValorServicos').first.text.must_equal   rps.valor_servicos
-			xml.xpath('Servico/Valores/IssRetido').first.text.must_equal       rps.iss_retido
-			xml.xpath('Servico/Valores/BaseCalculo').first.text.must_equal     rps.base_calculo
-			xml.xpath('Servico/Valores/ValorDeducoes').first.text.must_equal   rps.valor_deducoes
-			xml.xpath('Servico/Valores/ValorPis').first.text.must_equal        rps.valor_pis
-			xml.xpath('Servico/Valores/ValorCofins').first.text.must_equal     rps.valor_cofins
-			xml.xpath('Servico/Valores/ValorInss').first.text.must_equal       rps.valor_inss
-			xml.xpath('Servico/Valores/ValorIr').first.text.must_equal         rps.valor_ir
-			xml.xpath('Servico/Valores/ValorCsll').first.text.must_equal       rps.valor_csll
-			xml.xpath('Servico/Valores/ValorIss').first.text.must_equal        rps.valor_iss
-			xml.xpath('Servico/Valores/OutrasRetencoes').first.text.must_equal rps.outras_retencoes
-			xml.xpath('Servico/Valores/Aliquota').first.text.must_equal        rps.aliquota
+			xml.xpath('Servico/Valores/ValorServicos').first.text.must_equal   rps.valor_servicos.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/IssRetido').first.text.must_equal       '2'
+			xml.xpath('Servico/Valores/BaseCalculo').first.text.must_equal     rps.base_calculo.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorDeducoes').first.text.must_equal   rps.valor_deducoes.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorPis').first.text.must_equal        rps.valor_pis.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorCofins').first.text.must_equal     rps.valor_cofins.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorInss').first.text.must_equal       rps.valor_inss.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorIr').first.text.must_equal         rps.valor_ir.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorCsll').first.text.must_equal       rps.valor_csll.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorIss').first.text.must_equal        rps.valor_iss.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/OutrasRetencoes').first.text.must_equal rps.outras_retencoes.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/Aliquota').first.text.must_equal        rps.aliquota.to_f.round(2).to_s
 		end
 
 		it "sem os valores não obrigatórios" do

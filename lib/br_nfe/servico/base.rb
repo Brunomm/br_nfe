@@ -14,6 +14,21 @@ module BrNfe
 			def lote_rps
 				@lote_rps = [@lote_rps].flatten # Para retornar sempre um vetor
 			end
+
+		private
+		
+			def validar_lote_rps
+				if lote_rps.empty?
+					errors.add(:base, "Deve conter ao menos 1 RPS")
+				else
+					lote_rps.each_with_index do |rps, i|
+						rps.validar_recepcao_rps = true
+						if rps.invalid?
+							rps.errors.full_messages.map{|msg| errors.add(:base, "RPS #{i+1}: #{msg}") } 
+						end
+					end
+				end
+			end
 			
 		end
 	end

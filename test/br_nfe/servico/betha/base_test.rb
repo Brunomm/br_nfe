@@ -51,7 +51,7 @@ describe BrNfe::Servico::Betha::Base do
 			xml.xpath('Tomador/Endereco/Bairro').first.text.must_equal          destinatario.endereco.bairro
 			xml.xpath('Tomador/Endereco/CodigoMunicipio').first.text.must_equal destinatario.endereco.codigo_municipio
 			xml.xpath('Tomador/Endereco/Uf').first.text.must_equal              destinatario.endereco.uf
-			xml.xpath('Tomador/Endereco/Cep').first.text.must_equal             destinatario.endereco.cep
+			xml.xpath('Tomador/Endereco/Cep').first.text.must_equal             destinatario.endereco.cep.gsub(/[^0-9]/,'')
 			xml.xpath('Tomador/Endereco/CodigoPais').first.must_be_nil
 			
 

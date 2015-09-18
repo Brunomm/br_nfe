@@ -53,10 +53,10 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_1.discriminacao
 			xml.xpath('InfRps/Servico/CodigoMunicipio').first.text.must_equal           rps_1.codigo_municipio
 			# Valores dos serviços
-			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_1.valor_servicos
-			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         rps_1.iss_retido
-			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_1.base_calculo
-			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_1.valor_deducoes
+			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_1.valor_servicos.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
+			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_1.base_calculo.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_1.valor_deducoes.to_f.round(2).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorPis').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorInss').first.must_be_nil
@@ -81,7 +81,7 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Tomador/Endereco/Bairro').first.text.must_equal                         rps_1.destinatario.endereco.bairro
 			xml.xpath('InfRps/Tomador/Endereco/CodigoMunicipio').first.text.must_equal                rps_1.destinatario.endereco.codigo_municipio
 			xml.xpath('InfRps/Tomador/Endereco/Uf').first.text.must_equal                             rps_1.destinatario.endereco.uf
-			xml.xpath('InfRps/Tomador/Endereco/Cep').first.text.must_equal                            rps_1.destinatario.endereco.cep
+			xml.xpath('InfRps/Tomador/Endereco/Cep').first.text.must_equal                            rps_1.destinatario.endereco.cep.gsub(/[^0-9]/,'')
 			xml.xpath('InfRps/Tomador/Contato/Telefone').first.text.must_equal                        rps_1.destinatario.telefone
 			xml.xpath('InfRps/Tomador/Contato/Email').first.text.must_equal                           rps_1.destinatario.email			
 			
@@ -117,18 +117,18 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_2.discriminacao
 			xml.xpath('InfRps/Servico/CodigoMunicipio').first.text.must_equal           rps_2.codigo_municipio
 			# Valores dos serviços
-			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_2.valor_servicos
-			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         rps_2.iss_retido
-			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_2.base_calculo
-			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_2.valor_deducoes
-			xml.xpath('InfRps/Servico/Valores/ValorPis').first.text.must_equal          rps_2.valor_pis
-			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.text.must_equal       rps_2.valor_cofins
-			xml.xpath('InfRps/Servico/Valores/ValorInss').first.text.must_equal         rps_2.valor_inss
-			xml.xpath('InfRps/Servico/Valores/ValorIr').first.text.must_equal           rps_2.valor_ir
-			xml.xpath('InfRps/Servico/Valores/ValorCsll').first.text.must_equal         rps_2.valor_csll
-			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_2.valor_iss
-			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.text.must_equal   rps_2.outras_retencoes
-			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_2.aliquota
+			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_2.valor_servicos.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
+			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_2.base_calculo.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_2.valor_deducoes.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorPis').first.text.must_equal          rps_2.valor_pis.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.text.must_equal       rps_2.valor_cofins.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorInss').first.text.must_equal         rps_2.valor_inss.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorIr').first.text.must_equal           rps_2.valor_ir.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorCsll').first.text.must_equal         rps_2.valor_csll.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_2.valor_iss.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.text.must_equal   rps_2.outras_retencoes.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_2.aliquota.to_f.round(4).to_s
 			
 			# Prestador
 			xml.xpath('InfRps/Prestador/Cnpj').first.text.must_equal               emitente.cnpj
@@ -145,7 +145,7 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Tomador/Endereco/Bairro').first.text.must_equal                         rps_2.destinatario.endereco.bairro
 			xml.xpath('InfRps/Tomador/Endereco/CodigoMunicipio').first.text.must_equal                rps_2.destinatario.endereco.codigo_municipio
 			xml.xpath('InfRps/Tomador/Endereco/Uf').first.text.must_equal                             rps_2.destinatario.endereco.uf
-			xml.xpath('InfRps/Tomador/Endereco/Cep').first.text.must_equal                            rps_2.destinatario.endereco.cep
+			xml.xpath('InfRps/Tomador/Endereco/Cep').first.text.must_equal                            rps_2.destinatario.endereco.cep.gsub(/[^0-9]/,'')
 			xml.xpath('InfRps/Tomador/Contato/Telefone').first.text.must_equal                        rps_2.destinatario.telefone
 			xml.xpath('InfRps/Tomador/Contato/Email').first.text.must_equal                           rps_2.destinatario.email			
 			

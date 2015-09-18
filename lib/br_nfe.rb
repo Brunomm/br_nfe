@@ -30,6 +30,10 @@ module BrNfe
 	DateTime::DATE_FORMATS[:br_nfe] = "%Y-%m-%dT%H:%M:%S"
 	Date::DATE_FORMATS[:br_nfe]     = "%Y-%m-%d"
 
+	def self.true_values
+		[true, :true, 'true', 't', :t, 1, '1', :TRUE, 'TRUE', 'T']
+	end
+
 	extend ActiveSupport::Autoload
 	autoload :ActiveModelBase
 	autoload :Endereco
@@ -83,6 +87,12 @@ module BrNfe
 	module Helper
 		extend ActiveSupport::Autoload
 		autoload :CpfCnpj
+
+		def self.only_number(value)
+			"#{value}".gsub(/[^0-9]/,'')
+		end
+
+
 	end
 
 

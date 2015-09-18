@@ -90,33 +90,33 @@ describe BrNfe::Base do
 		end
 	end
 
-	describe "#data_formatada" do
+	describe "#value_date" do
 		context "deve retornar no formato YYYY-MM-DD" do
 			it "Se passar uma string" do
-				subject.send(:data_formatada, '12/07/2018').must_equal '2018-07-12'
+				subject.send(:value_date, '12/07/2018').must_equal '2018-07-12'
 			end
 			it "Se passar um objeto data" do
-				subject.send(:data_formatada, Date.parse('25/09/2000')).must_equal '2000-09-25'
+				subject.send(:value_date, Date.parse('25/09/2000')).must_equal '2000-09-25'
 			end
 		end
 
 		it "se passar um valor inválido retorna uma string vazia" do
-			subject.send(:data_formatada, '25/09\00').must_equal ''
+			subject.send(:value_date, '25/09\00').must_equal ''
 		end
 	end
 
-	describe "#data_hora_formatada" do
+	describe "#value_date_time" do
 		context "deve retornar no formato YYYY-MM-DDTHH:MM:SS" do
 			it "Se passar uma string" do
-				subject.send(:data_hora_formatada, '12/07/2018').must_equal '2018-07-12T00:00:00'
+				subject.send(:value_date_time, '12/07/2018').must_equal '2018-07-12T00:00:00'
 			end
 			it "Se passar um objeto data" do
-				subject.send(:data_hora_formatada, DateTime.parse('25/09/2000 03:56:28')).must_equal '2000-09-25T03:56:28'
+				subject.send(:value_date_time, DateTime.parse('25/09/2000 03:56:28')).must_equal '2000-09-25T03:56:28'
 			end
 		end
 
 		it "se passar um valor inválido retorna uma string vazia" do
-			subject.send(:data_hora_formatada, '25/09\00').must_equal ''
+			subject.send(:value_date_time, '25/09\00').must_equal ''
 		end
 	end
 
@@ -233,6 +233,7 @@ describe BrNfe::Base do
 				subject.stubs(:namespaces).returns('namespaces')
 				subject.stubs(:env_namespace).returns('env_namespace')
 				subject.stubs(:wsdl).returns('wsdl')
+				subject.stubs(:wsdl_encoding).returns('client_encoding')
 				subject.stubs(:namespace_identifier).returns('namespace_identifier')
 				# Ajusto a configuração da gem para testar
 				BrNfe.client_wsdl_log                   = 'client_wsdl_log'
@@ -250,6 +251,7 @@ describe BrNfe::Base do
 					wsdl:                  'wsdl',
 					namespace_identifier:  'namespace_identifier',
 					log:                   'client_wsdl_log',
+					encoding:              'client_encoding',
 					pretty_print_xml:      'client_wsdl_pretty_print_xml',
 					ssl_verify_mode:       'client_wsdl_ssl_verify_mode',
 					ssl_cert_file:         'client_wsdl_ssl_cert_file',

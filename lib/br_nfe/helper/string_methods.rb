@@ -2,8 +2,16 @@
 module BrNfe
 	module StringMethods
 		 
-		def to_valid_format
-			ActiveSupport::Inflector.transliterate(self).upcase
+		def to_valid_format_nf
+			remove_accents.upcase
+		end
+
+		def remove_accents
+			ActiveSupport::Inflector.transliterate(self)
+		end
+
+		def max_size(size=255)
+			self.truncate(size, omission: '')
 		end
 	end
 end

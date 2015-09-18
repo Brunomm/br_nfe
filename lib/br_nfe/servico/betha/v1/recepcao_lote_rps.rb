@@ -6,10 +6,16 @@ module BrNfe
 					def wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/recepcionarLoteRps?wsdl"
 					end
-					
 					def method_wsdl
 						:enviar_lote_rps
 					end
+
+					def certificado_obrigatorio?
+						true
+					end
+
+					validates :numero_lote_rps, presence: true
+					validate  :validar_lote_rps
 
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -26,10 +32,10 @@ module BrNfe
 					def lote_rps_xml
 						Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.LoteRps("Id" => "lote#{numero_lote_rps}"){
-								xml.NumeroLote numero_lote_rps
+								xml.NumeroLote BrNfe::Helper.only_number(numero_lote_rps).max_size(15)
 								tag_cpf_cnpj(xml, emitente.cnpj)
 								
-								xml.InscricaoMunicipal emitente.inscricao_municipal if env == :production
+								xml.InscricaoMunicipal "#{emitente.inscricao_municipal}".max_size(15) if env == :production
 
 								xml.QuantidadeRps lote_rps.size
 								xml.ListaRps {
@@ -51,12 +57,12 @@ module BrNfe
 								
 								tag_identificacao_rps(xml, rps)
 
-								xml.DataEmissao              data_hora_formatada(rps.data_emissao)
-								xml.NaturezaOperacao         emitente.natureza_operacao
-								xml.RegimeEspecialTributacao emitente.regime_especial_tributacao # Código de identificação do regime especial de tributação: (1)Microempresa municipal, (2)Estimativa, (3)Sociedade de profissionais, (4)Cooperativa, (5)Microempresário Individual (MEI), (6)Microempresário e Empresa de Pequeno Porte (ME EPP) , 
-								xml.OptanteSimplesNacional   emitente.optante_simples_nacional   # (1)sim ----- (2)não
-								xml.IncentivadorCultural     emitente.incentivo_fiscal           # (1)sim ----- (2)não
-								xml.Status                   rps.status
+								xml.DataEmissao              value_date_time(rps.data_emissao)
+								xml.NaturezaOperacao         "#{emitente.natureza_operacao}".max_size(2)
+								xml.RegimeEspecialTributacao "#{emitente.regime_especial_tributacao}".max_size(2) unless emitente.regime_especial_tributacao.blank? # Código de identificação do regime especial de tributação: (1)Microempresa municipal, (2)Estimativa, (3)Sociedade de profissionais, (4)Cooperativa, (5)Microempresário Individual (MEI), (6)Microempresário e Empresa de Pequeno Porte (ME EPP) , 
+								xml.OptanteSimplesNacional   value_true_false(emitente.optante_simples_nacional?)   # (1)sim ----- (2)não -----
+								xml.IncentivadorCultural     value_true_false(emitente.incentivo_fiscal?)           # (1)sim ----- (2)não -----
+								xml.Status                   "#{rps.status}".max_size(1)
 
 								tag_rps_substituido(xml, rps)
 								
@@ -70,7 +76,7 @@ module BrNfe
 
 								tag_dados_construcao_civil(xml, rps)
 
-								xml.OutrasInformacoes rps.outras_informacoes unless rps.outras_informacoes.blank?
+								xml.OutrasInformacoes "#{rps.outras_informacoes}".max_size(255) unless rps.outras_informacoes.blank?
 
 								tag_condicao_pagamento(xml, rps)
 							}

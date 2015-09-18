@@ -7,18 +7,18 @@ module BrNfe
 		attr_accessor :certificado_path
 		attr_accessor :certificado_value
 
+		validate :validar_emitente
+		validates :certificado, presence: true, if: :certificado_obrigatorio?
+
+		# Método que deve ser sobrescrito para as ações que necessitam do certificado para assinatura
+		def certificado_obrigatorio?
+			false
+		end
+
 		# Caso não tenha o certificado salvo em arquivo, pode setar a string do certificado direto pelo atributo certificado_value
 		# Caso tenha o certificado em arquivo, basta setar o atributo certificado_path e deixar o atributo certificado_value em branco
 		def certificado_value
 			@certificado_value ||= File.read(certificado_path)
-		end
-
-		def certificado_path
-			'/home/bruno/cert.pfx'
-		end
-
-		def certificado_password
-			'CONTA123'
 		end
 
 		attr_accessor :env
@@ -57,6 +57,15 @@ module BrNfe
 
 		def certificado
 			@certificado ||= OpenSSL::PKCS12.new(certificado_value, certificado_password)
+		rescue
+		end
+
+		def certificado=(value)
+			@certificado = value
+		end
+
+		def wsdl_encoding
+			"UTF-8"
 		end
 
 		def client_wsdl
@@ -65,9 +74,9 @@ module BrNfe
 				env_namespace:         env_namespace,
 				wsdl:                  wsdl,
 				namespace_identifier:  namespace_identifier,
-				encoding:              "UTF-8",
-				log:                   true,#BrNfe.client_wsdl_log,
-				pretty_print_xml:      true,#BrNfe.client_wsdl_pretty_print_xml,
+				encoding:              wsdl_encoding,
+				log:                   BrNfe.client_wsdl_log,
+				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
 				ssl_verify_mode:       BrNfe.client_wsdl_ssl_verify_mode,
 				ssl_cert_file:         BrNfe.client_wsdl_ssl_cert_file,
 				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
@@ -86,19 +95,6 @@ module BrNfe
 			end
 		end
 
-		def data_formatada(data)
-			data = Date.parse(data.to_s)
-			data.to_s(:br_nfe)
-		rescue
-			return ''
-		end
-
-		def data_hora_formatada(data)
-			data_hora = DateTime.parse(data.to_s)
-			data_hora.to_s(:br_nfe)
-		rescue
-			return ''
-		end
 
 		def assinatura_xml(data_xml, uri='')
 			data_xml = format_data_xml_for_signature(data_xml)
@@ -160,6 +156,12 @@ module BrNfe
 
 		def format_data_xml_for_signature(data_xml)
 			data_xml
+		end
+
+		def validar_emitente
+			if emitente.invalid?
+				emitente.errors.full_messages.map{|msg| errors.add(:emitente, msg) }
+			end
 		end
 
 	end

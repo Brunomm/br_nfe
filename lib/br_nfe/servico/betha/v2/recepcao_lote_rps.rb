@@ -24,12 +24,12 @@ module BrNfe
 					def lote_rps_xml
 						xml = Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
 							xml.LoteRps("Id" => "lote#{numero_lote_rps}", versao: "2.02"){
-								xml.NumeroLote numero_lote_rps
+								xml.NumeroLote BrNfe::Helper.only_number(numero_lote_rps).max_size(15)
 								xml.CpfCnpj {
 									tag_cpf_cnpj(xml, emitente.cnpj)
 								}
 								# O Ambiente de homologação da Betha não aceita Inscrição Municipal (baita ambiente de homologação)
-								xml.InscricaoMunicipal emitente.inscricao_municipal if !emitente.inscricao_municipal.blank? && env == :production
+								xml.InscricaoMunicipal emitente.inscricao_municipal.max_size(15) if !emitente.inscricao_municipal.blank? && env == :production
 
 								xml.QuantidadeRps lote_rps.size
 								xml.ListaRps {

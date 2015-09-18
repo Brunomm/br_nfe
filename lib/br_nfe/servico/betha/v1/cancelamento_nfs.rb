@@ -11,8 +11,14 @@ module BrNfe
 						:cancelar_nfse
 					end
 
+					def certificado_obrigatorio?
+						true
+					end
+
 					attr_accessor :numero_nfse
 					attr_accessor :codigo_cancelamento
+
+					validates :numero_nfse, :codigo_cancelamento, presence: true
 
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -30,12 +36,12 @@ module BrNfe
 						Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.InfPedidoCancelamento{
 								xml.IdentificacaoNfse{
-									xml.Numero numero_nfse
+									xml.Numero BrNfe::Helper.only_number(numero_nfse).max_size(15)
 									tag_cpf_cnpj(xml, emitente.cnpj)
-									xml.InscricaoMunicipal emitente.inscricao_municipal if emitente.inscricao_municipal.present? && env == :production
-									xml.CodigoMunicipio    emitente.endereco.codigo_municipio
+									xml.InscricaoMunicipal "#{emitente.inscricao_municipal}".max_size(15) if !emitente.inscricao_municipal.blank? && env == :production
+									xml.CodigoMunicipio    "#{emitente.endereco.codigo_municipio}".max_size(7) 
 								}
-								xml.CodigoCancelamento codigo_cancelamento								
+								xml.CodigoCancelamento "#{codigo_cancelamento}".max_size(4)
 							}
 						end
 					end
