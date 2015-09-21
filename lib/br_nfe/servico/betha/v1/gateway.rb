@@ -99,7 +99,7 @@ module BrNfe
 					end
 
 					def get_date(value)
-						Date.parse(value)
+						Date.parse(value.to_s)
 					rescue
 					end
 				end
