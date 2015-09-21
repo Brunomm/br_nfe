@@ -89,7 +89,7 @@ module BrNfe
 								rps.condicao_pagamento.parcelas.each_with_index do |parcela, i|
 									xml.Parcelas{
 										xml.Parcela        i+1
-										xml.DataVencimento value_date(parcela[:vencimento])
+										xml.DataVencimento value_date_time(parcela[:vencimento])
 										xml.Valor          value_monetary(parcela[:valor], 4)
 									}
 								end
