@@ -87,6 +87,12 @@ module BrNfe
 							if rps.condicao_pagamento.parcelas.size > 0
 								xml.QtdParcela rps.condicao_pagamento.parcelas.size 
 								rps.condicao_pagamento.parcelas.each_with_index do |parcela, i|
+									#
+									# Aqui há uma ressalva:
+									# Na documentação diz que a DataVencimento deve ser do tipo DateTime
+									# Porém não é nem do tipo DateTime e nem do tipo Date, mas sim uma String
+									# no formato DD/MM/YYYY <- by bethagambis.com
+									#
 									vencimento = get_date(parcela[:vencimento])
 									xml.Parcelas{
 										xml.Parcela        i+1
