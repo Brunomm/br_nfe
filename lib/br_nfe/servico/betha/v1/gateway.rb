@@ -87,9 +87,10 @@ module BrNfe
 							if rps.condicao_pagamento.parcelas.size > 0
 								xml.QtdParcela rps.condicao_pagamento.parcelas.size 
 								rps.condicao_pagamento.parcelas.each_with_index do |parcela, i|
+									vencimento = value_date(parcela[:vencimento])
 									xml.Parcelas{
 										xml.Parcela        i+1
-										xml.DataVencimento value_date_time(parcela[:vencimento])
+										xml.DataVencimento "#{vencimento.day.to_s.rjust(2, '0')}/#{vencimento.month.to_s.rjust(2, '0')}/#{vencimento.year}" if vencimento
 										xml.Valor          value_monetary(parcela[:valor], 4)
 									}
 								end
