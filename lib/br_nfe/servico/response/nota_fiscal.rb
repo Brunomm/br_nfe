@@ -10,6 +10,7 @@ module BrNfe
 				attr_accessor :numero_nf
 				attr_accessor :codigo_verificacao
 				attr_accessor :data_emissao
+				attr_accessor :url_nf
 				
 				#identificacao do rps
 				attr_accessor :rps_numero

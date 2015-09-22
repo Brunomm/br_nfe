@@ -75,6 +75,7 @@ module BrNfe
 							nfse.data_emissao_rps         = info_nfse[:data_emissao_rps]
 							nfse.competencia              = info_nfse[:competencia]
 							nfse.outras_informacoes       = info_nfse[:outras_informacoes]
+							nfse.url_nf                   = info_nfse[:outras_informacoes]
 							
 							get_informacoes_rps      nfse, info_nfse[:identificacao_rps]
 							get_dados_servico        nfse, info_nfse[:servico]
