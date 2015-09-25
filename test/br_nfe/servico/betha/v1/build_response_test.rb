@@ -104,6 +104,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal.data_emissao_rps.must_equal                 DateTime.parse("Fri, 04 Sep 2015 09:56:17 -0300")
 				nota_fiscal.competencia.must_equal                      DateTime.parse("Tue, 01 Sep 2015 00:00:00 -0300")
 				nota_fiscal.outras_informacoes.must_equal               "http://e-gov.betha.com.br/e-nota"
+				nota_fiscal.url_nf.must_equal                           "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal.item_lista_servico.must_equal               "111"
 				nota_fiscal.codigo_cnae.must_equal                      "6202300"
 				nota_fiscal.discriminacao.must_equal                    "discriminacao"
@@ -186,6 +187,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal_1.data_emissao_rps.must_equal                 DateTime.parse("Fri, 04 Sep 2015 09:56:17 -0300")
 				nota_fiscal_1.competencia.must_equal                      DateTime.parse("Tue, 01 Sep 2015 00:00:00 -0300")
 				nota_fiscal_1.outras_informacoes.must_equal               "http://e-gov.betha.com.br/e-nota"
+				nota_fiscal_1.url_nf.must_equal                           "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal_1.item_lista_servico.must_equal               "111"
 				nota_fiscal_1.codigo_cnae.must_equal                      "6202300"
 				nota_fiscal_1.discriminacao.must_equal                    "discriminacao"
@@ -225,6 +227,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal_2.data_emissao_rps.must_equal                 "NOTA2 data_emissao_rps"
 				nota_fiscal_2.competencia.must_equal                      "NOTA2 competencia"
 				nota_fiscal_2.outras_informacoes.must_equal               "NOTA2 outras_informacoes"
+				nota_fiscal_2.url_nf.must_equal                           "NOTA2 outras_informacoes"
 				nota_fiscal_2.item_lista_servico.must_equal               "NOTA2 item_lista_servico"
 				nota_fiscal_2.discriminacao.must_equal                    "NOTA2 discriminacao"
 				nota_fiscal_2.codigo_municipio.must_equal                 "NOTA2 codigo_municipio"

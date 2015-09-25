@@ -18,8 +18,11 @@ module BrNfe
 					def xml_builder
 						Nokogiri::XML::Builder.new do |xml|
 							xml.Temp {
-								tag_identificacao_rps(xml, rps)
-								tag_prestador(xml)								
+								# Identificação RPS
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_identificacao_rps(rps).doc.root.to_s )
+
+								# Pestador / Emitente
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_prestador.doc.root.to_s )
 							}
 						end.doc.root
 					end

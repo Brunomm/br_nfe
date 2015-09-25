@@ -18,8 +18,8 @@ module BrNfe
 				attr_accessor :rps_tipo
 				attr_accessor :rps_situacao
 
-				attr_accessor :data_emissao_rps         # Datetime
-				attr_accessor :competencia              #DateTime
+				attr_accessor :data_emissao_rps    # Datetime
+				attr_accessor :competencia         #DateTime
 				attr_accessor :outras_informacoes
 				
 				# dados dos serviços

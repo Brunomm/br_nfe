@@ -1,7 +1,7 @@
 require 'test_helper'
 
 describe BrNfe::Servico::Betha::V1::Gateway do
-	subject             { FactoryGirl.build(:br_nfe_servico_betha_gateway, emitente: emitente) }
+	subject             { FactoryGirl.build(:br_nfe_servico_betha_v1_gateway, emitente: emitente) }
 	let(:rps)           { FactoryGirl.build(:br_nfe_rps, :completo) }
 	let(:emitente)      { FactoryGirl.build(:emitente) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
@@ -33,11 +33,9 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 		end
 	end
 
-	describe "#tag_dados_servico" do
+	describe "#xml_dados_servico" do
 		it "deve vir com a estrutura adecuada com todos os valores preenchidos" do
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_dados_servico, xml, rps)
-			end.doc
+			xml = subject.send(:xml_dados_servico, rps).doc
 
 			xml.xpath('Servico/ItemListaServico').first.text.must_equal          rps.item_lista_servico
 			xml.xpath('Servico/CodigoCnae').first.text.must_equal                rps.codigo_cnae
@@ -65,9 +63,7 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 				aliquota: '', codigo_cnae: '', codigo_tributacao_municipio: ''
 			})
 
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_dados_servico, xml, rps)
-			end.doc
+			xml = subject.send(:xml_dados_servico, rps).doc
 
 
 			xml.xpath('Servico/CodigoCnae').first.must_be_nil
@@ -84,77 +80,60 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 		end
 	end
 
-	context "#tag_prestador" do
+	context "#xml_prestador" do
 		it "estrutura com todos os atributos" do
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_prestador, xml)
-			end.doc
+			xml = subject.send(:xml_prestador).doc
 
 			xml.xpath('Prestador/Cnpj').first.text.must_equal emitente.cnpj
 			xml.xpath('Prestador/InscricaoMunicipal').first.text.must_equal emitente.inscricao_municipal
 		end
 		it "estrutura sem os atributos não obrigatorios" do
 			emitente.inscricao_municipal = ''
-			
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_prestador, xml)
-			end.doc
+			xml = subject.send(:xml_prestador).doc
 
 			xml.xpath('Prestador/InscricaoMunicipal').first.must_be_nil
 		end
 	end
 
-	context "#tag_intermediario_servico" do
+	context "#xml_intermediario_servico" do
 		it "estrutura com todos os atributos" do
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_intermediario_servico, xml, intermediario)
-			end.doc
-
+			xml = subject.send(:xml_intermediario_servico, intermediario).doc
 			xml.xpath('IntermediarioServico/RazaoSocial').first.text.must_equal        intermediario.razao_social
 			xml.xpath('IntermediarioServico/CpfCnpj/Cnpj').first.text.must_equal       BrNfe::Helper::CpfCnpj.new(intermediario.cpf_cnpj).sem_formatacao
 			xml.xpath('IntermediarioServico/InscricaoMunicipal').first.text.must_equal intermediario.inscricao_municipal
 		end
 		it "estrutura sem os atributos não obrigatorios" do
 			intermediario.assign_attributes({cpf_cnpj: '132.456.789-01', inscricao_municipal: ''})
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_intermediario_servico, xml, intermediario)
-			end.doc
+			xml = subject.send(:xml_intermediario_servico, intermediario).doc
 
 			xml.xpath('IntermediarioServico/CpfCnpj/Cpf').first.text.must_equal  BrNfe::Helper::CpfCnpj.new(intermediario.cpf_cnpj).sem_formatacao
 			xml.xpath('IntermediarioServico/InscricaoMunicipal').first.must_be_nil
 		end
 		it "se não tiver intermediario não monta o xml" do
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_intermediario_servico, xml, nil)
-			end.doc
-
+			xml = subject.send(:xml_intermediario_servico, nil).doc
 			xml.root.to_s.must_equal ''
 		end
 	end
 
-	describe "#tag_condicao_pagamento" do
+	describe "#xml_condicao_pagamento" do
 		it "estrutura a prazo" do
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_condicao_pagamento, xml, rps)
-			end.doc
+			xml = subject.send(:xml_condicao_pagamento, rps).doc
 
 			xml.xpath('CondicaoPagamento/Condicao').first.text.must_equal                rps.condicao_pagamento.condicao
 			xml.xpath('CondicaoPagamento/QtdParcela').first.text.must_equal              '2'
 			
 			xml.xpath('CondicaoPagamento/Parcelas/Parcela').first.text.must_equal        '1'
-			xml.xpath('CondicaoPagamento/Parcelas/DataVencimento').first.text.must_equal '2015-10-15'
+			xml.xpath('CondicaoPagamento/Parcelas/DataVencimento').first.text.must_equal '15/10/2015'
 			xml.xpath('CondicaoPagamento/Parcelas/Valor').first.text.must_equal          '10.0'
 
 			xml.xpath('CondicaoPagamento/Parcelas/Parcela').last.text.must_equal        '2'
-			xml.xpath('CondicaoPagamento/Parcelas/DataVencimento').last.text.must_equal '2015-11-15'
+			xml.xpath('CondicaoPagamento/Parcelas/DataVencimento').last.text.must_equal '15/11/2015'
 			xml.xpath('CondicaoPagamento/Parcelas/Valor').last.text.must_equal          '20.0'
 		end
 
 		it "estrutura a vista" do
 			rps.condicao_pagamento.assign_attributes(condicao: 'A_VISTA', parcelas: [])
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_condicao_pagamento, xml, rps)
-			end.doc
+			xml = subject.send(:xml_condicao_pagamento, rps).doc
 
 			xml.xpath('CondicaoPagamento/Condicao').first.text.must_equal   'A_VISTA'
 			xml.xpath('CondicaoPagamento/QtdParcela').first.must_be_nil
@@ -164,9 +143,7 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 
 		it "quando não tem condicao_pagamento" do
 			rps.condicao_pagamento = nil
-			xml = Nokogiri::XML::Builder.new do |xml|
-				subject.send(:tag_condicao_pagamento, xml, rps)
-			end.doc
+			xml = subject.send(:xml_condicao_pagamento, rps).doc
 			xml.root.to_s.must_equal ''
 		end
 	end

@@ -12,9 +12,7 @@ module BrNfe
 							xml.CancelarNfseEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_pedido_cancelamento_assinado.doc.root.to_s )
 							}
-						end.doc.root
-
-						canonicalize xml
+						end
 					end
 
 					

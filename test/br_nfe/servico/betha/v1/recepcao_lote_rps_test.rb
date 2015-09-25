@@ -163,11 +163,11 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/CondicaoPagamento/Parcelas').count.must_equal 2
 
 			xml.xpath('InfRps/CondicaoPagamento/Parcelas/Parcela').first.text.must_equal '1'
-			xml.xpath('InfRps/CondicaoPagamento/Parcelas/DataVencimento').first.text.must_equal Date.parse('15/10/2015').to_s(:br_nfe)
+			xml.xpath('InfRps/CondicaoPagamento/Parcelas/DataVencimento').first.text.must_equal '15/10/2015'
 			xml.xpath('InfRps/CondicaoPagamento/Parcelas/Valor').first.text.must_equal '10.0'
 
 			xml.xpath('InfRps/CondicaoPagamento/Parcelas/Parcela').last.text.must_equal '2'
-			xml.xpath('InfRps/CondicaoPagamento/Parcelas/DataVencimento').last.text.must_equal Date.parse('15/11/2015').to_s(:br_nfe)
+			xml.xpath('InfRps/CondicaoPagamento/Parcelas/DataVencimento').last.text.must_equal '15/11/2015'
 			xml.xpath('InfRps/CondicaoPagamento/Parcelas/Valor').last.text.must_equal '20.0'
 		end
 	end

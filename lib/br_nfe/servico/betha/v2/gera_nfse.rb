@@ -14,9 +14,7 @@ module BrNfe
 							xml.GerarNfseEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_rps_assinado(rps).doc.root.to_s)
 							}
-						end.doc.root
-						
-						canonicalize xml
+						end
 					end
 				end
 			end

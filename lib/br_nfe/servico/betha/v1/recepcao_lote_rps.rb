@@ -55,7 +55,8 @@ module BrNfe
 						Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.InfRps('Id' => "rps#{rps.numero}") {
 								
-								tag_identificacao_rps(xml, rps)
+								# Identificação RPS
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_identificacao_rps(rps).doc.root.to_s )
 
 								xml.DataEmissao              value_date_time(rps.data_emissao)
 								xml.NaturezaOperacao         "#{emitente.natureza_operacao}".max_size(2)
@@ -64,21 +65,28 @@ module BrNfe
 								xml.IncentivadorCultural     value_true_false(emitente.incentivo_fiscal?)           # (1)sim ----- (2)não -----
 								xml.Status                   "#{rps.status}".max_size(1)
 
-								tag_rps_substituido(xml, rps)
+								# RPS subistituido
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_rps_substituido(rps).doc.root.to_s )
 								
-								tag_dados_servico(xml, rps)
+								# Dados do(s) serviço(s)
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_dados_servico(rps).doc.root.to_s )
 
-								tag_prestador(xml)
+								# Pestador / Emitente
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_prestador.doc.root.to_s )
 
-								tag_dados_tomador(xml, rps.destinatario)
+								# Tomador / Destinatário
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_dados_tomador(rps.destinatario).doc.root.to_s )
 
-								tag_intermediario_servico(xml, rps.intermediario)
+								# Intermediario
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_intermediario_servico(rps.intermediario).doc.root.to_s )
 
-								tag_dados_construcao_civil(xml, rps)
+								# Dados Construção Civil
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_dados_construcao_civil(rps).doc.root.to_s )
 
 								xml.OutrasInformacoes "#{rps.outras_informacoes}".max_size(255) unless rps.outras_informacoes.blank?
 
-								tag_condicao_pagamento(xml, rps)
+								# Condição de pagamento
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_condicao_pagamento(rps).doc.root.to_s )
 							}
 						end
 					end

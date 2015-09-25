@@ -15,9 +15,7 @@ module BrNfe
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_lote_rps.to_s )
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_lote_rps.to_s, "#lote#{numero_lote_rps}") )
 							}
-						end.doc.root
-						
-						canonicalize xml
+						end
 					end
 				end
 			end

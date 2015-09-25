@@ -12,13 +12,13 @@ module BrNfe
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new do |xml|
 							xml.ConsultarNfseRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
-								tag_identificacao_rps(xml, rps)
+								# Identificação RPS
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_identificacao_rps(rps).doc.root.to_s )
 
-								tag_prestador(xml)
+								# Pestador / Emitente
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_prestador.doc.root.to_s )
 							}
-						end.doc.root
-
-						canonicalize xml
+						end
 					end
 				end
 			end

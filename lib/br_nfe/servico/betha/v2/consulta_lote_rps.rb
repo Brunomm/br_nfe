@@ -13,12 +13,13 @@ module BrNfe
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new do |xml|
 							xml.ConsultarLoteRpsEnvio(xmlns: "http://www.betha.com.br/e-nota-contribuinte-ws") {
-								tag_prestador(xml)
+								
+								# Pestador / Emitente
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_prestador.doc.root.to_s )
+
 								xml.Protocolo "#{protocolo}".max_size(50)
 							}
-						end.doc.root
-
-						canonicalize xml
+						end
 					end
 				end
 			end

@@ -19,7 +19,9 @@ module BrNfe
 					def xml_builder
 						Nokogiri::XML::Builder.new do |xml|
 							xml.Temp {
-								tag_prestador(xml)								
+								# Pestador / Emitente
+								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_prestador.doc.root.to_s )
+														
 								xml.Protocolo "#{protocolo}".max_size(50)
 							}
 						end.doc.root

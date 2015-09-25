@@ -16,11 +16,8 @@ module BrNfe
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( xml_substituicao.to_s )
 								xml.__send__ :insert, Nokogiri::XML::DocumentFragment.parse( assinatura_xml(xml_substituicao.to_s, "#substituicao") )
 							}
-						end.doc.root
-
-						canonicalize xml
+						end
 					end
-
 
 					def xml_substituicao_nfse
 						Nokogiri::XML::Builder.new do |xml|
