@@ -72,7 +72,7 @@ module BrNfe
 			module V2
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :Response
+				autoload :BuildResponse
 				autoload :CancelamentoNfs
 				autoload :ConsultaNfsePorRps
 				autoload :EnvioLoteRpsSincrono

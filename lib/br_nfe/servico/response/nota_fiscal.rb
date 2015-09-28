@@ -17,6 +17,9 @@ module BrNfe
 				attr_accessor :rps_serie
 				attr_accessor :rps_tipo
 				attr_accessor :rps_situacao
+				attr_accessor :rps_substituido_numero
+				attr_accessor :rps_substituido_serie
+				attr_accessor :rps_substituido_tipo
 
 				attr_accessor :data_emissao_rps    # Datetime
 				attr_accessor :competencia         #DateTime
@@ -37,11 +40,17 @@ module BrNfe
 				attr_accessor :valor_ir
 				attr_accessor :valor_csll
 				attr_accessor :iss_retido
+				attr_accessor :outras_retencoes
 				attr_accessor :valor_iss
 				attr_accessor :base_calculo
 				attr_accessor :aliquota
-				attr_accessor :desconto_condicionado
-				attr_accessor :desconto_incondicionado
+				attr_accessor :valor_liquido # v2
+				attr_accessor :desconto_condicionado # v2
+				attr_accessor :desconto_incondicionado # v2
+
+				attr_accessor :responsavel_retencao
+				attr_accessor :numero_processo
+				attr_accessor :municipio_incidencia
 				
 				# Orgão gerador
 				attr_accessor :orgao_gerador_municipio
