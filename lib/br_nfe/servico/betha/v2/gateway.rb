@@ -31,7 +31,9 @@ module BrNfe
 
 					def set_response(resp)
 						method_response = (method_wsdl.to_s + "_response").to_sym
-						@response = BrNfe::Servico::Betha::V2::BuildResponse.new(xml: resp.hash[:envelope][:body][method_response][:return], nfe_method: method_wsdl).response
+						@builder = BrNfe::Servico::Betha::V2::BuildResponse.new(xml: resp.hash[:envelope][:body][method_response][:return], nfe_method: method_wsdl)
+						@original_response = @builder.messages
+						@response          = @builder.response
 					end
 
 					def builder

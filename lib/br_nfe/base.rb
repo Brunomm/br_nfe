@@ -27,6 +27,11 @@ module BrNfe
 			@env ||= :production
 		end
 
+		def original_response
+			@original_response
+		end
+
+
 		def response
 			@response
 		end
