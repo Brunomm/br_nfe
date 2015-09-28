@@ -1,11 +1,7 @@
 module BrNfe
 	module Helper
 		module HaveAddress
-
-			def validar_endereco?
-				true
-			end
-
+			
 			def validar_endereco
 				if endereco.invalid?
 					endereco.errors.full_messages.each { |msg| errors.add(:base, "Endereço: #{msg}") }

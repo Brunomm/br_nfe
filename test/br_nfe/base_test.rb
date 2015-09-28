@@ -46,6 +46,16 @@ describe BrNfe::Base do
 		end
 	end
 
+	describe "#original_response" do
+		it "deve retornar o valor da variavel @original_response" do
+			subject.instance_variable_set(:@original_response, 'valor')
+			subject.original_response.must_equal 'valor'
+		end
+		it "valor default" do
+			subject.original_response.must_be_nil
+		end
+	end
+
 	describe "#wsdl" do
 		it "deve dar um erro por default" do
 			assert_raises RuntimeError do

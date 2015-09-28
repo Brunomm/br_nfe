@@ -89,13 +89,13 @@ module BrNfe
 			def validar_intermediario
 				return true unless intermediario
 				if intermediario.invalid?
-					intermediario.errors.full_messages.map{|msg| errors.add(:intermediario, msg) }
+					intermediario.errors.full_messages.map{|msg| errors.add(:base, "Intermediário: #{msg}") }
 				end
 			end
 
 			def validar_destinatario
 				if destinatario.invalid?
-					destinatario.errors.full_messages.map{|msg| errors.add(:destinatario, msg) }
+					destinatario.errors.full_messages.map{|msg| errors.add(:base, "Destinatário: #{msg}") }
 				end
 			end
 		end

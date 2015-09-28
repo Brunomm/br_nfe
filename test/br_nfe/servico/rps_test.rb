@@ -6,6 +6,109 @@ describe BrNfe::Servico::Rps do
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 	let(:condicao_pagamento) { FactoryGirl.build(:condicao_pagamento) }
 
+	describe "validations" do
+		it { must validate_presence_of(:numero) }
+		it { must validate_presence_of(:serie) }
+		it { must validate_presence_of(:tipo) }
+
+		describe "option validar_recepcao_rps" do
+			context "quando for true" do
+				before { subject.validar_recepcao_rps = true }
+				it { must validate_presence_of(:data_emissao) }
+				it { must validate_presence_of(:item_lista_servico) }
+				it { must validate_presence_of(:discriminacao) }
+				it { must validate_presence_of(:codigo_municipio) }
+				it { must validate_presence_of(:valor_servicos) }
+				it { must validate_presence_of(:base_calculo) }
+				
+				it { must validate_numericality_of(:valor_servicos) }
+				it { must validate_numericality_of(:valor_deducoes) }
+				it { must validate_numericality_of(:valor_pis) }
+				it { must validate_numericality_of(:valor_cofins) }
+				it { must validate_numericality_of(:valor_inss) }
+				it { must validate_numericality_of(:valor_ir) }
+				it { must validate_numericality_of(:valor_csll) }
+				it { must validate_numericality_of(:outras_retencoes) }
+				it { must validate_numericality_of(:valor_iss) }
+				it { must validate_numericality_of(:aliquota) }
+				it { must validate_numericality_of(:base_calculo) }
+				it { must validate_numericality_of(:desconto_incondicionado) }
+				it { must validate_numericality_of(:desconto_condicionado) }
+
+				it "deve validar o intermediario" do
+					subject.expects(:validar_intermediario)
+					subject.valid?
+				end
+
+				it "deve validar o intermediario" do
+					subject.expects(:validar_destinatario)
+					subject.valid?
+				end
+
+				describe "option iss_retido?" do
+					context "quando for true" do
+						before { subject.stubs(:iss_retido?).returns(true) }
+						it { wont validate_presence_of(:valor_iss) }
+						it { wont validate_presence_of(:aliquota) }
+					end
+					context "quando for false" do
+						before { subject.stubs(:iss_retido?).returns(false) }
+						it { must validate_presence_of(:valor_iss) }
+						it { must validate_presence_of(:aliquota) }
+					end
+				end
+			end
+
+			context "quando for false" do
+				before { subject.validar_recepcao_rps = false }
+				it { wont validate_presence_of(:data_emissao) }
+				it { wont validate_presence_of(:item_lista_servico) }
+				it { wont validate_presence_of(:discriminacao) }
+				it { wont validate_presence_of(:codigo_municipio) }
+				it { wont validate_presence_of(:valor_servicos) }
+				it { wont validate_presence_of(:base_calculo) }
+				
+				it { wont validate_numericality_of(:valor_servicos) }
+				it { wont validate_numericality_of(:valor_deducoes) }
+				it { wont validate_numericality_of(:valor_pis) }
+				it { wont validate_numericality_of(:valor_cofins) }
+				it { wont validate_numericality_of(:valor_inss) }
+				it { wont validate_numericality_of(:valor_ir) }
+				it { wont validate_numericality_of(:valor_csll) }
+				it { wont validate_numericality_of(:outras_retencoes) }
+				it { wont validate_numericality_of(:valor_iss) }
+				it { wont validate_numericality_of(:aliquota) }
+				it { wont validate_numericality_of(:base_calculo) }
+				it { wont validate_numericality_of(:desconto_incondicionado) }
+				it { wont validate_numericality_of(:desconto_condicionado) }
+
+				it "deve validar o intermediario" do
+					subject.expects(:validar_intermediario).never
+					subject.valid?
+				end
+
+				it "deve validar o intermediario" do
+					subject.expects(:validar_destinatario).never
+					subject.valid?
+				end
+
+				describe "option iss_retido?" do
+					context "quando for true" do
+						before { subject.stubs(:iss_retido?).returns(true) }
+						it { wont validate_presence_of(:valor_iss) }
+						it { wont validate_presence_of(:aliquota) }
+					end
+					context "quando for false" do
+						before { subject.stubs(:iss_retido?).returns(false) }
+						it { wont validate_presence_of(:valor_iss) }
+						it { wont validate_presence_of(:aliquota) }
+					end
+				end
+			end
+		end
+		
+	end
+
 	describe "#contem_substituicao?" do
 		before do
 			subject.assign_attributes(numero_substituicao: '1', serie_substituicao: '2', tipo_substituicao: '1')
@@ -208,6 +311,44 @@ describe BrNfe::Servico::Rps do
 			subject.condicao_pagamento = condicao_pagamento
 			subject.condicao_pagamento.wont_equal condicao_pagamento_old
 			subject.condicao_pagamento.must_equal condicao_pagamento
+		end
+	end
+
+	describe "#validar_intermediario" do
+		it "se não tiver intermediario deve retornar true" do
+			subject.intermediario = nil
+			subject.send(:validar_intermediario).must_equal true
+		end
+		it "se tiver intermediario e o mesmo for válido, não adiciona as mensagens de erro" do
+			intermediario.stubs(:errors).returns(stub(full_messages: ['msg 1']) )
+			intermediario.expects(:invalid?).returns(false)
+			subject.intermediario = intermediario
+			subject.send(:validar_intermediario).must_be_nil
+			subject.errors.full_messages.must_equal([])
+		end
+		it "se tiver intermediario e o mesmo for inválido, deve adicionar as mensagens de erro" do
+			intermediario.stubs(:errors).returns(stub(full_messages: ['msg 1']) )
+			intermediario.expects(:invalid?).returns(true)
+			subject.intermediario = intermediario
+			subject.send(:validar_intermediario)
+			subject.errors.full_messages.must_equal(['Intermediário: msg 1'])
+		end
+	end
+
+	describe "#validar_destinatario" do
+		it "se destinatario for válido, não adiciona as mensagens de erro" do
+			destinatario.stubs(:errors).returns(stub(full_messages: ['msg 1']) )
+			destinatario.expects(:invalid?).returns(false)
+			subject.destinatario = destinatario
+			subject.send(:validar_destinatario).must_be_nil
+			subject.errors.full_messages.must_equal([])
+		end
+		it "se destinatario for inválido, deve adicionar as mensagens de erro" do
+			destinatario.stubs(:errors).returns(stub(full_messages: ['msg 1']) )
+			destinatario.expects(:invalid?).returns(true)
+			subject.destinatario = destinatario
+			subject.send(:validar_destinatario)
+			subject.errors.full_messages.must_equal(['Destinatário: msg 1'])
 		end
 	end
 
