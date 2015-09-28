@@ -23,7 +23,7 @@ Devido a falta de padronização dos parâmetros e a forma de envio e resposta n
 
 ## NFS-e desenvolvidas
 
-* Betha Sistemas V 01
+* Betha Sistemas V 1.0
 * Betha Sistemas V 2.02
 
 ####**1 - Começando**
@@ -206,8 +206,40 @@ Para saber quais os valores obtidos pelo `BrNfe::Servico::Response::Default`, ve
 
 Lista de exemplos:
 
-* [Betha v1.0](exemplos/betha_v1.markdown)
-* [Betha v2.02](exemplos/betha_v2.markdown)
+* [Betha Sistemas v1.0](exemplos/betha_v1.markdown)
+* [Betha Sistemas v2.02](exemplos/betha_v2.markdown)
+
+####**3 - Configurações**
+```ruby
+BrNfe.setup do |config|
+	# É possível customizar as classes auxiliares, por exemlo, 
+	# se você quiser fazer alguma validação específica para o endereço, 
+	# que contenha os mesmo atributos, e setar na configuração da gem 
+	# qual será a classe que irá representar o  endereco.
+	# config.endereco_class = ClasseCustomizadaEndereco
+	
+	config.endereco_class = BrNfe::Endereco
+	config.emitente_class = BrNfe::Emitente
+	config.destinatario_class = BrNfe::Destinatario
+	config.intermediario_class = BrNfe::Servico::Intermediario
+	config.condicao_pagamento_class = BrNfe::CondicaoPagamento
+	config.rps_class BrNfe::Servico::Rps
+	
+	# Se você utiliza certificado SSL, faça as seguintes modificações na configuração:
+	# config.client_wsdl_ssl_verify_mode   = :peer
+	# config.client_wsdl_ssl_cert_file     = 'caminho/client_cert.pem'
+	# config.client_wsdl_ssl_cert_key_file = 'caminho/client_key.pem'
+	# config.client_wsdl_ssl_cert_key_password = 'senha'
+	config.client_wsdl_ssl_verify_mode   = :none
+	config.client_wsdl_ssl_cert_file     = nil
+	config.client_wsdl_ssl_cert_key_file = nil
+	config.client_wsdl_ssl_cert_key_password = nil
+	
+	# Se você quiser exibir em log a requisição SOAP, mude para true as opções a seguir
+	config.client_wsdl_log = false
+	config.client_wsdl_pretty_print_xml = false
+end
+```
 
 
 ## Objetivos futuros
