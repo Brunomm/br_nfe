@@ -1,3 +1,5 @@
+[![security](https://hakiri.io/github/Brunomm/br_nfe/master.svg)](https://hakiri.io/github/Brunomm/br_nfe/master)
+
 # **BrNfe**
 Gem para emissão de notas fiscais eletrônicas.
 

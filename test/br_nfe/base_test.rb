@@ -208,6 +208,8 @@ describe BrNfe::Base do
 			end
 
 			it "deve gerar o xml" do
+				certificado.stubs(:certificate).returns("-----BEGIN CERTIFICATE-----\nMCYwHAIBADAASDIHASDIASHDIAMAMGAQADAQAwAwYBAAMBAA==\n-----END CERTIFICATE-----\n")
+
 				subject.stubs(:signed_info).with(xml, 'URI123').returns(xml_signed_info)
 				subject.expects(:xml_signature_value).with('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><Value>STUBADO</Value></Signature>').returns("KEYFORINFOSIGNED")
 				
@@ -217,7 +219,7 @@ describe BrNfe::Base do
 				assinatura.remove_namespaces!
 				assinatura.xpath('Signature/Signature/Value').first.text.must_equal 'STUBADO'
 				assinatura.xpath('Signature/SignatureValue').first.text.must_equal 'KEYFORINFOSIGNED'
-				assinatura.xpath('Signature/KeyInfo/X509Data/X509Certificate').first.text.must_equal 'MCYwHAIBADADBgEAMAAwBB8AHwAwADAIMAMGAQADAQAwAwYBAAMBAA=='
+				assinatura.xpath('Signature/KeyInfo/X509Data/X509Certificate').first.text.must_equal 'MCYwHAIBADAASDIHASDIASHDIAMAMGAQADAQAwAwYBAAMBAA=='
 			end
 		end
 
