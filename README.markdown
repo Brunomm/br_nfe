@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/Brunomm/br_nfe.svg?branch=master)](https://travis-ci.org/Brunomm/br_nfe)
 [![security](https://hakiri.io/github/Brunomm/br_nfe/master.svg)](https://hakiri.io/github/Brunomm/br_nfe/master)
+[![Test Coverage](https://codeclimate.com/github/Brunomm/br_nfe/badges/coverage.svg)](https://codeclimate.com/github/Brunomm/br_nfe/coverage)
+[![Code Climate](https://codeclimate.com/github/Brunomm/br_nfe/badges/gpa.svg)](https://codeclimate.com/github/Brunomm/br_nfe)
 
 # **BrNfe**
 Gem para emissão de notas fiscais eletrônicas.
