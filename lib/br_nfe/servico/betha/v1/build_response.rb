@@ -2,65 +2,18 @@ module BrNfe
 	module Servico
 		module Betha
 			module V1
-				class BuildResponse  < BrNfe::ActiveModelBase
-
+				class BuildResponse  < BrNfe::Servico::Betha::BuildResponse
 					attr_accessor :hash
-					attr_accessor :nfe_method
 					
 					def messages
 						hash["#{nfe_method.to_s}_resposta".to_sym]
 					end
 
-					def success?
-						messages[:lista_mensagem_retorno].blank?
-					end
-
-					def response
-						@response ||= BrNfe::Servico::Response::Default.new do |resp|
-							resp.success          = success?
-							resp.error_messages   = error_messages
-							resp.notas_fiscais    = get_notas_fiscais
-							resp.protocolo        = messages[:protocolo]
-							resp.data_recebimento = messages[:data_recebimento]
-							resp.numero_lote      = messages[:numero_lote]
-						end
-					end
-
-					def error_messages
-						@error_messages ||= []
-						return @error_messages if success? || !@error_messages.blank?
-						msgs = messages[:lista_mensagem_retorno][:mensagem_retorno]
-						if msgs.is_a?(Hash)
-							@error_messages << get_message(msgs)
-						else #Array
-							msgs.each do |msg|
-								@error_messages << get_message(msg)
-							end
-						end
-						@error_messages
-					end
-
+					
 				private
 
-					def get_message(hash)
-						{
-							codigo:   hash[:codigo],
-							mensagem: hash[:mensagem],
-							correcao: hash[:correcao]
-						}
-					end
-
-					def get_notas_fiscais
-						@notas_fiscais = []
-						return @notas_fiscais if messages[:lista_nfse].blank? || messages[:lista_nfse][:compl_nfse].blank?
-						compl_nfse = messages[:lista_nfse][:compl_nfse]
-						
-						if compl_nfse.is_a?(Hash)
-							@notas_fiscais << new_nota_fiscal(compl_nfse)
-						elsif compl_nfse.is_a?(Array)
-							compl_nfse.map{|p| @notas_fiscais << new_nota_fiscal(p) }
-						end
-						@notas_fiscais		
+					def key_complemento_nfse
+						:compl_nfse
 					end
 
 					def new_nota_fiscal(params)
@@ -103,13 +56,6 @@ module BrNfe
 						end						
 					end
 
-					def get_info_substituicao(nfse, params)
-						params ||= {}
-						params = params[:substituicao_nfse] || {}
-
-						nfse.nfe_substituidora = params[:nfse_substituidora]
-					end
-
 					def get_info_cancelamento(nfse, params)
 						params ||= {}
 						params = params[:confirmacao] || {}
@@ -128,18 +74,6 @@ module BrNfe
 						nfse.cancelamento_data_hora           = confirmacao_cancelamento[:data_hora]						
 					end
 
-					def get_construcao_civil(nfse, params)
-						params ||= {}
-						nfse.codigo_obra = params[:codigo_obra]
-						nfse.codigo_art  = params[:art]
-					end
-
-					def get_orgao_gerador(nfse, params)
-						params ||= {}
-						nfse.orgao_gerador_municipio = params[:codigo_municipio]
-						nfse.orgao_gerador_uf        = params[:uf]
-					end
-
 					def get_emitente_servico(nfse, dados_emitente)
 						dados_emitente ||= {}
 						nfse.emitente do |em|
@@ -153,38 +87,6 @@ module BrNfe
 						end
 					end
 
-					def get_destinatario_servico(nfse, dados_destinatario)
-						dados_destinatario ||= {}
-						identificacao_tomador = dados_destinatario[:identificacao_tomador] || {}
-						nfse.destinatario do |em|
-							em.cpf_cnpj            = identificacao_tomador[:cpf_cnpj][:cnpj] || identificacao_tomador[:cpf_cnpj][:cpf] if identificacao_tomador[:cpf_cnpj]
-							em.inscricao_municipal = identificacao_tomador[:inscricao_municipal]
-							em.inscricao_estadual  = identificacao_tomador[:inscricao_estadual]
-							em.razao_social        = dados_destinatario[:razao_social]
-							em.nome_fantasia       = dados_destinatario[:nome_fantasia]
-							em.telefone            = dados_destinatario[:contato][:telefone] if dados_destinatario[:contato]
-							em.email               = dados_destinatario[:contato][:email]    if dados_destinatario[:contato]
-							em.endereco            = get_endereco(dados_destinatario[:endereco])
-						end
-					end
-
-					def get_endereco(params)
-						params ||= {}
-						BrNfe::Endereco.new do |e|
-							e.logradouro       = params[:endereco]
-							e.numero           = params[:numero]
-							e.complemento      = params[:complemento]
-							e.bairro           = params[:bairro]
-							e.nome_municipio   = params[:nome_municipio]
-							e.codigo_municipio = params[:codigo_municipio]
-							e.uf               = params[:uf]
-							e.cep              = params[:cep]
-							e.codigo_pais      = params[:codigo_pais] if params[:codigo_pais]
-							e.nome_pais        = params[:nome_pais]   if params[:nome_pais]
-						end
-					end
-
-					
 					def get_dados_servico(nfse, dados_servico)
 						nfse.item_lista_servico     = dados_servico[:item_lista_servico]
 						nfse.codigo_cnae            = dados_servico[:codigo_cnae]

@@ -58,6 +58,7 @@ module BrNfe
 		module Betha
 			extend ActiveSupport::Autoload
 			autoload :Base
+			autoload :BuildResponse
 			module V1
 				extend ActiveSupport::Autoload
 				autoload :Gateway

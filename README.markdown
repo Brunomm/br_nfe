@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Brunomm/br_nfe.svg?branch=master)](https://travis-ci.org/Brunomm/br_nfe)
 [![security](https://hakiri.io/github/Brunomm/br_nfe/master.svg)](https://hakiri.io/github/Brunomm/br_nfe/master)
 
 # **BrNfe**

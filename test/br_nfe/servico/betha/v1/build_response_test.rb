@@ -13,12 +13,12 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 
 	describe "#success?" do
 		it "deve ser true quanto não tem mensagem de retorno" do
-			subject.stubs(:messages).returns({lista_mensagem_retorno: nil})
+			subject.stubs(:error_messages).returns([])
 			subject.success?.must_equal true
 		end
 
 		it "deve ser false quanto tem alguma mensagem de retorno" do
-			subject.stubs(:messages).returns({lista_mensagem_retorno: {codigo: 1} })
+			subject.stubs(:error_messages).returns([{codigo: '1'}])
 			subject.success?.must_equal false
 		end
 	end
@@ -38,11 +38,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 			subject.instance_variable_set(:@error_messages, [123])
 			subject.error_messages.must_equal([123])
 		end
-		it "se for success? então deve retornar um valor vazio" do
-			subject.stubs(:success?).returns(true)
-			subject.error_messages.must_equal([])
-		end
-
+		
 		it "deve retornar um vetor com um hash com as mensagens quando houver apenas 1 mensagem em um hash" do
 			subject.error_messages.size.must_equal 1
 			subject.error_messages.class.must_equal Array
