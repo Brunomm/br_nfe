@@ -6,6 +6,12 @@ module BrNfe
 					def method_wsdl
 						:recepcionar_lote_rps_sincrono
 					end
+					def certificado_obrigatorio?
+						true
+					end
+					
+					validates :numero_lote_rps, presence: true
+					validate :validar_lote_rps
 
 					def xml_builder
 						xml = Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|

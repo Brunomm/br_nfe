@@ -6,6 +6,8 @@ module BrNfe
 					
 					attr_accessor :protocolo
 
+					validates :protocolo, presence: true
+
 					def method_wsdl
 						:consultar_lote_rps
 					end

@@ -8,6 +8,16 @@ describe BrNfe::Servico::Betha::V2::EnvioLoteRpsSincrono do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V2::RecepcaoLoteRps }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:numero_lote_rps) }
+		it { must validate_presence_of(:certificado) }
+		
+		it "deve chamar o metodo validar_lote_rps" do
+			subject.expects(:validar_lote_rps)
+			subject.valid?
+		end
+	end
+
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps_sincrono }
 	end

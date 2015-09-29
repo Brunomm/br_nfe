@@ -165,7 +165,7 @@ module BrNfe
 
 		def validar_emitente
 			if emitente.invalid?
-				emitente.errors.full_messages.map{|msg| errors.add(:emitente, msg) }
+				emitente.errors.full_messages.map{|msg| errors.add(:base, "Emitente: #{msg}") }
 			end
 		end
 

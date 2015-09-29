@@ -5,6 +5,12 @@ module BrNfe
 				class GeraNfse < BrNfe::Servico::Betha::V2::Gateway
 					include BrNfe::Helper::HaveRps
 
+					def certificado_obrigatorio?
+						true
+					end
+
+					validate :valida_rps_recepcao
+
 					def method_wsdl
 						:gerar_nfse
 					end
@@ -16,6 +22,7 @@ module BrNfe
 							}
 						end
 					end
+				
 				end
 			end
 		end

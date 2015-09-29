@@ -8,6 +8,10 @@ describe BrNfe::Servico::Betha::V1::ConsultaLoteRps do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V1::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:protocolo) }
+	end
+
 	describe "#wsdl" do
 		context "for env production" do
 			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarLoteRps?wsdl' }

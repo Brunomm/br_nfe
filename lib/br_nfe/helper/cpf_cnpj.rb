@@ -18,11 +18,6 @@ module BrNfe
 				sem_formatacao.size > 11 ? :cnpj : :cpf
 			end
 
-			def tipo_documento(tamanho = 2)
-				return '0' if sem_formatacao.blank?
-				sem_formatacao.size < 14 ? '1'.rjust(tamanho, '0') : '2'.rjust(tamanho, '0')
-			end
-
 			def sem_formatacao
 				@cpf_cnpj.gsub(/[\.]|[\-]|[\/]/,'')
 			end

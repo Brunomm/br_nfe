@@ -5,6 +5,13 @@ module BrNfe
 				class SubstituicaoNfse < BrNfe::Servico::Betha::V2::Gateway
 					include BrNfe::Helper::HaveRps
 					
+					validate :valida_rps_recepcao
+					validates :numero_nfse, :codigo_cancelamento, presence: true
+
+					def certificado_obrigatorio?
+						true
+					end
+
 					def method_wsdl
 						:substituir_nfse
 					end

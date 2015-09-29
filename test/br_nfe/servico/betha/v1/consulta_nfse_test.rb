@@ -8,6 +8,23 @@ describe BrNfe::Servico::Betha::V1::ConsultaNfse do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V1::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:data_inicial) }
+		it { must validate_presence_of(:data_final) }
+	end
+
+	context "data inicial e final sempre deve retornar uma data na formatação adequada" do
+		it "data_inicial" do
+			subject.data_inicial = '12/05/2015'
+			subject.data_inicial.must_equal '2015-05-12'
+		end
+
+		it "data_final" do
+			subject.data_inicial = Date.parse '12/05/2010'
+			subject.data_inicial.must_equal '2010-05-12'
+		end
+	end
+
 	describe "#wsdl" do
 		context "for env production" do
 			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarNfse?wsdl' }

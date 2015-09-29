@@ -10,6 +10,35 @@ describe BrNfe::Base do
 		subject.stubs(:certificado).returns(certificado)
 	end
 
+	describe "validations" do
+		context "obrigatoriedade do certificado" do
+			before { subject.unstub(:certificado) }
+			it "deve ser obrigatorio se certificado_obrigatorio? for true" do
+				subject.expects(:certificado_obrigatorio?).returns(true)
+				must validate_presence_of(:certificado)
+			end
+			it "não deve ser obrigatorio se certificado_obrigatorio? for false" do
+				subject.expects(:certificado_obrigatorio?).returns(false)
+				wont validate_presence_of(:certificado)
+			end
+		end
+		context "validação do emitente" do
+			it "se emitente for válido" do
+				emitente.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
+				emitente.expects(:invalid?).returns(false)
+				subject.valid?.must_equal true
+				subject.errors.full_messages.must_equal( [] )				
+			end
+
+			it "se emitente for inválido" do
+				emitente.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
+				emitente.expects(:invalid?).returns(true)
+				subject.valid?.must_equal false
+				subject.errors.full_messages.must_equal( ["Emitente: Erro rps"] )
+			end
+		end
+	end
+
 	describe "#emitente" do
 		include BrNfeTest::HelperTest::HaveEmitenteTest
 	end
@@ -22,6 +51,14 @@ describe BrNfe::Base do
 		it "deve permitir a modificação do valor" do
 			BrNfe::Base.new(env: :test).env.must_equal :test
 		end
+	end
+
+	describe "#wsdl_encoding" do
+		it { subject.wsdl_encoding.must_equal 'UTF-8' }
+	end
+
+	it "certificado_obrigatorio?" do
+		subject.certificado_obrigatorio?.must_equal false
 	end
 
 	describe "#certificado_value" do
@@ -237,7 +274,12 @@ describe BrNfe::Base do
 				OpenSSL::PKCS12.expects(:new).never
 				subject.certificado.must_equal certificado
 			end
+			it "posso setar o certificado" do
+				subject.certificado = 'certificado 123'
+				subject.certificado.must_equal 'certificado 123'
+			end
 		end
+
 
 		describe "#client_wsdl" do
 			before do 

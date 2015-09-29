@@ -3,6 +3,14 @@ module BrNfe
 		module Betha
 			module V2
 				class RecepcaoLoteRps < BrNfe::Servico::Betha::V2::Gateway
+					
+					validate  :validar_lote_rps
+					validates :numero_lote_rps, presence: true
+					
+					def certificado_obrigatorio?
+						true
+					end
+
 					def method_wsdl
 						:recepcionar_lote_rps
 					end

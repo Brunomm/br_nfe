@@ -1,12 +1,37 @@
 require 'test_helper'
 
 describe BrNfe::Servico::Betha::V2::GeraNfse do
-	subject        { FactoryGirl.build(:br_nfe_servico_betha_v2_gera_nfse, emitente: emitente, rps: rps) }
+	subject        { FactoryGirl.build(:br_nfe_servico_betha_v2_gera_nfse, emitente: emitente, rps: rps, certificado: certificado) }
 	let(:emitente) { FactoryGirl.build(:emitente) }
 	let(:rps)      { FactoryGirl.build(:br_nfe_rps) }
+	let(:certificado) { Certificado.new } 
 	
 	describe "inheritance class" do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V2::Gateway }
+	end
+
+	describe "validations" do
+		it { must validate_presence_of(:certificado) }
+		
+		context "deve validar o rps" do
+			it "quando o rps for válido não deve setar nenhuma mensagem no objeto" do
+				rps.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
+				sequence_1 = sequence('sequence_1')
+				rps.expects(:validar_recepcao_rps=).with(true).in_sequence(sequence_1)
+				rps.expects(:invalid?).returns(false).in_sequence(sequence_1)
+				subject.valid?.must_equal true
+				subject.errors.full_messages.must_equal( [] )
+			end
+			it "quando o rps for inválido deve setar mensagem de erro no objeto" do
+				rps.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
+				sequence_1 = sequence('sequence_1')
+				rps.expects(:validar_recepcao_rps=).with(true).in_sequence(sequence_1)
+				rps.expects(:invalid?).returns(true).in_sequence(sequence_1)
+				subject.valid?.must_equal false
+				subject.errors.full_messages.must_equal( ["RPS: Erro rps"] )
+			end
+			
+		end
 	end
 
 	describe "#method_wsdl" do

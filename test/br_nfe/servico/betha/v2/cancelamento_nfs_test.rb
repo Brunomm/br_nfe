@@ -10,6 +10,12 @@ describe BrNfe::Servico::Betha::V2::CancelamentoNfs do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V2::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:numero_nfse) }
+		it { must validate_presence_of(:codigo_cancelamento) }
+		it { must validate_presence_of(:certificado) }
+	end
+
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :cancelar_nfse }
 	end

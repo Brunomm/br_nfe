@@ -8,6 +8,12 @@ describe BrNfe::Servico::Betha::V1::CancelamentoNfs do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V1::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:numero_nfse) }
+		it { must validate_presence_of(:codigo_cancelamento) }
+		it { must validate_presence_of(:certificado) }
+	end
+
 	describe "#wsdl" do
 		context "for env production" do
 			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/cancelarNfseV02?wsdl' }

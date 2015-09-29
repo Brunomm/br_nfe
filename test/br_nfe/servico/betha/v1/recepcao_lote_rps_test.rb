@@ -10,6 +10,16 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V1::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:numero_lote_rps) }
+		it { must validate_presence_of(:certificado) }
+		
+		it "deve chamar o metodo validar_lote_rps" do
+			subject.expects(:validar_lote_rps)
+			subject.valid?
+		end
+	end
+
 	describe "#wsdl" do
 		context "for env production" do
 			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/recepcionarLoteRps?wsdl' }

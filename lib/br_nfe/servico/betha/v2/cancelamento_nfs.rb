@@ -3,6 +3,13 @@ module BrNfe
 		module Betha
 			module V2
 				class CancelamentoNfs < BrNfe::Servico::Betha::V2::Gateway
+
+					validates :numero_nfse, :codigo_cancelamento, presence: true
+
+					def certificado_obrigatorio?
+						true
+					end
+
 					def method_wsdl
 						:cancelar_nfse
 					end

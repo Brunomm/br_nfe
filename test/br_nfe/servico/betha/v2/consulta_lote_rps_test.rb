@@ -8,6 +8,10 @@ describe BrNfe::Servico::Betha::V2::ConsultaLoteRps do
 		it { subject.class.superclass.must_equal BrNfe::Servico::Betha::V2::Gateway }
 	end
 
+	describe "validations" do
+		it { must validate_presence_of(:protocolo) }
+	end
+	
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :consultar_lote_rps }
 	end

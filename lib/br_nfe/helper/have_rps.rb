@@ -21,6 +21,13 @@ module BrNfe
 					rps.errors.full_messages.map{|msg| errors.add(:rps, msg) }
 				end
 			end
+
+			def valida_rps_recepcao
+				rps.validar_recepcao_rps = true
+				if rps.invalid?
+					rps.errors.full_messages.map{|msg| errors.add(:base, "RPS: #{msg}") } 
+				end
+			end
 			
 		end
 	end
