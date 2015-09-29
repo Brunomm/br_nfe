@@ -24,7 +24,6 @@ require 'certificado'
 Minitest::Reporters.use!
 
 if ActiveSupport.version >= Gem::Version.new('4.2')
-	puts 'entrou'
 	ActiveSupport::TestCase.test_order = :sorted
 end
 
