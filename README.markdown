@@ -8,8 +8,8 @@
 # **BrNfe**
 Gem para emissão de notas fiscais eletrônicas.
 
-## Versão 1.0.1
 **Motivo e Objetivo**
+
 Devido a falta de padronização dos parâmetros e a forma de envio e resposta na transmissão de Notas Fiscais de Serviços (NFS), esta gem vem com o objetivo de obter uma forma padronizada dessa tarefa, e assim, facilitando a vida de muitos desenvolvedores.
 
 **O que essa gem faz?**
