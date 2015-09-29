@@ -4,6 +4,7 @@ gemspec
 
 group :test do
 	# gem "mocha", :require => false
+	gem "codeclimate-test-reporter", require: nil
 	gem "mocha", :require => false
 	gem "factory_girl_rails"
 	gem 'minitest-reporters'

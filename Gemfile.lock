@@ -53,6 +53,8 @@ GEM
     ansi (1.5.0)
     arel (6.0.2)
     builder (3.2.2)
+    codeclimate-test-reporter (0.4.8)
+      simplecov (>= 0.7.1, < 1.0.0)
     docile (1.1.5)
     erubis (2.7.0)
     factory_girl (4.5.0)
@@ -159,6 +161,7 @@ PLATFORMS
 
 DEPENDENCIES
   br_nfe!
+  codeclimate-test-reporter
   factory_girl_rails
   minitest-matchers_vaccine
   minitest-rails

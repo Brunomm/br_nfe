@@ -12,6 +12,9 @@ require 'shoulda/matchers'
 require "minitest/reporters"
 require 'mocha/mini_test'
 
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 
 require 'factory_girl_rails'
 
