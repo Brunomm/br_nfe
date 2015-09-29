@@ -23,7 +23,10 @@ require 'certificado'
 
 Minitest::Reporters.use!
 
-ActiveSupport::TestCase.test_order = :sorted
+if ActiveSupport.version >= Gem::Version.new('4.2')
+	puts 'entrou'
+	ActiveSupport::TestCase.test_order = :sorted
+end
 
 FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
 FactoryGirl.find_definitions
