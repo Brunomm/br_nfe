@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/Brunomm/br_nfe.svg?branch=master)](https://travis-ci.org/Brunomm/br_nfe)
-[![security](https://hakiri.io/github/Brunomm/br_nfe/master.svg)](https://hakiri.io/github/Brunomm/br_nfe/master)
 [![Test Coverage](https://codeclimate.com/github/Brunomm/br_nfe/badges/coverage.svg)](https://codeclimate.com/github/Brunomm/br_nfe/coverage)
+[![Gem Version](https://badge.fury.io/rb/br_nfe.svg)](http://badge.fury.io/rb/br_nfe)
+[![Dependency Status](https://gemnasium.com/Brunomm/br_nfe.svg)](https://gemnasium.com/Brunomm/br_nfe)
+[![security](https://hakiri.io/github/Brunomm/br_nfe/master.svg)](https://hakiri.io/github/Brunomm/br_nfe/master)
 [![Code Climate](https://codeclimate.com/github/Brunomm/br_nfe/badges/gpa.svg)](https://codeclimate.com/github/Brunomm/br_nfe)
 
 # **BrNfe**
