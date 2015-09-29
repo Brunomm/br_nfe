@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    br_nfe (1.0.1)
-      activemodel (~> 4.2)
-      activesupport (~> 4.2)
+    br_nfe (1.0.2)
+      activemodel (~> 4)
+      activesupport (~> 4)
       nokogiri (~> 1.6)
-      rake (>= 0.8.7)
+      rake (~> 10)
       savon (~> 2.11)
-      signer
+      signer (~> 1.4)
 
 GEM
   remote: http://rubygems.org/
