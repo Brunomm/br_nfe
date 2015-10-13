@@ -11,7 +11,11 @@ describe BrNfe::Servico::Betha::V1::CancelamentoNfs do
 	describe "validations" do
 		it { must validate_presence_of(:numero_nfse) }
 		it { must validate_presence_of(:codigo_cancelamento) }
-		it { must validate_presence_of(:certificado) }
+		context "validações do certificado" do
+			before { subject.certificate_pkcs12 = nil }
+			it { must validate_presence_of(:certificate) }
+			it { must validate_presence_of(:certificate_key) }
+		end
 	end
 
 	describe "#wsdl" do

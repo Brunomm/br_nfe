@@ -121,12 +121,21 @@ module BrNfe
 								xml.IssRetido                 value_true_false(rps.iss_retido?)
 								xml.ResponsavelRetencao       "#{rps.responsavel_retencao}".max_size(1) unless rps.responsavel_retencao.blank?
 								xml.ItemListaServico          BrNfe::Helper.only_number(rps.item_lista_servico).rjust(4,'0').max_size(5) unless rps.item_lista_servico.blank?
-								xml.CodigoCnae                BrNfe::Helper.only_number(rps.codigo_cnae).max_size(7) unless rps.codigo_cnae.blank?
+								
+								# Não devo enviar o CNAE na base de testes pois o municipio enviado será 0 (zero)
+								if env != :test
+									xml.CodigoCnae                BrNfe::Helper.only_number(rps.codigo_cnae).max_size(7) unless rps.codigo_cnae.blank?
+								end
+								
 								xml.CodigoTributacaoMunicipio "#{rps.codigo_tributacao_municipio}".max_size(20)      unless rps.codigo_tributacao_municipio.blank?
 								xml.Discriminacao             "#{rps.discriminacao}".max_size(2_000).remove_accents
-								xml.CodigoMunicipio           BrNfe::Helper.only_number(rps.codigo_municipio).max_size(7)
+								
+								# Na base de testes devo enviar o código do município como 0 (zero)
+								xml.CodigoMunicipio           (env == :test ? 0 : BrNfe::Helper.only_number(rps.codigo_municipio).max_size(7))
+								
 								# Não posso enviar o CodigoPais se a exigibilidade_iss não for 4 (exportação) - by bethagambis.com
 								xml.CodigoPais                BrNfe::Helper.only_number(rps.codigo_pais).max_size(4) if !rps.codigo_pais.blank? && rps.exigibilidade_iss == '4'
+								
 								xml.ExigibilidadeISS          "#{rps.exigibilidade_iss}".max_size(2)
 								xml.MunicipioIncidencia       BrNfe::Helper.only_number(rps.municipio_incidencia).max_size(7) unless rps.municipio_incidencia.blank?
 								xml.NumeroProcesso            rps.numero_processo.max_size(30)     unless rps.numero_processo.blank?

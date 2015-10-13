@@ -14,6 +14,7 @@ module BrNfe
 				record.validates :data_emissao, :item_lista_servico, :discriminacao, :codigo_municipio, 
 				                 :valor_servicos, :base_calculo, presence: true
 				record.validates :valor_iss, :aliquota, presence: true, unless: :iss_retido?
+				record.validates :municipio_incidencia, presence: true, if: :municipio_incidencia_obrigatorio?
 				
 				record.validates :valor_servicos, :valor_deducoes, :valor_pis, :valor_cofins, :valor_inss, :valor_ir, 
 				          :valor_csll, :outras_retencoes, :valor_iss, :aliquota, :base_calculo, 
@@ -97,6 +98,10 @@ module BrNfe
 				if destinatario.invalid?
 					destinatario.errors.full_messages.map{|msg| errors.add(:base, "Destinatário: #{msg}") }
 				end
+			end
+
+			def municipio_incidencia_obrigatorio?
+				"#{exigibilidade_iss}".in?(['1','01','6','06','7','07'])
 			end
 		end
 	end

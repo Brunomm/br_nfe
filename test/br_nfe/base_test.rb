@@ -7,19 +7,23 @@ describe BrNfe::Base do
 	let(:emitente) { FactoryGirl.build(:emitente) } 
 
 	before do
-		subject.stubs(:certificado).returns(certificado)
+		subject.stubs(:certificate_pkcs12).returns(certificado)
 	end
 
 	describe "validations" do
 		context "obrigatoriedade do certificado" do
-			before { subject.unstub(:certificado) }
+			before { subject.unstub(:certificate_pkcs12) }
 			it "deve ser obrigatorio se certificado_obrigatorio? for true" do
-				subject.expects(:certificado_obrigatorio?).returns(true)
-				must validate_presence_of(:certificado)
+				subject.stubs(:certificado_obrigatorio?).returns(true)
+				subject.certificate_pkcs12 = nil
+				must validate_presence_of(:certificate)
+				must validate_presence_of(:certificate_key)
 			end
 			it "não deve ser obrigatorio se certificado_obrigatorio? for false" do
-				subject.expects(:certificado_obrigatorio?).returns(false)
-				wont validate_presence_of(:certificado)
+				subject.stubs(:certificado_obrigatorio?).returns(false)
+				subject.certificate_pkcs12 = nil
+				wont validate_presence_of(:certificate)
+				wont validate_presence_of(:certificate_key)
 			end
 		end
 		context "validação do emitente" do
@@ -61,15 +65,15 @@ describe BrNfe::Base do
 		subject.certificado_obrigatorio?.must_equal false
 	end
 
-	describe "#certificado_value" do
+	describe "#certificate_pkcs12_value" do
 		it "se tiver algum valor setado deve retornar esse valor" do
-			subject.certificado_value = "algum valor"
-			subject.certificado_value.must_equal "algum valor"
+			subject.certificate_pkcs12_value = "algum valor"
+			subject.certificate_pkcs12_value.must_equal "algum valor"
 		end
 		it "se não tiver um valor deve carregar o arquivo setado no atributo certificado_path" do
-			subject.certificado_path = "algum/lugar.pfx"
+			subject.certificate_pkcs12_path = "algum/lugar.pfx"
 			File.expects(:read).with("algum/lugar.pfx").returns("valor do arquivo")
-			subject.certificado_value.must_equal "valor do arquivo"
+			subject.certificate_pkcs12_value.must_equal "valor do arquivo"
 		end
 	end
 
@@ -203,7 +207,7 @@ describe BrNfe::Base do
 			it "deve assinar um xml com o certificado" do
 				sh1 = OpenSSL::Digest::SHA1.new
 				OpenSSL::Digest::SHA1.stubs(:new).returns(sh1)
-				subject.certificado.key.expects(:sign).with(sh1, "<Um><Xml> Com valor</Xml></Um>").returns('mv\xBFH\xE3\xF5Z\x0F\xE1*0D')
+				subject.certificate_pkcs12.key.expects(:sign).with(sh1, "<Um><Xml> Com valor</Xml></Um>").returns('mv\xBFH\xE3\xF5Z\x0F\xE1*0D')
 				
 				subject.send(:xml_signature_value, xml).must_equal 'bXZceEJGSFx4RTNceEY1Wlx4MEZceEUxKjBE'
 			end
@@ -260,23 +264,23 @@ describe BrNfe::Base do
 			end
 		end
 
-		describe "#certificado" do
+		describe "#certificate_pkcs12" do
 			before do
-				subject.unstub(:certificado)
+				subject.unstub(:certificate_pkcs12)
 			end
-			it "deve ler o certificado PKCS12 do atributo certificado_value e com a senha do certificado_password" do
-				subject.assign_attributes(certificado_value: "CERTIFICADO", certificado_password: 'pWd123')
-				OpenSSL::PKCS12.expects(:new).with("CERTIFICADO", 'pWd123').returns('certificado')
-				subject.certificado.must_equal 'certificado'
+			it "deve ler o certificate_pkcs12 PKCS12 do atributo certificate_pkcs12_value e com a senha do certificate_pkcs12_password" do
+				subject.assign_attributes(certificate_pkcs12: nil, certificate_pkcs12_value: "CERTIFICADO", certificate_pkcs12_password: 'pWd123')
+				OpenSSL::PKCS12.expects(:new).with("CERTIFICADO", 'pWd123').returns('certificate_pkcs12')
+				subject.certificate_pkcs12.must_equal 'certificate_pkcs12'
 			end
-			it "se já tem um certificado na variavel @certificado não deve ler novamente do PKCS12" do
-				subject.instance_variable_set(:@certificado, certificado)
+			it "se já tem um certificate_pkcs12 na variavel @certificate_pkcs12 não deve ler novamente do PKCS12" do
+				subject.instance_variable_set(:@certificate_pkcs12, certificado)
 				OpenSSL::PKCS12.expects(:new).never
-				subject.certificado.must_equal certificado
+				subject.certificate_pkcs12.must_equal certificado
 			end
-			it "posso setar o certificado" do
-				subject.certificado = 'certificado 123'
-				subject.certificado.must_equal 'certificado 123'
+			it "posso setar o certificate_pkcs12" do
+				subject.certificate_pkcs12 = 'certificate_pkcs12 123'
+				subject.certificate_pkcs12.must_equal 'certificate_pkcs12 123'
 			end
 		end
 

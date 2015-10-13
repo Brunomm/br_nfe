@@ -1,7 +1,7 @@
 require 'test_helper'
 
 describe BrNfe::Servico::Betha::V2::SubstituicaoNfse do
-	subject        { FactoryGirl.build(:br_nfe_servico_betha_v2_substituicao_nfse, emitente: emitente, rps: rps, certificado: certificado) }
+	subject        { FactoryGirl.build(:br_nfe_servico_betha_v2_substituicao_nfse, emitente: emitente, rps: rps, certificate_pkcs12: certificado) }
 	let(:emitente) { FactoryGirl.build(:emitente) }
 	let(:rps)      { FactoryGirl.build(:br_nfe_rps) }
 	let(:certificado) { Certificado.new } 
@@ -11,7 +11,11 @@ describe BrNfe::Servico::Betha::V2::SubstituicaoNfse do
 	end
 
 	describe "validations" do
-		it { must validate_presence_of(:certificado) }
+		context "validações do certificado" do
+			before { subject.certificate_pkcs12 = nil }
+			it { must validate_presence_of(:certificate) }
+			it { must validate_presence_of(:certificate_key) }
+		end
 		it { must validate_presence_of(:numero_nfse) }
 		it { must validate_presence_of(:codigo_cancelamento) }
 		

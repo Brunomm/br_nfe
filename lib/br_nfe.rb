@@ -41,7 +41,6 @@ module BrNfe
 	autoload :Destinatario
 	autoload :Response
 	autoload :Base
-	autoload :Seed
 	autoload :CondicaoPagamento
 
 	module Servico

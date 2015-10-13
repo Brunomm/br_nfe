@@ -10,7 +10,12 @@ describe BrNfe::Servico::Betha::V2::EnvioLoteRpsSincrono do
 
 	describe "validations" do
 		it { must validate_presence_of(:numero_lote_rps) }
-		it { must validate_presence_of(:certificado) }
+		
+		context "validações do certificado" do
+			before { subject.certificate_pkcs12 = nil }
+			it { must validate_presence_of(:certificate) }
+			it { must validate_presence_of(:certificate_key) }
+		end
 		
 		it "deve chamar o metodo validar_lote_rps" do
 			subject.expects(:validar_lote_rps)

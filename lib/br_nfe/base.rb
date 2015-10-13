@@ -3,22 +3,22 @@ module BrNfe
 		
 		include BrNfe::Helper::HaveEmitente
 
-		attr_accessor :certificado_password
-		attr_accessor :certificado_path
-		attr_accessor :certificado_value
+		attr_accessor :certificate_pkcs12_password
+		attr_accessor :certificate_pkcs12_path
+		attr_accessor :certificate_pkcs12_value
 
 		validate :validar_emitente
-		validates :certificado, presence: true, if: :certificado_obrigatorio?
+		validates :certificate, :certificate_key, presence: true, if: :certificado_obrigatorio?
 
-		# Método que deve ser sobrescrito para as ações que necessitam do certificado para assinatura
+		# Método que deve ser sobrescrito para as ações que necessitam do certificate_pkcs12 para assinatura
 		def certificado_obrigatorio?
 			false
 		end
 
-		# Caso não tenha o certificado salvo em arquivo, pode setar a string do certificado direto pelo atributo certificado_value
-		# Caso tenha o certificado em arquivo, basta setar o atributo certificado_path e deixar o atributo certificado_value em branco
-		def certificado_value
-			@certificado_value ||= File.read(certificado_path)
+		# Caso não tenha o certificate_pkcs12 salvo em arquivo, pode setar a string do certificate_pkcs12 direto pelo atributo certificate_pkcs12_value
+		# Caso tenha o certificate_pkcs12 em arquivo, basta setar o atributo certificate_pkcs12_path e deixar o atributo certificate_pkcs12_value em branco
+		def certificate_pkcs12_value
+			@certificate_pkcs12_value ||= File.read(certificate_pkcs12_path)
 		end
 
 		attr_accessor :env
@@ -60,13 +60,13 @@ module BrNfe
 			{}
 		end
 
-		def certificado
-			@certificado ||= OpenSSL::PKCS12.new(certificado_value, certificado_password)
+		def certificate_pkcs12
+			@certificate_pkcs12 ||= OpenSSL::PKCS12.new(certificate_pkcs12_value, certificate_pkcs12_password)
 		rescue
 		end
 
-		def certificado=(value)
-			@certificado = value
+		def certificate_pkcs12=(value)
+			@certificate_pkcs12 = value
 		end
 
 		def wsdl_encoding
@@ -87,6 +87,22 @@ module BrNfe
 				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
 				ssl_cert_key_password: BrNfe.client_wsdl_ssl_cert_key_password
 			})
+		end
+
+		def certificate=(value)
+			@certificate = value
+		end
+
+		def certificate
+			@certificate ||= certificate_pkcs12.try :certificate
+		end
+
+		def certificate_key
+			@certificate_key ||= certificate_pkcs12.try :key
+		end
+
+		def certificate_key=(value)
+			@certificate_key = value
 		end
 
 	private
@@ -113,7 +129,7 @@ module BrNfe
 					
 					signature.KeyInfo {
 						signature.X509Data {
-							signature.X509Certificate certificado.certificate.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").gsub(/\n/,"")
+							signature.X509Certificate certificate.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").gsub(/\n/,"")
 						}
 					}
 				end
@@ -140,7 +156,7 @@ module BrNfe
 
 		def xml_signature_value(xml)
 			sign_canon = canonicalize(xml)
-			signature_hash  = certificado.key.sign(OpenSSL::Digest::SHA1.new, sign_canon)
+			signature_hash  = certificate_key.sign(OpenSSL::Digest::SHA1.new, sign_canon)
 			remove_quebras Base64.encode64( signature_hash )
 		end
 
