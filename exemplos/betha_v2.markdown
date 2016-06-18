@@ -3,7 +3,7 @@
 
 ###**1 - CancelamentoNfs **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::CancelamentoNfs.new({
+@ws = BrNfe::Service::Betha::V2::CancelamentoNfs.new({
 	certificado_password: 'MINHASENHA',
 	certificado_path:     'local/do/meu/certificado.pfx',
 	# certificado:  @certificado, # Se você já tem em sua app um certificado instanciado
@@ -23,7 +23,7 @@
 
 ###**2 - ConsultaLoteRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::ConsultaLoteRps.new do |record|
+@ws = BrNfe::Service::Betha::V2::ConsultaLoteRps.new do |record|
 	record.protocolo          = 'E1AS5D43ASDAS23'
 	record.emitente = {
 		cnpj: 12345678901234,
@@ -39,7 +39,7 @@ end
 
 ###**3 - ConsultaNfsPorRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::ConsultaNfsPorRps.new do |record|
+@ws = BrNfe::Service::Betha::V2::ConsultaNfsPorRps.new do |record|
 	record.rps do |rps|
 		rps.numero = 6444
 		rps.serie = 'SN'
@@ -59,14 +59,14 @@ end
 
 ###**4 - EnvioLoteRpsSincrono **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::EnvioLoteRpsSincrono.new do |record|
+@ws = BrNfe::Service::Betha::V2::EnvioLoteRpsSincrono.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...)
 	record.numero_lote_rps = 988
 	record.lote_rps        = [
 		# RPS 1
-		BrNfe::Servico::Rps.new do |rps|
+		BrNfe::Service::Rps.new do |rps|
 			rps.destinatario = BrNfe::Destinatario.new(cpf_cnpj: 123456789012, ...)
 			rps.numero       = 456
 			rps.serie        = 'SN'
@@ -98,7 +98,7 @@ end
 			rps.codigo_cnae       = '6202300'
 		end,
 		# RPS 2
-		BrNfe::Servico::Rps.new({
+		BrNfe::Service::Rps.new({
 			...	
 		})
 	]
@@ -108,7 +108,7 @@ end
 
 ###**5 - GeraNfse **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::GeraNfse.new do |record|
+@ws = BrNfe::Service::Betha::V2::GeraNfse.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...)
@@ -149,14 +149,14 @@ end
 
 ###**6 - RecepcaoLoteRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::RecepcaoLoteRps.new do |record|
+@ws = BrNfe::Service::Betha::V2::RecepcaoLoteRps.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	record.emitente        = {cnpj: 12345678901234, ...}
 	record.numero_lote_rps = 988
 	record.lote_rps        = [
 		# RPS 1
-		BrNfe::Servico::Rps.new do |rps|
+		BrNfe::Service::Rps.new do |rps|
 			rps.destinatario = {cpf_cnpj: 123456789012, ...}
 			rps.intermediaro = {cpf_cnpj: 123456789012, ...}
 			rps.condicao_pagamento = BrNfe::CondicaoPagamento.new(...)
@@ -190,7 +190,7 @@ end
 			rps.codigo_cnae       = '6202300'
 		end,
 		# RPS 2
-		BrNfe::Servico::Rps.new({
+		BrNfe::Service::Rps.new({
 			...	
 		})
 	]
@@ -199,7 +199,7 @@ end
 
 ###**7 - SubstituicaoNfse **
 ```ruby
-@ws = BrNfe::Servico::Betha::V2::SubstituicaoNfse.new do |record|
+@ws = BrNfe::Service::Betha::V2::SubstituicaoNfse.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	record.emitente             = {cnpj: 12345678901234, ...}

@@ -41,8 +41,8 @@ BrNfe::Endereco
 BrNfe::Emitente
 BrNfe::Destinatario
 BrNfe::CondicaoPagamento
-BrNfe::Servico::Intermediario
-BrNfe::Servico::Rps
+BrNfe::Service::Intermediario
+BrNfe::Service::Rps
 ```
 
 A seguir um exemplo de cada  objeto com valores:
@@ -143,7 +143,7 @@ end
 ***
 **Intermediário do serviço**
 ```ruby
-@intermediario = BrNfe::Servico::Intermediario.new({
+@intermediario = BrNfe::Service::Intermediario.new({
 	cpf_cnpj: '11.111.111/0001-36',
 	inscricao_municipal: '3355-6',
 	razao_social: "INTERMEDIÁRIO DO SERVIÇO"
@@ -152,10 +152,10 @@ end
 ***
 **RPS**
 ```ruby
-@rps = BrNfe::Servico::Rps.new do |rps|
+@rps = BrNfe::Service::Rps.new do |rps|
 	rps.destinatario  = { ... } # Attributos da class BrNfe::Destinatario
 	rps.intermediario do |intermediario|
-		.... # Dados da class BrNfe::Servico::Intermediario
+		.... # Dados da class BrNfe::Service::Intermediario
 	end
 	rps.condicao_pagamento  = BrNfe::CondicaoPagamento.new(...)
 
@@ -202,14 +202,14 @@ Para todos os Web Services, após instanciados, poderá ser chamado o método `r
 
 Se desejar, antes de enviar os dados, o objeto poderá ser validado, EX:
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::ConsultaLoteRps.new(...)
+@ws = BrNfe::Service::Betha::V1::ConsultaLoteRps.new(...)
 if @ws.valid?
 	@ws.request
 	@response = @ws.response
 end
 ```
-O resultado obtido na variável `@response`  é um objeto da class `BrNfe::Servico::Response::Default`, no qual será retornada em todas as requisições. Essa classe é responsável de manter o padrão das mensagens de resposta para todos os webservices. Se desejar, poderá obter a resposta original (no formato Hash) de cada órgão emissor através do método `original_response`.
-Para saber quais os valores obtidos pelo `BrNfe::Servico::Response::Default`, veja: [Resposta padrão](exemplos/resposta_padrao.markdown)
+O resultado obtido na variável `@response`  é um objeto da class `BrNfe::Service::Response::Default`, no qual será retornada em todas as requisições. Essa classe é responsável de manter o padrão das mensagens de resposta para todos os webservices. Se desejar, poderá obter a resposta original (no formato Hash) de cada órgão emissor através do método `original_response`.
+Para saber quais os valores obtidos pelo `BrNfe::Service::Response::Default`, veja: [Resposta padrão](exemplos/resposta_padrao.markdown)
 
 Lista de exemplos:
 
@@ -228,9 +228,9 @@ BrNfe.setup do |config|
 	config.endereco_class = BrNfe::Endereco
 	config.emitente_class = BrNfe::Emitente
 	config.destinatario_class = BrNfe::Destinatario
-	config.intermediario_class = BrNfe::Servico::Intermediario
+	config.intermediario_class = BrNfe::Service::Intermediario
 	config.condicao_pagamento_class = BrNfe::CondicaoPagamento
-	config.rps_class BrNfe::Servico::Rps
+	config.rps_class BrNfe::Service::Rps
 	
 	# Se você utiliza certificado SSL, faça as seguintes modificações na configuração:
 	# config.client_wsdl_ssl_verify_mode   = :peer

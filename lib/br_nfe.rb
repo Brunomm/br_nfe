@@ -46,7 +46,7 @@ module BrNfe
 	autoload :Base
 	autoload :CondicaoPagamento
 
-	module Servico
+	module Service
 		extend ActiveSupport::Autoload
 		autoload :Intermediario
 		autoload :Item
@@ -117,16 +117,16 @@ module BrNfe
 	@@destinatario_class = BrNfe::Destinatario
 
 	mattr_accessor :intermediario_class
-	@@intermediario_class = BrNfe::Servico::Intermediario
+	@@intermediario_class = BrNfe::Service::Intermediario
 
 	mattr_accessor :condicao_pagamento_class
 	@@condicao_pagamento_class = BrNfe::CondicaoPagamento
 
 	mattr_accessor :rps_class
-	@@rps_class = BrNfe::Servico::Rps
+	@@rps_class = BrNfe::Service::Rps
 
 	mattr_accessor :service_item_class
-	@@service_item_class = BrNfe::Servico::Item
+	@@service_item_class = BrNfe::Service::Item
 
 	# Configurações do Cliente WSDL
 	mattr_accessor :client_wsdl_ssl_verify_mode
@@ -149,5 +149,5 @@ module BrNfe
 	######################### END CONFIGURAÇÕES #########################
 
 	include Helper
-	include Servico
+	include Service
 end

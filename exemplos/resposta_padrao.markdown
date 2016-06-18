@@ -1,5 +1,5 @@
 # **BrNfe - Resposta padrão**
-A resposta padrão de todas as requisições de nota fiscal de serviço será um objeto da classe `BrNfe::Servico::Response::Default`, no qual contém os seguntes valores:
+A resposta padrão de todas as requisições de nota fiscal de serviço será um objeto da classe `BrNfe::Service::Response::Default`, no qual contém os seguntes valores:
 
 ```ruby
 @response = @ws.response
@@ -25,8 +25,8 @@ A resposta padrão de todas as requisições de nota fiscal de serviço será um
 
 # Exemplo de uma instância de Nota Fiscal de resposta
 
-@nf = BrNfe::Servico::Response::NotaFiscal.new({
-	intermediario: BrNfe::Servico::Intermediario.new(...),
+@nf = BrNfe::Service::Response::NotaFiscal.new({
+	intermediario: BrNfe::Service::Intermediario.new(...),
 	destinatario:  BrNfe::Destinatario.new(...),
 	emitente:      BrNfe::Emitente.new(...),
 	condicao_pagamento:     BrNfe::CondicaoPagamento.new(...),

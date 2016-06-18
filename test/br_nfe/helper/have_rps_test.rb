@@ -2,16 +2,16 @@
 module BrNfeTest
 	module HelperTest
 		module HaveRpsTest
-			class NewRps < BrNfe::Servico::Rps
+			class NewRps < BrNfe::Service::Rps
 			end
 
 			def test_HaveRpsTest_Já_inicia_com_um_rps
-				subject.class.new.rps.class.must_equal BrNfe::Servico::Rps
+				subject.class.new.rps.class.must_equal BrNfe::Service::Rps
 			end
 
 			def test_HaveRpsTest_Mesmo_setando_o_endereço_como_nil_retorna_um_novo_rps
 				subject.rps = nil
-				subject.rps.class.must_equal BrNfe::Servico::Rps
+				subject.rps.class.must_equal BrNfe::Service::Rps
 				subject.rps.class.wont_equal rps
 			end
 
@@ -52,7 +52,7 @@ module BrNfeTest
 			def test_HaveRpsTest_posso_modificar_a_class_do_rps
 				BrNfe.rps_class = NewRps
 				subject.rps.class.must_equal NewRps
-				BrNfe.rps_class = BrNfe::Servico::Rps
+				BrNfe.rps_class = BrNfe::Service::Rps
 			end
 		end
 	end

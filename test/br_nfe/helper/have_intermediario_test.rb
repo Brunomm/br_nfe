@@ -2,7 +2,7 @@
 module BrNfeTest
 	module HelperTest
 		module HaveIntermediarioTest
-			class NewClassIntermediario < BrNfe::Servico::Intermediario
+			class NewClassIntermediario < BrNfe::Service::Intermediario
 			end
 
 			def test_HaveIntermediarioTest_deve_iniciar_o_intermediario_com_nil
@@ -70,7 +70,7 @@ module BrNfeTest
 				BrNfe.intermediario_class = NewClassIntermediario
 				novo_objeto = subject.class.new(intermediario: {cpf_cnpj: '123'})
 				novo_objeto.intermediario.class.must_equal NewClassIntermediario
-				BrNfe.intermediario_class = BrNfe::Servico::Intermediario
+				BrNfe.intermediario_class = BrNfe::Service::Intermediario
 			end			
 		end
 	end
