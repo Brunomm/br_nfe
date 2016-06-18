@@ -17,7 +17,7 @@ module BrNfe
 				end
 
 				def xml_rps_substituido(rps)
-					return Nokogiri::XML::Builder.new unless rps.contem_substituicao?
+					return Nokogiri::XML::Builder.new unless rps.replace_invoice?
 					Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 						xml.RpsSubstituido { 
 							dados_identificacao_rps(xml, rps, true)

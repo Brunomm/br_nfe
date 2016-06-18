@@ -10,6 +10,7 @@ require "br_nfe/helper/string_methods"
 
 require "signer"
 require "savon"
+# require "slim"
 
 require "br_nfe/helper/have_address"
 require "br_nfe/helper/have_rps"
@@ -18,14 +19,16 @@ require "br_nfe/helper/have_destinatario"
 require "br_nfe/helper/have_intermediario"
 require "br_nfe/helper/have_condicao_pagamento"
 
-
-
 # Copyright (C) 2015 Bruno M. Mergen
 #
 # @author Bruno Mucelini Mergen <brunomergen@gmail.com>
 #
 #
 module BrNfe
+	def self.root
+		File.expand_path '../..', __FILE__
+	end
+
 	Time::DATE_FORMATS[:br_nfe]     = "%Y-%m-%dT%H:%M:%S"
 	DateTime::DATE_FORMATS[:br_nfe] = "%Y-%m-%dT%H:%M:%S"
 	Date::DATE_FORMATS[:br_nfe]     = "%Y-%m-%d"
@@ -46,6 +49,7 @@ module BrNfe
 	module Servico
 		extend ActiveSupport::Autoload
 		autoload :Intermediario
+		autoload :Item
 		autoload :Rps
 		autoload :Base
 
@@ -120,6 +124,9 @@ module BrNfe
 
 	mattr_accessor :rps_class
 	@@rps_class = BrNfe::Servico::Rps
+
+	mattr_accessor :service_item_class
+	@@service_item_class = BrNfe::Servico::Item
 
 	# Configurações do Cliente WSDL
 	mattr_accessor :client_wsdl_ssl_verify_mode

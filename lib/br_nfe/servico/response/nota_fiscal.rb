@@ -27,23 +27,23 @@ module BrNfe
 				
 				# dados dos serviços
 				attr_accessor :item_lista_servico
-				attr_accessor :codigo_cnae
-				attr_accessor :discriminacao
+				attr_accessor :cnae_code
+				attr_accessor :description
 				attr_accessor :codigo_municipio
 
 				#Valores dos serviços
-				attr_accessor :valor_servicos
-				attr_accessor :valor_deducoes
+				attr_accessor :total_services
+				attr_accessor :deductions
 				attr_accessor :valor_pis
 				attr_accessor :valor_cofins
 				attr_accessor :valor_inss
 				attr_accessor :valor_ir
 				attr_accessor :valor_csll
-				attr_accessor :iss_retido
+				attr_accessor :iss_retained
 				attr_accessor :outras_retencoes
-				attr_accessor :valor_iss
-				attr_accessor :base_calculo
-				attr_accessor :aliquota
+				attr_accessor :total_iss
+				attr_accessor :base_calculation
+				attr_accessor :iss_tax_rate
 				attr_accessor :valor_liquido # v2
 				attr_accessor :desconto_condicionado # v2
 				attr_accessor :desconto_incondicionado # v2

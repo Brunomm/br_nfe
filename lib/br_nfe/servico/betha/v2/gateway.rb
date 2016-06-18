@@ -104,31 +104,31 @@ module BrNfe
 						Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
 							xml.Servico {
 								xml.Valores {
-									xml.ValorServicos          value_monetary(rps.valor_servicos,          2)                   
-									xml.ValorDeducoes          value_monetary(rps.valor_deducoes,          2) unless rps.valor_deducoes.blank?
+									xml.ValorServicos          value_monetary(rps.total_services,          2)                   
+									xml.ValorDeducoes          value_monetary(rps.deductions,              2) unless rps.deductions.blank?
 									xml.ValorPis               value_monetary(rps.valor_pis,               2) unless rps.valor_pis.blank?
 									xml.ValorCofins            value_monetary(rps.valor_cofins,            2) unless rps.valor_cofins.blank?
 									xml.ValorInss              value_monetary(rps.valor_inss,              2) unless rps.valor_inss.blank?
 									xml.ValorIr                value_monetary(rps.valor_ir,                2) unless rps.valor_ir.blank?
 									xml.ValorCsll              value_monetary(rps.valor_csll,              2) unless rps.valor_csll.blank?
 									xml.OutrasRetencoes        value_monetary(rps.outras_retencoes,        2) unless rps.outras_retencoes.blank?
-									xml.ValorIss               value_monetary(rps.valor_iss,               2) unless rps.valor_iss.blank?
-									xml.Aliquota               value_monetary(rps.aliquota,                2) unless rps.aliquota.blank?
+									xml.ValorIss               value_monetary(rps.total_iss,               2) unless rps.total_iss.blank?
+									xml.Aliquota               value_monetary(rps.iss_tax_rate,            2) unless rps.iss_tax_rate.blank?
 									xml.DescontoIncondicionado value_monetary(rps.desconto_incondicionado, 2) unless rps.desconto_incondicionado.blank?
 									xml.DescontoCondicionado   value_monetary(rps.desconto_condicionado,   2) unless rps.desconto_condicionado.blank?
 								}
 
-								xml.IssRetido                 value_true_false(rps.iss_retido?)
+								xml.IssRetido                 value_true_false(rps.iss_retained?)
 								xml.ResponsavelRetencao       "#{rps.responsavel_retencao}".max_size(1) unless rps.responsavel_retencao.blank?
 								xml.ItemListaServico          BrNfe::Helper.only_number(rps.item_lista_servico).rjust(4,'0').max_size(5) unless rps.item_lista_servico.blank?
 								
 								# Não devo enviar o CNAE na base de testes pois o municipio enviado será 0 (zero)
 								if env != :test
-									xml.CodigoCnae                BrNfe::Helper.only_number(rps.codigo_cnae).max_size(7) unless rps.codigo_cnae.blank?
+									xml.CodigoCnae                BrNfe::Helper.only_number(rps.cnae_code).max_size(7) unless rps.cnae_code.blank?
 								end
 								
 								xml.CodigoTributacaoMunicipio "#{rps.codigo_tributacao_municipio}".max_size(20)      unless rps.codigo_tributacao_municipio.blank?
-								xml.Discriminacao             "#{rps.discriminacao}".max_size(2_000).remove_accents
+								xml.Discriminacao             "#{rps.description}".max_size(2_000).remove_accents
 								
 								# Na base de testes devo enviar o código do município como 0 (zero)
 								xml.CodigoMunicipio           (env == :test ? 0 : BrNfe::Helper.only_number(rps.codigo_municipio).max_size(7))

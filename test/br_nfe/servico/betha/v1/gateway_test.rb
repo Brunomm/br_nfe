@@ -38,29 +38,29 @@ describe BrNfe::Servico::Betha::V1::Gateway do
 			xml = subject.send(:xml_dados_servico, rps).doc
 
 			xml.xpath('Servico/ItemListaServico').first.text.must_equal          rps.item_lista_servico
-			xml.xpath('Servico/CodigoCnae').first.text.must_equal                rps.codigo_cnae
+			xml.xpath('Servico/CodigoCnae').first.text.must_equal                rps.cnae_code
 			xml.xpath('Servico/CodigoTributacaoMunicipio').first.text.must_equal rps.codigo_tributacao_municipio
-			xml.xpath('Servico/Discriminacao').first.text.must_equal             rps.discriminacao
+			xml.xpath('Servico/Discriminacao').first.text.must_equal             rps.description
 			xml.xpath('Servico/CodigoMunicipio').first.text.must_equal           rps.codigo_municipio
 			
-			xml.xpath('Servico/Valores/ValorServicos').first.text.must_equal   rps.valor_servicos.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorServicos').first.text.must_equal   rps.total_services.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/IssRetido').first.text.must_equal       '2'
-			xml.xpath('Servico/Valores/BaseCalculo').first.text.must_equal     rps.base_calculo.to_f.round(2).to_s
-			xml.xpath('Servico/Valores/ValorDeducoes').first.text.must_equal   rps.valor_deducoes.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/BaseCalculo').first.text.must_equal     rps.base_calculation.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorDeducoes').first.text.must_equal   rps.deductions.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/ValorPis').first.text.must_equal        rps.valor_pis.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/ValorCofins').first.text.must_equal     rps.valor_cofins.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/ValorInss').first.text.must_equal       rps.valor_inss.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/ValorIr').first.text.must_equal         rps.valor_ir.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/ValorCsll').first.text.must_equal       rps.valor_csll.to_f.round(2).to_s
-			xml.xpath('Servico/Valores/ValorIss').first.text.must_equal        rps.valor_iss.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/ValorIss').first.text.must_equal        rps.total_iss.to_f.round(2).to_s
 			xml.xpath('Servico/Valores/OutrasRetencoes').first.text.must_equal rps.outras_retencoes.to_f.round(2).to_s
-			xml.xpath('Servico/Valores/Aliquota').first.text.must_equal        rps.aliquota.to_f.round(2).to_s
+			xml.xpath('Servico/Valores/Aliquota').first.text.must_equal        rps.iss_tax_rate.to_f.round(2).to_s
 		end
 
 		it "sem os valores não obrigatórios" do
-			rps.assign_attributes({valor_deducoes: '', valor_pis: '', valor_cofins: '',
-				valor_inss: '', valor_ir: '', valor_csll: '', valor_iss: '', outras_retencoes: '',
-				aliquota: '', codigo_cnae: '', codigo_tributacao_municipio: ''
+			rps.assign_attributes({deductions: '', valor_pis: '', valor_cofins: '',
+				valor_inss: '', valor_ir: '', valor_csll: '', total_iss: '', outras_retencoes: '',
+				iss_tax_rate: '', cnae_code: '', codigo_tributacao_municipio: ''
 			})
 
 			xml = subject.send(:xml_dados_servico, rps).doc

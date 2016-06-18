@@ -5,33 +5,41 @@ describe BrNfe::Servico::Rps do
 	let(:destinatario)  { FactoryGirl.build(:destinatario) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 	let(:condicao_pagamento) { FactoryGirl.build(:condicao_pagamento) }
+	let(:item_1) { FactoryGirl.build(:service_item) } 
+	let(:item_2) { FactoryGirl.build(:service_item) } 
 
 	describe "validations" do
 		it { must validate_presence_of(:numero) }
 		it { must validate_presence_of(:serie) }
 		it { must validate_presence_of(:tipo) }
+		context "Quando #validate_rps? for false os valores de RPS não devem ser obrigatórios" do
+			before { subject.stubs(:validate_rps?).returns(false) }
+			it { wont validate_presence_of(:numero) }
+			it { wont validate_presence_of(:serie) }
+			it { wont validate_presence_of(:tipo) }
+		end
 
 		describe "option validar_recepcao_rps" do
 			context "quando for true" do
 				before { subject.validar_recepcao_rps = true }
 				it { must validate_presence_of(:data_emissao) }
 				it { must validate_presence_of(:item_lista_servico) }
-				it { must validate_presence_of(:discriminacao) }
+				it { must validate_presence_of(:description) }
 				it { must validate_presence_of(:codigo_municipio) }
-				it { must validate_presence_of(:valor_servicos) }
-				it { must validate_presence_of(:base_calculo) }
+				it { must validate_numericality_of(:total_services).is_greater_than(0) }
+				it { must validate_numericality_of(:base_calculation).is_greater_than(0) }
 				
-				it { must validate_numericality_of(:valor_servicos) }
-				it { must validate_numericality_of(:valor_deducoes) }
+				it { must validate_numericality_of(:total_services) }
+				it { must validate_numericality_of(:deductions) }
 				it { must validate_numericality_of(:valor_pis) }
 				it { must validate_numericality_of(:valor_cofins) }
 				it { must validate_numericality_of(:valor_inss) }
 				it { must validate_numericality_of(:valor_ir) }
 				it { must validate_numericality_of(:valor_csll) }
 				it { must validate_numericality_of(:outras_retencoes) }
-				it { must validate_numericality_of(:valor_iss) }
-				it { must validate_numericality_of(:aliquota) }
-				it { must validate_numericality_of(:base_calculo) }
+				it { must validate_numericality_of(:total_iss) }
+				it { must validate_numericality_of(:iss_tax_rate) }
+				it { must validate_numericality_of(:base_calculation) }
 				it { must validate_numericality_of(:desconto_incondicionado) }
 				it { must validate_numericality_of(:desconto_condicionado) }
 
@@ -45,16 +53,16 @@ describe BrNfe::Servico::Rps do
 					subject.valid?
 				end
 
-				describe "option iss_retido?" do
+				describe "option iss_retained?" do
 					context "quando for true" do
-						before { subject.stubs(:iss_retido?).returns(true) }
-						it { wont validate_presence_of(:valor_iss) }
-						it { wont validate_presence_of(:aliquota) }
+						before { subject.stubs(:iss_retained?).returns(true) }
+						it { wont validate_presence_of(:total_iss) }
+						it { wont validate_presence_of(:iss_tax_rate) }
 					end
 					context "quando for false" do
-						before { subject.stubs(:iss_retido?).returns(false) }
-						it { must validate_presence_of(:valor_iss) }
-						it { must validate_presence_of(:aliquota) }
+						before { subject.stubs(:iss_retained?).returns(false) }
+						it { must validate_presence_of(:total_iss) }
+						it { must validate_presence_of(:iss_tax_rate) }
 					end
 				end
 			end
@@ -63,22 +71,22 @@ describe BrNfe::Servico::Rps do
 				before { subject.validar_recepcao_rps = false }
 				it { wont validate_presence_of(:data_emissao) }
 				it { wont validate_presence_of(:item_lista_servico) }
-				it { wont validate_presence_of(:discriminacao) }
+				it { wont validate_presence_of(:description) }
 				it { wont validate_presence_of(:codigo_municipio) }
-				it { wont validate_presence_of(:valor_servicos) }
-				it { wont validate_presence_of(:base_calculo) }
+				it { wont validate_numericality_of(:total_services).is_greater_than(0) }
+				it { wont validate_numericality_of(:base_calculation).is_greater_than(0) }
 				
-				it { wont validate_numericality_of(:valor_servicos) }
-				it { wont validate_numericality_of(:valor_deducoes) }
+				it { wont validate_numericality_of(:total_services) }
+				it { wont validate_numericality_of(:deductions) }
 				it { wont validate_numericality_of(:valor_pis) }
 				it { wont validate_numericality_of(:valor_cofins) }
 				it { wont validate_numericality_of(:valor_inss) }
 				it { wont validate_numericality_of(:valor_ir) }
 				it { wont validate_numericality_of(:valor_csll) }
 				it { wont validate_numericality_of(:outras_retencoes) }
-				it { wont validate_numericality_of(:valor_iss) }
-				it { wont validate_numericality_of(:aliquota) }
-				it { wont validate_numericality_of(:base_calculo) }
+				it { wont validate_numericality_of(:total_iss) }
+				it { wont validate_numericality_of(:iss_tax_rate) }
+				it { wont validate_numericality_of(:base_calculation) }
 				it { wont validate_numericality_of(:desconto_incondicionado) }
 				it { wont validate_numericality_of(:desconto_condicionado) }
 
@@ -92,16 +100,16 @@ describe BrNfe::Servico::Rps do
 					subject.valid?
 				end
 
-				describe "option iss_retido?" do
+				describe "option iss_retained?" do
 					context "quando for true" do
-						before { subject.stubs(:iss_retido?).returns(true) }
-						it { wont validate_presence_of(:valor_iss) }
-						it { wont validate_presence_of(:aliquota) }
+						before { subject.stubs(:iss_retained?).returns(true) }
+						it { wont validate_presence_of(:total_iss) }
+						it { wont validate_presence_of(:iss_tax_rate) }
 					end
 					context "quando for false" do
-						before { subject.stubs(:iss_retido?).returns(false) }
-						it { wont validate_presence_of(:valor_iss) }
-						it { wont validate_presence_of(:aliquota) }
+						before { subject.stubs(:iss_retained?).returns(false) }
+						it { wont validate_presence_of(:total_iss) }
+						it { wont validate_presence_of(:iss_tax_rate) }
 					end
 				end
 			end
@@ -109,24 +117,24 @@ describe BrNfe::Servico::Rps do
 		
 	end
 
-	describe "#contem_substituicao?" do
+	describe "#replace_invoice?" do
 		before do
 			subject.assign_attributes(numero_substituicao: '1', serie_substituicao: '2', tipo_substituicao: '1')
 		end
 		it "true se numero_substituicao, serie_substituicao e tipo_substituicao tiver algum valor" do
-			subject.contem_substituicao?.must_equal true
+			subject.replace_invoice?.must_equal true
 		end
 		it "false se numero_substituicao não tiver valor" do
 			subject.numero_substituicao = ''
-			subject.contem_substituicao?.must_equal false
+			subject.replace_invoice?.must_equal false
 		end
 		it "false se serie_substituicao não tiver valor" do
 			subject.serie_substituicao = ''
-			subject.contem_substituicao?.must_equal false
+			subject.replace_invoice?.must_equal false
 		end
 		it "false se tipo_substituicao não tiver valor" do
 			subject.tipo_substituicao = ''
-			subject.contem_substituicao?.must_equal false
+			subject.replace_invoice?.must_equal false
 		end
 	end
 
@@ -349,6 +357,146 @@ describe BrNfe::Servico::Rps do
 			subject.destinatario = destinatario
 			subject.send(:validar_destinatario)
 			subject.errors.full_messages.must_equal(['Destinatário: msg 1'])
+		end
+	end
+
+	describe "#items" do
+		it "deve inicializar como um vetor vazio" do
+			subject.class.new.items.must_equal []
+		end
+
+		it "posso utilizar o << para adicionar valores" do
+			subject.items << item_1
+			subject.items << item_2
+			subject.items.must_equal [item_1,item_2]
+		end
+
+		it "sempre retorna um array" do
+			subject.items = item_2
+			subject.items.must_equal [item_2]
+		end
+
+		it "não permite adicionar outro objeto a não ser o definido pela class BrNfe.service_item_class" do
+			class CustomClass
+			end
+			c_class_1 = CustomClass.new
+			c_class_2 = CustomClass.new
+			BrNfe.service_item_class = CustomClass
+
+			subject.items << c_class_1
+			subject.items << c_class_2
+			subject.items << item_1
+			subject.items.must_equal [c_class_1, c_class_2]
+
+			subject.items = 'item_2'
+			subject.items.must_equal []
+
+			BrNfe.service_item_class = BrNfe::Servico::Item
+		end
+	end
+
+	describe "#total_services" do
+		it "se não setar valor em total_services deve somar o total_value de todos os items" do
+			subject.total_services = nil
+			item_1.total_value = 55.70
+			item_2.total_value = 40.35
+			subject.items = [item_1, item_2]
+
+			subject.total_services.must_equal 96.05
+		end
+		it "se não houver itens e nem um valor setado deve retornar zero" do
+			subject.total_services = nil
+			subject.items = []
+
+			subject.total_services.must_equal 0.0
+		end
+		it "se setar um valor deve retornar esse valor e não pode somar dos itens" do
+			subject.total_services = 47.0
+			item_1.total_value = 55.70
+			item_2.total_value = 40.35
+			subject.items = [item_1, item_2]
+
+			subject.total_services.must_equal 47.0
+		end
+	end
+
+	describe "#base_calculation" do
+		it "se não setar valor em base_calculation deve subtratir o total_services com deductions" do
+			subject.assign_attributes({
+				base_calculation: nil,
+				total_services: 100.0,
+				deductions: 4.500000555
+			})
+
+			subject.base_calculation.must_equal 95.5
+		end
+		it "deve retornar zero se não houver valor em base_calculation e nem em total_services ou deductions" do
+			subject.assign_attributes({
+				base_calculation: nil,
+				total_services:   nil,
+				deductions:       nil
+			})
+
+			subject.base_calculation.must_equal 0.0
+		end
+		it "se setar um valor deve retornar esse valor e não pode celcular o total_services subtraindo as deductions" do
+			subject.assign_attributes({
+				base_calculation: 200,
+				total_services:   100,
+				deductions:       50
+			})
+
+			subject.base_calculation.must_equal 200
+		end
+	end
+
+	describe "#iss_tax_rate" do
+		it "deve pegar o valor de iss_tax_rate do primeiro item se não houver valor setado em iss_tax_rate do RPS" do
+			subject.iss_tax_rate = nil
+			item_1.iss_tax_rate = 0.3
+			item_2.iss_tax_rate = 0.4
+			subject.items = [item_2, item_1]
+
+			subject.iss_tax_rate.must_equal 0.4
+		end
+		it "Deve retornar nil se não houver itens e nem um valor setado" do
+			subject.iss_tax_rate = nil
+			subject.items = []
+
+			subject.iss_tax_rate.must_be_nil
+		end
+		it "se setar um valor deve retornar esse valor e não pode pegar dos itens" do
+			subject.iss_tax_rate = 0.4
+			item_1.total_value = 0.1
+			item_2.total_value = 0.2
+			subject.items = [item_1, item_2]
+
+			subject.iss_tax_rate.must_equal 0.4
+		end
+	end
+
+	describe "#cnae_code" do
+		it "deve pegar o valor de cnae_code do primeiro item se não houver valor setado em cnae_code do RPS" do
+			subject.cnae_code = nil
+			item_1.cnae_code = '11111'
+			item_2.cnae_code = '22222'
+			subject.items = [item_2, item_1]
+
+			subject.cnae_code.must_equal '22222'
+		end
+		it "Deve retornar nil se não houver itens e nem um valor setado" do
+			subject.cnae_code = nil
+			subject.items = []
+
+			subject.cnae_code.must_be_nil
+		end
+		it "se setar um valor deve retornar esse valor e não pode pegar dos itens" do
+			subject.cnae_code  = '2'
+			item_1.total_value = '3'
+			item_2.total_value = '4'
+			subject.items = [item_1, item_2]
+
+			subject.cnae_code.must_equal '2'
 		end
 	end
 

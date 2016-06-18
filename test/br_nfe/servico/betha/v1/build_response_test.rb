@@ -102,20 +102,20 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal.outras_informacoes.must_equal               "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal.url_nf.must_equal                           "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal.item_lista_servico.must_equal               "111"
-				nota_fiscal.codigo_cnae.must_equal                      "6202300"
-				nota_fiscal.discriminacao.must_equal                    "discriminacao"
+				nota_fiscal.cnae_code.must_equal                      "6202300"
+				nota_fiscal.description.must_equal                    "description"
 				nota_fiscal.codigo_municipio.must_equal                 "4204202"
-				nota_fiscal.valor_servicos.must_equal                   "111"
-				nota_fiscal.valor_deducoes.must_equal                   "0"
+				nota_fiscal.total_services.must_equal                   "111"
+				nota_fiscal.deductions.must_equal                   "0"
 				nota_fiscal.valor_pis.must_equal                        "0.00"
 				nota_fiscal.valor_cofins.must_equal                     "0.00"
 				nota_fiscal.valor_inss.must_equal                       "0.00"
 				nota_fiscal.valor_ir.must_equal                         "0.00"
 				nota_fiscal.valor_csll.must_equal                       "0.00"
-				nota_fiscal.iss_retido.must_equal                       "2"
-				nota_fiscal.valor_iss.must_equal                        "0"
-				nota_fiscal.base_calculo.must_equal                     "111"
-				nota_fiscal.aliquota.must_equal                         "1.0000"
+				nota_fiscal.iss_retained.must_equal                       "2"
+				nota_fiscal.total_iss.must_equal                        "0"
+				nota_fiscal.base_calculation.must_equal                     "111"
+				nota_fiscal.iss_tax_rate.must_equal                         "1.0000"
 				nota_fiscal.desconto_condicionado.must_equal            "desconto_condicionado"
 				nota_fiscal.desconto_incondicionado.must_equal          "desconto_incondicionado"
 				nota_fiscal.orgao_gerador_municipio.must_equal          "0"
@@ -185,20 +185,20 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal_1.outras_informacoes.must_equal               "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal_1.url_nf.must_equal                           "http://e-gov.betha.com.br/e-nota"
 				nota_fiscal_1.item_lista_servico.must_equal               "111"
-				nota_fiscal_1.codigo_cnae.must_equal                      "6202300"
-				nota_fiscal_1.discriminacao.must_equal                    "discriminacao"
+				nota_fiscal_1.cnae_code.must_equal                      "6202300"
+				nota_fiscal_1.description.must_equal                    "description"
 				nota_fiscal_1.codigo_municipio.must_equal                 "4204202"
-				nota_fiscal_1.valor_servicos.must_equal                   "111"
-				nota_fiscal_1.valor_deducoes.must_equal                   "0"
+				nota_fiscal_1.total_services.must_equal                   "111"
+				nota_fiscal_1.deductions.must_equal                   "0"
 				nota_fiscal_1.valor_pis.must_equal                        "0.00"
 				nota_fiscal_1.valor_cofins.must_equal                     "0.00"
 				nota_fiscal_1.valor_inss.must_equal                       "0.00"
 				nota_fiscal_1.valor_ir.must_equal                         "0.00"
 				nota_fiscal_1.valor_csll.must_equal                       "0.00"
-				nota_fiscal_1.iss_retido.must_equal                       "2"
-				nota_fiscal_1.valor_iss.must_equal                        "0"
-				nota_fiscal_1.base_calculo.must_equal                     "111"
-				nota_fiscal_1.aliquota.must_equal                         "1.0000"
+				nota_fiscal_1.iss_retained.must_equal                       "2"
+				nota_fiscal_1.total_iss.must_equal                        "0"
+				nota_fiscal_1.base_calculation.must_equal                     "111"
+				nota_fiscal_1.iss_tax_rate.must_equal                         "1.0000"
 				nota_fiscal_1.desconto_condicionado.must_equal            "desconto_condicionado"
 				nota_fiscal_1.desconto_incondicionado.must_equal          "desconto_incondicionado"
 				nota_fiscal_1.orgao_gerador_municipio.must_equal          "0"
@@ -225,20 +225,20 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 				nota_fiscal_2.outras_informacoes.must_equal               "NOTA2 outras_informacoes"
 				nota_fiscal_2.url_nf.must_equal                           "NOTA2 outras_informacoes"
 				nota_fiscal_2.item_lista_servico.must_equal               "NOTA2 item_lista_servico"
-				nota_fiscal_2.discriminacao.must_equal                    "NOTA2 discriminacao"
+				nota_fiscal_2.description.must_equal                    "NOTA2 description"
 				nota_fiscal_2.codigo_municipio.must_equal                 "NOTA2 codigo_municipio"
-				nota_fiscal_2.valor_servicos.must_equal                   "NOTA2 valor_servicos"
-				nota_fiscal_2.base_calculo.must_equal                     "NOTA2 base_calculo"
-				nota_fiscal_2.aliquota.must_equal                         "NOTA2 aliquota"
-				nota_fiscal_2.codigo_cnae.must_be_nil
-				nota_fiscal_2.valor_deducoes.must_be_nil
+				nota_fiscal_2.total_services.must_equal                   "NOTA2 valor_servicos"
+				nota_fiscal_2.base_calculation.must_equal                     "NOTA2 base_calculo"
+				nota_fiscal_2.iss_tax_rate.must_equal                         "NOTA2 aliquota"
+				nota_fiscal_2.cnae_code.must_be_nil
+				nota_fiscal_2.deductions.must_be_nil
 				nota_fiscal_2.valor_pis.must_be_nil
 				nota_fiscal_2.valor_cofins.must_be_nil
 				nota_fiscal_2.valor_inss.must_be_nil
 				nota_fiscal_2.valor_ir.must_be_nil
 				nota_fiscal_2.valor_csll.must_be_nil
-				nota_fiscal_2.iss_retido.must_be_nil
-				nota_fiscal_2.valor_iss.must_be_nil
+				nota_fiscal_2.iss_retained.must_be_nil
+				nota_fiscal_2.total_iss.must_be_nil
 				nota_fiscal_2.desconto_condicionado.must_be_nil
 				nota_fiscal_2.desconto_incondicionado.must_be_nil
 				nota_fiscal_2.orgao_gerador_municipio.must_be_nil
@@ -299,7 +299,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 								},
 								item_lista_servico: "111",
 								codigo_cnae: "6202300",
-								discriminacao: "discriminacao",
+								discriminacao: "description",
 								codigo_municipio: "4204202"
 							},
 							intermediario_servico: {
@@ -436,7 +436,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 									},
 									item_lista_servico: "111",
 									codigo_cnae: "6202300",
-									discriminacao: "discriminacao",
+									discriminacao: "description",
 									codigo_municipio: "4204202"
 								},
 								prestador_servico: {
@@ -539,7 +539,7 @@ describe BrNfe::Servico::Betha::V1::BuildResponse do
 										aliquota:       "NOTA2 aliquota"
 									},
 									item_lista_servico: "NOTA2 item_lista_servico",
-									discriminacao: "NOTA2 discriminacao",
+									discriminacao: "NOTA2 description",
 									codigo_municipio: "NOTA2 codigo_municipio"
 								},
 							}

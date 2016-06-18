@@ -31,9 +31,9 @@ module BrNfe
 							get_orgao_gerador        nfse, info_nfse[:orgao_gerador]
 
 							if info_nfse[:valores_nfse]
-								nfse.base_calculo  = info_nfse[:valores_nfse][:base_calculo]
-								nfse.aliquota      = info_nfse[:valores_nfse][:aliquota]
-								nfse.valor_iss     = info_nfse[:valores_nfse][:valor_iss]
+								nfse.base_calculation  = info_nfse[:valores_nfse][:base_calculo]
+								nfse.iss_tax_rate      = info_nfse[:valores_nfse][:aliquota]
+								nfse.total_iss     = info_nfse[:valores_nfse][:valor_iss]
 								nfse.valor_liquido = info_nfse[:valores_nfse][:valor_liquido_nfse]
 							end
 
@@ -110,8 +110,8 @@ module BrNfe
 
 					def get_dados_servico(nfse, params)
 						if valores = params[:valores]
-							nfse.valor_servicos          = valores[:valor_servicos]
-							nfse.valor_deducoes          = valores[:valor_deducoes]
+							nfse.total_services          = valores[:valor_servicos]
+							nfse.deductions              = valores[:valor_deducoes]
 							nfse.valor_pis               = valores[:valor_pis]
 							nfse.valor_cofins            = valores[:valor_cofins]
 							nfse.valor_inss              = valores[:valor_inss]
@@ -123,11 +123,11 @@ module BrNfe
 							nfse.desconto_incondicionado = valores[:desconto_incondicionado]
 						end
 
-						nfse.iss_retido                 = params[:iss_retido]
+						nfse.iss_retained         = params[:iss_retido]
 						nfse.responsavel_retencao       = params[:responsavel_retencao]
 						nfse.item_lista_servico         = params[:item_lista_servico]
-						nfse.codigo_cnae                = params[:codigo_cnae]
-						nfse.discriminacao              = params[:discriminacao]
+						nfse.cnae_code                  = params[:codigo_cnae]
+						nfse.description                = params[:discriminacao]
 						nfse.codigo_municipio           = params[:codigo_municipio]
 						nfse.emitente.natureza_operacao = params[:exigibilidade_iss]
 						nfse.numero_processo            = params[:numero_processo]

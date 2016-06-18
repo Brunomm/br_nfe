@@ -30,8 +30,8 @@ describe BrNfe::Servico::Betha::Base do
 			xml.xpath('RpsSubstituido/Tipo').first.text.must_equal   "9"
 		end
 
-		it "se rps contem_substituicao deve retornar um html vazio" do
-			rps.expects(:contem_substituicao?).returns(false)
+		it "se rps replace_invoice deve retornar um html vazio" do
+			rps.expects(:replace_invoice?).returns(false)
 			xml = subject.send(:xml_rps_substituido, rps).doc.root.to_s.must_equal ''
 		end
 	end

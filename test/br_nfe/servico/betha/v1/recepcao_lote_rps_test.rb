@@ -62,23 +62,23 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 
 			# Serviço
 			xml.xpath('InfRps/Servico/ItemListaServico').first.text.must_equal          rps_1.item_lista_servico
-			xml.xpath('InfRps/Servico/CodigoCnae').first.text.must_equal                rps_1.codigo_cnae
+			xml.xpath('InfRps/Servico/CodigoCnae').first.text.must_equal                rps_1.cnae_code
 			xml.xpath('InfRps/Servico/CodigoTributacaoMunicipio').first.must_be_nil
-			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_1.discriminacao
+			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_1.description
 			xml.xpath('InfRps/Servico/CodigoMunicipio').first.text.must_equal           rps_1.codigo_municipio
 			# Valores dos serviços
-			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_1.valor_servicos.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_1.total_services.to_f.round(2).to_s
 			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
-			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_1.base_calculo.to_f.round(2).to_s
-			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_1.valor_deducoes.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_1.base_calculation.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_1.deductions.to_f.round(2).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorPis').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorInss').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorIr').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorCsll').first.must_be_nil
-			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_1.valor_iss
+			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_1.total_iss
 			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.text.must_equal   rps_1.outras_retencoes
-			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_1.aliquota
+			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_1.iss_tax_rate
 			
 			# Prestador
 			xml.xpath('InfRps/Prestador/Cnpj').first.text.must_equal               emitente.cnpj
@@ -126,23 +126,23 @@ describe BrNfe::Servico::Betha::V1::RecepcaoLoteRps do
 
 			# Serviço
 			xml.xpath('InfRps/Servico/ItemListaServico').first.text.must_equal          rps_2.item_lista_servico
-			xml.xpath('InfRps/Servico/CodigoCnae').first.text.must_equal                rps_2.codigo_cnae
+			xml.xpath('InfRps/Servico/CodigoCnae').first.text.must_equal                rps_2.cnae_code
 			xml.xpath('InfRps/Servico/CodigoTributacaoMunicipio').first.text.must_equal rps_2.codigo_tributacao_municipio
-			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_2.discriminacao
+			xml.xpath('InfRps/Servico/Discriminacao').first.text.must_equal             rps_2.description
 			xml.xpath('InfRps/Servico/CodigoMunicipio').first.text.must_equal           rps_2.codigo_municipio
 			# Valores dos serviços
-			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_2.valor_servicos.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_2.total_services.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
-			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_2.base_calculo.to_f.round(4).to_s
-			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_2.valor_deducoes.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_2.base_calculation.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_2.deductions.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorPis').first.text.must_equal          rps_2.valor_pis.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.text.must_equal       rps_2.valor_cofins.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorInss').first.text.must_equal         rps_2.valor_inss.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorIr').first.text.must_equal           rps_2.valor_ir.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorCsll').first.text.must_equal         rps_2.valor_csll.to_f.round(4).to_s
-			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_2.valor_iss.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_2.total_iss.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.text.must_equal   rps_2.outras_retencoes.to_f.round(4).to_s
-			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_2.aliquota.to_f.round(4).to_s
+			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_2.iss_tax_rate.to_f.round(4).to_s
 			
 			# Prestador
 			xml.xpath('InfRps/Prestador/Cnpj').first.text.must_equal               emitente.cnpj
