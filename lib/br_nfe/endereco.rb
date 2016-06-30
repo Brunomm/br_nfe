@@ -13,7 +13,7 @@ module BrNfe
 		attr_accessor :complemento
 		attr_accessor :bairro
 		attr_accessor :nome_municipio
-		attr_accessor :codigo_municipio
+		attr_accessor :codigo_municipio # IBGE
 		attr_accessor :uf
 		attr_accessor :cep
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)

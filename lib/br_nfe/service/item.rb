@@ -31,10 +31,9 @@ module BrNfe
 			# <b>Tipo: </b> _Text_
 			attr_accessor :cst
 
-
 			# Alíquota
 			# Percentual de aliquota dividido por 100
-			# Ex: 7.5% = 0.075
+			# Ex: se a aliquita for 7.5% então o valor setado no campo é 0.075
 			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :iss_tax_rate
@@ -55,8 +54,7 @@ module BrNfe
 			# <b>Tipo: </b> _Float_
 			attr_accessor :total_value
 
-
-
+			
 			def default_values
 				{
 					quantity: 1.0,

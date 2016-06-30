@@ -15,6 +15,10 @@ module BrNfe
 				@lote_rps = [@lote_rps].flatten # Para retornar sempre um vetor
 			end
 
+			def prefix_render_path
+				"#{BrNfe.root}/lib/br_nfe/service/xml"
+			end
+
 		private
 		
 			def validar_lote_rps

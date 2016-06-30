@@ -56,6 +56,16 @@ module BrNfe
 				@items.select!{ |item| item.is_a?(BrNfe.service_item_class) }
 				@items
 			end
+
+			# Valor da base de cálculo da substituição tributária
+			#
+			# <b>Tipo: </b> _Float_
+			attr_accessor :total_base_calculation_st
+
+			# Valor total do ISS de substituição tributária
+			#
+			# <b>Tipo: </b> _Float_
+			attr_accessor :total_issqn_st
 			
 			attr_accessor :validar_recepcao_rps
 

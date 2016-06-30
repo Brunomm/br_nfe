@@ -10,7 +10,7 @@ require "br_nfe/helper/string_methods"
 
 require "signer"
 require "savon"
-# require "slim"
+require "slim"
 
 require "br_nfe/helper/have_address"
 require "br_nfe/helper/have_rps"
@@ -84,6 +84,13 @@ module BrNfe
 				autoload :SubstituicaoNfse
 				autoload :ConsultaLoteRps
 				autoload :RecepcaoLoteRps
+			end
+		end
+		module SC
+			module Florianopolis
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :EmissionRPS
 			end
 		end
 	end

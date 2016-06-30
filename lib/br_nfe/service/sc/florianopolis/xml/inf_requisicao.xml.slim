@@ -1,0 +1,54 @@
+- if rps = lote_rps.first
+	InfRequisicao xmlns="http://nfe.pmf.sc.gov.br/nfse/versao?tipo=xsd-2_0" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+		Versao = 2.0
+		TipoSistema = env == :production ? 1 : 0
+		- if rps.numero.present?
+			Identificacao = rps.numero
+		AEDF
+			AEDF = BrNfe::Helper.only_number(aedf).max_size(7)
+			TipoAedf = 'NORMAL'
+		DataEmissao = value_date(rps.data_emissao)
+		NumeroSerieRequisicao = rps.serie.to_i
+		CFPS = BrNfe::Helper.only_number(cfps).max_size(4)
+		DadosServico
+			- rps.items.each do |item|
+				= render_xml '_service_item', context: item, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			
+			BaseCalculo        = value_monetary(rps.base_calculation, 2)
+			ValorISSQN         = value_monetary(rps.total_iss,        2)
+			ValorTotalServicos = value_monetary(rps.total_services,   2)
+			
+			- if rps.total_base_calculation_st.present?
+				BaseCalculoSubstituicao = value_monetary(rps.total_base_calculation_st, 2)
+			
+			- if rps.total_issqn_st.present?
+				ValorISSQNSubstituicao  = value_monetary(rps.total_issqn_st,            2)
+			
+			- if rps.description.present?
+				DadosAdicionais = "#{rps.description}".max_size(1000)
+		
+		Prestador
+			IdentificacaoPrestador
+				CNPJ = BrNfe::Helper::CpfCnpj.new(emitente.cnpj).sem_formatacao
+				- if emitente.inscricao_municipal.present?
+					InscricaoMunicipal = "#{emitente.inscricao_municipal}".max_size(7)
+			RazaoSocial = "#{emitente.razao_social}".max_size(80)
+			
+			= render_xml '_address', context: emitente.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_contact', context: emitente, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+		Tomador
+			IdentificacaoTomador
+				DocIdTomador
+					CPFCNPJ
+						- cpf_cnpj = BrNfe::Helper::CpfCnpj.new(rps.destinatario.cpf_cnpj)
+						- if cpf_cnpj.cnpj?
+							CNPJ = cpf_cnpj.sem_formatacao
+						- elsif cpf_cnpj.cpf?				
+							CPF  = cpf_cnpj.sem_formatacao
+						
+				- if rps.destinatario.inscricao_municipal.present?
+					InscricaoMunicipal = "#{rps.destinatario.inscricao_municipal}".max_size(7)
+			RazaoSocial = "#{rps.destinatario.razao_social}".max_size(80)
+			
+			= render_xml '_address', context: rps.destinatario.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_contact', context: rps.destinatario, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"

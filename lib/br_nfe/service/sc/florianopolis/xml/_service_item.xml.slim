@@ -1,0 +1,9 @@
+ItemServico
+	IdCNAE = BrNfe::Helper.only_number(cnae_id).max_size(5)
+	CodigoAtividade = BrNfe::Helper.only_number(cnae_code).max_size(8)
+	DescricaoServico = "#{description}".max_size(1000)
+	CST = BrNfe::Helper.only_number(cst).max_size(2)
+	Aliquota = value_monetary(iss_tax_rate,    4)
+	ValorUnitario = value_monetary(unit_value, 2)
+	Quantidade = quantity.to_i
+	ValorTotal = value_monetary(total_value,   2)

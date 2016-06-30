@@ -177,9 +177,9 @@ describe BrNfe::Base do
 			subject.send(:canonicalize, xml).must_equal "<TagRaiz><TagFilho>Texo Tag    \n\t\n\t     Filho</TagFilho></TagRaiz>"
 		end
 		it "deve cannonicalizar um Document xml Nokogiri" do
-			xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-				xml.TagRaiz{
-					xml.TagFilho "Texo Tag    \n\t\n\t     Filho"
+			xml = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |x|
+				x.TagRaiz{
+					x.TagFilho "Texo Tag    \n\t\n\t     Filho"
 				}
 			end.doc
 			subject.send(:canonicalize, xml).must_equal "<TagRaiz><TagFilho>Texo Tag    \n\t\n\t     Filho</TagFilho></TagRaiz>"

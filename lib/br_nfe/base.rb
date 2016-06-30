@@ -105,6 +105,63 @@ module BrNfe
 			@certificate_key = value
 		end
 
+		# Renderiza o xml a partir do nome de um arquivo 
+		# Irá procurar o arquivo a partir dos seguintes diretórios>
+		# 1° - A partir do parâmetro  :dir_path
+		# 2° - A partir do método   xml_current_dir_path
+		# 3° - A partir do método  xml_default_dir_path
+		# 
+		# Se não encontrar o arquivo em nenhum dos diretórios irá execurar
+		# uma excessão de RuntimeError
+		#
+		# Utilização
+		# `render_xml('file_name', {dir_path: '/my/custom/dir', context: Object}`
+		# 
+		# <b>Tipo de retorno: <b> _String_ (XML)
+		#
+		def render_xml file_name, opts={}
+			opts ||= {}
+			default_options = opts.extract!(:dir_path, :context)
+			default_options[:context] ||= self
+			
+			# Inicializa a variavel xml com nil para comparar se oa rquivo foi de fato encontrado.
+			xml = nil
+			get_xml_dirs(default_options[:dir_path]).each do |dir|
+				if xml = find_xml(file_name, dir, default_options[:context])
+					break # Stop loop
+				end
+			end
+
+			# Lança uma excessão se não for encontrado o xml
+			# Deve verificar se é nil pois o arquivo xml pode estar vazio
+			if xml.nil?
+				raise "Arquivo #{file_name}.xml.slim não encontrado nos diretórios #{get_xml_dirs(default_options[:dir_path])}" 
+			end
+			xml
+		end
+
+		def find_xml(file_name, dir, context=nil)
+			if File.exists?("#{dir}/#{file_name}.xml.slim")
+				Slim::Template.new("#{dir}/#{file_name}.xml.slim").render(context).html_safe 
+			end
+		end
+
+		def get_xml_dirs(custom_dir_path=nil)
+			[custom_dir_path, xml_current_dir_path, xml_default_dir_path].select(&:present?)
+		end
+
+		# Diretório personalizado para cada classe
+		# Podendo ser sobrescrito em cada herança
+		#
+		def xml_current_dir_path
+		end
+		 
+		# Diretório padrão dos arquivos XML
+		#
+		def xml_default_dir_path
+			"#{BrNfe.root}/lib/br_nfe/xml"
+		end
+
 	private
 
 		def tag_cpf_cnpj(xml, cpf_cnpj)

@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gemspec
 
+gem 'pry'
+
 group :test do
 	# gem "mocha", :require => false
 	gem "codeclimate-test-reporter", require: nil
