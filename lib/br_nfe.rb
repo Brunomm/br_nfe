@@ -91,6 +91,7 @@ module BrNfe
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :EmissionRPS
+				autoload :Cancellation
 			end
 		end
 	end

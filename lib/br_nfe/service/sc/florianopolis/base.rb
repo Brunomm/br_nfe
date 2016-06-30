@@ -5,7 +5,12 @@ module BrNfe
 				class Base < BrNfe::Service::Base
 					attr_accessor :aedf
 
-					validates :aedf, presence: true
+					validates :aedf, length: {maximum: 7}, presence: true
+					validates :aedf, numericality: {
+						only_integer: true, 
+						greater_than_or_equal_to: 100000, 
+						less_than_or_equal_to: 9999999
+					},  allow_blank: true
 					
 					def request
 					end
