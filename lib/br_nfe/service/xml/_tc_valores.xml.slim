@@ -1,0 +1,49 @@
+- precision ||= 2
+- rps ||= false
+- raise "É obrigatório passar um RPS por parâmetro" unless rps
+
+ValorServicos    = value_monetary(rps.total_services, precision)
+
+- if rps.deductions.present? && rps.deductions.to_f > 0.0
+	ValorDeducoes = value_monetary(rps.deductions, precision)
+
+- if rps.valor_pis.present? && rps.valor_pis.to_f > 0.0
+	ValorPis      = value_monetary(rps.valor_pis, precision)
+
+- if rps.valor_cofins.present? && rps.valor_cofins.to_f > 0.0
+	ValorCofins   = value_monetary(rps.valor_cofins, precision)
+
+- if rps.valor_inss.present? && rps.valor_inss.to_f > 0.0
+	ValorInss     = value_monetary(rps.valor_inss, precision)
+
+- if rps.valor_ir.present? && rps.valor_ir.to_f > 0.0
+	ValorIr       = value_monetary(rps.valor_ir, precision)
+
+- if rps.valor_csll.present? && rps.valor_csll.to_f > 0.0
+	ValorCsll     = value_monetary(rps.valor_csll, precision)	
+
+IssRetido = value_true_false(rps.iss_retained?)
+
+- if rps.total_iss.present? && rps.total_iss.to_f > 0.0
+	ValorIss = value_monetary(rps.total_iss, precision)
+
+- if rps.total_iss_retained.present? && rps.total_iss_retained.to_f > 0.0
+	ValorIssRetido = value_monetary(rps.total_iss_retained, precision)
+
+- if rps.outras_retencoes.present? && rps.outras_retencoes.to_f > 0.0
+	OutrasRetencoes = value_monetary(rps.outras_retencoes, precision)
+
+- if rps.base_calculation.present? && rps.base_calculation.to_f > 0.0
+	BaseCalculo = value_monetary(rps.base_calculation, precision)
+
+- if rps.iss_tax_rate.present? && rps.iss_tax_rate.to_f > 0.0
+	Aliquota = value_monetary(rps.iss_tax_rate, precision)
+
+- if rps.net_value.present? && rps.net_value.to_f > 0.0
+	ValorLiquidoNfse = value_monetary(rps.net_value, precision)
+
+- if rps.desconto_incondicionado.present? && rps.desconto_incondicionado.to_f > 0.0
+	DescontoIncondicionado = value_monetary(rps.desconto_incondicionado, precision)
+	
+- if rps.desconto_condicionado.present? && rps.desconto_condicionado.to_f > 0.0
+	DescontoCondicionado = value_monetary(rps.desconto_condicionado, precision)

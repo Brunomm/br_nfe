@@ -1,0 +1,7 @@
+Numero = BrNfe::Helper.only_number(numero_nfse).max_size(15)
+Cnpj   = BrNfe::Helper::CpfCnpj.new(emitente.cnpj).sem_formatacao
+
+- if emitente.inscricao_municipal.present?
+	InscricaoMunicipal = "#{emitente.inscricao_municipal}".max_size(15) 
+
+CodigoMunicipio = "#{emitente.endereco.codigo_municipio}".max_size(7) 

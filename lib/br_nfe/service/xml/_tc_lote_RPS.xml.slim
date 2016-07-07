@@ -1,0 +1,9 @@
+NumeroLote = BrNfe::Helper.only_number(numero_lote_rps).max_size(15)
+Cnpj = BrNfe::Helper::CpfCnpj.new(emitente.cnpj).sem_formatacao
+InscricaoMunicipal = "#{emitente.inscricao_municipal}".max_size(15)
+QuantidadeRps = lote_rps.size
+ListaRps
+	- lote_rps.each do |rps|
+		Rps
+			/ tc_rps já está assinado (se tiver um certificado)
+			= render_xml '_tc_rps', rps: rps

@@ -1,0 +1,7 @@
+EnviarLoteRpsEnvio xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"
+	- xml_lote_rps = render_xml('_tc_lote_RPS')
+	LoteRps id="L#{numero_lote_rps}"
+		= xml_lote_rps.html_safe
+
+	- if certificate
+		= assinatura_xml(xml_lote_rps.html_safe, "#L#{numero_lote_rps}").html_safe

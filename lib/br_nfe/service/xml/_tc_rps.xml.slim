@@ -1,0 +1,6 @@
+- xml_rps = render_xml '_tc_inf_rps', rps: rps
+InfRps id="R#{rps.numero}"
+	= xml_rps.html_safe
+
+- if certificate
+	= assinatura_xml(xml_rps.html_safe, "#R#{rps.numero}").html_safe

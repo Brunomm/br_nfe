@@ -1,0 +1,5 @@
+- cpf_cnpj = BrNfe::Helper::CpfCnpj.new(cpf_cnpj)
+- if cpf_cnpj.cnpj?
+	Cnpj = cpf_cnpj.sem_formatacao
+- elsif cpf_cnpj.cpf?				
+	Cpf = cpf_cnpj.sem_formatacao

@@ -1,0 +1,12 @@
+- address ||= false
+- raise "Deve ser passado uma variável local chamda address" unless address
+Endereco        = "#{address.logradouro}".max_size(125)
+Numero          = "#{address.numero}".max_size(10)
+- address.complemento.present?
+	Complemento     = "#{address.complemento}".max_size(60)
+Bairro          = "#{address.bairro}".max_size(60)
+CodigoMunicipio = BrNfe::Helper.only_number(address.codigo_municipio).max_size(7)
+Uf              = "#{address.uf}".max_size(2)
+Cep             = BrNfe::Helper.only_number(address.cep).max_size(8)
+- if address.codigo_pais.present? && address.codigo_pais.to_i != 1058
+	CodigoPais = BrNfe::Helper.only_number(address.codigo_pais).max_size(4)
