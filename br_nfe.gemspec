@@ -35,4 +35,6 @@ e = Gem::Specification.new do |gem|
 	gem.add_dependency "signer", "~> 1.4"
 	gem.add_dependency "slim", "~> 3.0"
 	gem.add_dependency "slim-rails", "~> 3.1"
+	
+	gem.add_development_dependency "pry"
 end

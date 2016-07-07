@@ -80,8 +80,12 @@ module BrNfe
 				wsdl:                  wsdl,
 				namespace_identifier:  namespace_identifier,
 				encoding:              wsdl_encoding,
+				
+				# log:                   true,
+				# pretty_print_xml:      true,
 				log:                   BrNfe.client_wsdl_log,
 				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
+
 				ssl_verify_mode:       BrNfe.client_wsdl_ssl_verify_mode,
 				ssl_cert_file:         BrNfe.client_wsdl_ssl_cert_file,
 				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
@@ -127,7 +131,7 @@ module BrNfe
 			# Inicializa a variavel xml com nil para comparar se oa rquivo foi de fato encontrado.
 			xml = nil
 			get_xml_dirs(default_options[:dir_path]).each do |dir|
-				if xml = find_xml(file_name, dir, default_options[:context])
+				if xml = find_xml(file_name, dir, default_options[:context], opts)
 					break # Stop loop
 				end
 			end
@@ -140,20 +144,21 @@ module BrNfe
 			xml
 		end
 
-		def find_xml(file_name, dir, context=nil)
+		def find_xml(file_name, dir, context=nil, options={})
 			if File.exists?("#{dir}/#{file_name}.xml.slim")
-				Slim::Template.new("#{dir}/#{file_name}.xml.slim").render(context).html_safe 
+				Slim::Template.new("#{dir}/#{file_name}.xml.slim").render(context, options).html_safe 
 			end
 		end
 
 		def get_xml_dirs(custom_dir_path=nil)
-			[custom_dir_path, xml_current_dir_path, xml_default_dir_path].select(&:present?)
+			[custom_dir_path, xml_current_dir_path, xml_default_dir_path].flatten.select(&:present?)
 		end
 
 		# Diretório personalizado para cada classe
 		# Podendo ser sobrescrito em cada herança
 		#
 		def xml_current_dir_path
+			[]
 		end
 		 
 		# Diretório padrão dos arquivos XML
@@ -194,10 +199,14 @@ module BrNfe
 			canonicalize ass
 		end
 
+		def canonicalization_method_algorithm
+			'http://www.w3.org/2001/10/xml-exc-c14n#'
+		end
+
 		def signed_info(data_xml, uri='')
 			Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
 				xml.SignedInfo(xmlns: "http://www.w3.org/2000/09/xmldsig#") do |info|
-					info.CanonicalizationMethod(Algorithm: 'http://www.w3.org/2001/10/xml-exc-c14n#')
+					info.CanonicalizationMethod(Algorithm: canonicalization_method_algorithm)
 					info.SignatureMethod(Algorithm: 'http://www.w3.org/2000/09/xmldsig#rsa-sha1')
 					info.Reference('URI' => uri){ 
 						info.Transforms{

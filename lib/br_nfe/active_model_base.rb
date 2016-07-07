@@ -51,7 +51,8 @@ module BrNfe
 		#
 		def value_monetary(value, precision=2)
 			return unless value
-			value.to_f.round(2)
+			precision ||= 2
+			value.to_f.round(precision)
 		end
 
 		def value_amount(value, precision=2)

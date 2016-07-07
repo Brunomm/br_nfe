@@ -21,6 +21,12 @@ module BrNfe
 
 		validates :logradouro, :numero, :bairro, :codigo_municipio, :uf, :cep, presence: true
 
+		def is_present?
+			logradouro.present? || numero.present? || complemento.present? || 
+			bairro.present? || nome_municipio.present? || codigo_municipio.present? || 
+			cep.present?
+		end
+
 		def logradouro
 			"#{@logradouro}".to_valid_format_nf
 		end

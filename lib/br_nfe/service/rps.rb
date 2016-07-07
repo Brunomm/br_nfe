@@ -116,6 +116,13 @@ module BrNfe
 			# <b>Tipo: </b> _Integer_
 			attr_accessor :iss_retained
 
+			# Valor do Iss retido 
+			# Total de iss retido da nota
+			#
+			# <b>Tipo: </b> _float_
+			#
+			attr_accessor :total_iss_retained
+
 			# Valor total do ISS (R$)
 			# Valor utilizado para identificar o valor total do ISS
 			#
@@ -131,6 +138,16 @@ module BrNfe
 			def iss_tax_rate
 				@iss_tax_rate || items.first.try(:iss_tax_rate)
 			end
+
+			# Valor líquido da NF (R$)
+			# 
+			# Normalmente esse valor é adquirido a partir da seguinte fórmula:
+			# (ValorServicos - ValorPIS -ValorCOFINS - ValorINSS - ValorIR - ValorCSLL - 
+			#	OutrasRetençoes - ValorISSRetido -DescontoIncondicionado -DescontoCondicionado)
+			#
+			# <b>Tipo: </b> _Float_
+			#
+			attr_accessor :net_value
 
 			attr_accessor :valor_pis
 			attr_accessor :valor_cofins

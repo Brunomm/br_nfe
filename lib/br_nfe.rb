@@ -93,6 +93,11 @@ module BrNfe
 				autoload :EmissionRPS
 				autoload :Cancellation
 			end
+			module Gaspar
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :RecepcaoLoteDfs
+			end
 		end
 	end
 

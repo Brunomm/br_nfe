@@ -15,8 +15,13 @@ module BrNfe
 				@lote_rps = [@lote_rps].flatten # Para retornar sempre um vetor
 			end
 
-			def prefix_render_path
-				"#{BrNfe.root}/lib/br_nfe/service/xml"
+			# Declaro que o método `render_xml` irá verificar os arquivos também presentes
+			# no diretório especificado
+			#
+			# <b>Tipo de retorno: </b> _Array_
+			#
+			def xml_current_dir_path
+				["#{BrNfe.root}/lib/br_nfe/service/xml"]+super
 			end
 
 		private

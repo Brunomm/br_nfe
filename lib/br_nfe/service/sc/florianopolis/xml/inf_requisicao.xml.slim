@@ -12,17 +12,18 @@
 		CFPS = BrNfe::Helper.only_number(cfps).max_size(4)
 		DadosServico
 			- rps.items.each do |item|
-				= render_xml '_service_item', context: item, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+				= render_xml '_service_item', item: item, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
 			
 			BaseCalculo        = value_monetary(rps.base_calculation, 2)
 			ValorISSQN         = value_monetary(rps.total_iss,        2)
-			ValorTotalServicos = value_monetary(rps.total_services,   2)
 			
 			- if rps.total_base_calculation_st.present?
 				BaseCalculoSubstituicao = value_monetary(rps.total_base_calculation_st, 2)
 			
 			- if rps.total_issqn_st.present?
 				ValorISSQNSubstituicao  = value_monetary(rps.total_issqn_st,            2)
+			
+			ValorTotalServicos = value_monetary(rps.total_services,   2)
 			
 			- if rps.description.present?
 				DadosAdicionais = "#{rps.description}".max_size(1000)
@@ -34,8 +35,8 @@
 					InscricaoMunicipal = "#{emitente.inscricao_municipal}".max_size(7)
 			RazaoSocial = "#{emitente.razao_social}".max_size(80)
 			
-			= render_xml '_address', context: emitente.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
-			= render_xml '_contact', context: emitente, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_address', address: emitente.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_contact', contact: emitente, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
 		Tomador
 			IdentificacaoTomador
 				DocIdTomador
@@ -50,5 +51,5 @@
 					InscricaoMunicipal = "#{rps.destinatario.inscricao_municipal}".max_size(7)
 			RazaoSocial = "#{rps.destinatario.razao_social}".max_size(80)
 			
-			= render_xml '_address', context: rps.destinatario.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
-			= render_xml '_contact', context: rps.destinatario, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_address', address: rps.destinatario.endereco, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"
+			= render_xml '_contact', contact: rps.destinatario, dir_path: "#{BrNfe.root}/lib/br_nfe/service/sc/florianopolis/xml"

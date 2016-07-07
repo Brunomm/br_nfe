@@ -70,14 +70,14 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_1.total_services.to_f.round(2).to_s
 			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
 			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_1.base_calculation.to_f.round(2).to_s
-			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_1.deductions.to_f.round(2).to_s
+			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorPis').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorCofins').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorInss').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorIr').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorCsll').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/ValorIss').first.text.must_equal          rps_1.total_iss
-			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.text.must_equal   rps_1.outras_retencoes
+			xml.xpath('InfRps/Servico/Valores/OutrasRetencoes').first.must_be_nil
 			xml.xpath('InfRps/Servico/Valores/Aliquota').first.text.must_equal          rps_1.iss_tax_rate
 			
 			# Prestador
@@ -132,7 +132,7 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 			xml.xpath('InfRps/Servico/CodigoMunicipio').first.text.must_equal           rps_2.codigo_municipio
 			# Valores dos serviços
 			xml.xpath('InfRps/Servico/Valores/ValorServicos').first.text.must_equal     rps_2.total_services.to_f.round(4).to_s
-			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '2'
+			xml.xpath('InfRps/Servico/Valores/IssRetido').first.text.must_equal         '1'
 			xml.xpath('InfRps/Servico/Valores/BaseCalculo').first.text.must_equal       rps_2.base_calculation.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorDeducoes').first.text.must_equal     rps_2.deductions.to_f.round(4).to_s
 			xml.xpath('InfRps/Servico/Valores/ValorPis').first.text.must_equal          rps_2.valor_pis.to_f.round(4).to_s

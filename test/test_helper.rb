@@ -18,9 +18,6 @@ CodeClimate::TestReporter.start
 
 require 'factory_girl_rails'
 
-require 'certificado'
-
-
 Minitest::Reporters.use!
 
 if ActiveSupport.version >= Gem::Version.new('4.2')

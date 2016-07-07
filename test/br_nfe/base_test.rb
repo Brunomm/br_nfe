@@ -3,19 +3,16 @@ require 'br_nfe/helper/have_emitente_test'
 
 describe BrNfe::Base do
 	subject { FactoryGirl.build(:br_nfe_base, emitente: emitente) }
-	let(:certificado) { Certificado.new } 
 	let(:emitente) { FactoryGirl.build(:emitente) } 
-
-	before do
-		subject.stubs(:certificate_pkcs12).returns(certificado)
-	end
 
 	describe "validations" do
 		context "obrigatoriedade do certificado" do
-			before { subject.unstub(:certificate_pkcs12) }
 			it "deve ser obrigatorio se certificado_obrigatorio? for true" do
 				subject.stubs(:certificado_obrigatorio?).returns(true)
 				subject.certificate_pkcs12 = nil
+				subject.certificate_pkcs12_value = nil
+				subject.certificate_pkcs12_password = nil
+
 				must validate_presence_of(:certificate)
 				must validate_presence_of(:certificate_key)
 			end
@@ -249,8 +246,6 @@ describe BrNfe::Base do
 			end
 
 			it "deve gerar o xml" do
-				certificado.stubs(:certificate).returns("-----BEGIN CERTIFICATE-----\nMCYwHAIBADAASDIHASDIASHDIAMAMGAQADAQAwAwYBAAMBAA==\n-----END CERTIFICATE-----\n")
-
 				subject.stubs(:signed_info).with(xml, 'URI123').returns(xml_signed_info)
 				subject.expects(:xml_signature_value).with('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><Value>STUBADO</Value></Signature>').returns("KEYFORINFOSIGNED")
 				
@@ -260,23 +255,24 @@ describe BrNfe::Base do
 				assinatura.remove_namespaces!
 				assinatura.xpath('Signature/Signature/Value').first.text.must_equal 'STUBADO'
 				assinatura.xpath('Signature/SignatureValue').first.text.must_equal 'KEYFORINFOSIGNED'
-				assinatura.xpath('Signature/KeyInfo/X509Data/X509Certificate').first.text.must_equal 'MCYwHAIBADAASDIHASDIASHDIAMAMGAQADAQAwAwYBAAMBAA=='
+				assinatura.xpath('Signature/KeyInfo/X509Data/X509Certificate').first.text.must_equal 'MIIEqzCCA5OgAwIBAgIDMTg4MA0GCSqGSIb3DQEBBQUAMIGSMQswCQYDVQQGEwJCUjELMAkGA1UECBMCUlMxFTATBgNVBAcTDFBvcnRvIEFsZWdyZTEdMBsGA1UEChMUVGVzdGUgUHJvamV0byBORmUgUlMxHTAbBgNVBAsTFFRlc3RlIFByb2pldG8gTkZlIFJTMSEwHwYDVQQDExhORmUgLSBBQyBJbnRlcm1lZGlhcmlhIDEwHhcNMDkwNTIyMTcwNzAzWhcNMTAxMDAyMTcwNzAzWjCBnjELMAkGA1UECBMCUlMxHTAbBgNVBAsTFFRlc3RlIFByb2pldG8gTkZlIFJTMR0wGwYDVQQKExRUZXN0ZSBQcm9qZXRvIE5GZSBSUzEVMBMGA1UEBxMMUE9SVE8gQUxFR1JFMQswCQYDVQQGEwJCUjEtMCsGA1UEAxMkTkZlIC0gQXNzb2NpYWNhbyBORi1lOjk5OTk5MDkwOTEwMjcwMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCx1O/e1Q+xh+wCoxa4pr/5aEFt2dEX9iBJyYu/2a78emtorZKbWeyK435SRTbHxHSjqe1sWtIhXBaFa2dHiukT1WJyoAcXwB1GtxjT2VVESQGtRiujMa+opus6dufJJl7RslAjqN/ZPxcBXaezt0nHvnUB/uB1K8WT9G7ES0V17wIDAQABo4IBfjCCAXowIgYDVR0jAQEABBgwFoAUPT5TqhNWAm+ZpcVsvB7malDBjEQwDwYDVR0TAQH/BAUwAwEBADAPBgNVHQ8BAf8EBQMDAOAAMAwGA1UdIAEBAAQCMAAwgawGA1UdEQEBAASBoTCBnqA4BgVgTAEDBKAvBC0yMjA4MTk3Nzk5OTk5OTk5OTk5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDCgEgYFYEwBAwKgCQQHREZULU5GZaAZBgVgTAEDA6AQBA45OTk5OTA5MDkxMDI3MKAXBgVgTAEDB6AOBAwwMDAwMDAwMDAwMDCBGmRmdC1uZmVAcHJvY2VyZ3MucnMuZ292LmJyMCAGA1UdJQEB/wQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDBTBgNVHR8BAQAESTBHMEWgQ6BBhj9odHRwOi8vbmZlY2VydGlmaWNhZG8uc2VmYXoucnMuZ292LmJyL0xDUi9BQ0ludGVybWVkaWFyaWEzOC5jcmwwDQYJKoZIhvcNAQEFBQADggEBAJFytXuiS02eJO0iMQr/Hi+Ox7/vYiPewiDL7s5EwO8A9jKx9G2Baz0KEjcdaeZk9a2NzDEgX9zboPxhw0RkWahVCP2xvRFWswDIa2WRUT/LHTEuTeKCJ0iF/um/kYM8PmWxPsDWzvsCCRp146lc0lz9LGm5ruPVYPZ/7DAoimUk3bdCMW/rzkVYg7iitxHrhklxH7YWQHUwbcqPt7Jv0RJxclc1MhQlV2eM2MO1iIlk8Eti86dRrJVoicR1bwc6/YDqDp4PFONTi1ddewRu6elGS74AzCcNYRSVTINYiZLpBZO0uivrnTEnsFguVnNtWb9MAHGt3tkR0gAVs6S0fm8='
 			end
 		end
 
 		describe "#certificate_pkcs12" do
-			before do
-				subject.unstub(:certificate_pkcs12)
-			end
 			it "deve ler o certificate_pkcs12 PKCS12 do atributo certificate_pkcs12_value e com a senha do certificate_pkcs12_password" do
 				subject.assign_attributes(certificate_pkcs12: nil, certificate_pkcs12_value: "CERTIFICADO", certificate_pkcs12_password: 'pWd123')
 				OpenSSL::PKCS12.expects(:new).with("CERTIFICADO", 'pWd123').returns('certificate_pkcs12')
 				subject.certificate_pkcs12.must_equal 'certificate_pkcs12'
 			end
 			it "se já tem um certificate_pkcs12 na variavel @certificate_pkcs12 não deve ler novamente do PKCS12" do
-				subject.instance_variable_set(:@certificate_pkcs12, certificado)
+				base_nfe = FactoryGirl.build(:br_nfe_base, emitente: emitente, certificate_pkcs12_password: nil, certificate_pkcs12_path: nil)
+				base_nfe.instance_variable_set(:@certificate_pkcs12, subject.certificate_pkcs12)
+
+				subject.certificate_pkcs12.wont_be_nil
+				
 				OpenSSL::PKCS12.expects(:new).never
-				subject.certificate_pkcs12.must_equal certificado
+				base_nfe.certificate_pkcs12.must_equal subject.certificate_pkcs12
 			end
 			it "posso setar o certificate_pkcs12" do
 				subject.certificate_pkcs12 = 'certificate_pkcs12 123'

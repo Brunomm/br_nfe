@@ -8,25 +8,13 @@ FactoryGirl.define do
 		status                       '1'
 		competencia                  Date.today
 		total_services               '349.00'
-		deductions                   '0.0'
-		valor_pis                    '0.0'
-		valor_cofins                 '0.0'
-		valor_inss                   '0.0'
-		valor_ir                     '0.0'
-		valor_csll                   '0.0'
-		outras_retencoes             '0.0'
 		total_iss                    '6.98'
 		iss_tax_rate                 '0.02'
 		base_calculation             '349.00'
-		desconto_incondicionado      '0.0'
-		desconto_condicionado        '0.0'
-		iss_retained                   '2'
-		responsavel_retencao         ''
+		iss_retained                 '2'
 		item_lista_servico           '0107'
 		description                  "MENSALIDADE PLANO PRO. 349,00 \n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
-		exigibilidade_iss            ''
 		codigo_municipio             '4204202'
-		numero_processo              ''
 		cnae_code                    '6202300'
 
 		trait :completo do
@@ -39,6 +27,24 @@ FactoryGirl.define do
 			codigo_obra               '66'
 			codigo_art                '223'
 			outras_informacoes        'info a mais'
+			total_base_calculation_st 55.77
+			total_issqn_st            4.87
+			deductions                7.0
+			valor_pis                 1.123
+			valor_cofins              2.123
+			valor_inss                3.123
+			valor_ir                  4.123
+			valor_csll                5.123
+			outras_retencoes          6.123
+			desconto_incondicionado   7.123
+			desconto_condicionado     8.123
+			responsavel_retencao      '1'
+			exigibilidade_iss         '5'
+			numero_processo           '6546'
+			iss_retained              true
+			total_iss_retained        5.55
+			net_value                 349.00
+			municipio_incidencia     '111'
 		end
 	end
 end
