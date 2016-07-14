@@ -1,0 +1,15 @@
+IdentificacaoPrestador
+	= render_xml '_tc_identificacao_prestador'
+
+RazaoSocial = ts_razao_social(emitente.razao_social)
+
+- if emitente.nome_fantasia.present?
+	NomeFantasia = ts_nome_fantasia(emitente.nome_fantasia)
+
+- if emitente.endereco.is_present?
+	Endereco
+		= render_xml '_tc_endereco', address: emitente.endereco
+
+- if emitente.telefone.present? || emitente.email.present?
+	Contato
+		= render_xml '_tc_contato', contact: emitente

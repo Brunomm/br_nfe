@@ -3,6 +3,8 @@ module BrNfe
 		module Betha
 			module V2
 				class EnvioLoteRpsSincrono < BrNfe::Service::Betha::V2::RecepcaoLoteRps					
+					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
+					
 					def method_wsdl
 						:recepcionar_lote_rps_sincrono
 					end

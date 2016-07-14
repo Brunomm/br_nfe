@@ -50,6 +50,5 @@ describe BrNfe::Service::SC::Gaspar::RecepcaoLoteDfs do
 
 			errors.must_be_empty
 		end
-		
 	end
 end

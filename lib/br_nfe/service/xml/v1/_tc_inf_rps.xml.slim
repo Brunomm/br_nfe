@@ -1,10 +1,11 @@
 - rps ||= false
 - raise "É obrigatório passar um RPS por parâmetro" unless rps
+
 IdentificacaoRps
 	= render_xml '_tc_identificacao_rps', rps: rps
 
-DataEmissao      = value_date_time(rps.data_emissao)
-NaturezaOperacao = "#{emitente.natureza_operacao}".max_size(2)
+DataEmissao      = ts_datetime(rps.data_emissao)
+NaturezaOperacao = ts_natureza_operacao(emitente.natureza_operacao)
 
 - if emitente.regime_especial_tributacao.present? 
 	/ Código de identificação do regime especial de tributação: 
@@ -14,15 +15,15 @@ NaturezaOperacao = "#{emitente.natureza_operacao}".max_size(2)
 	/ - (4)Cooperativa, 
 	/ - (5)Microempresário Individual (MEI)
 	/ - (6)Microempresário e Empresa de Pequeno Porte (ME EPP)
-	RegimeEspecialTributacao = "#{emitente.regime_especial_tributacao}".max_size(2) 
+	RegimeEspecialTributacao = ts_regime_especial_tributacao(emitente.regime_especial_tributacao) 
 
 / (1)sim ----- (2)não -----
-OptanteSimplesNacional = value_true_false(emitente.optante_simples_nacional?)   
+OptanteSimplesNacional = ts_sim_nao(emitente.optante_simples_nacional?)   
 
 / (1)sim ----- (2)não -----
-IncentivadorCultural = value_true_false(emitente.incentivo_fiscal?)           
+IncentivadorCultural = ts_sim_nao(emitente.incentivo_fiscal?)
 
-Status = "#{rps.status}".max_size(1)
+Status = ts_status_rps(rps.status)
 
 - if rps.replace_invoice?
 	RpsSubstituido
@@ -39,7 +40,7 @@ Tomador
 
 - if rps.intermediario
 	IntermediarioServico
-		= render_xml '_tc_identificacao_intermediario', intermediario: rps.intermediario
+		= render_xml '_tc_identificacao_intermediario_servico', intermediario: rps.intermediario
 
 - if rps.codigo_obra.present? || rps.codigo_art.present?
 	ConstrucaoCivil

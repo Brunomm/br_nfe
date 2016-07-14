@@ -3,6 +3,7 @@ module BrNfe
 		module Betha
 			module V1
 				class RecepcaoLoteRps < BrNfe::Service::Betha::V1::Gateway
+					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
 					def wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/recepcionarLoteRps?wsdl"
 					end

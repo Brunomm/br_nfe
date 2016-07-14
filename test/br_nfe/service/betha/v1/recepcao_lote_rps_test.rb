@@ -13,7 +13,11 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 	describe "validations" do
 		it { must validate_presence_of(:numero_lote_rps) }
 		context "validações do certificado" do
-			before { subject.certificate_pkcs12 = nil }
+			before do
+				subject.certificate_pkcs12 = nil
+				subject.certificate_pkcs12_value = nil
+				subject.certificate_pkcs12_password = nil
+			end
 			it { must validate_presence_of(:certificate) }
 			it { must validate_presence_of(:certificate_key) }
 		end

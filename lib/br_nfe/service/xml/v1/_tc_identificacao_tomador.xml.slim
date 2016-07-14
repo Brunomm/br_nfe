@@ -1,0 +1,4 @@
+CpfCnpj
+	= render_xml '_tc_cpf_cnpj', cpf_cnpj: destinatario.cpf_cnpj
+- if destinatario.inscricao_municipal.present?
+	InscricaoMunicipal = ts_inscricao_municipal(destinatario.inscricao_municipal)

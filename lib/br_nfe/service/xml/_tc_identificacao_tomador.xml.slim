@@ -1,4 +1,0 @@
-CpfCnpj
-	= render_xml '_tag_cpf_or_cnpj', cpf_cnpj: destinatario.cpf_cnpj
-- if destinatario.inscricao_municipal.present?
-	InscricaoMunicipal = "#{destinatario.inscricao_municipal}".max_size(15)

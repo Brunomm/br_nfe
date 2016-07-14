@@ -1,0 +1,7 @@
+- id_cancelamento = Time.now.nsec
+- xml_inf_pedido_cancel = render_xml '_tc_inf_pedido_cancelamento'
+InfPedidoCancelamento id="C#{id_cancelamento}"
+	= xml_inf_pedido_cancel.html_safe
+
+- if certificate
+	= assinatura_xml(xml_inf_pedido_cancel.html_safe, "#C#{id_cancelamento}").html_safe

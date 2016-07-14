@@ -1,6 +1,0 @@
-- if intermediario.razao_social.present?
-	RazaoSocial = "#{intermediario.razao_social}".max_size(115)
-CpfCnpj
-	= render_xml '_tag_cpf_or_cnpj', cpf_cnpj: intermediario.cpf_cnpj
-- if intermediario.inscricao_municipal.present?
-	InscricaoMunicipal = "#{intermediario.inscricao_municipal}".max_size(15)

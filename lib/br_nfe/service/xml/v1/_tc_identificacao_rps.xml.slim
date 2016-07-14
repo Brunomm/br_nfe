@@ -11,6 +11,6 @@
 - type_size   ||= 1
 
 
-Numero = BrNfe::Helper.only_number(current_numero).max_size(number_size)
-Serie  = "#{current_serie}".max_size(serie_size)
-Tipo   = "#{current_tipo}".max_size(type_size)
+Numero = ts_numero_rps(current_numero)
+Serie  = ts_serie_rps(current_serie)
+Tipo   = ts_tipo_rps(current_tipo)

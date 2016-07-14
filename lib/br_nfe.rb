@@ -18,6 +18,10 @@ require "br_nfe/helper/have_emitente"
 require "br_nfe/helper/have_destinatario"
 require "br_nfe/helper/have_intermediario"
 require "br_nfe/helper/have_condicao_pagamento"
+require "br_nfe/helper/values_ts/service_v1"
+
+# Regras e atributos para as classes 
+require "br_nfe/service/concerns/rules/recepcao_lote_rps"
 
 # Copyright (C) 2015 Bruno M. Mergen
 #
@@ -97,6 +101,7 @@ module BrNfe
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :RecepcaoLoteDfs
+				autoload :ConsultaSituacaoLoteDfs
 			end
 		end
 	end
@@ -150,10 +155,10 @@ module BrNfe
 	mattr_accessor :client_wsdl_ssl_cert_key_password
 	
 	mattr_accessor :client_wsdl_log
-	@@client_wsdl_log = false
+	@@client_wsdl_log = true
 	
 	mattr_accessor :client_wsdl_pretty_print_xml
-	@@client_wsdl_pretty_print_xml = false
+	@@client_wsdl_pretty_print_xml = true
 	
 	def self.setup
 		yield self

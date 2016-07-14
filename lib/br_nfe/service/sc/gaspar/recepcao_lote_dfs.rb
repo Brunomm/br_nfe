@@ -3,8 +3,8 @@ module BrNfe
 		module SC
 			module Gaspar
 				class RecepcaoLoteDfs < BrNfe::Service::SC::Gaspar::Base
+					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
 
-					validates :numero_lote_rps, presence: true
 
 					def wsdl
 						"https://nfse.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl"
@@ -14,7 +14,7 @@ module BrNfe
 					end
 
 					def xml_builder
-						render_xml 'recepcao_lote_rps'
+						render_xml 'servico_enviar_lote_rps_envio'
 					end
 					def self.novo
 						@endereco = BrNfe::Endereco.new({
@@ -93,7 +93,8 @@ module BrNfe
 							rps.codigo_tributacao_municipio = ""
 						end
 
-						new({
+						# BrNfe::Service::Betha::V1::RecepcaoLoteRps.
+						BrNfe::Service::SC::Gaspar::ConsultaSituacaoLoteDfs.new({
 							emitente: @emitente,
 							numero_lote_rps: 7786,
 							lote_rps: [@rps],

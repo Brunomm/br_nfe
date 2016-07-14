@@ -1,0 +1,13 @@
+- address ||= false
+- raise "Deve ser passado uma variável local chamda address" unless address
+
+Endereco = ts_endereco("#{address.logradouro}")
+Numero   = ts_numero_endereco("#{address.numero}")
+
+- address.complemento.present?
+	Complemento  = ts_complemento_endereco("#{address.complemento}")
+
+Bairro          = ts_bairro("#{address.bairro}")
+CodigoMunicipio = ts_codigo_municipio_ibge(address.codigo_municipio)
+Uf              = ts_uf("#{address.uf}")
+Cep             = ts_cep(address.cep)

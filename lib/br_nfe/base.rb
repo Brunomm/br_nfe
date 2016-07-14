@@ -109,6 +109,15 @@ module BrNfe
 			@certificate_key = value
 		end
 
+		# Versão do XML utilizado 
+		# Cada Cidade pode utilizar uma versão diferente do XML
+		#
+		# <b>Tipo de retorno: </b> _Symbol_
+		#
+		def xml_version
+			:v1
+		end
+
 		# Renderiza o xml a partir do nome de um arquivo 
 		# Irá procurar o arquivo a partir dos seguintes diretórios>
 		# 1° - A partir do parâmetro  :dir_path

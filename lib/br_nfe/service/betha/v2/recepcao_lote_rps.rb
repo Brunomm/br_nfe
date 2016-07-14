@@ -3,6 +3,7 @@ module BrNfe
 		module Betha
 			module V2
 				class RecepcaoLoteRps < BrNfe::Service::Betha::V2::Gateway
+					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
 					
 					validate  :validar_lote_rps
 					validates :numero_lote_rps, presence: true

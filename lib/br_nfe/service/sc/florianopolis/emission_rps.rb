@@ -3,6 +3,7 @@ module BrNfe
 		module SC
 			module Florianopolis
 				class EmissionRPS < BrNfe::Service::SC::Florianopolis::Base
+					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
 					attr_accessor :cfps
 
 					validates :cfps, presence: true
