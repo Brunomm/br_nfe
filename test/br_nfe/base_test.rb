@@ -54,33 +54,9 @@ describe BrNfe::Base do
 		end
 	end
 
-	describe "#wsdl_encoding" do
-		it { subject.wsdl_encoding.must_equal 'UTF-8' }
-	end
-
-	it "certificado_obrigatorio?" do
-		subject.certificado_obrigatorio?.must_equal false
-	end
-
-	describe "#certificate_pkcs12_value" do
-		it "se tiver algum valor setado deve retornar esse valor" do
-			subject.certificate_pkcs12_value = "algum valor"
-			subject.certificate_pkcs12_value.must_equal "algum valor"
-		end
-		it "se não tiver um valor deve carregar o arquivo setado no atributo certificado_path" do
-			subject.certificate_pkcs12_path = "algum/lugar.pfx"
-			File.expects(:read).with("algum/lugar.pfx").returns("valor do arquivo")
-			subject.certificate_pkcs12_value.must_equal "valor do arquivo"
-		end
-	end
-
-	describe "#response" do
-		it "deve retornar o valor da variavel @response" do
-			subject.instance_variable_set(:@response, 'valor')
-			subject.response.must_equal 'valor'
-		end
-		it "valor default" do
-			subject.response.must_be_nil
+	describe "#certificado_obrigatorio?" do
+		it "por padrão o certificado digital não deve ser obrigatório" do
+			subject.certificado_obrigatorio?.must_equal false			
 		end
 	end
 
@@ -93,18 +69,28 @@ describe BrNfe::Base do
 			subject.original_response.must_be_nil
 		end
 	end
-
-	describe "#wsdl" do
-		it "deve dar um erro por default" do
-			assert_raises RuntimeError do
-				subject.wsdl
-			end
+	
+	describe "#response" do
+		it "deve retornar o valor da variavel @response" do
+			subject.instance_variable_set(:@response, 'valor')
+			subject.response.must_equal 'valor'
+		end
+		it "valor default" do
+			subject.response.must_be_nil
 		end
 	end
 
 	describe "#env_namespace" do
 		it "deve ser soapenv" do
 			subject.env_namespace.must_equal :soapenv
+		end
+	end
+	
+	describe "#wsdl" do
+		it "deve dar um erro por default" do
+			assert_raises RuntimeError do
+				subject.wsdl
+			end
 		end
 	end
 
@@ -124,17 +110,229 @@ describe BrNfe::Base do
 		end
 	end
 
-	describe "#namespace_identifier" do
-		it "deve dar um erro por default" do
-			assert_raises RuntimeError do
-				subject.namespace_identifier
-			end
+	describe "#content_xml" do
+		it "por padrão deve retornar o valor de xml_builder" do
+			subject.expects(:xml_builder).returns(:val_xml_builder)
+			subject.content_xml.must_equal :val_xml_builder
 		end
 	end
 
-	describe "#namespaces" do
-		it "valor padrão" do
-			subject.namespaces.must_equal({})
+	describe "#namespace_identifier" do
+		it "por padrão deve ser nil" do
+			subject.namespace_identifier.must_be_nil
+		end
+	end
+	
+	describe "#message_namespaces" do
+		it "valor padrão deve ser um hash vazio" do
+			subject.message_namespaces.must_equal({})
+		end
+	end
+
+	describe "#soap_namespaces" do
+		it "valor padrão deve ser um hash com valores padrões da requisição SOAP" do
+			subject.soap_namespaces.must_equal({
+				'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
+				'xmlns:ins0'    => 'http://www.w3.org/2000/09/xmldsig#',
+				'xmlns:xsd'     => 'http://www.w3.org/2001/XMLSchema',
+				'xmlns:xsi'     => 'http://www.w3.org/2001/XMLSchema-instance'
+			})
+		end
+	end
+
+	describe "#wsdl_encoding" do
+		it { subject.wsdl_encoding.must_equal 'UTF-8' }
+	end
+
+	describe "tag_xml" do
+		it "deve retornar a definição XML com o encoding de wsdl_encoding" do
+			subject.expects(:wsdl_encoding).returns('ENCODE')
+			subject.tag_xml.must_equal '<?xml version="1.0" encoding="ENCODE"?>'
+		end
+	end
+
+	describe "xml_version" do
+		it "por padrão deve retornar :v1" do
+			subject.xml_version.must_equal :v1
+		end
+	end
+
+	describe "#client_wsdl" do
+		it "deve instanciar um Savon.client com a configuração adequada" do
+			# Stub metodos para configuração do client WSDL
+			subject.expects(:wsdl).returns('wsdl')
+			
+			subject.client_wsdl_ssl_verify_mode = 'client_wsdl_ssl_verify_mode'
+			subject.client_wsdl_ssl_cert_file = 'client_wsdl_ssl_cert_file'
+			subject.client_wsdl_ssl_cert_key_file = 'client_wsdl_ssl_cert_key_file'
+			subject.client_wsdl_ssl_cert_key_password = 'client_wsdl_ssl_cert_key_password'
+			
+			# Ajusto a configuração da gem para testar
+			BrNfe.client_wsdl_log                   = 'client_wsdl_log'
+			BrNfe.client_wsdl_pretty_print_xml      = 'client_wsdl_pretty_print_xml'
+
+			subject.instance_variable_get(:@client_wsdl).must_be_nil
+			
+			Savon.expects(:client).with({
+				wsdl:                  'wsdl',
+				log:                   'client_wsdl_log',
+				pretty_print_xml:      'client_wsdl_pretty_print_xml',
+				ssl_verify_mode:       'client_wsdl_ssl_verify_mode',
+				ssl_cert_file:         'client_wsdl_ssl_cert_file',
+				ssl_cert_key_file:     'client_wsdl_ssl_cert_key_file',
+				ssl_cert_key_password: 'client_wsdl_ssl_cert_key_password'
+			}).returns('client wsdl')
+
+			subject.client_wsdl.must_equal 'client wsdl'
+			subject.instance_variable_get(:@client_wsdl).must_equal 'client wsdl'
+		end
+		it "se ja tiver valor na variavel @client_wsdl deve manter esse valor" do
+			Savon.expects(:client).never
+			subject.instance_variable_set(:@client_wsdl, :valor_client_wsdl)
+			subject.client_wsdl.must_equal :valor_client_wsdl
+			subject.instance_variable_get(:@client_wsdl).must_equal :valor_client_wsdl
+		end
+	end
+
+	describe '#client_wsdl_ssl_verify_mode' do
+		it "se eu setar um valor deve retornar esse valor" do
+			subject.client_wsdl_ssl_verify_mode = :value_client_wsdl_ssl_verify_mode
+			subject.client_wsdl_ssl_verify_mode.must_equal :value_client_wsdl_ssl_verify_mode
+		end
+		it "se não setar nenhum valor deve retornar o valor da configuração" do
+			subject.class.new.client_wsdl_ssl_verify_mode.must_equal BrNfe.client_wsdl_ssl_verify_mode
+		end
+	end
+
+	describe '#client_wsdl_ssl_cert_file' do
+		it "se eu setar um valor deve retornar esse valor" do
+			subject.client_wsdl_ssl_cert_file = :value_client_wsdl_ssl_cert_file
+			subject.client_wsdl_ssl_cert_file.must_equal :value_client_wsdl_ssl_cert_file
+		end
+		it "se não setar nenhum valor deve retornar o valor da configuração" do
+			subject.class.new.client_wsdl_ssl_cert_file.must_equal BrNfe.client_wsdl_ssl_cert_file
+		end
+	end
+
+	describe '#client_wsdl_ssl_cert_key_file' do
+		it "se eu setar um valor deve retornar esse valor" do
+			subject.client_wsdl_ssl_cert_key_file = :value_client_wsdl_ssl_cert_key_file
+			subject.client_wsdl_ssl_cert_key_file.must_equal :value_client_wsdl_ssl_cert_key_file
+		end
+		it "se não setar nenhum valor deve retornar o valor da configuração" do
+			subject.class.new.client_wsdl_ssl_cert_key_file.must_equal BrNfe.client_wsdl_ssl_cert_key_file
+		end
+	end
+
+	describe '#client_wsdl_ssl_cert_key_password' do
+		it "se eu setar um valor deve retornar esse valor" do
+			subject.client_wsdl_ssl_cert_key_password = :value_client_wsdl_ssl_cert_key_password
+			subject.client_wsdl_ssl_cert_key_password.must_equal :value_client_wsdl_ssl_cert_key_password
+		end
+		it "se não setar nenhum valor deve retornar o valor da configuração" do
+			subject.class.new.client_wsdl_ssl_cert_key_password.must_equal BrNfe.client_wsdl_ssl_cert_key_password
+		end
+	end
+
+	describe "#certificate_pkcs12_value" do
+		it "se tiver algum valor setado deve retornar esse valor" do
+			subject.certificate_pkcs12_value = "algum valor"
+			subject.certificate_pkcs12_value.must_equal "algum valor"
+		end
+		it "se não tiver um valor deve carregar o arquivo setado no atributo certificado_path" do
+			subject.certificate_pkcs12_path = "algum/lugar.pfx"
+			File.expects(:read).with("algum/lugar.pfx").returns("valor do arquivo")
+			subject.certificate_pkcs12_value.must_equal "valor do arquivo"
+		end
+	end
+
+	describe "#certificate_pkcs12" do
+		it "deve ler o certificate_pkcs12 PKCS12 do atributo certificate_pkcs12_value e com a senha do certificate_pkcs12_password" do
+			subject.assign_attributes(certificate_pkcs12: nil, certificate_pkcs12_value: "CERTIFICADO", certificate_pkcs12_password: 'pWd123')
+			OpenSSL::PKCS12.expects(:new).with("CERTIFICADO", 'pWd123').returns('certificate_pkcs12')
+			subject.certificate_pkcs12.must_equal 'certificate_pkcs12'
+		end
+		it "se já tem um certificate_pkcs12 na variavel @certificate_pkcs12 não deve ler novamente do PKCS12" do
+			base_nfe = FactoryGirl.build(:br_nfe_base, emitente: emitente, certificate_pkcs12_password: nil, certificate_pkcs12_path: nil)
+			base_nfe.instance_variable_set(:@certificate_pkcs12, subject.certificate_pkcs12)
+
+			subject.certificate_pkcs12.wont_be_nil
+			
+			OpenSSL::PKCS12.expects(:new).never
+			base_nfe.certificate_pkcs12.must_equal subject.certificate_pkcs12
+		end
+		it "posso setar o certificate_pkcs12" do
+			subject.certificate_pkcs12 = 'certificate_pkcs12 123'
+			subject.certificate_pkcs12.must_equal 'certificate_pkcs12 123'
+		end
+	end
+
+	describe '#render_xml' do
+		it "quando não encontrar um arquivo para renderizar deve dar erro" do
+			assert_raises RuntimeError do
+				subject.render_xml 'nao_existe_esse_xml'
+			end
+		end
+		it "deve percorer todos os diretorios em sequencia até encontrar o XML" do
+			subject.expects(:get_xml_dirs).returns(['dir/1','dir/2','dir/3'])
+			subject.expects(:find_xml).with('file_name', 'dir/1', subject, {param: 1}).returns(nil).in_sequence(sequence_1)
+			subject.expects(:find_xml).with('file_name', 'dir/2', subject, {param: 1}).returns('result').in_sequence(sequence_1)
+			subject.expects(:find_xml).with('file_name', 'dir/3', subject, {param: 1}).never
+
+			subject.render_xml('file_name', {param: 1 }).must_equal 'result'
+		end
+
+		it "se não passar um context deve passar o context como parametro para o find_xml" do
+			subject.expects(:get_xml_dirs).returns(['dir/1'])
+			subject.expects(:find_xml).with('file_name', 'dir/1', :context, {}).returns('xml')
+			subject.render_xml('file_name', {context: :context}).must_equal 'xml'
+		end
+
+		it "posso passar um diretório customizado por parâmetro" do
+			subject.expects(:get_xml_dirs).with('custom/dir').returns(['custom/dir','dir/1'])
+			subject.expects(:find_xml).with('file_name', 'custom/dir', subject, {}).returns('xmlok')
+			subject.render_xml('file_name', {dir_path: 'custom/dir'}).must_equal 'xmlok'
+		end
+		it "posso passar variaveis por parâmetro na renderização do XML" do
+			subject.expects(:get_xml_dirs).with('custom/dir').returns(['custom/dir','dir/1'])
+			subject.expects(:find_xml).with('file_name', 'custom/dir', subject, {var1: 1, var2: 2}).returns(nil).in_sequence(sequence_1)
+			subject.expects(:find_xml).with('file_name', 'dir/1',      subject, {var1: 1, var2: 2}).returns('xmlok').in_sequence(sequence_1)
+			subject.render_xml('file_name', {dir_path: 'custom/dir', var1: 1, var2: 2}).must_equal 'xmlok'
+		end
+	end
+
+	describe "#find_xml" do
+		it "se encontrar o arquivo no diretório passado por parâmetro deve renderizar o XML utilizando o Slim::Template" do
+			a_object = Object.new
+			File.expects(:exists?).with("file/dir/custom_file_name.xml.slim").returns(true).in_sequence(sequence_1)
+			Slim::Template.expects(:new).with("file/dir/custom_file_name.xml.slim").returns(a_object).in_sequence(sequence_1)
+			a_object.expects(:render).with(:context, :options).returns("<xml>val</xml>").in_sequence(sequence_1)
+			subject.find_xml('custom_file_name', 'file/dir', :context, :options).must_equal '<xml>val</xml>'
+		end
+		it "se não encontrar o arquivo no diretório passado por parâmetro deve retornar nil" do
+			File.expects(:exists?).with("file/dir/custom_file_name.xml.slim").returns(false)
+			Slim::Template.expects(:new).never
+			subject.find_xml('custom_file_name', 'file/dir', :context).must_be_nil
+		end
+	end
+
+	describe "#get_xml_dirs" do
+		it "deve retornar um array com o diretrio vindo por parametro junto com xml_current_dir_path e xml_default_dir_path" do
+			subject.expects(:xml_current_dir_path).returns(['dir1/current','dir2/current',''])
+			subject.expects(:xml_default_dir_path).returns('dir/default')
+			subject.get_xml_dirs('custom').must_equal(['custom','dir1/current','dir2/current','dir/default'])
+		end
+	end
+
+	describe '#xml_current_dir_path' do
+		it "valor padrão deve ser um array vazio" do
+			subject.xml_current_dir_path.must_equal([])
+		end
+	end
+
+	describe '#xml_default_dir_path' do
+		it "valor padrão deve ser o caminho do XMl padrão da gem" do
+			subject.xml_default_dir_path.must_equal("#{BrNfe.root}/lib/br_nfe/xml")
 		end
 	end
 
@@ -258,71 +456,11 @@ describe BrNfe::Base do
 				assinatura.xpath('Signature/KeyInfo/X509Data/X509Certificate').first.text.must_equal 'MIIEqzCCA5OgAwIBAgIDMTg4MA0GCSqGSIb3DQEBBQUAMIGSMQswCQYDVQQGEwJCUjELMAkGA1UECBMCUlMxFTATBgNVBAcTDFBvcnRvIEFsZWdyZTEdMBsGA1UEChMUVGVzdGUgUHJvamV0byBORmUgUlMxHTAbBgNVBAsTFFRlc3RlIFByb2pldG8gTkZlIFJTMSEwHwYDVQQDExhORmUgLSBBQyBJbnRlcm1lZGlhcmlhIDEwHhcNMDkwNTIyMTcwNzAzWhcNMTAxMDAyMTcwNzAzWjCBnjELMAkGA1UECBMCUlMxHTAbBgNVBAsTFFRlc3RlIFByb2pldG8gTkZlIFJTMR0wGwYDVQQKExRUZXN0ZSBQcm9qZXRvIE5GZSBSUzEVMBMGA1UEBxMMUE9SVE8gQUxFR1JFMQswCQYDVQQGEwJCUjEtMCsGA1UEAxMkTkZlIC0gQXNzb2NpYWNhbyBORi1lOjk5OTk5MDkwOTEwMjcwMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCx1O/e1Q+xh+wCoxa4pr/5aEFt2dEX9iBJyYu/2a78emtorZKbWeyK435SRTbHxHSjqe1sWtIhXBaFa2dHiukT1WJyoAcXwB1GtxjT2VVESQGtRiujMa+opus6dufJJl7RslAjqN/ZPxcBXaezt0nHvnUB/uB1K8WT9G7ES0V17wIDAQABo4IBfjCCAXowIgYDVR0jAQEABBgwFoAUPT5TqhNWAm+ZpcVsvB7malDBjEQwDwYDVR0TAQH/BAUwAwEBADAPBgNVHQ8BAf8EBQMDAOAAMAwGA1UdIAEBAAQCMAAwgawGA1UdEQEBAASBoTCBnqA4BgVgTAEDBKAvBC0yMjA4MTk3Nzk5OTk5OTk5OTk5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDCgEgYFYEwBAwKgCQQHREZULU5GZaAZBgVgTAEDA6AQBA45OTk5OTA5MDkxMDI3MKAXBgVgTAEDB6AOBAwwMDAwMDAwMDAwMDCBGmRmdC1uZmVAcHJvY2VyZ3MucnMuZ292LmJyMCAGA1UdJQEB/wQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDBTBgNVHR8BAQAESTBHMEWgQ6BBhj9odHRwOi8vbmZlY2VydGlmaWNhZG8uc2VmYXoucnMuZ292LmJyL0xDUi9BQ0ludGVybWVkaWFyaWEzOC5jcmwwDQYJKoZIhvcNAQEFBQADggEBAJFytXuiS02eJO0iMQr/Hi+Ox7/vYiPewiDL7s5EwO8A9jKx9G2Baz0KEjcdaeZk9a2NzDEgX9zboPxhw0RkWahVCP2xvRFWswDIa2WRUT/LHTEuTeKCJ0iF/um/kYM8PmWxPsDWzvsCCRp146lc0lz9LGm5ruPVYPZ/7DAoimUk3bdCMW/rzkVYg7iitxHrhklxH7YWQHUwbcqPt7Jv0RJxclc1MhQlV2eM2MO1iIlk8Eti86dRrJVoicR1bwc6/YDqDp4PFONTi1ddewRu6elGS74AzCcNYRSVTINYiZLpBZO0uivrnTEnsFguVnNtWb9MAHGt3tkR0gAVs6S0fm8='
 			end
 		end
-
-		describe "#certificate_pkcs12" do
-			it "deve ler o certificate_pkcs12 PKCS12 do atributo certificate_pkcs12_value e com a senha do certificate_pkcs12_password" do
-				subject.assign_attributes(certificate_pkcs12: nil, certificate_pkcs12_value: "CERTIFICADO", certificate_pkcs12_password: 'pWd123')
-				OpenSSL::PKCS12.expects(:new).with("CERTIFICADO", 'pWd123').returns('certificate_pkcs12')
-				subject.certificate_pkcs12.must_equal 'certificate_pkcs12'
-			end
-			it "se já tem um certificate_pkcs12 na variavel @certificate_pkcs12 não deve ler novamente do PKCS12" do
-				base_nfe = FactoryGirl.build(:br_nfe_base, emitente: emitente, certificate_pkcs12_password: nil, certificate_pkcs12_path: nil)
-				base_nfe.instance_variable_set(:@certificate_pkcs12, subject.certificate_pkcs12)
-
-				subject.certificate_pkcs12.wont_be_nil
-				
-				OpenSSL::PKCS12.expects(:new).never
-				base_nfe.certificate_pkcs12.must_equal subject.certificate_pkcs12
-			end
-			it "posso setar o certificate_pkcs12" do
-				subject.certificate_pkcs12 = 'certificate_pkcs12 123'
-				subject.certificate_pkcs12.must_equal 'certificate_pkcs12 123'
-			end
-		end
-
-
-		describe "#client_wsdl" do
-			before do 
-				# Stub metodos para configuração do client WSDL
-				subject.stubs(:namespaces).returns('namespaces')
-				subject.stubs(:env_namespace).returns('env_namespace')
-				subject.stubs(:wsdl).returns('wsdl')
-				subject.stubs(:wsdl_encoding).returns('client_encoding')
-				subject.stubs(:namespace_identifier).returns('namespace_identifier')
-				# Ajusto a configuração da gem para testar
-				BrNfe.client_wsdl_log                   = 'client_wsdl_log'
-				BrNfe.client_wsdl_pretty_print_xml      = 'client_wsdl_pretty_print_xml'
-				BrNfe.client_wsdl_ssl_verify_mode       = 'client_wsdl_ssl_verify_mode'
-				BrNfe.client_wsdl_ssl_cert_file         = 'client_wsdl_ssl_cert_file'
-				BrNfe.client_wsdl_ssl_cert_key_file     = 'client_wsdl_ssl_cert_key_file'
-				BrNfe.client_wsdl_ssl_cert_key_password = 'client_wsdl_ssl_cert_key_password'
-			end
-			it "deve instanciar um Savon.client com a configuração adequada" do
-				subject.instance_variable_get(:@client_wsdl).must_be_nil
-				Savon.expects(:client).with({
-					namespaces:            'namespaces',
-					env_namespace:         'env_namespace',
-					wsdl:                  'wsdl',
-					namespace_identifier:  'namespace_identifier',
-					log:                   'client_wsdl_log',
-					encoding:              'client_encoding',
-					pretty_print_xml:      'client_wsdl_pretty_print_xml',
-					ssl_verify_mode:       'client_wsdl_ssl_verify_mode',
-					ssl_cert_file:         'client_wsdl_ssl_cert_file',
-					ssl_cert_key_file:     'client_wsdl_ssl_cert_key_file',
-					ssl_cert_key_password: 'client_wsdl_ssl_cert_key_password'
-				}).returns('client wsdl')
-
-				subject.client_wsdl.must_equal 'client wsdl'
-				subject.instance_variable_get(:@client_wsdl).must_equal 'client wsdl'
-			end
-			it "se ja tiver valor na variavel @client_wsdl deve manter esse valor" do
-				Savon.expects(:client).never
-				subject.instance_variable_set(:@client_wsdl, :valor_client_wsdl)
-				subject.client_wsdl.must_equal :valor_client_wsdl
-				subject.instance_variable_get(:@client_wsdl).must_equal :valor_client_wsdl
-			end
-		end
 	end
+
+	
+
+
+	
 
 end

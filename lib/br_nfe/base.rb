@@ -6,6 +6,12 @@ module BrNfe
 		attr_accessor :certificate_pkcs12_password
 		attr_accessor :certificate_pkcs12_path
 		attr_accessor :certificate_pkcs12_value
+		attr_accessor :env
+
+		attr_accessor :client_wsdl_ssl_verify_mode
+		attr_accessor :client_wsdl_ssl_cert_file
+		attr_accessor :client_wsdl_ssl_cert_key_file
+		attr_accessor :client_wsdl_ssl_cert_key_password
 
 		validate :validar_emitente
 		validates :certificate, :certificate_key, presence: true, if: :certificado_obrigatorio?
@@ -15,14 +21,6 @@ module BrNfe
 			false
 		end
 
-		# Caso não tenha o certificate_pkcs12 salvo em arquivo, pode setar a string do certificate_pkcs12 direto pelo atributo certificate_pkcs12_value
-		# Caso tenha o certificate_pkcs12 em arquivo, basta setar o atributo certificate_pkcs12_path e deixar o atributo certificate_pkcs12_value em branco
-		def certificate_pkcs12_value
-			@certificate_pkcs12_value ||= File.read(certificate_pkcs12_path)
-		end
-
-		attr_accessor :env
-
 		def env
 			@env ||= :production
 		end
@@ -31,33 +29,125 @@ module BrNfe
 			@original_response
 		end
 
-
 		def response
 			@response
 		end
 		
-		def wsdl
-			raise "Não implementado."
-		end
-
+		# Namespace da requisição SOAP
+		#
 		def env_namespace
 			:soapenv
 		end
 
+		# Deve conter o LINK do webservice a ser chamado
+		#
+		def wsdl
+			raise "Não implementado."
+		end
+
+		# Método que contem qual a operação que deverá ser chamada
+		# do WS SOAP.
+		#
 		def method_wsdl
 			raise "Não implementado."
 		end
 
+		# O xml_builder é o que contém o conteúdo de cada tipo de requisição
+		# e deve ser sobrescrito em cada classe implementada. Por exemplo:
+		# recepcao_lote_rps, consulta_lote_rps, cancelamento_nfs, etc..
+		#
 		def xml_builder
 			raise "Não implementado."
 		end
 
-		def namespace_identifier
-			raise 'Não implementado.'
+		# Esse método serve para ser utilizado no Base de cada orgão emissor
+		# onde em alguns casos é necessário colocar o xml em um CDATA
+		# É esse método que é passado dentro do Body da equisição SOAP
+		#
+		def content_xml
+			xml_builder
 		end
 
-		def namespaces
+		# O Namespace Indentifier é utilizado para adicionar o
+		# namespace na tag principal da requisição. Normalmente deve seguir 
+		# o namespace utilizado para identificar o namespace da mensagem.
+		#
+		# Exemplo: se o método message_namespaces for {xmlns:ns1="http...."} então
+		# o namespace_identifier deveria ser :ns1.
+		# E com isso irá adicionar o namespace na tag principal da requsição. 
+		# Exemplo com a requisição EnviarLoteRps:
+		# COM namespace_identifier => ns1:EnviarLoteRpsEnvio
+		# SEM namespace_identifier => EnviarLoteRpsEnvio
+		#
+		# <b>Tipo de retorno: </b> _Hash_ OR _Nil_
+		#
+		def namespace_identifier
+		end
+
+		def message_namespaces
 			{}
+		end
+
+		def soap_namespaces
+			{
+				'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
+				'xmlns:ins0'    => 'http://www.w3.org/2000/09/xmldsig#',
+				'xmlns:xsd'     => 'http://www.w3.org/2001/XMLSchema',
+				'xmlns:xsi'     => 'http://www.w3.org/2001/XMLSchema-instance'
+			}
+		end
+
+		def wsdl_encoding
+			"UTF-8"
+		end
+
+		# Tag XML que vai na requisição SOAP
+		#
+		# <b>Tipo de retorno: </b> _String_
+		#
+		def tag_xml
+			"<?xml version=\"1.0\" encoding=\"#{wsdl_encoding}\"?>"
+		end
+
+		# Versão do XML utilizado 
+		# Cada Cidade pode utilizar uma versão diferente do XML
+		#
+		# <b>Tipo de retorno: </b> _Symbol_
+		#
+		def xml_version
+			:v1
+		end
+
+		def client_wsdl
+			@client_wsdl ||= Savon.client({
+				wsdl:                  wsdl,
+				log:                   BrNfe.client_wsdl_log,
+				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
+
+				ssl_verify_mode:       client_wsdl_ssl_verify_mode,
+				ssl_cert_file:         client_wsdl_ssl_cert_file,
+				ssl_cert_key_file:     client_wsdl_ssl_cert_key_file,
+				ssl_cert_key_password: client_wsdl_ssl_cert_key_password
+			})
+		end
+
+		def client_wsdl_ssl_verify_mode
+			@client_wsdl_ssl_verify_mode ||= BrNfe.client_wsdl_ssl_verify_mode
+		end
+		def client_wsdl_ssl_cert_file
+			@client_wsdl_ssl_cert_file ||= BrNfe.client_wsdl_ssl_cert_file
+		end
+		def client_wsdl_ssl_cert_key_file
+			@client_wsdl_ssl_cert_key_file ||= BrNfe.client_wsdl_ssl_cert_key_file
+		end
+		def client_wsdl_ssl_cert_key_password
+			@client_wsdl_ssl_cert_key_password ||= BrNfe.client_wsdl_ssl_cert_key_password
+		end
+
+		# Caso não tenha o certificate_pkcs12 salvo em arquivo, pode setar a string do certificate_pkcs12 direto pelo atributo certificate_pkcs12_value
+		# Caso tenha o certificate_pkcs12 em arquivo, basta setar o atributo certificate_pkcs12_path e deixar o atributo certificate_pkcs12_value em branco
+		def certificate_pkcs12_value
+			@certificate_pkcs12_value ||= File.read(certificate_pkcs12_path)
 		end
 
 		def certificate_pkcs12
@@ -67,30 +157,6 @@ module BrNfe
 
 		def certificate_pkcs12=(value)
 			@certificate_pkcs12 = value
-		end
-
-		def wsdl_encoding
-			"UTF-8"
-		end
-
-		def client_wsdl
-			@client_wsdl ||= Savon.client({
-				namespaces:            namespaces,
-				env_namespace:         env_namespace,
-				wsdl:                  wsdl,
-				namespace_identifier:  namespace_identifier,
-				encoding:              wsdl_encoding,
-				
-				# log:                   true,
-				# pretty_print_xml:      true,
-				log:                   BrNfe.client_wsdl_log,
-				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
-
-				ssl_verify_mode:       BrNfe.client_wsdl_ssl_verify_mode,
-				ssl_cert_file:         BrNfe.client_wsdl_ssl_cert_file,
-				ssl_cert_key_file:     BrNfe.client_wsdl_ssl_cert_key_file,
-				ssl_cert_key_password: BrNfe.client_wsdl_ssl_cert_key_password
-			})
 		end
 
 		def certificate=(value)
@@ -107,16 +173,7 @@ module BrNfe
 
 		def certificate_key=(value)
 			@certificate_key = value
-		end
-
-		# Versão do XML utilizado 
-		# Cada Cidade pode utilizar uma versão diferente do XML
-		#
-		# <b>Tipo de retorno: </b> _Symbol_
-		#
-		def xml_version
-			:v1
-		end
+		end		
 
 		# Renderiza o xml a partir do nome de um arquivo 
 		# Irá procurar o arquivo a partir dos seguintes diretórios>
