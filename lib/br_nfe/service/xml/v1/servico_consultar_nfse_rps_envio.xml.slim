@@ -1,4 +1,4 @@
-ConsultarNfseRpsEnvio *namespaces
+*{tag: "#{namespace_identifier.to_s+':' if namespace_identifier}ConsultarNfseRpsEnvio"} *message_namespaces
 	IdentificacaoRps
 		= render_xml '_tc_identificacao_rps'
 	Prestador
