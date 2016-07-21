@@ -2,50 +2,125 @@ require 'test_helper'
 
 describe BrNfe::Service::Base do
 	subject { FactoryGirl.build(:br_nfe_servico_base) }
-	let(:rps) { FactoryGirl.build(:br_nfe_rps) } 
-		
-	# describe "#lote_rps" do
-	# 	it "deve inicializar como um vetor vazio" do
-	# 		subject.class.new.lote_rps.must_equal []
-	# 	end
+	
+	describe '#xml_current_dir_path' do
+		it "o valor padrão deve ser o diretorio xml de serviços na versão do layout setado" do
+			subject.expects(:xml_version).returns(:version_layout)
+			subject.xml_current_dir_path.must_equal(["#{BrNfe.root}/lib/br_nfe/service/xml/version_layout"])
+		end
+	end
 
-	# 	it "posso utilizar o << para adicionar valores" do
-	# 		subject.lote_rps << 'v1'
-	# 		subject.lote_rps << 'v2'
-	# 		subject.lote_rps.must_equal ['v1','v2']
-	# 	end
+	describe '#response_path_module' do
+		it "deve ser sobrescrito nas subclasses" do
+			assert_raises RuntimeError do
+				subject.response_path_module
+			end
+		end
+	end
 
-	# 	it "sempre retorna um array" do
-	# 		subject.lote_rps = {valor: '2'}
-	# 		subject.lote_rps.must_equal [{valor: '2'}]
-	# 	end
-	# end
+	describe "#response_root_path" do
+		it "deve ter um array vazio por padrão" do
+			subject.response_root_path.must_equal([])
+		end
+	end
 
-	# describe "#validar_lote_rps" do
-	# 	it "se não houver nenhum rps, deve add um erro" do
-	# 		subject.lote_rps = []
-	# 		subject.errors.full_messages.must_equal( [] )
-	# 		subject.send(:validar_lote_rps)
-	# 		subject.errors.full_messages.must_equal( ["Deve conter ao menos 1 RPS"] )
-	# 	end
-	# 	context "deve validar o rps setando a opcao validar_recepcao_rps" do
-	# 		before { subject.lote_rps = [rps] }
-	# 		it "quando o rps for válido não deve setar nenhuma mensagem no objeto" do
-	# 			rps.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
-	# 			sequence_1 = sequence('sequence_1')
-	# 			rps.expects(:validar_recepcao_rps=).with(true).in_sequence(sequence_1)
-	# 			rps.expects(:invalid?).returns(false).in_sequence(sequence_1)
-	# 			subject.send(:validar_lote_rps)
-	# 			subject.errors.full_messages.must_equal( [] )
-	# 		end
-	# 		it "quando o rps for inválido deve setar mensagem de erro no objeto" do
-	# 			rps.stubs(:errors).returns(stub(full_messages: ["Erro rps"]))
-	# 			sequence_1 = sequence('sequence_1')
-	# 			rps.expects(:validar_recepcao_rps=).with(true).in_sequence(sequence_1)
-	# 			rps.expects(:invalid?).returns(true).in_sequence(sequence_1)
-	# 			subject.send(:validar_lote_rps)
-	# 			subject.errors.full_messages.must_equal( ["RPS 1: Erro rps"] )
-	# 		end
-	# 	end
-	# end
+	describe '#nfse_xml_path' do
+		it "deve retornar o caminho generico para encontrar o xml da NFS-e" do
+			subject.nfse_xml_path.must_equal '//*/*/*/*'
+			# Esse caminho significa: //Envelope/Body/TagRoot/NFSe
+		end
+	end
+
+	describe "#body_xml_path" do
+		it "deve ter um array vazio por padrão" do
+			subject.body_xml_path.must_equal([])
+		end
+	end
+
+	describe "#request" do
+		let(:nori) { Nori.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
+		let(:soap_fault) do 
+			obj = Savon::SOAPFault.new new_response, nori
+			obj.stubs(:message_by_version).returns("Message Error")
+			obj
+		end
+		let(:new_response) do
+			HTTPI::Response.new 500, {}, '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns2:authenticateResponse xmlns:ns2="http://v1_0.ws.user.example.com"></ns2:authenticateResponse></soap:Body></soap:Envelope>'
+		end
+
+		before do
+			subject.stubs(:wsdl).returns('http://duobr.com?wsdl')
+			subject.stubs(:method_wsdl).returns(:operation)
+			subject.stubs(:tag_xml).returns('<?xml?>')
+			subject.stubs(:render_xml).with('soap_env').returns('XML value')
+		end
+
+		it "deve fazer a requisição para o WS passando a resposta para o metodo set_response" do
+			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').returns(:savon_response)
+			subject.expects(:set_response).with(:savon_response).returns(:result)
+			subject.request.must_equal :result
+		end
+
+		it "Se ocorrer erro Savon::SOAPFault deve ser tratado e setar o status da resposta com :soap_error" do
+			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').returns(:savon_response)
+			subject.expects(:set_response).with(:savon_response).raises(soap_fault)
+			
+			subject.request
+			subject.response.error_messages.must_equal(['Message Error'])
+			subject.response.status.must_equal :soap_error
+		end
+
+		it "Se ocorrer erro Savon::HTTPError deve ser tratado e setar o status da resposta com :http_error" do
+			http_error = Savon::HTTPError.new(new_response)
+			http_error.stubs(:to_s).returns('Message')
+			
+			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').raises(http_error)
+			
+			subject.request
+			subject.response.error_messages.must_equal(['Message'])
+			subject.response.status.must_equal :http_error
+		end
+
+		it "Se ocorrer qualquer outro erro deve setar o status com :unknown_error" do
+			error = RuntimeError.new('ERROU')
+			
+			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').raises(error)
+			
+			subject.request
+			subject.response.error_messages.must_equal(['ERROU'])
+			subject.response.status.must_equal :unknown_error
+		end
+	end
+
+	describe "#set_response" do
+		let(:build_response) { BrNfe::Response::Service::BuildResponse.new() } 
+		it "Deve setar a variavel @original_response com a resposta original do savon" do
+			BrNfe::Response::Service::BuildResponse.any_instance.stubs(:response).returns(:response)
+			subject.stubs(:response_root_path).returns(:response_root_path)
+			subject.stubs(:nfse_xml_path).returns(:nfse_xml_path)
+			subject.stubs(:response_path_module)
+			subject.stubs(:body_xml_path).returns(:body_xml_path)
+
+			subject.set_response(:original).must_equal :response
+			subject.instance_variable_get(:@original_response).must_equal(:original)
+		end
+		it "deve instanciar o build_response e retornar a resposta" do
+			build_response
+			subject.expects(:response_root_path).returns(:response_root_path)
+			subject.expects(:nfse_xml_path).returns(:nfse_xml_path)
+			subject.expects(:response_path_module)
+			subject.expects(:body_xml_path).returns(:body_xml_path)
+			BrNfe::Response::Service::BuildResponse.expects(:new).with({
+				savon_response: :savon_response, 
+				keys_root_path: :response_root_path,
+				nfe_xml_path:   :nfse_xml_path, 
+				module_methods: nil,
+				body_xml_path:  :body_xml_path,
+			}).returns(build_response)
+			build_response.expects(:response).returns('resposta')
+
+			subject.set_response(:savon_response).must_equal 'resposta'
+			subject.instance_variable_get(:@response).must_equal('resposta')
+		end
+	end
 end
