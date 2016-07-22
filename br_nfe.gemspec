@@ -25,7 +25,7 @@ e = Gem::Specification.new do |gem|
 	gem.require_paths = ["lib"]
 	gem.version       = BrNfe::Version::CURRENT
 
-	gem.required_ruby_version = '>= 2.1'
+	gem.required_ruby_version = ['>= 2.1', '>= 2.3']
 
 	gem.add_dependency "rake", '~> 10'
 	gem.add_dependency "activesupport", '~> 4'
