@@ -120,6 +120,7 @@ module BrNfe
 				autoload :RecepcaoLoteRps
 				autoload :RecepcaoLoteRpsLimitado
 				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
 			end
 		end
 		module SC
@@ -138,6 +139,7 @@ module BrNfe
 				autoload :ConsultaSituacaoLoteRps
 				autoload :RecepcaoLoteRpsLimitado
 				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
 			end
 		end
 	end

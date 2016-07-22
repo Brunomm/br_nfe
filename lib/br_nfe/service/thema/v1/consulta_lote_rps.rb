@@ -2,18 +2,21 @@ module BrNfe
 	module Service
 		module Thema
 			module V1
-				class ConsultaSituacaoLoteRps < BrNfe::Service::Thema::V1::ConsultaLoteRps
+				class ConsultaLoteRps < BrNfe::Service::Thema::V1::Base
+
+					attr_accessor :protocolo
+					validates :protocolo, presence: true
 
 					def method_wsdl
-						:consultar_situacao_lote_rps
+						:consultar_lote_rps
 					end
 
 					def xml_builder
-						render_xml 'servico_consultar_situacao_lote_rps_envio'
+						render_xml 'servico_consultar_lote_rps_envio'
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsResposta
+						BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
 					end
 					
 					# Não é utilizado o response_root_path pois
@@ -31,13 +34,13 @@ module BrNfe
 					# para encontrar os valores para setar na resposta
 					#
 					def body_xml_path
-						[:consultar_situacao_lote_rps_response, :return]
+						[:consultar_lote_rps_response, :return]
 					end
 
 					# Tag root da requisição
 					#
 					def soap_body_root_tag
-						'consultarSituacaoLoteRps'
+						'consultarLoteRps'
 					end
 				end
 			end
