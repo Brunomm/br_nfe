@@ -29,6 +29,10 @@ module BrNfe
 				[]
 			end
 
+			def id_attribute?
+				true
+			end
+
 			def request
 				set_response(
 					client_wsdl.call(method_wsdl, xml: "#{tag_xml}#{render_xml('soap_env')}".html_safe)

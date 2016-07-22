@@ -382,7 +382,7 @@
             <xsd:element name="Prestador" type="tcIdentificacaoPrestador" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="Tomador" type="tcDadosTomador" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="IntermediarioServico" type="tcIdentificacaoIntermediarioServico" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="ContrucaoCivil" type="tcDadosConstrucaoCivil" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="ConstrucaoCivil" type="tcDadosConstrucaoCivil" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
         <xsd:attribute name="id" type="tsIdTag"/>
     </xsd:complexType>
@@ -420,7 +420,7 @@
             <xsd:element name="TomadorServico" type="tcDadosTomador" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="IntermediarioServico" type="tcIdentificacaoIntermediarioServico" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="OrgaoGerador" type="tcIdentificacaoOrgaoGerador" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="ContrucaoCivil" type="tcDadosConstrucaoCivil" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="ConstrucaoCivil" type="tcDadosConstrucaoCivil" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
         <xsd:attribute name="id" type="tsIdTag"/>
     </xsd:complexType>

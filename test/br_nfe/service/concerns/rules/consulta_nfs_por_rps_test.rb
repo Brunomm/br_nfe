@@ -1,10 +1,12 @@
 require 'test_helper'
+require 'br_nfe/helper/have_rps_test'
 
-class RuleConsultaNfsPorRpsTest < BrNfe::Service::Base
-	include BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps
-end
 
 describe BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps do
+	class RuleConsultaNfsPorRpsTest < BrNfe::Service::Base
+		include BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps
+	end
+
 	subject { RuleConsultaNfsPorRpsTest.new(rps: rps, emitente: emitente) }
 	let(:emitente) { FactoryGirl.build(:emitente, endereco: endereco) }
 	let(:endereco) { FactoryGirl.build(:endereco) } 
@@ -12,6 +14,10 @@ describe BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps do
 
 	it "deve ter o o helper HaveRps incluido" do
 		subject.class.included_modules.must_include BrNfe::Helper::HaveRps
+	end
+
+	describe "rps" do
+		include BrNfeTest::HelperTest::HaveRpsTest
 	end
 
 	describe "#validate_rps" do

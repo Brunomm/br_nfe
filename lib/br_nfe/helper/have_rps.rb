@@ -16,7 +16,7 @@ module BrNfe
 			
 		protected
 
-			def validar_rps
+			def validate_rps
 				if rps.invalid?
 					rps.errors.full_messages.map{|msg| errors.add(:rps, msg) }
 				end

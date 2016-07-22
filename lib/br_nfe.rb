@@ -136,7 +136,7 @@ module BrNfe
 				autoload :RecepcaoLoteRps
 				autoload :ConsultaNfsPorRps
 				autoload :ConsultaSituacaoLoteRps
-				autoload :RecepcionarLoteRpsLimitado
+				autoload :RecepcaoLoteRpsLimitado
 				autoload :ConsultaNfse
 			end
 		end

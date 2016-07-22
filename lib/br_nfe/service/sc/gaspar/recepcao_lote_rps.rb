@@ -2,20 +2,11 @@ module BrNfe
 	module Service
 		module SC
 			module Gaspar
-				class RecepcaoLoteDfs < BrNfe::Service::SC::Gaspar::Base
-					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
-
-
+				class RecepcaoLoteRps < BrNfe::Service::Thema::V1::RecepcaoLoteRps
 					def wsdl
-						"https://nfse.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl"
-					end
-					def method_wsdl
-						:recepcionar_lote_rps
+						"http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl"
 					end
 
-					def xml_builder
-						render_xml 'servico_enviar_lote_rps_envio'
-					end
 					def self.novo
 						@endereco = BrNfe::Endereco.new({
 							logradouro: "R BONIFACIO HAENDCHEN",
@@ -94,7 +85,8 @@ module BrNfe
 						end
 
 						# BrNfe::Service::Betha::V1::RecepcaoLoteRps.
-						BrNfe::Service::SC::Gaspar::ConsultaSituacaoLoteDfs.new({
+						# BrNfe::Service::SC::Gaspar::ConsultaSituacaoLoteDfs.
+						new({
 							emitente: @emitente,
 							numero_lote_rps: 7786,
 							lote_rps: [@rps],
