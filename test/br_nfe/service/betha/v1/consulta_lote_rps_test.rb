@@ -25,22 +25,31 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 	end
 
 	describe "#method_wsdl" do
-		it { subject.method_wsdl.must_equal :consultar_lote_rps }
+		it { subject.method_wsdl.must_equal :consultar_lote_rps_envio }
 	end
 
-
-	describe "#xml_builder" do
-		it "deve adicionar o valor do xml_inf_pedido_cancelamento e assinar o xml" do
-			subject.protocolo = '6654898765131'
-
-			xml = subject.xml_builder.to_s
-			xml = Nokogiri::XML xml
-
-			xml.xpath('Temp/Prestador/Cnpj').first.text.must_equal emitente.cnpj
-			xml.xpath('Temp/Prestador/InscricaoMunicipal').first.text.must_equal emitente.inscricao_municipal
-			xml.xpath('Temp/Protocolo').first.text.must_equal '6654898765131'
-
+	describe "#response_path_module" do
+		it "deve ter um module" do
+			subject.response_path_module.must_equal BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
 		end
 	end
 
+	it "#response_root_path" do
+		subject.response_root_path.must_equal [:consultar_lote_rps_envio_response]
+	end
+
+	describe "Validação do XML através do XSD" do
+		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/betha/v1/xsd' }
+				
+		describe "Validações a partir do arquivo XSD" do
+			it "Deve ser válido com 1 RPS com todas as informações preenchidas" do
+				Dir.chdir(schemas_dir) do
+					schema = Nokogiri::XML::Schema(IO.read('servico_consultar_lote_rps_envio_v01.xsd'))
+					document = Nokogiri::XML(subject.content_xml)
+					errors = schema.validate(document)
+					errors.must_be_empty
+				end
+			end
+		end
+	end
 end

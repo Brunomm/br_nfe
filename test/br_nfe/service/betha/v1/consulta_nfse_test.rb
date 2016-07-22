@@ -8,21 +8,8 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 		it { subject.class.superclass.must_equal BrNfe::Service::Betha::V1::Gateway }
 	end
 
-	describe "validations" do
-		it { must validate_presence_of(:data_inicial) }
-		it { must validate_presence_of(:data_final) }
-	end
-
-	context "data inicial e final sempre deve retornar uma data na formatação adequada" do
-		it "data_inicial" do
-			subject.data_inicial = '12/05/2015'
-			subject.data_inicial.must_equal '2015-05-12'
-		end
-
-		it "data_final" do
-			subject.data_inicial = Date.parse '12/05/2010'
-			subject.data_inicial.must_equal '2010-05-12'
-		end
+	it "deve conter as regras de BrNfe::Service::Concerns::Rules::ConsultaNfse inclusas" do
+		subject.class.included_modules.must_include BrNfe::Service::Concerns::Rules::ConsultaNfse
 	end
 
 	describe "#wsdl" do
@@ -38,37 +25,29 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 	end
 
 	describe "#method_wsdl" do
-		it { subject.method_wsdl.must_equal :consultar_nfse }
+		it { subject.method_wsdl.must_equal :consultar_nfse_envio }
 	end
 
-	describe "#xml_builder" do
-		before do
-			subject.assign_attributes(data_inicial: Date.parse('01/09/2015'), data_final: Date.parse('10/09/2015'))
-		end
-		it "estrutura com numero da nfse" do
-			xml = subject.xml_builder.to_s
-			xml = Nokogiri::XML xml
+	it "#response_path_module" do
+		subject.response_path_module.must_equal BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarNfseResposta
+	end
 
-			xml.xpath('Temp/Prestador/Cnpj').first.text.must_equal               emitente.cnpj
-			xml.xpath('Temp/Prestador/InscricaoMunicipal').first.text.must_equal emitente.inscricao_municipal
-			
-			xml.xpath('Temp/NumeroNfse').first.text.must_equal subject.numero_nfse
-			xml.xpath('Temp/PeriodoEmissao/DataInicial').first.text.must_equal '2015-09-01'
-			xml.xpath('Temp/PeriodoEmissao/DataFinal').first.text.must_equal   '2015-09-10'
-		end
+	it "#response_root_path" do
+		subject.response_root_path.must_equal [:consultar_nfse_envio_response]
+	end
 
-		it "estrutura sem numero da nfse" do
-			subject.numero_nfse = ''
-
-			xml = subject.xml_builder.to_s
-			xml = Nokogiri::XML xml
-
-			xml.xpath('Temp/Prestador/Cnpj').first.text.must_equal               emitente.cnpj
-			xml.xpath('Temp/Prestador/InscricaoMunicipal').first.text.must_equal emitente.inscricao_municipal
-			
-			xml.xpath('Temp/NumeroNfse').first.must_be_nil
-			xml.xpath('Temp/PeriodoEmissao/DataInicial').first.text.must_equal '2015-09-01'
-			xml.xpath('Temp/PeriodoEmissao/DataFinal').first.text.must_equal   '2015-09-10'
+	describe "Validação do XML através do XSD" do
+		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/betha/v1/xsd' }
+				
+		describe "Validações a partir do arquivo XSD" do
+			it "Deve ser válido com 1 RPS com todas as informações preenchidas" do
+				Dir.chdir(schemas_dir) do
+					schema = Nokogiri::XML::Schema(IO.read('servico_consultar_nfse_envio_v01.xsd'))
+					document = Nokogiri::XML(subject.content_xml)
+					errors = schema.validate(document)
+					errors.must_be_empty
+				end
+			end
 		end
 	end
 end

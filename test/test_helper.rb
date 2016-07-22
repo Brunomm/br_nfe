@@ -38,4 +38,5 @@ end
 class MiniTest::Spec
 	include Shoulda::Matchers::ActiveModel
 	include FactoryGirl::Syntax::Methods
+	let(:sequence_1) { sequence('sequence_1') } 
 end

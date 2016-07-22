@@ -1,6 +1,8 @@
 *{tag: "#{namespace_identifier.to_s+':' if namespace_identifier}EnviarLoteRpsEnvio"} *message_namespaces
 	- xml_lote_rps = render_xml('_tc_lote_rps')
-	LoteRps id="L#{numero_lote_rps}"
+	/ Alguns órgãos emissores não aceitam o atributo ID na tag (Como a betha)
+	- attributes_lote_rps = id_attribute? ? {id: "L#{numero_lote_rps}"} : {}
+	LoteRps *attributes_lote_rps
 		= xml_lote_rps.html_safe
 
 	- if certificate

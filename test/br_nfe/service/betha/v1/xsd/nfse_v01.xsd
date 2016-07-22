@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="http://www.betha.com.br/e-nota-contribuinte-ws"
-            xmlns="http://www.betha.com.br/e-nota-contribuinte-ws"
+            xmlns="http://www.betha.com.br/e-nota-contribuinte-ws/shema/nfse_v01.xsd"
             xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified" elementFormDefault="qualified">
 
 <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
@@ -31,21 +31,6 @@
 	<xsd:simpleType name="tsNaturezaOperacao">
 		<xsd:restriction base="xsd:byte">
 			<xsd:pattern value="1|2|3|4|5|6|7"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="tsCondicao">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="A_VISTA|NA_APRESENTACAO|A_PRAZO|CARTAO_DEBITO|CARTAO_CREDITO"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="tsQtdParcela">
-		<xsd:restriction base="xsd:nonNegativeInteger">
-			<xsd:totalDigits value="2"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="tsParcela">
-		<xsd:restriction base="xsd:nonNegativeInteger">
-			<xsd:totalDigits value="2"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="tsRegimeEspecialTributacao">
@@ -85,7 +70,7 @@
 	<xsd:simpleType name="tsValor">
 		<xsd:restriction base="xsd:decimal">
 			<xsd:totalDigits value="15"/>
-			<xsd:fractionDigits value="4" fixed="true"/>
+			<xsd:fractionDigits value="2" fixed="true"/>
 			<xsd:minInclusive value="0"/>
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -128,13 +113,6 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="tsInscricaoMunicipal">
-		<xsd:restriction base="xsd:string">
-			<xsd:maxLength value="15"/>
-			<xsd:minLength value="1"/>
-			<xsd:whiteSpace value="collapse"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="tsInscricaoEstadual">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="15"/>
 			<xsd:minLength value="1"/>
@@ -331,7 +309,6 @@
         <xsd:sequence>
             <xsd:element name="CpfCnpj" type="tcCpfCnpj" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="InscricaoMunicipal" type="tsInscricaoMunicipal" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="InscricaoEstadual" type="tsInscricaoEstadual" minOccurs="0" maxOccurs="1" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="tcDadosTomador">
@@ -378,20 +355,6 @@
             <xsd:element name="Art" type="tsArt" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="tcCondicaoPagamento">
-        <xsd:sequence>
-            <xsd:element name="Condicao" type="tsCondicao" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="QtdParcela" type="tsQtdParcela" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="Parcelas" type="tcParcelas" minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="tcParcelas">
-        <xsd:sequence>
-            <xsd:element name="Parcela" type="tsParcela" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="DataVencimento" type="xsd:date" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="Valor" type="tsValor" minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-    </xsd:complexType>
     <xsd:complexType name="tcDadosPrestador">
         <xsd:sequence>
             <xsd:element name="IdentificacaoPrestador" type="tcIdentificacaoPrestador" minOccurs="1" maxOccurs="1"/>
@@ -416,8 +379,6 @@
             <xsd:element name="Tomador" type="tcDadosTomador" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="IntermediarioServico" type="tcIdentificacaoIntermediarioServico" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="ContrucaoCivil" type="tcDadosConstrucaoCivil" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="CondicaoPagamento" type="tcCondicaoPagamento" minOccurs="0" maxOccurs="5"/>
-            <xsd:element name="OutrasInformacoes" type="tsOutrasInformacoes" minOccurs="0" maxOccurs="1"/>	
         </xsd:sequence>
         <xsd:attribute name="Id" type="xsd:string"/>
     </xsd:complexType>
@@ -435,13 +396,6 @@
             <xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="tcIdentificacaoIntermediarioServico"> 
-        <xsd:sequence> 
-            <xsd:element name="RazaoSocial" type="xsd:string"/>
-            <xsd:element name="CpfCnpj" type="tcCpfCnpj"/>
-            <xsd:element name="InscricaoMunicipal" type="xsd:string" minOccurs="0"/>
-        </xsd:sequence>
-    </xsd:complexType> 
     <xsd:complexType name="tcInfNfse">
         <xsd:sequence>
             <xsd:element name="Numero" type="tsNumeroNfse" minOccurs="1" maxOccurs="1"/>
