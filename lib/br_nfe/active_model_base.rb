@@ -59,5 +59,10 @@ module BrNfe
 			value_monetary(value, precision)
 		end
 
+		def canonicalize(xml)
+			xml = Nokogiri::XML(xml.to_s, &:noblanks)
+			xml.canonicalize(Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0)
+		end
+
 	end
 end

@@ -22,6 +22,20 @@ require "br_nfe/helper/values_ts/service_v1"
 
 # Regras e atributos para as classes 
 require "br_nfe/service/concerns/rules/recepcao_lote_rps"
+require "br_nfe/service/concerns/rules/consulta_nfse"
+require "br_nfe/service/concerns/rules/consulta_nfs_por_rps"
+require "br_nfe/service/concerns/rules/cancelamento_nfs"
+
+# Carrega os modules que contém os paths para buildar a resposta das requisições
+require 'br_nfe/response/service/paths/base.rb'
+require 'br_nfe/response/service/paths/v1/tc_nfse.rb'
+
+require 'br_nfe/response/service/paths/v1/servico_cancelar_nfse_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_lote_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_enviar_lote_rps_resposta.rb'
 
 # Copyright (C) 2015 Bruno M. Mergen
 #
@@ -46,9 +60,17 @@ module BrNfe
 	autoload :Endereco
 	autoload :Emitente
 	autoload :Destinatario
-	autoload :Response
 	autoload :Base
 	autoload :CondicaoPagamento
+
+	module Response
+		module Service
+			extend ActiveSupport::Autoload
+			autoload :Default
+			autoload :NotaFiscal
+			autoload :BuildResponse
+		end
+	end
 
 	module Service
 		extend ActiveSupport::Autoload
@@ -57,19 +79,18 @@ module BrNfe
 		autoload :Rps
 		autoload :Base
 
-		module Response
-			extend ActiveSupport::Autoload
-			autoload :Default
-			autoload :NotaFiscal
-		end
 		module Betha
 			extend ActiveSupport::Autoload
 			autoload :Base
-			autoload :BuildResponse
 			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoConsultarLoteRpsResposta
+					autoload :ServicoConsultarNfseResposta
+					autoload :ServicoConsultarNfseRpsResposta
+				end
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :BuildResponse
 				autoload :ConsultaLoteRps
 				autoload :ConsultaNfse
 				autoload :ConsultaNfsPorRps
@@ -80,7 +101,6 @@ module BrNfe
 			module V2
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :BuildResponse
 				autoload :CancelamentoNfs
 				autoload :ConsultaNfsePorRps
 				autoload :EnvioLoteRpsSincrono
@@ -88,6 +108,18 @@ module BrNfe
 				autoload :SubstituicaoNfse
 				autoload :ConsultaLoteRps
 				autoload :RecepcaoLoteRps
+			end
+		end
+		module Thema
+			module V1
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :CancelaNfse
+				autoload :ConsultaSituacaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :RecepcaoLoteRps
+				autoload :RecepcaoLoteRpsLimitado
+				autoload :ConsultaNfse
 			end
 		end
 		module SC
@@ -100,8 +132,12 @@ module BrNfe
 			module Gaspar
 				extend ActiveSupport::Autoload
 				autoload :Base
-				autoload :RecepcaoLoteDfs
-				autoload :ConsultaSituacaoLoteDfs
+				autoload :CancelaNfse
+				autoload :RecepcaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :ConsultaSituacaoLoteRps
+				autoload :RecepcionarLoteRpsLimitado
+				autoload :ConsultaNfse
 			end
 		end
 	end

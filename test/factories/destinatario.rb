@@ -1,10 +1,10 @@
 FactoryGirl.define do
 	factory :destinatario, class:  BrNfe::Destinatario do
 		cpf_cnpj            "767.345.234-03"
-		inscricao_municipal '6656-9'
-		inscricao_estadual  '8888-9'
+		inscricao_municipal '66569'
+		inscricao_estadual  '88889'
 		razao_social        "João das Coves"
-		telefone            "6204000"
+		telefone            "33665544"
 		email               "mail@mail.com"
 		endereco            { FactoryGirl.build(:endereco) }
 	end

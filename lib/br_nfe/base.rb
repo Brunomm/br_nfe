@@ -297,12 +297,6 @@ module BrNfe
 			remove_quebras Base64.encode64(OpenSSL::Digest::SHA1.digest(xml_canon))
 		end
 
-
-		def canonicalize(xml)
-			xml = Nokogiri::XML(xml.to_s, &:noblanks)
-			xml.canonicalize(Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0)
-		end
-
 		def remove_quebras(str)
 			str.gsub(/\n/,'').gsub(/\t/,'').strip
 		end
