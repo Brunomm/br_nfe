@@ -176,10 +176,12 @@ module BrNfe
 
 				# Método utilizado para pegar a situação do RPS
 				#
-				# <b>Tipo de retorno: </b> _String_
+				# <b>Tipo de retorno: </b> _Symbol_
 				#
 				def get_situation
-					find_value_for_keys(savon_body, path_with_root(situation_path))
+					situation_value = find_value_for_keys(savon_body, path_with_root(situation_path))
+					situation_value = situation_key_values[situation_value.to_s.strip] if situation_value.present?
+					situation_value
 				end
 
 				# Método utilizado para pegar a data de recebimento do lote

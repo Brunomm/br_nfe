@@ -80,4 +80,38 @@ describe BrNfe::Response::Service::Default do
 		end
 	end
 
+	describe "#unsuccessful_request?" do
+		it "deve retornar true se o status for :soap_error" do
+			subject.status = :soap_error
+			subject.unsuccessful_request?.must_equal true
+		end
+		it "deve retornar true se o status for :http_error" do
+			subject.status = :http_error
+			subject.unsuccessful_request?.must_equal true
+		end
+		it "deve retornar true se o status for :unknown_error" do
+			subject.status = :unknown_error
+			subject.unsuccessful_request?.must_equal true
+		end
+		it "deve retornar false se o status for :success" do
+			subject.status = :success
+			subject.unsuccessful_request?.must_equal false
+		end
+		it "deve retornar false se o status for :falied" do
+			subject.status = :falied
+			subject.unsuccessful_request?.must_equal false
+		end
+	end
+
+	describe "#successful_request?" do
+		it "se unsuccessful_request? for false então deve retornar true" do
+			subject.expects(:unsuccessful_request?).returns(false)
+			subject.successful_request?.must_equal true
+		end
+		it "se unsuccessful_request? for true então deve retornar false" do
+			subject.expects(:unsuccessful_request?).returns(true)
+			subject.successful_request?.must_equal false
+		end
+	end
+
 end

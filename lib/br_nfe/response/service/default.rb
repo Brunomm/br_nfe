@@ -90,6 +90,25 @@ module BrNfe
 					@error_messages = [@error_messages].flatten
 				end
 
+				# Método para saber se a conexão com a prefeitura foi mal-sucedida.
+				# Caso ocorra algum erro na requisição irá retornar true.
+				#
+				# <b>Tipo de retorno: </b> _Boolean_
+				#
+				def unsuccessful_request?
+					status.in?([:soap_error, :http_error, :unknown_error])
+				end
+
+				# Método para saber se a conexão com a prefeitura foi bem-sucedida.
+				# Caso a requisição ocorra certo e não apresente nenhuma exception
+				# irá retornar true.
+				#
+				# <b>Tipo de retorno: </b> _Boolean_
+				#
+				def successful_request?
+					!unsuccessful_request?
+				end
+
 				def success?
 					status == :success
 				end

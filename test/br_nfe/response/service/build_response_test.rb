@@ -162,13 +162,23 @@ describe BrNfe::Response::Service::BuildResponse do
 		end
 
 		describe "#get_situation" do
-			it "deve buscar a situação a partir do caminho em situation_path" do
-				subject.stubs(:savon_body).returns(:savon_body)
-				subject.stubs(:situation_path).returns(:situation_path)
-				subject.stubs(:path_with_root).with(:situation_path).returns([:path, :root])
-				subject.expects(:find_value_for_keys).with(:savon_body, [:path, :root]).returns('1')
-
-				subject.send(:get_situation).must_equal '1'
+			context "deve buscar a situação a partir do caminho em situation_path" do
+				it "se encontrar a situação deve buscar formatar seu valor através do método #situation_key_values" do
+					subject.stubs(:savon_body).returns(:savon_body)
+					subject.stubs(:situation_path).returns(:situation_path)
+					subject.stubs(:path_with_root).with(:situation_path).returns([:path, :root])
+					subject.expects(:find_value_for_keys).with(:savon_body, [:path, :root]).returns('1').in_sequence(sequence_1)
+					subject.expects(:situation_key_values).returns({'1'=> :v1, '2'=> :v2}).in_sequence(sequence_1)
+					subject.send(:get_situation).must_equal :v1
+				end
+				it "se não encontrar a situação não deve buscar seu valor através do método #situation_key_values" do
+					subject.stubs(:savon_body).returns(:savon_body)
+					subject.stubs(:situation_path).returns(:situation_path)
+					subject.stubs(:path_with_root).with(:situation_path).returns([:path, :root])
+					subject.expects(:find_value_for_keys).with(:savon_body, [:path, :root]).returns('')
+					subject.expects(:situation_key_values).never
+					subject.send(:get_situation).must_equal ''
+				end
 			end
 		end
 

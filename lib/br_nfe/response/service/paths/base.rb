@@ -15,6 +15,16 @@ module BrNfe
 					# Caminho para encontrar a situação
 					def situation_path; [] end
 					
+					# Chaves para formatar a situação do Lote RPS
+					def situation_key_values
+						{
+							'1' =>  :unreceived, # Não Recebido
+							'2' =>  :unprocessed,# Não Processado
+							'3' =>  :error,      # Processado com Erro
+							'4' =>  :success,    # Processado com Sucesso
+						}
+					end
+					
 					# Caminho para encontrar a data e hora do cancelamento da nF
 					def cancelation_date_time_path; [] end
 					

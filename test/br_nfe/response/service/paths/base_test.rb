@@ -181,4 +181,19 @@ describe BrNfe::Service::Response::Paths::Base do
 	it 'valor padrão para o método invoice_cancelamento_inscricao_municipal_path' do
 		subject.invoice_cancelamento_inscricao_municipal_path.must_equal []
 	end
+
+	describe "#situation_key_values" do
+		it "Chave para não recebido deve ser '1' " do
+			subject.situation_key_values['1'].must_equal :unreceived
+		end
+		it "Chave para não processado deve ser '2' " do
+			subject.situation_key_values['2'].must_equal :unprocessed
+		end
+		it "Chave para erro no processamento deve ser '3' " do
+			subject.situation_key_values['3'].must_equal :error
+		end
+		it "Chave para processado com sucesso deve ser '4' " do
+			subject.situation_key_values['4'].must_equal :success
+		end
+	end
 end
