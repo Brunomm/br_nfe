@@ -35,7 +35,7 @@ module BrNfe
 
 			def request
 				set_response(
-					client_wsdl.call(method_wsdl, xml: "#{tag_xml}#{render_xml('soap_env')}".html_safe)
+					client_wsdl.call(method_wsdl, xml: soap_xml)
 				)
 			rescue Savon::SOAPFault => error
 				return @response = BrNfe::Response::Service::Default.new(status: :soap_error, error_messages: [error.message])
@@ -43,6 +43,10 @@ module BrNfe
 				return @response = BrNfe::Response::Service::Default.new(status: :http_error, error_messages: [error.message])
 			rescue Exception => error
 				return @response = BrNfe::Response::Service::Default.new(status: :unknown_error, error_messages: [error.message])
+			end
+
+			def soap_xml
+				"#{tag_xml}#{render_xml('soap_env')}".html_safe
 			end
 
 			def set_response(resp)

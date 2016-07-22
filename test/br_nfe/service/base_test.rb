@@ -37,6 +37,18 @@ describe BrNfe::Service::Base do
 		end
 	end
 
+	describe "#soap_xml" do
+		it "deve trazer a tag_xml e a renderização para o soap_env concatenados" do
+			subject.expects(:tag_xml).returns('<?xml?>')
+			subject.expects(:render_xml).with('soap_env').returns('<Soap>value</Soap>')
+			subject.soap_xml.must_equal '<?xml?><Soap>value</Soap>'
+		end
+		it "deve renderizar o xml com o valor original" do
+			subject.stubs(:xml_builder).returns('<xml>builder</xml>')
+			subject.soap_xml.must_equal '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:ins0="http://www.w3.org/2000/09/xmldsig#" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><xml>builder</xml></soapenv:Body></soapenv:Envelope>'
+		end
+	end
+
 	describe "#request" do
 		let(:nori) { Nori.new(:strip_namespaces => true, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }) }
 		let(:soap_fault) do 

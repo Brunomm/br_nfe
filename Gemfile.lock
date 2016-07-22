@@ -188,7 +188,7 @@ DEPENDENCIES
   minitest-reporters
   minitest-spec-rails
   mocha
-  pry
+  pry (~> 0.10)
   shoulda-matchers
   simplecov
 
