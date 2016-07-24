@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
 	gem.email         = ["brunomergen@gmail.com"]
 	gem.homepage      = "https://github.com/Brunomm/br_nfe"
 	
-	gem.files         = `git ls-files -- lib`.split("\n").reject{|fil| 
+	gem.files         = `git ls-files`.split("\n").reject{|fil| 
 		fil.include?('coverage/') ||
 		fil.include?('exemplos/') 
 	}
