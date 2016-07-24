@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require File.expand_path('../lib/br_nfe/version', __FILE__)
 
-e = Gem::Specification.new do |gem|
+Gem::Specification.new do |gem|
 	gem.name          = "br_nfe"
 	gem.version       = BrNfe::Version::CURRENT
 	gem.license       = "MIT"
@@ -9,11 +9,15 @@ e = Gem::Specification.new do |gem|
 	gem.summary       = %q{Emissão de Notas Fiscais Eletrônicas em Ruby}
 	gem.authors       = ["Bruno M. Mergen"]
 	gem.email         = ["brunomergen@gmail.com"]
-	gem.files         = Dir['lib/**/*.*'] + ['Gemfile','Gemfile.lock']
-	gem.test_files    = `git ls-files -- test/**/*`.split("\n")
-	# gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
 	gem.homepage      = "https://github.com/Brunomm/br_nfe"
-	# gem.require_paths = ["lib"]	
+	
+	gem.files         = `git ls-files -- lib`.split("\n").reject{|fil| 
+		fil.include?('coverage/') ||
+		fil.include?('exemplos/') 
+	}
+	gem.test_files    = `git ls-files -- test`.split("\n")
+	# gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+	gem.require_paths = ["lib"]
 
 	gem.required_ruby_version = ['~> 2.1', '~> 2.2', '~> 2.3']
 

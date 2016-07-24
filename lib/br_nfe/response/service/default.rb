@@ -19,14 +19,6 @@ module BrNfe
 				#
 				attr_accessor :notas_fiscais
 
-				# Código da situação do lote RPS
-				# Utilizado para saber se o Lote RPS já foi processado
-				# e se foi processado com sucesso ou teve algum erro
-				#
-				# <b>Tipo de retorno: </b> _Integer_ ou _String_
-				#
-				attr_accessor :situation
-				
 				# Número do protocolo de recebimento do XML
 				# Setado normalmente quando é enviado um lote RPS
 				# para processamento.
@@ -76,6 +68,64 @@ module BrNfe
 				#
 				attr_accessor :status
 
+				# Código da situação do lote RPS
+				# Utilizado para saber se o Lote RPS já foi processado
+				# e se foi processado com sucesso ou teve algum erro
+				#
+				# <b>Tipo de retorno: </b> _Integer_ ou _String_
+				#
+				attr_accessor :situation
+				def situation
+					@situation ||= get_situation_by_message_codes if error_messages.present?
+					@situation
+				end
+
+				def situation_unreceived_code_errors
+					@situation_unreceived_code_errors ||= []
+					@situation_unreceived_code_errors+['E4']
+				end
+				def situation_unreceived_code_errors=(value)
+					@situation_unreceived_code_errors = [value].flatten
+				end
+
+				def situation_unprocessed_code_errors
+					@situation_unprocessed_code_errors ||= []
+					@situation_unprocessed_code_errors+['E92']
+				end
+				def situation_unprocessed_code_errors=(value)
+					@situation_unprocessed_code_errors = [value].flatten
+				end
+
+				def situation_success_code_errors
+					@situation_success_code_errors ||= []
+					@situation_success_code_errors#+[]
+				end
+				def situation_success_code_errors=(value)
+					@situation_success_code_errors = [value].flatten
+				end
+
+				# Como alguns orgãos emissores (como a Betha) não tem a capacidade
+				# de programar para colocar o codigo da situação em determinados momentos
+				# e simplesmente colocam uma mensagem de erro na resposta sem setar a situação
+				# foi necessário construir esse método para que a partir dos códigos das mensagens
+				# seja possível distinguir qual a situação atual do lote enviado.
+				# Por exemplo: Quando retornar o erro com código 'E92' quer dizer que a situação
+				# do lote é :unprocessed. Equivalente ao código de situação 2
+				#
+				# <b>Tipo de retorno: </b> _Symbol_
+				#
+				def get_situation_by_message_codes
+					if (situation_unprocessed_code_errors & message_codes).any?
+						:unprocessed
+					elsif (situation_unreceived_code_errors & message_codes).any?
+						:unreceived
+					elsif (situation_success_code_errors & message_codes).any?
+						:success
+					elsif message_codes.any?
+						:error
+					end				
+				end
+
 				def initialize(attributes = {})
 					self.notas_fiscais  = [] # Para poder utilizar o <<
 					self.error_messages = [] # Para poder utilizar o <<
@@ -119,6 +169,15 @@ module BrNfe
 
 				def get_status
 					error_messages.blank? ? :success : :falied
+				end
+
+				# Retorna um array apenas com os códigos das mensagens de erro.
+				# Sempre retornar o código no formato de String.
+				#
+				# <b>Tipo de retorno: </b> _Array_
+				#
+				def message_codes
+					@message_codes ||= error_messages.select{|msg| msg.is_a?(Hash)}.map{|msg| msg[:code].try(:to_s) }
 				end
 			end
 		end
