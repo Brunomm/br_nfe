@@ -45,10 +45,6 @@ module BrNfe
 				return @response = BrNfe::Response::Service::Default.new(status: :unknown_error, error_messages: [error.message])
 			end
 
-			def soap_xml
-				"#{tag_xml}#{render_xml('soap_env')}".html_safe
-			end
-
 			def set_response(resp)
 				@original_response = resp
 				@response = BrNfe::Response::Service::BuildResponse.new(

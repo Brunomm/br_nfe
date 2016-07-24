@@ -109,6 +109,10 @@ module BrNfe
 			"<?xml version=\"1.0\" encoding=\"#{wsdl_encoding}\"?>"
 		end
 
+		def soap_xml
+			@soap_xml ||= "#{tag_xml}#{render_xml('soap_env')}".html_safe
+		end
+
 		# Versão do XML utilizado 
 		# Cada Cidade pode utilizar uma versão diferente do XML
 		#
