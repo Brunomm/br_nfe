@@ -219,7 +219,7 @@ describe BrNfe::Response::Service::BuildResponse do
 			# Sim, sinto vergonha por ter feito um teste dessse ='(
 			it "deve simplesmente instanciar um NF a partir dos métodos e busca por atrubutos via hash e XML" do
 				invoice = BrNfe::Response::Service::NotaFiscal.new
-				subject.stubs(:get_xml_nf).returns(:get_xml_nf)
+				subject.stubs(:get_xml_nf).returns('get_xml_nf')
 				subject.stubs(:invoice_numero_nf_path).returns(:invoice_numero_nf_path)
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_numero_nf_path).returns(:invoice_numero_nf_value)
 				subject.stubs(:invoice_codigo_verificacao_path).returns(:invoice_codigo_verificacao_path)
@@ -318,7 +318,7 @@ describe BrNfe::Response::Service::BuildResponse do
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_codigo_art_path).returns(:invoice_codigo_art_value)
 
 				BrNfe::Response::Service::NotaFiscal.expects(:new).with({
-					xml_nf:                           :get_xml_nf,
+					xml_nf:                           'get_xml_nf',
 					numero_nf:                        :invoice_numero_nf_value,
 					codigo_verificacao:               :invoice_codigo_verificacao_value,
 					data_emissao:                     :invoice_data_emissao_value,

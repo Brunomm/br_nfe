@@ -151,6 +151,21 @@ describe BrNfe::Base do
 		end
 	end
 
+	describe "#soap_xml" do
+		it "deve concatenar a #tag_xml junto com a renderização para o template 'soap_env'" do
+			subject.expects(:tag_xml).returns('<?xml?>')
+			subject.expects(:render_xml).with('soap_env').returns('<SOAP>env</SOAP>')
+			subject.soap_xml.must_equal '<?xml?><SOAP>env</SOAP>'
+			subject.instance_variable_get(:@soap_xml).must_equal '<?xml?><SOAP>env</SOAP>'
+		end
+		it "se já temm valor na variavel @soap_xml não deve gerar o xml novamnete" do
+			subject.instance_variable_set(:@soap_xml, 'xml')
+			subject.expects(:tag_xml).never
+			subject.expects(:render_xml).never
+			subject.soap_xml.must_equal 'xml'
+		end
+	end
+
 	describe "xml_version" do
 		it "por padrão deve retornar :v1" do
 			subject.xml_version.must_equal :v1

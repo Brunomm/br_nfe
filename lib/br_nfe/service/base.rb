@@ -21,7 +21,7 @@ module BrNfe
 			end
 
 			def nfse_xml_path
-				#//Envelope/Body/ConsultarLoteRpsEnvioResponse/NFSe
+				#//Envelope/Body/ConsultarLoteRpsEnvioResponse/ConsultarLoteRpsResposta
 				'//*/*/*/*'
 			end
 
@@ -34,9 +34,7 @@ module BrNfe
 			end
 
 			def request
-				set_response(
-					client_wsdl.call(method_wsdl, xml: soap_xml)
-				)
+				set_response( client_wsdl.call(method_wsdl, xml: soap_xml) )
 			rescue Savon::SOAPFault => error
 				return @response = BrNfe::Response::Service::Default.new(status: :soap_error, error_messages: [error.message])
 			rescue Savon::HTTPError => error

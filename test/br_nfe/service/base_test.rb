@@ -59,22 +59,22 @@ describe BrNfe::Service::Base do
 		let(:new_response) do
 			HTTPI::Response.new 500, {}, '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns2:authenticateResponse xmlns:ns2="http://v1_0.ws.user.example.com"></ns2:authenticateResponse></soap:Body></soap:Envelope>'
 		end
+		let(:soap_xml) { '<Envelope><Body>XML</Body></Envelope>' } 
 
 		before do
 			subject.stubs(:wsdl).returns('http://duobr.com?wsdl')
 			subject.stubs(:method_wsdl).returns(:operation)
-			subject.stubs(:tag_xml).returns('<?xml?>')
-			subject.stubs(:render_xml).with('soap_env').returns('XML value')
+			subject.expects(:soap_xml).returns(soap_xml)
 		end
 
 		it "deve fazer a requisição para o WS passando a resposta para o metodo set_response" do
-			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').returns(:savon_response)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
 			subject.expects(:set_response).with(:savon_response).returns(:result)
 			subject.request.must_equal :result
 		end
 
 		it "Se ocorrer erro Savon::SOAPFault deve ser tratado e setar o status da resposta com :soap_error" do
-			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').returns(:savon_response)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
 			subject.expects(:set_response).with(:savon_response).raises(soap_fault)
 			
 			subject.request
@@ -86,7 +86,7 @@ describe BrNfe::Service::Base do
 			http_error = Savon::HTTPError.new(new_response)
 			http_error.stubs(:to_s).returns('Message')
 			
-			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').raises(http_error)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).raises(http_error)
 			
 			subject.request
 			subject.response.error_messages.must_equal(['Message'])
@@ -96,7 +96,7 @@ describe BrNfe::Service::Base do
 		it "Se ocorrer qualquer outro erro deve setar o status com :unknown_error" do
 			error = RuntimeError.new('ERROU')
 			
-			subject.client_wsdl.expects(:call).with(:operation, xml: '<?xml?>XML value').raises(error)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).raises(error)
 			
 			subject.request
 			subject.response.error_messages.must_equal(['ERROU'])

@@ -1,3 +1,4 @@
+#encoding UTF-8
 module BrNfe
 	module Response
 		module Service
@@ -40,7 +41,7 @@ module BrNfe
 						data_recebimento: get_received_date,
 						numero_lote:      get_lot_number,
 						situation:        get_situation,
-						original_xml:     savon_response.xml,
+						original_xml:     savon_response.xml.force_encoding('UTF-8'),
 						cancelation_date_time: get_cancelation_date_time
 					})
 				end
@@ -201,11 +202,13 @@ module BrNfe
 				end
 
 				# Método utilizado para pegar o XML da NF
+				# É necessário canonicalizar o document para que seja colocado os
+				# namespaces nas tags corretas. Caso contrário o XML não irá abrir.
 				#
 				# <b>Tipo de retorno: </b> _String_
 				#
 				def get_xml_nf
-					canonicalize( savon_response.xpath(nfe_xml_path).to_xml )
+					canonicalize(Nokogiri::XML.parse(canonicalize(savon_response.doc.to_s), nil, 'UTF-8').xpath(nfe_xml_path).to_xml)
 				rescue
 					savon_response.xml
 				end
@@ -225,7 +228,7 @@ module BrNfe
 				#
 				def instance_invoice(invoice_hash)
 					BrNfe::Response::Service::NotaFiscal.new({
-						xml_nf:                           get_xml_nf,
+						xml_nf:                           get_xml_nf.force_encoding('UTF-8'),
 						numero_nf:                        find_value_for_keys(invoice_hash, invoice_numero_nf_path                       ),
 						codigo_verificacao:               find_value_for_keys(invoice_hash, invoice_codigo_verificacao_path              ),
 						data_emissao:                     find_value_for_keys(invoice_hash, invoice_data_emissao_path                    ),

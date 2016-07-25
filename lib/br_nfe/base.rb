@@ -109,6 +109,10 @@ module BrNfe
 			"<?xml version=\"1.0\" encoding=\"#{wsdl_encoding}\"?>"
 		end
 
+		# XML que irá na requisição SOAP
+		#
+		# <b>Tipo de retorno: </b> _String XML_
+		#
 		def soap_xml
 			@soap_xml ||= "#{tag_xml}#{render_xml('soap_env')}".html_safe
 		end
