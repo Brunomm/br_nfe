@@ -110,7 +110,7 @@ module BrNfe
 				# Código de item da lista de serviço
 				#
 				def ts_item_lista_servico value
-					"#{value}".max_size(5)
+					BrNfe::Helper.only_number(value).max_size(5).rjust(4, '0')
 				end
 
 				# Código CNAE
