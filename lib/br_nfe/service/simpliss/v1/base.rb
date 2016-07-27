@@ -4,6 +4,15 @@ module BrNfe
 			module V1
 				class Base < BrNfe::Service::Base
 
+					# Declaro que o método `render_xml` irá verificar os arquivos também presentes
+					# no diretório especificado
+					#
+					# <b>Tipo de retorno: </b> _Array_
+					#
+					def xml_current_dir_path
+						["#{BrNfe.root}/lib/br_nfe/service/simpliss/v1/xml"]+super
+					end
+
 					def canonicalization_method_algorithm
 						'http://www.w3.org/TR/2001/REC-xml-c14n-20010315'
 					end

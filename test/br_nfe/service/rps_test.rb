@@ -60,7 +60,10 @@ describe BrNfe::Service::Rps do
 						it { wont validate_presence_of(:iss_tax_rate) }
 					end
 					context "quando for false" do
-						before { subject.stubs(:iss_retained?).returns(false) }
+						before do 
+							subject.items = []
+							subject.stubs(:iss_retained?).returns(false)
+						end
 						it { must validate_presence_of(:total_iss) }
 						it { must validate_presence_of(:iss_tax_rate) }
 					end
@@ -366,7 +369,7 @@ describe BrNfe::Service::Rps do
 		end
 
 		it "posso utilizar o << para adicionar valores" do
-			subject.items << item_1
+			subject.items = item_1
 			subject.items << item_2
 			subject.items.must_equal [item_1,item_2]
 		end
@@ -434,7 +437,8 @@ describe BrNfe::Service::Rps do
 			subject.assign_attributes({
 				base_calculation: nil,
 				total_services:   nil,
-				deductions:       nil
+				deductions:       nil,
+				items:            []
 			})
 
 			subject.base_calculation.must_equal 0.0
