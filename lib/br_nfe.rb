@@ -98,17 +98,6 @@ module BrNfe
 				autoload :ConsultaSituacaoLoteRps
 				autoload :RecepcaoLoteRps
 			end
-			module V2
-				extend ActiveSupport::Autoload
-				autoload :Gateway
-				autoload :CancelamentoNfs
-				autoload :ConsultaNfsePorRps
-				autoload :EnvioLoteRpsSincrono
-				autoload :GeraNfse
-				autoload :SubstituicaoNfse
-				autoload :ConsultaLoteRps
-				autoload :RecepcaoLoteRps
-			end
 		end
 		module Thema
 			module V1
@@ -193,10 +182,10 @@ module BrNfe
 	mattr_accessor :client_wsdl_ssl_cert_key_password
 	
 	mattr_accessor :client_wsdl_log
-	@@client_wsdl_log = true
+	@@client_wsdl_log = false
 	
 	mattr_accessor :client_wsdl_pretty_print_xml
-	@@client_wsdl_pretty_print_xml = true
+	@@client_wsdl_pretty_print_xml = false
 	
 	def self.setup
 		yield self
