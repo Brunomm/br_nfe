@@ -159,7 +159,11 @@ module BrNfe
 		end
 
 		def certificate_pkcs12
-			@certificate_pkcs12 ||= OpenSSL::PKCS12.new(certificate_pkcs12_value, certificate_pkcs12_password)
+			return @certificate_pkcs12 if @certificate_pkcs12
+			@certificate_pkcs12 = nil
+			# Correção bug http://stackoverflow.com/questions/33112155/pgconnectionbad-pqconsumeinput-ssl-error-key-values-mismatch/36283315#36283315
+			Thread.new { @certificate_pkcs12 = OpenSSL::PKCS12.new(certificate_pkcs12_value, certificate_pkcs12_password) }.join
+			@certificate_pkcs12 
 		rescue
 		end
 
