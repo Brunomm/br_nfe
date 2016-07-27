@@ -1,0 +1,47 @@
+- rps ||= false
+- raise "É obrigatório passar um RPS por parâmetro" unless rps
+
+IdentificacaoRps
+	= render_xml '_tc_identificacao_rps', rps: rps
+
+DataEmissao      = ts_datetime(rps.data_emissao)
+NaturezaOperacao = ts_natureza_operacao(emitente.natureza_operacao)
+
+- if emitente.regime_especial_tributacao.present? 
+	/ Código de identificação do regime especial de tributação: 
+	/ - (1)Microempresa municipal
+	/ - (2)Estimativa
+	/ - (3)Sociedade de profissionais
+	/ - (4)Cooperativa, 
+	/ - (5)Microempresário Individual (MEI)
+	/ - (6)Microempresário e Empresa de Pequeno Porte (ME EPP)
+	RegimeEspecialTributacao = ts_regime_especial_tributacao(emitente.regime_especial_tributacao) 
+
+/ (1)sim ----- (2)não -----
+OptanteSimplesNacional = ts_sim_nao(emitente.optante_simples_nacional?)   
+
+/ (1)sim ----- (2)não -----
+IncentivadorCultural = ts_sim_nao(emitente.incentivo_fiscal?)
+
+Status = ts_status_rps(rps.status)
+
+- if rps.replace_invoice?
+	RpsSubstituido
+		= render_xml '_tc_identificacao_rps', rps: rps, substituicao: true
+
+Servico
+	= render_xml '_tc_dados_servico', rps: rps
+
+Prestador
+	= render_xml '_tc_identificacao_prestador', emitente: emitente
+
+Tomador
+	= render_xml '_tc_dados_tomador', destinatario: rps.destinatario
+
+- if rps.intermediario
+	IntermediarioServico
+		= render_xml '_tc_identificacao_intermediario_servico', intermediario: rps.intermediario
+
+- if rps.codigo_obra.present? || rps.codigo_art.present?
+	ConstrucaoCivil
+		= render_xml '_tc_dados_construcao_civil', rps: rps

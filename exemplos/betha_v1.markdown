@@ -3,7 +3,7 @@
 
 ###**1 - CancelamentoNfs **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::CancelamentoNfs.new do |record|
+@ws = BrNfe::Service::Betha::V1::CancelamentoNfs.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	# record.certificado = @certificado # Se você já tem em sua app um certificado instanciado
@@ -23,7 +23,7 @@ end
 
 ###**2 - ConsultaLoteRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::ConsultaLoteRps.new do |record|
+@ws = BrNfe::Service::Betha::V1::ConsultaLoteRps.new do |record|
 	record.protocolo          = 'E1AS5D43ASDAS23'
 	record.emitente = {
 		cnpj: 12345678901234,
@@ -39,7 +39,7 @@ end
 
 ###**3 - ConsultaNfsPorRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::ConsultaNfsPorRps.new do |record|
+@ws = BrNfe::Service::Betha::V1::ConsultaNfsPorRps.new do |record|
 	record.rps do |rps|
 		rps.numero = 6444
 		rps.serie = 'SN'
@@ -59,7 +59,7 @@ end
 
 ###**4 - ConsultaNfse **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::ConsultaNfse.new do |record|
+@ws = BrNfe::Service::Betha::V1::ConsultaNfse.new do |record|
 	record.numero_nfse  = 5525 # não obrigatório
 	record.data_inicial = 1.month.ago
 	record.data_final   = DateTime.now
@@ -74,7 +74,7 @@ end
 
 ###**5 - ConsultaSituacaoLoteRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::ConsultaSituacaoLoteRps.new do |record|
+@ws = BrNfe::Service::Betha::V1::ConsultaSituacaoLoteRps.new do |record|
 	record.protocolo = 'E1AS5D43ASDAS23'
 	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...) 
 end
@@ -82,14 +82,14 @@ end
 
 ###**6 - RecepcaoLoteRps **
 ```ruby
-@ws = BrNfe::Servico::Betha::V1::RecepcaoLoteRps.new do |record|
+@ws = BrNfe::Service::Betha::V1::RecepcaoLoteRps.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...)
 	record.numero_lote_rps = 988
 	record.lote_rps        = [
 		# RPS 1
-		BrNfe::Servico::Rps.new do |rps|
+		BrNfe::Service::Rps.new do |rps|
 			rps.destinatario = BrNfe::Destinatario.new(cpf_cnpj: 123456789012, ...)
 			rps.numero       = 456
 			rps.serie        = 'SN'
@@ -121,7 +121,7 @@ end
 			rps.codigo_cnae       = '6202300'
 		end,
 		# RPS 2
-		BrNfe::Servico::Rps.new({
+		BrNfe::Service::Rps.new({
 			...	
 		})
 	]

@@ -10,6 +10,7 @@ require "br_nfe/helper/string_methods"
 
 require "signer"
 require "savon"
+require "slim"
 
 require "br_nfe/helper/have_address"
 require "br_nfe/helper/have_rps"
@@ -17,8 +18,24 @@ require "br_nfe/helper/have_emitente"
 require "br_nfe/helper/have_destinatario"
 require "br_nfe/helper/have_intermediario"
 require "br_nfe/helper/have_condicao_pagamento"
+require "br_nfe/helper/values_ts/service_v1"
 
+# Regras e atributos para as classes 
+require "br_nfe/service/concerns/rules/recepcao_lote_rps"
+require "br_nfe/service/concerns/rules/consulta_nfse"
+require "br_nfe/service/concerns/rules/consulta_nfs_por_rps"
+require "br_nfe/service/concerns/rules/cancelamento_nfs"
 
+# Carrega os modules que contém os paths para buildar a resposta das requisições
+require 'br_nfe/response/service/paths/base.rb'
+require 'br_nfe/response/service/paths/v1/tc_nfse.rb'
+
+require 'br_nfe/response/service/paths/v1/servico_cancelar_nfse_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_lote_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
+require 'br_nfe/response/service/paths/v1/servico_enviar_lote_rps_resposta.rb'
 
 # Copyright (C) 2015 Bruno M. Mergen
 #
@@ -26,6 +43,10 @@ require "br_nfe/helper/have_condicao_pagamento"
 #
 #
 module BrNfe
+	def self.root
+		File.expand_path '../..', __FILE__
+	end
+
 	Time::DATE_FORMATS[:br_nfe]     = "%Y-%m-%dT%H:%M:%S"
 	DateTime::DATE_FORMATS[:br_nfe] = "%Y-%m-%dT%H:%M:%S"
 	Date::DATE_FORMATS[:br_nfe]     = "%Y-%m-%d"
@@ -39,29 +60,37 @@ module BrNfe
 	autoload :Endereco
 	autoload :Emitente
 	autoload :Destinatario
-	autoload :Response
 	autoload :Base
 	autoload :CondicaoPagamento
 
-	module Servico
-		extend ActiveSupport::Autoload
-		autoload :Intermediario
-		autoload :Rps
-		autoload :Base
-
-		module Response
+	module Response
+		module Service
 			extend ActiveSupport::Autoload
 			autoload :Default
 			autoload :NotaFiscal
+			autoload :BuildResponse
 		end
+	end
+
+	module Service
+		extend ActiveSupport::Autoload
+		autoload :Intermediario
+		autoload :Item
+		autoload :Rps
+		autoload :Base
+
 		module Betha
 			extend ActiveSupport::Autoload
 			autoload :Base
-			autoload :BuildResponse
 			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoConsultarLoteRpsResposta
+					autoload :ServicoConsultarNfseResposta
+					autoload :ServicoConsultarNfseRpsResposta
+				end
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :BuildResponse
 				autoload :ConsultaLoteRps
 				autoload :ConsultaNfse
 				autoload :ConsultaNfsPorRps
@@ -72,7 +101,6 @@ module BrNfe
 			module V2
 				extend ActiveSupport::Autoload
 				autoload :Gateway
-				autoload :BuildResponse
 				autoload :CancelamentoNfs
 				autoload :ConsultaNfsePorRps
 				autoload :EnvioLoteRpsSincrono
@@ -80,6 +108,38 @@ module BrNfe
 				autoload :SubstituicaoNfse
 				autoload :ConsultaLoteRps
 				autoload :RecepcaoLoteRps
+			end
+		end
+		module Thema
+			module V1
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :CancelaNfse
+				autoload :ConsultaSituacaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :RecepcaoLoteRps
+				autoload :RecepcaoLoteRpsLimitado
+				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
+			end
+		end
+		module SC
+			module Florianopolis
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :EmissionRPS
+				autoload :Cancellation
+			end
+			module Gaspar
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :CancelaNfse
+				autoload :RecepcaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :ConsultaSituacaoLoteRps
+				autoload :RecepcaoLoteRpsLimitado
+				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
 			end
 		end
 	end
@@ -113,13 +173,16 @@ module BrNfe
 	@@destinatario_class = BrNfe::Destinatario
 
 	mattr_accessor :intermediario_class
-	@@intermediario_class = BrNfe::Servico::Intermediario
+	@@intermediario_class = BrNfe::Service::Intermediario
 
 	mattr_accessor :condicao_pagamento_class
 	@@condicao_pagamento_class = BrNfe::CondicaoPagamento
 
 	mattr_accessor :rps_class
-	@@rps_class = BrNfe::Servico::Rps
+	@@rps_class = BrNfe::Service::Rps
+
+	mattr_accessor :service_item_class
+	@@service_item_class = BrNfe::Service::Item
 
 	# Configurações do Cliente WSDL
 	mattr_accessor :client_wsdl_ssl_verify_mode
@@ -130,10 +193,10 @@ module BrNfe
 	mattr_accessor :client_wsdl_ssl_cert_key_password
 	
 	mattr_accessor :client_wsdl_log
-	@@client_wsdl_log = false
+	@@client_wsdl_log = true
 	
 	mattr_accessor :client_wsdl_pretty_print_xml
-	@@client_wsdl_pretty_print_xml = false
+	@@client_wsdl_pretty_print_xml = true
 	
 	def self.setup
 		yield self
@@ -142,5 +205,5 @@ module BrNfe
 	######################### END CONFIGURAÇÕES #########################
 
 	include Helper
-	include Servico
+	include Service
 end

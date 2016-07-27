@@ -1,0 +1,19 @@
+*{tag: "#{namespace_identifier.to_s+':' if namespace_identifier}ConsultarNfseEnvio"} *message_namespaces
+	Prestador
+		= render_xml '_tc_identificacao_prestador'
+
+	- if nfe_number.present?
+		NumeroNfse = ts_numero_nfse(nfe_number)
+
+	- if start_date.present? && end_date.present?
+		PeriodoEmissao
+			DataInicial = ts_date(start_date)
+			DataFinal   = ts_date(end_date)
+
+	- if destinatario.present? && destinatario.cpf_cnpj.present?
+		Tomador
+			= render_xml '_tc_identificacao_tomador', destinatario: destinatario
+
+	- if intermediario.present? && intermediario.cpf_cnpj.present?
+		IntermediarioServico
+			= render_xml '_tc_identificacao_intermediario_servico', intermediario: intermediario

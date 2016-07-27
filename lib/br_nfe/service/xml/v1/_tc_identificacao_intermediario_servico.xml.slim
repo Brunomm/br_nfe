@@ -1,0 +1,7 @@
+RazaoSocial = ts_razao_social(intermediario.razao_social)
+
+CpfCnpj
+	= render_xml '_tc_cpf_cnpj', cpf_cnpj: intermediario.cpf_cnpj
+
+- if intermediario.inscricao_municipal.present?
+	InscricaoMunicipal = ts_inscricao_municipal(intermediario.inscricao_municipal)

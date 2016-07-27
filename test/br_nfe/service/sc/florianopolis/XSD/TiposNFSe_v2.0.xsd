@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://nfe.pmf.sc.gov.br/nfse/versao?tipo=xsd-2_0" xmlns:tipos="http://nfe.pmf.sc.gov.br/nfse/versao?tipo=xsd-2_0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd" />
+	<!-- Tipos Simples -->
+	<xsd:simpleType name="tsIdTag">
+		<xsd:annotation>
+			<xsd:documentation>Identificador da tag a ser assinada. Concatenação
+				da inscrição municipal do prestador com o número da AEDF e o
+				número
+				serial da
+				requisição ou da NFPS-e. 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="23" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsNumeroAEDF">
+		<xsd:annotation>
+			<xsd:documentation>Autorização para Emissão de Documento Fiscal
+				Eletrônico.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="6" />
+			<xsd:maxLength value="7" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsTipoAedf">
+		<xsd:annotation>
+			<xsd:documentation>Tipo da AEDF
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL" />
+			<xsd:enumeration value="FATURA" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsAutenticacao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo autenticação.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="40" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsAliquota">
+		<xsd:annotation>
+			<xsd:documentation>Tipo utilizado para valor de alíquota
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="5" />
+			<xsd:fractionDigits value="4" />
+			<xsd:minInclusive value="0" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsBairro">
+		<xsd:annotation>
+			<xsd:documentation>Tipo bairro.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="60" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCEP">
+		<xsd:annotation>
+			<xsd:documentation>Tipo CEP.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{8}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsPostalCode">
+		<xsd:annotation>
+			<xsd:documentation>Tipo código postal para outros países.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoAtividade">
+		<xsd:annotation>
+			<xsd:documentation>Subclasse do CNAE obtida da tabela de Código
+				Nacional de Atividade Econômica disponibilizada pela PMF.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{7,8}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsIdCNAE">
+		<xsd:annotation>
+			<xsd:documentation>Identificador de CNAE obtido da tabela de Código
+				Nacional de Atividade Econômica disponibilizada pela PMF.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,5}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCNPJ">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Cadastro Nacional de Pessoa Jurídica.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="14" />
+			<xsd:pattern value="\d+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCFPS">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Código Fiscal de Prestação de Serviço.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,4}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoCampanha">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Código de campanha promocional.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoVerificacao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Código de verificação da NFPS-e. Gerado
+				automaticamente pelo sistema de Notas Fiscais de Serviço
+				Eletrônicas.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="16" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsComplementoEndereco">
+		<xsd:annotation>
+			<xsd:documentation>Tipo complemento do endereço.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="30" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCPF">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Cadastro Pessoa Física.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="11" />
+			<xsd:pattern value="\d+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCST">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Código de Situação Tributária.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,2}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsDadosAdicionais">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Dados Adicionais. Texto descritivo contendo
+				dados adicionais da nota.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="256" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsDiscriminacao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo discriminação dos serviços prestados ou
+				motivo de cancelamento da NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="1000" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsEmail">
+		<xsd:annotation>
+			<xsd:documentation>Tipo E-mail.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="6" />
+			<xsd:maxLength value="80" />
+			<xsd:whiteSpace value="collapse" />
+			<xsd:pattern value=".+@.+\..+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsIdentificacaoRequisicao">
+		<xsd:annotation>
+			<xsd:documentation>Identificação da requisição.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsInscricaoMunicipal">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Inscrição Municipal.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="7" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsLogradouro">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Logradouro.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="80" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsMunicipio">
+		<xsd:annotation>
+			<xsd:documentation>Nome do município.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="60" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsMunicipioIBGE">
+		<xsd:annotation>
+			<xsd:documentation>Código do município conforme tabela do IBGE.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,7}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsNumeroSerie">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Número de Série de uma NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,6}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsNumeroEndereco">
+		<xsd:annotation>
+			<xsd:documentation>Tipo número do endereço.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{1,9}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsOutrosDocIdentificacao">
+		<xsd:annotation>
+			<xsd:documentation>Documento de identificação.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="20" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsPais">
+		<xsd:annotation>
+			<xsd:documentation>Código do país (Tabela do BACEN).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,5}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsQuantidade">
+		<xsd:annotation>
+			<xsd:documentation>Tipo quantidade de serviços ou de itens de
+				serviço.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,3}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsRazaoSocial">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Razão Social.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="80" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsStatusNFPSe">
+		<xsd:annotation>
+			<xsd:documentation>Tipo referente aos possíveis status de NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:enumeration value="0">
+				<xsd:annotation>
+					<xsd:documentation>Normal.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>Cancelada.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsStatusRequisicao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo referente aos possíveis status de
+				requisições.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:enumeration value="0">
+				<xsd:annotation>
+					<xsd:documentation>Em edição.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>Pendente.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="2">
+				<xsd:annotation>
+					<xsd:documentation>Recibo Provisório.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsTelefone">
+		<xsd:annotation>
+			<xsd:documentation>Número de telefone com prefixo.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:long">
+			<xsd:pattern value="[0-9]{6,14}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsTipoSistema">
+		<xsd:annotation>
+			<xsd:documentation>Tipo do sistema. Homologação ou Produção.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:enumeration value="0">
+				<xsd:annotation>
+					<xsd:documentation>Homologação.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>Produção.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsUF">
+		<xsd:annotation>
+			<xsd:documentation>Tipo UF.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsValor">
+		<xsd:annotation>
+			<xsd:documentation>Tipo utilizado para valores com 15 dígitos, sendo
+				13 de corpo e 2 decimais.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="15" />
+			<xsd:fractionDigits value="2" />
+			<xsd:minInclusive value="0" />
+			<xsd:pattern value="0|0\.[0-9]{0,2}|[1-9]{1}[0-9]{0,13}(\.[0-9]{0,2})?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsVersao">
+		<xsd:annotation>
+			<xsd:documentation>Versão do XML Schema.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="3" />
+			<xsd:fractionDigits value="2" />
+			<xsd:minInclusive value="0" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Tipos Complexos -->
+	<xsd:complexType name="tcCodigoPostal">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa um código postal.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CEP" type="tipos:tsCEP" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="PostalCode" type="tipos:tsPostalCode" minOccurs="1" maxOccurs="1" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="tcInformacaoAEDF">
+		<xsd:annotation>
+			<xsd:documentation>Dados da AEDF (Autorização para Emissão de
+				Documento Fiscal
+				Eletrônica).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AEDF" type="tipos:tsNumeroAEDF" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="TipoAedf" type="tipos:tsTipoAedf" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcMunicipio">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa um município.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CodigoMunicipio" type="tipos:tsMunicipioIBGE" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="NomeMunicipio" type="tipos:tsMunicipio" minOccurs="1" maxOccurs="1" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="tcEndereco">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Endereço.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Logradouro" type="tipos:tsLogradouro" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="NumeroEndereco" type="tipos:tsNumeroEndereco" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ComplementoEndereco" type="tipos:tsComplementoEndereco" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="Bairro" type="tipos:tsBairro" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Municipio" type="tipos:tcMunicipio" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CodigoPostal" type="tipos:tcCodigoPostal" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UF" type="tipos:tsUF" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="Pais" type="tipos:tsPais" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcContato">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Contato. E-mail e telefone (opcional).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Email" type="tipos:tsEmail" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Telefone" type="tipos:tsTelefone" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcCPFCNPJ">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa um CPF/CNPJ.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CPF" type="tipos:tsCPF" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CNPJ" type="tipos:tsCNPJ" minOccurs="1" maxOccurs="1" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="tcDocIdTomador">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa um documento de identificação
+				do tomador.
+		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CPFCNPJ" type="tipos:tcCPFCNPJ" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Outros" type="tipos:tsOutrosDocIdentificacao" minOccurs="1" maxOccurs="1" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="tcIdentificacaoTomador">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Identificação do Tomador.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DocIdTomador" type="tipos:tcDocIdTomador" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="InscricaoMunicipal" type="tipos:tsInscricaoMunicipal" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcDadosTomador">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Dados do Tomador.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentificacaoTomador" type="tipos:tcIdentificacaoTomador" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="RazaoSocial" type="tipos:tsRazaoSocial" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Endereco" type="tipos:tcEndereco" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Contato" type="tipos:tcContato" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcIdentificacaoPrestador">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Identificação do Prestador.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CNPJ" type="tipos:tsCNPJ" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="InscricaoMunicipal" type="tipos:tsInscricaoMunicipal" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcDadosPrestador">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Dados do Pretador.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentificacaoPrestador" type="tipos:tcIdentificacaoPrestador" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="RazaoSocial" type="tipos:tsRazaoSocial" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Endereco" type="tipos:tcEndereco" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Contato" type="tipos:tcContato" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcItemServico">
+		<xsd:sequence>
+			<xsd:annotation>
+				<xsd:documentation>Item de serviços.
+					</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="IdCNAE" type="tipos:tsIdCNAE" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="CodigoAtividade" type="tipos:tsCodigoAtividade" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="DescricaoServico" type="tipos:tsDiscriminacao" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="CST" type="tipos:tsCST" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="Aliquota" type="tipos:tsAliquota" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="ValorUnitario" type="tipos:tsValor" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="Quantidade" type="tipos:tsQuantidade" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="ValorTotal" type="tipos:tsValor" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tcDadosServico">
+		<xsd:sequence>
+			<xsd:annotation>
+				<xsd:documentation>Dados do(s) serviço(s).
+					</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="ItemServico" type="tipos:tcItemServico" minOccurs="1" maxOccurs="999" />
+				<xsd:element name="BaseCalculo" type="tipos:tsValor" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="ValorISSQN" type="tipos:tsValor" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="BaseCalculoSubstituicao" type="tipos:tsValor" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="ValorISSQNSubstituicao" type="tipos:tsValor" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="ValorTotalServicos" type="tipos:tsValor" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="DadosAdicionais" type="tipos:tsDadosAdicionais" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Elemento raíz InfRequisicao -->
+	<xsd:element name="InfRequisicao" type="tipos:tcInfRequisicao" />
+	<xsd:complexType name="tcInfRequisicao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa uma requisição de NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Versao" type="tipos:tsVersao" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Versão do XML Schema deste tipo complexo.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TipoSistema" type="tipos:tsTipoSistema" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Homologação ou Produção.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Identificacao" type="tipos:tsIdentificacaoRequisicao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Identificação para requisição.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AEDF" type="tipos:tcInformacaoAEDF" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Autorização para Emissão de Documentos Fiscais
+						Eletrônicos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CodigoVerificacao" type="tipos:tsCodigoVerificacao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Código de verificação da requisição.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataEmissao" type="xsd:date" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Data de emissão da NFPS-e.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NumeroSerieRequisicao" type="tipos:tsNumeroSerie" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número de série da requisição.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NumeroSerieSubst" type="tipos:tsNumeroSerie" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número serial da NFPS-e a ser substituída por
+						esta.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CFPS" type="tipos:tsCFPS" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Código Fiscal de Prestação de Serviço.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StatusRequisicao" type="tipos:tsStatusRequisicao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Status da requisição.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DadosServico" type="tipos:tcDadosServico" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do(s) Serviço(s).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Prestador" type="tipos:tcDadosPrestador" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do Prestador. É inserido automaticamente
+						pelo emissor de NFPS-e.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Tomador" type="tipos:tcDadosTomador" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do Tomador.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="Id" type="tipos:tsIdTag" use="optional">
+		</xsd:attribute>
+	</xsd:complexType>
+	<!-- Elemento raíz Requisicao -->
+	<xsd:element name="Requisicao" type="tipos:tcRequisicao" />
+	<xsd:complexType name="tcRequisicao">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Requisicao.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InfRequisicao" type="tipos:tcInfRequisicao" minOccurs="1" maxOccurs="1" />
+			<xsd:element ref="dsig:Signature" minOccurs="0" maxOccurs="1" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" />
+			<xsd:element name="Autenticacao" type="tipos:tsAutenticacao" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Elemento raíz InfRequisicaoCancelamento -->
+	<xsd:element name="InfRequisicaoCancelamento" type="tipos:tcInfRequisicaoCancelamento" />
+	<xsd:complexType name="tcInfRequisicaoCancelamento">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa uma requisição de cancelamento
+				de NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Versao" type="tipos:tsVersao" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Versão do XML Schema deste tipo complexo.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TipoSistema" type="tipos:tsTipoSistema" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Homologação ou Produção.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AEDF" type="tipos:tsNumeroAEDF" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número da AEDF da NFPS-e a ser cancelada.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NumeroSerie" type="tipos:tsNumeroSerie" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número de série da NFPS-e a ser cancelada.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MotivoCancelamento" type="tipos:tsDiscriminacao" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Motivo de cancelamento da NFPS-e.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="Id" type="tipos:tsIdTag" use="optional">
+		</xsd:attribute>
+	</xsd:complexType>
+	<!-- Elemento raíz RequisicaoCancelamento -->
+	<xsd:element name="RequisicaoCancelamento" type="tipos:tcRequisicaoCancelamento" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" />
+	<xsd:complexType name="tcRequisicaoCancelamento">
+		<xsd:annotation>
+			<xsd:documentation>Tipo Requisicao de Cancelamento.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InfRequisicaoCancelamento" type="tipos:tcInfRequisicaoCancelamento" minOccurs="1" maxOccurs="1" />
+			<xsd:element ref="dsig:Signature" minOccurs="0" maxOccurs="1" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" />
+			<xsd:element name="Autenticacao" type="tipos:tsAutenticacao" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Elemento raíz InfNFPSe -->
+	<xsd:element name="InfNFPSe" type="tipos:tcInfNFPSe" />
+	<xsd:complexType name="tcInfNFPSe">
+		<xsd:annotation>
+			<xsd:documentation>Tipo que representa uma NFPS-e.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Versao" type="tipos:tsVersao" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Versão do XML Schema deste tipo complexo.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TipoSistema" type="tipos:tsTipoSistema" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Homologação ou Produção.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Identificacao" type="tipos:tsIdentificacaoRequisicao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Identificação para requisição associada.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AEDF" type="tipos:tcInformacaoAEDF" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Informações da Autorização para Emissão de
+						Documentos Fiscais Eletrônicos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CodigoVerificacao" type="tipos:tsCodigoVerificacao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Código de verificação da requisição.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NumeroSerie" type="tipos:tsNumeroSerie" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número de série da NFPS-e.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NumeroSerieSubst" type="tipos:tsNumeroSerie" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Número serial da NFPS-e substituída por esta.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataEmissao" type="xsd:date" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Data de emissão da NFPS-e</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataProcessamento" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Data de processamento da NFPS-e
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataCancelamento" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Data de cancelamento da NFPS-e
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MotivoCancelamento" type="tipos:tsDiscriminacao" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Motivo de cancelamento da NFPS-e.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CFPS" type="tipos:tsCFPS" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Código Fiscal de Prestação de Serviço.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CodigoCampanha" type="tipos:tsCodigoCampanha" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Código de campanha promocional.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StatusNFPSe" type="tipos:tsStatusNFPSe" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Status da requisição.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DadosServico" type="tipos:tcDadosServico" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do(s) Serviço(s).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Prestador" type="tipos:tcDadosPrestador" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do Prestador.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Tomador" type="tipos:tcDadosTomador" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dados do Tomador.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="Id" type="tipos:tsIdTag" use="required">
+		</xsd:attribute>
+	</xsd:complexType>
+	<!-- Elemento raíz Protocolo -->
+	<xsd:element name="Protocolo" type="tipos:tcProtocolo">
+		<xsd:annotation>
+			<xsd:documentation>Dados do Protocolo da NFPSe.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="tcProtocolo">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:base64Binary">
+				<xsd:annotation>
+					<xsd:documentation>Contém um carimbo do tempo no padrão
+						especificado pela RFC 3161 (http://www.ietf.org/rfc/rfc3161.txt)
+						codificado em Base64.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:attribute name="Id" type="xsd:ID" use="required" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- Elemento raíz NFPSe -->
+	<xsd:element name="NFPSe" type="tipos:tcNFPSe" />
+	<xsd:complexType name="tcNFPSe">
+		<xsd:annotation>
+			<xsd:documentation>Tipo NFPSe.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InfNFPSe" type="tipos:tcInfNFPSe" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Protocolo" type="tipos:tcProtocolo" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

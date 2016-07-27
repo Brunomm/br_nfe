@@ -1,0 +1,15 @@
+- destinatario ||= false
+- raise "Deve ser passado uma vsariavel local chamada destinatario" unless destinatario
+IdentificacaoTomador
+	= render_xml '_tc_identificacao_tomador', destinatario: destinatario
+
+- if destinatario.razao_social.present?
+	RazaoSocial = ts_razao_social(destinatario.razao_social)
+
+- if destinatario.endereco.is_present?
+	Endereco
+		= render_xml '_tc_endereco', address: destinatario.endereco
+
+- if destinatario.telefone.present? || destinatario.email.present?
+	Contato
+		= render_xml '_tc_contato', contact: destinatario

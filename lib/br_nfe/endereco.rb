@@ -13,13 +13,19 @@ module BrNfe
 		attr_accessor :complemento
 		attr_accessor :bairro
 		attr_accessor :nome_municipio
-		attr_accessor :codigo_municipio
+		attr_accessor :codigo_municipio # IBGE
 		attr_accessor :uf
 		attr_accessor :cep
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)
 		attr_accessor :nome_pais   # defaul: BRASIL
 
 		validates :logradouro, :numero, :bairro, :codigo_municipio, :uf, :cep, presence: true
+
+		def is_present?
+			logradouro.present? || numero.present? || complemento.present? || 
+			bairro.present? || nome_municipio.present? || codigo_municipio.present? || 
+			cep.present?
+		end
 
 		def logradouro
 			"#{@logradouro}".to_valid_format_nf

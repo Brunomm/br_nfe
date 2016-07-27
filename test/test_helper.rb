@@ -18,9 +18,6 @@ CodeClimate::TestReporter.start
 
 require 'factory_girl_rails'
 
-require 'certificado'
-
-
 Minitest::Reporters.use!
 
 if ActiveSupport.version >= Gem::Version.new('4.2')
@@ -41,4 +38,5 @@ end
 class MiniTest::Spec
 	include Shoulda::Matchers::ActiveModel
 	include FactoryGirl::Syntax::Methods
+	let(:sequence_1) { sequence('sequence_1') } 
 end

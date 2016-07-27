@@ -1,0 +1,21 @@
+Endereco
+	Logradouro =     "#{address.logradouro}".max_size(125)
+	- if address.numero.present?
+		NumeroEndereco = "#{address.numero}".max_size(10)
+	- if address.complemento.present?
+		ComplementoEndereco = "#{address.complemento}".max_size(30)
+	Bairro =         "#{address.bairro}".max_size(60)
+	- if address.codigo_pais.to_i ==  1058
+		Municipio
+			CodigoMunicipio = BrNfe::Helper.only_number(address.codigo_municipio).max_size(7)
+	- else
+		Municipio
+			NomeMunicipio = "#{address.nome_municipio}".max_size(60)
+
+	CodigoPostal
+		CEP = BrNfe::Helper.only_number(address.cep).max_size(8)
+	
+	- if address.codigo_pais.to_i ==  1058
+		UF = "#{address.uf}".max_size(2)
+	- else
+		Pais = address.codigo_pais
