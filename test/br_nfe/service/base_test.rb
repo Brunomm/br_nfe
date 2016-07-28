@@ -141,4 +141,17 @@ describe BrNfe::Service::Base do
 			subject.instance_variable_get(:@response).must_equal('resposta')
 		end
 	end
+
+	describe "#ibge_code_of_issuer_city" do
+		it "se não setar um valor deve pegar o valor do codigo IBGE do endereço do emitente" do
+			subject.emitente.endereco.codigo_municipio = '12345678'
+			subject.ibge_code_of_issuer_city = nil
+			subject.ibge_code_of_issuer_city.must_equal '12345678'
+		end
+		it "se setar o valor em ibge_code_of_issuer_city não deve pegar do endereço do emitente" do
+			subject.emitente.endereco.codigo_municipio = '12345678'
+			subject.ibge_code_of_issuer_city = 78978945
+			subject.ibge_code_of_issuer_city.must_equal '78978945'
+		end
+	end
 end
