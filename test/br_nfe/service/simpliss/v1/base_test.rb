@@ -10,6 +10,21 @@ describe BrNfe::Service::Simpliss::V1::Base do
 		it { subject.class.superclass.must_equal BrNfe::Service::Base }
 	end
 
+	describe "#wsdl" do
+		before do
+			subject.env = :production
+		end		
+		it "se o env for de test deve enviar a requisição para o ambinete de homologação da SIMPLISS" do
+			subject.ibge_code_of_issuer_city = '4202008'
+			subject.env = :test
+			subject.wsdl.must_equal 'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		it "se codigo da cidade emitente for 4202008 então deve pagar a URL de Balneário Camboriú" do
+			subject.ibge_code_of_issuer_city = '4202008'
+			subject.wsdl.must_equal 'http://wsbalneariocamboriu.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+	end
+
 	describe "#canonicalization_method_algorithm" do
 		it { subject.canonicalization_method_algorithm.must_equal 'http://www.w3.org/TR/2001/REC-xml-c14n-20010315' }
 	end

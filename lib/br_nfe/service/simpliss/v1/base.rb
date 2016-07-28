@@ -5,7 +5,11 @@ module BrNfe
 				class Base < BrNfe::Service::Base
 
 					def wsdl
-						'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
+						if env == :test
+							'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
+						elsif ibge_code_of_issuer_city == '4202008' # Balneário Camboriú
+							'http://wsbalneariocamboriu.simplissweb.com.br/nfseservice.svc?wsdl'
+						end
 					end
 
 					# Declaro que o método `render_xml` irá verificar os arquivos também presentes
