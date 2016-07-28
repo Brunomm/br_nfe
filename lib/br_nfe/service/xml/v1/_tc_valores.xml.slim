@@ -38,8 +38,7 @@
 - if rps.iss_tax_rate.present? && rps.iss_tax_rate.to_f > 0.0
 	*{tag: "#{namespace_for_tags}Aliquota"} = ts_aliquota(rps.iss_tax_rate)
 
-- if rps.net_value.present? && rps.net_value.to_f > 0.0
-	*{tag: "#{namespace_for_tags}ValorLiquidoNfse"} = ts_valor(rps.net_value)
+*{tag: "#{namespace_for_tags}ValorLiquidoNfse"} = ts_valor(rps.net_value)
 
 - if rps.desconto_incondicionado.present? && rps.desconto_incondicionado.to_f > 0.0
 	*{tag: "#{namespace_for_tags}DescontoIncondicionado"} = ts_valor(rps.desconto_incondicionado)

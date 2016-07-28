@@ -141,7 +141,6 @@ describe BrNfe::Service::Rps do
 		end
 	end
 
-
 	describe "#destinatario" do
 		it "sempre deve retornar um objeto BrNfe::Destinatario" do
 			novo = BrNfe::Service::Rps.new
@@ -264,8 +263,6 @@ describe BrNfe::Service::Rps do
 			subject.intermediario.wont_equal intermediario_old
 			subject.intermediario.must_equal intermediario
 		end
-
-
 	end
 
 	describe "#condicao_pagamento" do
@@ -501,6 +498,38 @@ describe BrNfe::Service::Rps do
 			subject.items = [item_1, item_2]
 
 			subject.cnae_code.must_equal '2'
+		end
+	end
+
+	describe "#net_value" do
+		it "Se setar um valor deve retornar o valor setado" do
+			subject.assign_attributes(total_services: 10.00, net_value: 9_999.55)
+			subject.net_value.must_equal 9_999.55
+		end
+		it "se não tiver valor setado manualmente em net_value deve realizar o calcula automaticamente" do
+			subject.assign_attributes({total_services: 100.00, valor_pis: 1.5, valor_cofins: 1.0,
+				valor_inss: 0.5, valor_ir: 0.0, valor_csll: 2.0, outras_retencoes: 3.0,
+				total_iss_retained: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
+				net_value: nil
+			})
+			subject.net_value.must_equal 77.00
+		end
+		it "se todos os valores para o calculo estiverem nil não deve dar erro e retorna zero" do
+			subject.items = []
+			subject.assign_attributes({total_services: nil, valor_pis: nil, valor_cofins: nil,
+				valor_inss: nil, valor_ir: nil, valor_csll: nil, outras_retencoes: nil,
+				total_iss_retained: nil, desconto_incondicionado: nil, desconto_condicionado: nil,
+				net_value: nil
+			})
+			subject.net_value.must_equal 0.0
+		end
+		it "se alguns dos valores para o calculo estiverem nil não deve dar erro e considera esse valor como zero" do
+			subject.assign_attributes({total_services: 100.00, valor_pis: nil, valor_cofins: nil,
+				valor_inss: nil, valor_ir: 0.0, valor_csll: 2.0, outras_retencoes: 3.0,
+				total_iss_retained: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
+				net_value: nil
+			})
+			subject.net_value.must_equal 80.0
 		end
 	end
 
