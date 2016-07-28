@@ -39,6 +39,14 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/simpliss/v1/xsd' }
 		
 		def validate_schema
+			# Só assim para passar na validação XSD.
+			# o XSD não consegue validar os namespaces pois estão declarados na
+			# tag envelope.
+			subject.stubs(:message_namespaces).returns({'xmlns' => "http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd"})
+			subject.stubs(:namespace_identifier).returns(nil)
+			subject.stubs(:namespace_for_tags).returns(nil)
+			subject.stubs(:namespace_for_signature).returns(nil)
+			
 			Dir.chdir(schemas_dir) do
 				schema = Nokogiri::XML::Schema(IO.read('nfse_3.xsd'))
 				document = Nokogiri::XML(subject.xml_builder)
@@ -55,8 +63,10 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 			validate_schema
 		end
 		it "Deve ser válido com vários RPS's - 1 rps completo e 1 parcial" do
+			subject.assign_attributes(certificate_pkcs12_password: nil, certificate_pkcs12_path: nil, username: '23020443000140', password: '33161107')
 			subject.lote_rps = [rps_completo, rps_basico]
 			validate_schema
 		end
 	end
 end
+

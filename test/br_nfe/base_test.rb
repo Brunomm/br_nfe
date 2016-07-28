@@ -117,12 +117,12 @@ describe BrNfe::Base do
 		end
 	end
 
-	describe "#namespace_identifier" do
-		it "por padrão deve ser nil" do
-			subject.namespace_identifier.must_be_nil
-		end
+	describe "#namespaces" do
+		it '-> namespace_identifier'    do subject.namespace_identifier.must_be_nil    end
+		it '-> namespace_for_tags'      do subject.namespace_for_tags.must_be_nil      end
+		it '-> namespace_for_signature' do subject.namespace_for_signature.must_be_nil end
 	end
-	
+
 	describe "#message_namespaces" do
 		it "valor padrão deve ser um hash vazio" do
 			subject.message_namespaces.must_equal({})

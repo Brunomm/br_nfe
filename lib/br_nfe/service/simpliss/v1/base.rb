@@ -4,6 +4,10 @@ module BrNfe
 			module V1
 				class Base < BrNfe::Service::Base
 
+					def wsdl
+						'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
+					end
+
 					# Declaro que o método `render_xml` irá verificar os arquivos também presentes
 					# no diretório especificado
 					#
@@ -18,7 +22,7 @@ module BrNfe
 					end
 
 					def message_namespaces
-						{'xmlns' => "http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd"}
+						{}
 					end
 
 					def soap_namespaces
@@ -30,9 +34,16 @@ module BrNfe
 						})
 					end
 
-					# Setado manualmente em content_xml
-					#
 					def namespace_identifier
+						'ns3:'
+					end
+
+					def namespace_for_tags
+						'ns1:'
+					end
+
+					def namespace_for_signature
+						'ns2:'
 					end
 
 					# Método que deve ser sobrescrito em cada subclass.

@@ -1,5 +1,5 @@
-*{tag: "#{namespace_identifier.to_s+':' if namespace_identifier}CancelarNfseEnvio"} *message_namespaces
-	Pedido
+*{tag: "#{namespace_identifier}CancelarNfseEnvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}Pedido"}
 		- id_cancelamento = Time.now.nsec
 		- xml_pedido_cancel = render_xml '_tc_pedido_cancelamento', id_cancelamento: "C#{id_cancelamento}"
 

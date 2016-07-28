@@ -2,6 +2,13 @@ module BrNfe
 	module Service
 		class Base < BrNfe::Base
 			include BrNfe::Helper::ValuesTs::ServiceV1
+
+			# Alguns orgãos emissores necessitam que seja
+			# passado junto ao XML o Usuário e Senha do acesso do sistema
+			# da prefeitura.
+			#
+			attr_accessor :username
+			attr_accessor :password
 			
 			# Declaro que o método `render_xml` irá verificar os arquivos também presentes
 			# no diretório especificado

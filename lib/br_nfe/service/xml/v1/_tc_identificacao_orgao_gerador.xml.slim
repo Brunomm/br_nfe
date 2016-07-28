@@ -4,5 +4,5 @@
 - uf ||= false
 - raise "Deve ser passado uma variável local chamda uf" unless uf
 
-CodigoMunicipio = ts_codigo_municipio_ibge(ibge_code)
-Uf              = ts_uf(uf)
+*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(ibge_code)
+*{tag: "#{namespace_for_tags}Uf"}              = ts_uf(uf)

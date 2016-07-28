@@ -28,8 +28,10 @@ describe BrNfe::Service::Betha::V1::Gateway do
 		end
 	end
 
-	describe "#namespace_identifier" do
-		it { subject.namespace_identifier.must_equal :ns1 }
+	describe "#namespaces" do
+		it '-> namespace_identifier'    do subject.namespace_identifier.must_equal 'ns1:'    end
+		it '-> namespace_for_tags'      do subject.namespace_for_tags.must_be_nil      end
+		it '-> namespace_for_signature' do subject.namespace_for_signature.must_be_nil end
 	end
 
 end

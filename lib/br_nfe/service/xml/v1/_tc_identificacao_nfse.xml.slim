@@ -1,7 +1,7 @@
-Numero = ts_numero_nfse(nfe_number)
-Cnpj   = ts_cnpj(emitente.cnpj)
+*{tag: "#{namespace_for_tags}Numero"} = ts_numero_nfse(nfe_number)
+*{tag: "#{namespace_for_tags}Cnpj"}   = ts_cnpj(emitente.cnpj)
 
 - if emitente.inscricao_municipal.present?
-	InscricaoMunicipal = ts_inscricao_municipal(emitente.inscricao_municipal)
+	*{tag: "#{namespace_for_tags}InscricaoMunicipal"} = ts_inscricao_municipal(emitente.inscricao_municipal)
 
-CodigoMunicipio = ts_codigo_municipio_ibge(emitente.endereco.codigo_municipio)
+*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(emitente.endereco.codigo_municipio)

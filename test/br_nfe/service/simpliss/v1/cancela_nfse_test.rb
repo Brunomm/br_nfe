@@ -39,6 +39,14 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 				
 		describe "Validações a partir do arquivo XSD" do
 			it "Deve ser válido com 1 RPS com todas as informações preenchidas" do
+				# Só assim para passar na validação XSD.
+				# o XSD não consegue validar os namespaces pois estão declarados na
+				# tag envelope.
+				subject.stubs(:message_namespaces).returns({'xmlns' => "http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd"})
+				subject.stubs(:namespace_identifier).returns(nil)
+				subject.stubs(:namespace_for_tags).returns(nil)
+				subject.stubs(:namespace_for_signature).returns(nil)
+					
 				Dir.chdir(schemas_dir) do
 					schema = Nokogiri::XML::Schema(IO.read('nfse_3.xsd'))
 					document = Nokogiri::XML(subject.xml_builder)

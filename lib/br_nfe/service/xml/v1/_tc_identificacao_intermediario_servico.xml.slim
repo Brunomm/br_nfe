@@ -1,7 +1,7 @@
-RazaoSocial = ts_razao_social(intermediario.razao_social)
+*{tag: "#{namespace_for_tags}RazaoSocial"} = ts_razao_social(intermediario.razao_social)
 
-CpfCnpj
+*{tag: "#{namespace_for_tags}CpfCnpj"}
 	= render_xml '_tc_cpf_cnpj', cpf_cnpj: intermediario.cpf_cnpj
 
 - if intermediario.inscricao_municipal.present?
-	InscricaoMunicipal = ts_inscricao_municipal(intermediario.inscricao_municipal)
+	*{tag: "#{namespace_for_tags}InscricaoMunicipal"} = ts_inscricao_municipal(intermediario.inscricao_municipal)

@@ -1,4 +1,4 @@
-*{tag: "#{namespace_identifier.to_s+':' if namespace_identifier}ConsultarSituacaoLoteRpsEnvio"} *message_namespaces
-	Prestador
+*{tag: "#{namespace_identifier}ConsultarSituacaoLoteRpsEnvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}Prestador"}
 		= render_xml '_tc_identificacao_prestador'
-	Protocolo = ts_numero_protocolo(protocolo)
+	*{tag: "#{namespace_for_tags}Protocolo"} = ts_numero_protocolo(protocolo)

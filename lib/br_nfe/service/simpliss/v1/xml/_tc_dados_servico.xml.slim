@@ -1,18 +1,18 @@
 - rps ||= false
 - raise "Deve ser passado uma vsariavel local chamada rps" unless rps
 
-Valores
+*{tag: "#{namespace_for_tags}Valores"}
 	= render_xml '_tc_valores', rps: rps
 
-ItemListaServico = ts_item_lista_servico(rps.item_lista_servico)
+*{tag: "#{namespace_for_tags}ItemListaServico"} = ts_item_lista_servico(rps.item_lista_servico)
 - if rps.cnae_code.present?
-	CodigoCnae = ts_codigo_cnae(rps.cnae_code)
+	*{tag: "#{namespace_for_tags}CodigoCnae"} = ts_codigo_cnae(rps.cnae_code)
 - if rps.codigo_tributacao_municipio.present?
-	CodigoTributacaoMunicipio = ts_codigo_tributacao(rps.codigo_tributacao_municipio)
+	*{tag: "#{namespace_for_tags}CodigoTributacaoMunicipio"} = ts_codigo_tributacao(rps.codigo_tributacao_municipio)
 
-Discriminacao   = ts_discriminacao(rps.description)
-CodigoMunicipio = ts_codigo_municipio_ibge(rps.codigo_municipio)
+*{tag: "#{namespace_for_tags}Discriminacao"}   = ts_discriminacao(rps.description)
+*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(rps.codigo_municipio)
 
 - rps.items.each do |item|
-	ItensServico
+	*{tag: "#{namespace_for_tags}ItensServico"}
 		= render_xml('_tc_item_servico', item: item)

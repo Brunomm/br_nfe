@@ -1,7 +1,7 @@
 - xml_rps = render_xml '_tc_inf_rps', rps: rps
 / Alguns órgãos emissores não aceitam o atributo ID na tag (Como a betha)
 - attributes_inf_rps = id_attribute? ? {id: "R#{rps.numero}"} : {}
-InfRps *attributes_inf_rps
+*{tag: "#{namespace_for_tags}InfRps"} *attributes_inf_rps
 	= xml_rps.html_safe
 
 - if certificate

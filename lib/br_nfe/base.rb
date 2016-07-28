@@ -73,15 +73,33 @@ module BrNfe
 		# o namespace utilizado para identificar o namespace da mensagem.
 		#
 		# Exemplo: se o método message_namespaces for {xmlns:ns1="http...."} então
-		# o namespace_identifier deveria ser :ns1.
+		# o namespace_identifier deveria ser 'ns1:'.
 		# E com isso irá adicionar o namespace na tag principal da requsição. 
 		# Exemplo com a requisição EnviarLoteRps:
 		# COM namespace_identifier => ns1:EnviarLoteRpsEnvio
 		# SEM namespace_identifier => EnviarLoteRpsEnvio
 		#
-		# <b>Tipo de retorno: </b> _Hash_ OR _Nil_
+		# <b>Tipo de retorno: </b> _String_ OR _Nil_
 		#
 		def namespace_identifier
+		end
+
+		# Utilizado para colocar o namespace nas tags de valores
+		# Exemplo:
+		# <ns1:LoteRps id="123">
+		#   <ns1:NumeroLote>3311</ns1:NumeroLote>
+		#   <ns1:Cnpj>23020443000140</ns1:Cnpj>
+		def namespace_for_tags
+		end
+
+		# Utilizado para colocar o namespace nas tags da assiantura
+		# Exemplo:
+		# <ns2:Signature Id="?">
+		#    <ns2:SignedInfo Id="?">
+		#      <ns2:CanonicalizationMethod Algorithm="?">?</ns2:CanonicalizationMethod>
+		#      ..... 
+		# 
+		def namespace_for_signature
 		end
 
 		def message_namespaces
