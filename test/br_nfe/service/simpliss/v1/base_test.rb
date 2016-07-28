@@ -63,4 +63,25 @@ describe BrNfe::Service::Simpliss::V1::Base do
 		end
 	end
 
+	describe "#ts_item_lista_servico" do
+		it "se passar um valor já formatado deve retornar esse mesmo valor" do
+			subject.ts_item_lista_servico('7.90').must_equal '7.90'
+		end
+		it "se passar um valor inteiro deve formatar para NN.NN" do
+			subject.ts_item_lista_servico(1785).must_equal '17.85'
+		end
+		it "se passar um valor inteiro com apenas 1 caracter deve retornar esse unico caractere" do
+			subject.ts_item_lista_servico(1).must_equal '1'
+		end
+		it "se passar um valor com mais de 4 posições deve reotrnar apenas 4 numeros e 1 ponto" do
+			subject.ts_item_lista_servico(123456).must_equal '12.34'
+		end
+		it "se passar nil deve retornar o um valor em branco e não da erro" do
+			subject.ts_item_lista_servico(nil).must_be_nil
+		end
+		it "deve ignorar os Zeros da frente do número" do
+			subject.ts_item_lista_servico('0458').must_equal '4.58'
+		end
+	end
+
 end

@@ -2,6 +2,12 @@ require 'test_helper'
 
 describe BrNfe::Service::Base do
 	subject { FactoryGirl.build(:br_nfe_servico_base) }
+
+	describe "Included modules" do
+		it "deve ter o module BrNfe::Helper::ValuesTs::ServiceV1 incluso" do
+			subject.class.included_modules.must_include(BrNfe::Helper::ValuesTs::ServiceV1)
+		end
+	end
 	
 	describe '#xml_current_dir_path' do
 		it "o valor padrão deve ser o diretorio xml de serviços na versão do layout setado" do

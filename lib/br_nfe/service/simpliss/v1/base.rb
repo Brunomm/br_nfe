@@ -68,7 +68,6 @@ module BrNfe
 						dados += "</ns3:#{soap_body_root_tag}>"
 						dados
 					end
-
 				end
 			end
 		end
