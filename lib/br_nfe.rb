@@ -114,6 +114,10 @@ module BrNfe
 		end
 		module Simpliss
 			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoEnviarLoteRpsResposta
+				end
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :CancelaNfse

@@ -1,4 +1,5 @@
 require 'test_helper'
+require "savon/mock/spec_helper"
 
 describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:service_simpliss_v1_recepcao_lote_rps, emitente: emitente) }
@@ -17,7 +18,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	end
 
 	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
+		subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoEnviarLoteRpsResposta
 	end
 
 	it "#response_root_path" do
@@ -66,6 +67,44 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 			subject.assign_attributes(certificate_pkcs12_password: nil, certificate_pkcs12_path: nil, username: '23020443000140', password: '33161107')
 			subject.lote_rps = [rps_completo, rps_basico]
 			validate_schema
+		end
+	end
+
+	describe "#request and set response" do
+		include Savon::SpecHelper
+		before(:all) { savon.mock!   }
+		after(:all)  { savon.unmock! }
+
+		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps_success.xml')
+			
+			savon.expects(:recepcionar_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_equal '128277'
+			response.data_recebimento.must_equal Time.parse('2016-07-28T16:17:18.4043985-03:00')
+			response.numero_lote.must_equal '10'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps_error.xml')
+			
+			savon.expects(:recepcionar_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_be_nil
+			response.data_recebimento.must_be_nil
+			response.numero_lote.must_be_nil
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal 'E903'
+			response.error_messages[0][:message].must_equal 'Já existe lote protocolado com esse número para o mesmo cnpj e inscrição municipal.'
+			response.error_messages[0][:solution].must_equal 'Altere o número do lote.'
+			response.successful_request?.must_equal true
 		end
 	end
 end

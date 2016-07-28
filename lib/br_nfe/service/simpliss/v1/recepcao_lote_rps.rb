@@ -24,7 +24,7 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
+						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoEnviarLoteRpsResposta
 					end
 
 					def response_root_path
