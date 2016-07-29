@@ -1,0 +1,8 @@
+*{tag: "#{namespace_identifier}ConsultarNfseRpsEnvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}IdentificacaoRps"}
+		= render_xml '_tc_identificacao_rps'
+	*{tag: "#{namespace_for_tags}Prestador"}
+		= render_xml '_tc_identificacao_prestador'
+
+- if username.present? && password.present?
+	= render_xml '_login'
