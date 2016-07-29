@@ -18,7 +18,7 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 
 	describe "#response_path_module" do
 		it "deve ter o module ServicoCancelarNfseResposta" do
-			subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
+			subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoCancelarNfseResposta
 		end
 	end
 
@@ -54,6 +54,51 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 					errors.must_be_empty
 				end
 			end
+		end
+	end
+
+	describe "#request and set response" do
+		require "savon/mock/spec_helper"
+		include Savon::SpecHelper
+		before(:all) { savon.mock!   }
+		after(:all)  { savon.unmock! }
+
+		it "Quando cancelou a NF com sucesso" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/cancela_nfse/success.xml')
+			
+			savon.expects(:cancelar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.cancelation_date_time.must_equal Time.parse('2016-07-29T09:38:24.4803985-03:00')
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/cancela_nfse/fault.xml')
+			
+			savon.expects(:cancelar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_be_nil
+			response.data_recebimento.must_be_nil
+			response.numero_lote.must_be_nil
+			response.cancelation_date_time.must_be_nil
+			
+			response.status.must_equal :falied
+
+			response.error_messages.size.must_equal 2
+			response.error_messages[0][:code].must_equal     'E6'
+			response.error_messages[0][:message].must_equal  'Essa Nfs-e não pode ser cancelada através desse serviço, pois há crédito informado.'
+			response.error_messages[0][:solution].must_equal 'O cancelamento de uma Nfs-e com crédito deve ser feito através de processo administrativo aberto em uma repartição fazendária.'
+
+			response.error_messages[1][:code].must_equal     'E79'
+			response.error_messages[1][:message].must_equal  'Essa Nfs-e já está cancelada.'
+			response.error_messages[1][:solution].must_equal 'Confira e informe novamente os dados da Nfs-e que deseja cancelar.'
+
+			response.successful_request?.must_equal true
 		end
 	end
 

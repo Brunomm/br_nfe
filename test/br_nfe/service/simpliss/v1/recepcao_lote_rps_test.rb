@@ -1,5 +1,4 @@
 require 'test_helper'
-require "savon/mock/spec_helper"
 
 describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:service_simpliss_v1_recepcao_lote_rps, emitente: emitente) }
@@ -71,6 +70,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	end
 
 	describe "#request and set response" do
+		require "savon/mock/spec_helper"
 		include Savon::SpecHelper
 		before(:all) { savon.mock!   }
 		after(:all)  { savon.unmock! }

@@ -1,0 +1,21 @@
+ <?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <CancelarNfseResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <CancelarNfseResult>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E6</Codigo>
+            <Mensagem>Essa Nfs-e n&#xE3;o pode ser cancelada atrav&#xE9;s desse servi&#xE7;o, pois h&#xE1; cr&#xE9;dito informado.</Mensagem>
+            <Correcao>O cancelamento de uma Nfs-e com cr&#xE9;dito deve ser feito atrav&#xE9;s de processo administrativo aberto em uma reparti&#xE7;&#xE3;o fazend&#xE1;ria.</Correcao>
+          </MensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E79</Codigo>
+            <Mensagem>Essa Nfs-e j&#xE1; est&#xE1; cancelada.</Mensagem>
+            <Correcao>Confira e informe novamente os dados da Nfs-e que deseja cancelar.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </CancelarNfseResult>
+    </CancelarNfseResponse>
+  </s:Body>
+</s:Envelope>

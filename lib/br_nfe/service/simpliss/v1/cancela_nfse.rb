@@ -10,7 +10,7 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
+						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoCancelarNfseResposta
 					end
 
 					def xml_builder
