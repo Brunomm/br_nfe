@@ -76,7 +76,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 		after(:all)  { savon.unmock! }
 
 		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps_success.xml')
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps/success.xml')
 			
 			savon.expects(:recepcionar_lote_rps).returns(fixture)
 			subject.request
@@ -90,7 +90,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps_error.xml')
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps/error.xml')
 			
 			savon.expects(:recepcionar_lote_rps).returns(fixture)
 			subject.request

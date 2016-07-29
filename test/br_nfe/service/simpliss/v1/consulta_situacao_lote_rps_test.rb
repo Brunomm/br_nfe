@@ -15,7 +15,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 	end
 
 	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsResposta
+		subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarSituacaoLoteRpsResposta
 	end
 
 	it "#response_root_path" do
@@ -50,6 +50,79 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 					errors.must_be_empty
 				end
 			end
+		end
+	end
+
+	describe "#request and set response" do
+		require "savon/mock/spec_helper"
+		include Savon::SpecHelper
+		before(:all) { savon.mock!   }
+		after(:all)  { savon.unmock! }
+
+		it "Quando processou o RPS com sucesso deve setar a situation com :success" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/success.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.situation.must_equal :success
+			response.numero_lote.must_equal '10'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando processou o RPS com erros deve setar a situation com :error" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/error.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.situation.must_equal :error
+			response.numero_lote.must_equal '13'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando não processou o RPS deve setar a situation com :unprocessed" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/unprocessed.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.situation.must_equal :unprocessed
+			response.numero_lote.must_equal '11'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando não encontrar o RPS deve setar a situation com :unreceived" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/unreceived.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.situation.must_equal :unreceived
+			response.numero_lote.must_equal '12'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/fault.xml')
+			
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_be_nil
+			response.data_recebimento.must_be_nil
+			response.numero_lote.must_be_nil
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal 'E900'
+			response.error_messages[0][:message].must_equal 'Chamada ao método retornou erro.'
+			response.error_messages[0][:solution].must_equal 'Entre em contato com o fornecedor do serviço para mais informações'
+			response.successful_request?.must_equal true
 		end
 	end
 end

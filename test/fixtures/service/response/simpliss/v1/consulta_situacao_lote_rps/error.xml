@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarSituacaoLoteRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarSituacaoLoteRpsResult>
+        <NumeroLote xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">13</NumeroLote>
+        <Situacao xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">3</Situacao>
+      </ConsultarSituacaoLoteRpsResult>
+    </ConsultarSituacaoLoteRpsResponse>
+  </s:Body>
+</s:Envelope>

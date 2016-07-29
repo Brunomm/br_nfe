@@ -13,7 +13,7 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsResposta
+						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarSituacaoLoteRpsResposta
 					end
 					
 					def response_root_path
