@@ -16,11 +16,16 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
+						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
 					end
 					
 					def response_root_path
 						[:consultar_lote_rps_response]
+					end
+
+					def nfse_xml_path
+						#//Envelope/Body/ConsultarLoteRpsResponse/ConsultarLoteRpsResult/ListaNfse/CompNfse/Nfse
+						'//*/*/*/*/*/*/*'
 					end
 
 					

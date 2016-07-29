@@ -116,6 +116,7 @@ module BrNfe
 			module V1
 				module ResponsePaths
 					extend ActiveSupport::Autoload
+					autoload :ServicoConsultarLoteRpsResposta
 					autoload :ServicoConsultarNfseRpsResposta
 					autoload :ServicoConsultarNfseResposta
 					autoload :ServicoConsultarSituacaoLoteRpsResposta
