@@ -89,6 +89,36 @@ module BrNfe
 					def invoice_codigo_obra_path;             [] end
 					def invoice_codigo_art_path;              [] end
 					def invoice_cancelamento_inscricao_municipal_path; [] end
+					
+					def invoice_emitente_cnpj_path; [] end
+					def invoice_emitente_inscricao_municipal_path; [] end
+					def invoice_emitente_razao_social_path; [] end
+					def invoice_emitente_nome_fantasia_path; [] end
+					def invoice_emitente_telefone_path; [] end
+					def invoice_emitente_email_path; [] end
+					def invoice_emitente_endereco_logradouro_path; [] end
+					def invoice_emitente_endereco_numero_path; [] end
+					def invoice_emitente_endereco_complemento_path; [] end
+					def invoice_emitente_endereco_bairro_path; [] end
+					def invoice_emitente_endereco_codigo_municipio_path; [] end
+					def invoice_emitente_endereco_uf_path; [] end
+					def invoice_emitente_endereco_cep_path; [] end
+
+					def invoice_destinatario_cpf_path ; end
+					def invoice_destinatario_cnpj_path ; end
+					def invoice_destinatario_inscricao_municipal_path ; end
+					def invoice_destinatario_inscricao_estadual_path ; end
+					def invoice_destinatario_inscricao_suframa_path ; end
+					def invoice_destinatario_razao_social_path ; end
+					def invoice_destinatario_telefone_path ; end
+					def invoice_destinatario_email_path ; end
+					def invoice_destinatario_endereco_logradouro_path ; end
+					def invoice_destinatario_endereco_numero_path ; end
+					def invoice_destinatario_endereco_complemento_path ; end
+					def invoice_destinatario_endereco_bairro_path ; end
+					def invoice_destinatario_endereco_codigo_municipio_path ; end
+					def invoice_destinatario_endereco_uf_path ; end
+					def invoice_destinatario_endereco_cep_path ; end
 
 				end
 			end

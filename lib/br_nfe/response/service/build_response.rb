@@ -227,20 +227,12 @@ module BrNfe
 				# O parâmetro recebido deve ser o Hash representado pelo tipo de dados tcCompNfse(do manual NFS-e v1)
 				#
 				def instance_invoice(invoice_hash)
-					BrNfe::Response::Service::NotaFiscal.new({
+					nfe = BrNfe::Response::Service::NotaFiscal.new({
 						xml_nf:                           get_xml_nf.force_encoding('UTF-8'),
 						numero_nf:                        find_value_for_keys(invoice_hash, invoice_numero_nf_path                       ),
 						codigo_verificacao:               find_value_for_keys(invoice_hash, invoice_codigo_verificacao_path              ),
 						data_emissao:                     find_value_for_keys(invoice_hash, invoice_data_emissao_path                    ),
 						url_nf:                           find_value_for_keys(invoice_hash, invoice_url_nf_path                          ),
-						rps_numero:                       find_value_for_keys(invoice_hash, invoice_rps_numero_path                      ),
-						rps_serie:                        find_value_for_keys(invoice_hash, invoice_rps_serie_path                       ),
-						rps_tipo:                         find_value_for_keys(invoice_hash, invoice_rps_tipo_path                        ),
-						rps_situacao:                     find_value_for_keys(invoice_hash, invoice_rps_situacao_path                    ),
-						rps_substituido_numero:           find_value_for_keys(invoice_hash, invoice_rps_substituido_numero_path          ),
-						rps_substituido_serie:            find_value_for_keys(invoice_hash, invoice_rps_substituido_serie_path           ),
-						rps_substituido_tipo:             find_value_for_keys(invoice_hash, invoice_rps_substituido_tipo_path            ),
-						data_emissao_rps:                 find_value_for_keys(invoice_hash, invoice_data_emissao_rps_path                ),
 						competencia:                      find_value_for_keys(invoice_hash, invoice_competencia_path                     ),
 						natureza_operacao:                find_value_for_keys(invoice_hash, invoice_natureza_operacao_path               ),
 						regime_especial_tributacao:       find_value_for_keys(invoice_hash, invoice_regime_especial_tributacao_path      ),
@@ -251,26 +243,38 @@ module BrNfe
 						cnae_code:                        find_value_for_keys(invoice_hash, invoice_cnae_code_path                       ),
 						description:                      find_value_for_keys(invoice_hash, invoice_description_path                     ),
 						codigo_municipio:                 find_value_for_keys(invoice_hash, invoice_codigo_municipio_path                ),
-						total_services:                   find_value_for_keys(invoice_hash, invoice_total_services_path                  ),
-						deductions:                       find_value_for_keys(invoice_hash, invoice_deductions_path                      ),
-						valor_pis:                        find_value_for_keys(invoice_hash, invoice_valor_pis_path                       ),
-						valor_cofins:                     find_value_for_keys(invoice_hash, invoice_valor_cofins_path                    ),
-						valor_inss:                       find_value_for_keys(invoice_hash, invoice_valor_inss_path                      ),
-						valor_ir:                         find_value_for_keys(invoice_hash, invoice_valor_ir_path                        ),
-						valor_csll:                       find_value_for_keys(invoice_hash, invoice_valor_csll_path                      ),
-						iss_retained:                     find_value_for_keys(invoice_hash, invoice_iss_retained_path                    ),
-						outras_retencoes:                 find_value_for_keys(invoice_hash, invoice_outras_retencoes_path                ),
-						total_iss:                        find_value_for_keys(invoice_hash, invoice_total_iss_path                       ),
-						base_calculation:                 find_value_for_keys(invoice_hash, invoice_base_calculation_path                ),
-						iss_tax_rate:                     find_value_for_keys(invoice_hash, invoice_iss_tax_rate_path                    ),
-						valor_liquido:                    find_value_for_keys(invoice_hash, invoice_valor_liquido_path                   ),
-						desconto_condicionado:            find_value_for_keys(invoice_hash, invoice_desconto_condicionado_path           ),
-						desconto_incondicionado:          find_value_for_keys(invoice_hash, invoice_desconto_incondicionado_path         ),
 						responsavel_retencao:             find_value_for_keys(invoice_hash, invoice_responsavel_retencao_path            ),
 						numero_processo:                  find_value_for_keys(invoice_hash, invoice_numero_processo_path                 ),
 						municipio_incidencia:             find_value_for_keys(invoice_hash, invoice_municipio_incidencia_path            ),
 						orgao_gerador_municipio:          find_value_for_keys(invoice_hash, invoice_orgao_gerador_municipio_path         ),
 						orgao_gerador_uf:                 find_value_for_keys(invoice_hash, invoice_orgao_gerador_uf_path                ),
+						codigo_obra:                      find_value_for_keys(invoice_hash, invoice_codigo_obra_path                     ),
+						codigo_art:                       find_value_for_keys(invoice_hash, invoice_codigo_art_path                      ),
+					})
+
+					build_rps_fields_nfe(nfe, invoice_hash)
+					build_cancelation_fields_nfe(nfe, invoice_hash)
+					build_values_nfe(nfe, invoice_hash)
+					build_emitente_nfe(nfe, invoice_hash)
+					build_destinatario_nfe(nfe, invoice_hash)
+					nfe
+				end
+				
+				def build_rps_fields_nfe(nfe, invoice_hash)
+					nfe.assign_attributes({
+						rps_numero:                       find_value_for_keys(invoice_hash, invoice_rps_numero_path                      ),
+						rps_serie:                        find_value_for_keys(invoice_hash, invoice_rps_serie_path                       ),
+						rps_tipo:                         find_value_for_keys(invoice_hash, invoice_rps_tipo_path                        ),
+						rps_situacao:                     find_value_for_keys(invoice_hash, invoice_rps_situacao_path                    ),
+						rps_substituido_numero:           find_value_for_keys(invoice_hash, invoice_rps_substituido_numero_path          ),
+						rps_substituido_serie:            find_value_for_keys(invoice_hash, invoice_rps_substituido_serie_path           ),
+						rps_substituido_tipo:             find_value_for_keys(invoice_hash, invoice_rps_substituido_tipo_path            ),
+						data_emissao_rps:                 find_value_for_keys(invoice_hash, invoice_data_emissao_rps_path                ),
+					})
+				end
+
+				def build_cancelation_fields_nfe(nfe, invoice_hash)
+					nfe.assign_attributes({
 						cancelamento_codigo:              find_value_for_keys(invoice_hash, invoice_cancelamento_codigo_path             ),
 						cancelamento_numero_nf:           find_value_for_keys(invoice_hash, invoice_cancelamento_numero_nf_path          ),
 						cancelamento_cnpj:                find_value_for_keys(invoice_hash, invoice_cancelamento_cnpj_path               ),
@@ -278,8 +282,71 @@ module BrNfe
 						cancelamento_municipio:           find_value_for_keys(invoice_hash, invoice_cancelamento_municipio_path          ),
 						cancelamento_data_hora:           find_value_for_keys(invoice_hash, invoice_cancelamento_data_hora_path          ),
 						nfe_substituidora:                find_value_for_keys(invoice_hash, invoice_nfe_substituidora_path               ),
-						codigo_obra:                      find_value_for_keys(invoice_hash, invoice_codigo_obra_path                     ),
-						codigo_art:                       find_value_for_keys(invoice_hash, invoice_codigo_art_path                      )
+					})
+				end
+
+				def build_values_nfe(nfe, invoice_hash)
+					nfe.assign_attributes({
+						total_services:          find_value_for_keys(invoice_hash, invoice_total_services_path                  ),
+						deductions:              find_value_for_keys(invoice_hash, invoice_deductions_path                      ),
+						valor_pis:               find_value_for_keys(invoice_hash, invoice_valor_pis_path                       ),
+						valor_cofins:            find_value_for_keys(invoice_hash, invoice_valor_cofins_path                    ),
+						valor_inss:              find_value_for_keys(invoice_hash, invoice_valor_inss_path                      ),
+						valor_ir:                find_value_for_keys(invoice_hash, invoice_valor_ir_path                        ),
+						valor_csll:              find_value_for_keys(invoice_hash, invoice_valor_csll_path                      ),
+						iss_retained:            find_value_for_keys(invoice_hash, invoice_iss_retained_path                    ),
+						outras_retencoes:        find_value_for_keys(invoice_hash, invoice_outras_retencoes_path                ),
+						total_iss:               find_value_for_keys(invoice_hash, invoice_total_iss_path                       ),
+						base_calculation:        find_value_for_keys(invoice_hash, invoice_base_calculation_path                ),
+						iss_tax_rate:            find_value_for_keys(invoice_hash, invoice_iss_tax_rate_path                    ),
+						valor_liquido:           find_value_for_keys(invoice_hash, invoice_valor_liquido_path                   ),
+						desconto_condicionado:   find_value_for_keys(invoice_hash, invoice_desconto_condicionado_path           ),
+						desconto_incondicionado: find_value_for_keys(invoice_hash, invoice_desconto_incondicionado_path         ),
+					})
+				end
+
+				def build_emitente_nfe(nfe, invoice_hash)
+					nfe.assign_attributes({
+						emitente: {
+							cnpj:                find_value_for_keys(invoice_hash, invoice_emitente_cnpj_path                  ),
+							inscricao_municipal: find_value_for_keys(invoice_hash, invoice_emitente_inscricao_municipal_path   ),
+							razao_social:        find_value_for_keys(invoice_hash, invoice_emitente_razao_social_path          ),
+							nome_fantasia:       find_value_for_keys(invoice_hash, invoice_emitente_nome_fantasia_path         ),
+							telefone:            find_value_for_keys(invoice_hash, invoice_emitente_telefone_path              ),
+							email:               find_value_for_keys(invoice_hash, invoice_emitente_email_path                 ),
+							endereco: {
+								logradouro:       find_value_for_keys(invoice_hash, invoice_emitente_endereco_logradouro_path         ),
+								numero:           find_value_for_keys(invoice_hash, invoice_emitente_endereco_numero_path             ),
+								complemento:      find_value_for_keys(invoice_hash, invoice_emitente_endereco_complemento_path        ),
+								bairro:           find_value_for_keys(invoice_hash, invoice_emitente_endereco_bairro_path             ),
+								codigo_municipio: find_value_for_keys(invoice_hash, invoice_emitente_endereco_codigo_municipio_path   ),
+								uf:               find_value_for_keys(invoice_hash, invoice_emitente_endereco_uf_path                 ),
+								cep:              find_value_for_keys(invoice_hash, invoice_emitente_endereco_cep_path                ),
+							}
+						}
+					})
+				end
+
+				def build_destinatario_nfe(nfe, invoice_hash)
+					nfe.assign_attributes({
+						destinatario: {
+							cpf_cnpj: (find_value_for_keys(invoice_hash, invoice_destinatario_cpf_path) || find_value_for_keys(invoice_hash, invoice_destinatario_cnpj_path)),
+							inscricao_municipal:       find_value_for_keys(invoice_hash, invoice_destinatario_inscricao_municipal_path),
+							inscricao_estadual:        find_value_for_keys(invoice_hash, invoice_destinatario_inscricao_estadual_path),
+							inscricao_suframa:         find_value_for_keys(invoice_hash, invoice_destinatario_inscricao_suframa_path),
+							razao_social:              find_value_for_keys(invoice_hash, invoice_destinatario_razao_social_path),
+							telefone:                  find_value_for_keys(invoice_hash, invoice_destinatario_telefone_path),
+							email:                     find_value_for_keys(invoice_hash, invoice_destinatario_email_path),
+							endereco: {
+								logradouro:             find_value_for_keys(invoice_hash, invoice_destinatario_endereco_logradouro_path),
+								numero:                 find_value_for_keys(invoice_hash, invoice_destinatario_endereco_numero_path),
+								complemento:            find_value_for_keys(invoice_hash, invoice_destinatario_endereco_complemento_path),
+								bairro:                 find_value_for_keys(invoice_hash, invoice_destinatario_endereco_bairro_path),
+								codigo_municipio:       find_value_for_keys(invoice_hash, invoice_destinatario_endereco_codigo_municipio_path),
+								uf:                     find_value_for_keys(invoice_hash, invoice_destinatario_endereco_uf_path),
+								cep:                    find_value_for_keys(invoice_hash, invoice_destinatario_endereco_cep_path),
+							}
+						}
 					})
 				end
 

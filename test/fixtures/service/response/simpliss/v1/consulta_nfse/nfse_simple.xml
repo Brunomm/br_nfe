@@ -67,7 +67,7 @@
                 <TomadorServico>
                   <IdentificacaoTomador>
                     <CpfCnpj>
-                      <Cpf>07456193983</Cpf>
+                      <Cnpj>12345678901234</Cnpj>
                     </CpfCnpj>
                     <InscricaoMunicipal/>
                   </IdentificacaoTomador>

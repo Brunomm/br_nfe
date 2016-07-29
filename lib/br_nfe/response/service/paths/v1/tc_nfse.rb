@@ -173,6 +173,96 @@ module BrNfe
 						def invoice_nfe_substituidora_path
 							[:nfse_substituicao, :substituicao_nfse, :nfse_substituidora]
 						end
+
+						############################## PATH PARA EMITENTE ##########################################
+						def invoice_emitente_path
+							default_path_to_nf+[:prestador_servico]
+						end						
+						def invoice_emitente_cnpj_path
+							invoice_emitente_path + [:identificacao_prestador, :cnpj]
+						end
+						def invoice_emitente_inscricao_municipal_path
+							invoice_emitente_path + [:identificacao_prestador, :inscricao_municipal]
+						end
+						def invoice_emitente_razao_social_path
+							invoice_emitente_path + [:razao_social]
+						end
+						def invoice_emitente_nome_fantasia_path
+							invoice_emitente_path + [:nome_fantasia]
+						end
+						def invoice_emitente_telefone_path
+							invoice_emitente_path + [:contato, :telefone]
+						end
+						def invoice_emitente_email_path
+							invoice_emitente_path + [:contato, :email]
+						end
+						def invoice_emitente_endereco_logradouro_path
+							invoice_emitente_path + [:endereco, :endereco]
+						end
+						def invoice_emitente_endereco_numero_path
+							invoice_emitente_path + [:endereco, :numero]
+						end
+						def invoice_emitente_endereco_complemento_path
+							invoice_emitente_path + [:endereco, :complemento]
+						end
+						def invoice_emitente_endereco_bairro_path
+							invoice_emitente_path + [:endereco, :bairro]
+						end
+						def invoice_emitente_endereco_codigo_municipio_path
+							invoice_emitente_path + [:endereco, :codigo_municipio]
+						end
+						def invoice_emitente_endereco_uf_path
+							invoice_emitente_path + [:endereco, :uf]
+						end
+						def invoice_emitente_endereco_cep_path
+							invoice_emitente_path + [:endereco, :cep]
+						end
+						############################## PATH PARA DESTINATÁRIO ##########################################
+						def invoice_destinatario_cpf_path
+							default_path_to_nf+[:tomador_servico, :identificacao_tomador, :cpf_cnpj, :cpf]
+						end
+						def invoice_destinatario_cnpj_path
+							default_path_to_nf+[:tomador_servico, :identificacao_tomador, :cpf_cnpj, :cnpj]
+						end
+						def invoice_destinatario_inscricao_municipal_path
+							default_path_to_nf+[:tomador_servico, :identificacao_tomador, :inscricao_municipal]
+						end
+						def invoice_destinatario_inscricao_estadual_path
+							default_path_to_nf+[:tomador_servico, :identificacao_tomador, :inscricao_estadual]
+						end
+						def invoice_destinatario_inscricao_suframa_path
+							default_path_to_nf+[:tomador_servico, :identificacao_tomador, :inscricao_suframa]
+						end
+						def invoice_destinatario_razao_social_path
+							default_path_to_nf+[:tomador_servico, :razao_social]
+						end
+						def invoice_destinatario_telefone_path
+							default_path_to_nf+[:tomador_servico, :contato, :telefone]
+						end
+						def invoice_destinatario_email_path
+							default_path_to_nf+[:tomador_servico, :contato, :email]
+						end
+						def invoice_destinatario_endereco_logradouro_path
+							default_path_to_nf+[:tomador_servico, :endereco, :endereco]
+						end
+						def invoice_destinatario_endereco_numero_path
+							default_path_to_nf+[:tomador_servico, :endereco, :numero]
+						end
+						def invoice_destinatario_endereco_complemento_path
+							default_path_to_nf+[:tomador_servico, :endereco, :complemento]
+						end
+						def invoice_destinatario_endereco_bairro_path
+							default_path_to_nf+[:tomador_servico, :endereco, :bairro]
+						end
+						def invoice_destinatario_endereco_codigo_municipio_path
+							default_path_to_nf+[:tomador_servico, :endereco, :codigo_municipio]
+						end
+						def invoice_destinatario_endereco_uf_path
+							default_path_to_nf+[:tomador_servico, :endereco, :uf]
+						end
+						def invoice_destinatario_endereco_cep_path
+							default_path_to_nf+[:tomador_servico, :endereco, :cep]
+						end
 					end
 				end
 			end

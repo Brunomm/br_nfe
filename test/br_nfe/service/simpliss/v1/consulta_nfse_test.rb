@@ -127,7 +127,9 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 			nf.cancelamento_data_hora.must_be_nil
 			nf.nfe_substituidora.must_be_nil
 			nf.codigo_obra.must_be_nil
-			nf.codigo_art.must_be_nil			
+			nf.codigo_art.must_be_nil
+
+			nf.destinatario.cpf_cnpj.must_equal '12345678901234'		
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações completas" do
@@ -193,6 +195,37 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 			nf.nfe_substituidora.must_equal '6'
 			nf.codigo_obra.must_equal 'VCodigoObra'
 			nf.codigo_art.must_equal 'VArt'
+
+			nf.emitente.cnpj.must_equal '23020443000140'
+			nf.emitente.inscricao_municipal.must_equal '488542'
+			nf.emitente.razao_social.must_equal 'DUOBR SISTEMAS LTDA ME'
+			nf.emitente.nome_fantasia.must_equal 'DUOBR SISTEMAS'
+			nf.emitente.telefone.must_equal '4933161107'
+			nf.emitente.email.must_equal 'emitente@mail.com.br'
+
+			nf.emitente.endereco.logradouro.must_equal 'RUA DOS PRAZERES'
+			nf.emitente.endereco.numero.must_equal '520'
+			nf.emitente.endereco.complemento.must_equal 'D'
+			nf.emitente.endereco.bairro.must_equal 'SAO CRISTOVAO'
+			nf.emitente.endereco.codigo_municipio.must_equal '4204202'
+			nf.emitente.endereco.uf.must_equal 'SC'
+			nf.emitente.endereco.cep.must_equal '89804023'
+
+			nf.destinatario.cpf_cnpj.must_equal '12345678901'
+			nf.destinatario.inscricao_municipal.must_equal '3365'
+			nf.destinatario.inscricao_estadual.must_be_nil
+			nf.destinatario.inscricao_suframa.must_be_nil
+			nf.destinatario.razao_social.must_equal 'BRUNO DAS COVES'
+			nf.destinatario.telefone.must_equal '4920493900'
+			nf.destinatario.email.must_equal 'destinatario@mail.com.br'
+
+			nf.destinatario.endereco.logradouro.must_equal 'RUA IGUACU - E'
+			nf.destinatario.endereco.numero.must_equal '587'
+			nf.destinatario.endereco.complemento.must_equal ''
+			nf.destinatario.endereco.bairro.must_equal 'SAIC'
+			nf.destinatario.endereco.codigo_municipio.must_equal '45678932'
+			nf.destinatario.endereco.uf.must_equal 'SC'
+			nf.destinatario.endereco.cep.must_equal '89802171'
 		end
 	end
 
