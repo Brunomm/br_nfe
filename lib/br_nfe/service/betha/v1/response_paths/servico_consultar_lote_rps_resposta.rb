@@ -11,6 +11,10 @@ module BrNfe
 						def invoices_path
 							[:consultar_lote_rps_resposta, :lista_nfse, :compl_nfse]
 						end
+
+						def invoice_url_nf_path
+							default_path_to_nf + [:outras_informacoes] 
+						end
 					end
 				end
 			end

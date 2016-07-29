@@ -19,10 +19,6 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 		subject.invoice_data_emissao_path.must_equal( [:nfse, :inf_nfse, :data_emissao] )
 	end
 
-	it 'valor padrão para o método invoice_url_nf_path' do
-		subject.invoice_url_nf_path.must_equal( [:nfse, :inf_nfse, :outras_informacoes] )
-	end
-
 	it 'valor padrão para o método invoice_rps_numero_path' do
 		subject.invoice_rps_numero_path.must_equal( [:nfse, :inf_nfse, :identificacao_rps, :numero] )
 	end
@@ -44,7 +40,7 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 	end
 
 	it 'valor padrão para o método invoice_item_lista_servico_path' do
-		subject.invoice_item_lista_servico_path.must_equal( [:nfse, :inf_nfse, :intermediario_servico] )
+		subject.invoice_item_lista_servico_path.must_equal( [:nfse, :inf_nfse, :servico, :item_lista_servico] )
 	end
 
 	it 'valor padrão para o método invoice_cnae_code_path' do
@@ -88,7 +84,7 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 	end
 
 	it 'valor padrão para o método invoice_iss_retained_path' do
-		subject.invoice_iss_retained_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_iss_retido] )
+		subject.invoice_iss_retained_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :iss_retido] )
 	end
 
 	it 'valor padrão para o método invoice_outras_retencoes_path' do
@@ -104,7 +100,7 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 	end
 
 	it 'valor padrão para o método invoice_iss_tax_rate_path' do
-		subject.invoice_iss_tax_rate_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :iss_retido] )
+		subject.invoice_iss_tax_rate_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :aliquota] )
 	end
 
 	it 'valor padrão para o método invoice_valor_liquido_path' do

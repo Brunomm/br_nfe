@@ -1,0 +1,22 @@
+*{tag: "#{namespace_identifier}ConsultarNfseEnvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}Prestador"}
+		= render_xml '_tc_identificacao_prestador'
+
+	- if nfe_number.present?
+		*{tag: "#{namespace_for_tags}NumeroNfse"} = ts_numero_nfse(nfe_number)
+
+	- if start_date.present? && end_date.present?
+		*{tag: "#{namespace_for_tags}PeriodoEmissao"}
+			*{tag: "#{namespace_for_tags}DataInicial"} = ts_date(start_date)
+			*{tag: "#{namespace_for_tags}DataFinal"}   = ts_date(end_date)
+
+	- if destinatario.present? && destinatario.cpf_cnpj.present?
+		*{tag: "#{namespace_for_tags}Tomador"}
+			= render_xml '_tc_identificacao_tomador', destinatario: destinatario
+
+	- if intermediario.present? && intermediario.cpf_cnpj.present?
+		*{tag: "#{namespace_for_tags}IntermediarioServico"}
+			= render_xml '_tc_identificacao_intermediario_servico', intermediario: intermediario
+
+- if username.present? && password.present?
+	= render_xml '_login'

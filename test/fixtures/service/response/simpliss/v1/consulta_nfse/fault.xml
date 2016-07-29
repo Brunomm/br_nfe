@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarNfseResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarNfseResult>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E160</Codigo>
+            <Mensagem>Arquivo enviado fora da estrutura do arquivo XML de entrada.</Mensagem>
+            <Correcao>Envie um arquivo dentro do schema do arquivo XML de entrada.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarNfseResult>
+    </ConsultarNfseResponse>
+  </s:Body>
+</s:Envelope>

@@ -163,9 +163,6 @@ describe BrNfe::Service::Response::Paths::Base do
 	it 'valor padrão para o método invoice_cancelamento_municipio_path' do
 		subject.invoice_cancelamento_municipio_path.must_equal []
 	end
-	it 'valor padrão para o método invoice_cancelamento_sucesso_path' do
-		subject.invoice_cancelamento_sucesso_path.must_equal []
-	end
 	it 'valor padrão para o método invoice_cancelamento_data_hora_path' do
 		subject.invoice_cancelamento_data_hora_path.must_equal []
 	end

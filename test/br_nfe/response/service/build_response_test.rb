@@ -216,7 +216,7 @@ describe BrNfe::Response::Service::BuildResponse do
 		end
 
 		describe "#instance_invoice" do
-			# Sim, sinto vergonha por ter feito um teste dessse ='(
+			# Sim, sinto vergonha por ter feito um teste desse tipo ='(
 			it "deve simplesmente instanciar um NF a partir dos métodos e busca por atrubutos via hash e XML" do
 				invoice = BrNfe::Response::Service::NotaFiscal.new
 				subject.stubs(:get_xml_nf).returns('get_xml_nf')
@@ -306,8 +306,6 @@ describe BrNfe::Response::Service::BuildResponse do
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_cancelamento_inscricao_municipal_path).returns(:invoice_cancelamento_inscricao_municipal_value)
 				subject.stubs(:invoice_cancelamento_municipio_path).returns(:invoice_cancelamento_municipio_path)
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_cancelamento_municipio_path).returns(:invoice_cancelamento_municipio_value)
-				subject.stubs(:invoice_cancelamento_sucesso_path).returns(:invoice_cancelamento_sucesso_path)
-				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_cancelamento_sucesso_path).returns(:invoice_cancelamento_sucesso_value)
 				subject.stubs(:invoice_cancelamento_data_hora_path).returns(:invoice_cancelamento_data_hora_path)
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_cancelamento_data_hora_path).returns(:invoice_cancelamento_data_hora_value)
 				subject.stubs(:invoice_nfe_substituidora_path).returns(:invoice_nfe_substituidora_path)
@@ -315,7 +313,16 @@ describe BrNfe::Response::Service::BuildResponse do
 				subject.stubs(:invoice_codigo_obra_path).returns(:invoice_codigo_obra_path)
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_codigo_obra_path).returns(:invoice_codigo_obra_value)
 				subject.stubs(:invoice_codigo_art_path).returns(:invoice_codigo_art_path)
+				subject.stubs(:invoice_codigo_art_path).returns(:invoice_codigo_art_path)
 				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_codigo_art_path).returns(:invoice_codigo_art_value)
+				subject.stubs(:invoice_natureza_operacao_path).returns(:invoice_natureza_operacao_path)
+				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_natureza_operacao_path).returns(:invoice_natureza_operacao_value)
+				subject.stubs(:invoice_regime_especial_tributacao_path).returns(:invoice_regime_especial_tributacao_path)
+				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_regime_especial_tributacao_path).returns(:invoice_regime_especial_tributacao_value)
+				subject.stubs(:invoice_optante_simples_nacional_path).returns(:invoice_optante_simples_nacional_path)
+				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_optante_simples_nacional_path).returns(:invoice_optante_simples_nacional_value)
+				subject.stubs(:invoice_incentivador_cultural_path).returns(:invoice_incentivador_cultural_path)
+				subject.stubs(:find_value_for_keys).with(:hash_nf, :invoice_incentivador_cultural_path).returns(:invoice_incentivador_cultural_value)
 
 				BrNfe::Response::Service::NotaFiscal.expects(:new).with({
 					xml_nf:                           'get_xml_nf',
@@ -332,6 +339,10 @@ describe BrNfe::Response::Service::BuildResponse do
 					rps_substituido_tipo:             :invoice_rps_substituido_tipo_value,
 					data_emissao_rps:                 :invoice_data_emissao_rps_value,
 					competencia:                      :invoice_competencia_value,
+					natureza_operacao:                :invoice_natureza_operacao_value,
+					regime_especial_tributacao:       :invoice_regime_especial_tributacao_value,
+					optante_simples_nacional:         :invoice_optante_simples_nacional_value,
+					incentivador_cultural:            :invoice_incentivador_cultural_value,
 					outras_informacoes:               :invoice_outras_informacoes_value,
 					item_lista_servico:               :invoice_item_lista_servico_value,
 					cnae_code:                        :invoice_cnae_code_value,
@@ -362,7 +373,6 @@ describe BrNfe::Response::Service::BuildResponse do
 					cancelamento_cnpj:                :invoice_cancelamento_cnpj_value,
 					cancelamento_inscricao_municipal: :invoice_cancelamento_inscricao_municipal_value,
 					cancelamento_municipio:           :invoice_cancelamento_municipio_value,
-					cancelamento_sucesso:             :invoice_cancelamento_sucesso_value,
 					cancelamento_data_hora:           :invoice_cancelamento_data_hora_value,
 					nfe_substituidora:                :invoice_nfe_substituidora_value,
 					codigo_obra:                      :invoice_codigo_obra_value,

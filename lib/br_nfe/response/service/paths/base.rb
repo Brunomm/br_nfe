@@ -51,6 +51,10 @@ module BrNfe
 					def invoice_rps_substituido_tipo_path;    [] end
 					def invoice_data_emissao_rps_path;        [] end
 					def invoice_competencia_path;             [] end
+					def invoice_natureza_operacao_path;         [] end
+					def invoice_regime_especial_tributacao_path;[] end
+					def invoice_optante_simples_nacional_path;  [] end
+					def invoice_incentivador_cultural_path;     [] end
 					def invoice_outras_informacoes_path;      [] end
 					def invoice_item_lista_servico_path;      [] end
 					def invoice_cnae_code_path;               [] end
@@ -80,12 +84,12 @@ module BrNfe
 					def invoice_cancelamento_numero_nf_path;  [] end
 					def invoice_cancelamento_cnpj_path;       [] end
 					def invoice_cancelamento_municipio_path;  [] end
-					def invoice_cancelamento_sucesso_path;    [] end
 					def invoice_cancelamento_data_hora_path;  [] end
 					def invoice_nfe_substituidora_path;       [] end
 					def invoice_codigo_obra_path;             [] end
 					def invoice_codigo_art_path;              [] end
 					def invoice_cancelamento_inscricao_municipal_path; [] end
+
 				end
 			end
 		end
