@@ -1,6 +1,5 @@
 module BrNfe
 	class Base < BrNfe::ActiveModelBase
-		
 		include BrNfe::Helper::HaveEmitente
 
 		attr_accessor :certificate_pkcs12_password
@@ -119,6 +118,10 @@ module BrNfe
 			"UTF-8"
 		end
 
+		def response_encoding
+			"UTF-8"
+		end
+
 		# Tag XML que vai na requisição SOAP
 		#
 		# <b>Tipo de retorno: </b> _String_
@@ -203,7 +206,7 @@ module BrNfe
 
 		def certificate_key=(value)
 			@certificate_key = value
-		end		
+		end   
 
 		# Renderiza o xml a partir do nome de um arquivo 
 		# Irá procurar o arquivo a partir dos seguintes diretórios>
@@ -263,13 +266,92 @@ module BrNfe
 			"#{BrNfe.root}/lib/br_nfe/xml"
 		end
 
+		# Existem 2 tipos de assinatura da NFS-e
+		# * [+:default+]
+		#   Assina o XML no momento em que está sendo montado. Funciona normalmente para a 
+		#   maiora das prefeituras.
+		#   Primeiro assina cada RPS individualmente e adiciona a tag da assinatura e depois
+		#   Assina o LOTE RPS com todas os RPSs assinados
+		#
+		# * [+:method_sign+]
+		#   Assina o XML após a montagem do mesmo. Utiliza a gem 'signer' para assinar os nós do XML.
+		#   Adiciona toda a assinatura no final do XML, diferente do que é descrito nas documentações.
+		#   Porém em algumas cidades só consegui validar a assinatura utilizando esse método
+		#   Estava dando o erro: E515 - Erro ao validar assinatura. - Remessa adulterada após a assinatura.
+		#
+		def signature_type
+			:default
+		end
+		def signature_type?(type)
+			signature_type == type
+		end
+
+		# USE EXAMPLE
+		#  @xml = <?xml version="1.0" encoding="ISO-8859-1"?>
+		#          <EnviarLoteRpsEnvio xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd">
+		#            <LoteRps id="L2">
+		#              ...
+		#              <ListaRps>
+		#                <Rps>
+		#                  <InfRps id="R2">
+		#                    ...
+		#                  </>InfRps
+		#                </Rps>
+		#                <Rps>
+		#                  <InfRps id="R3">
+		#                    ...
+		#                  </>InfRps
+		#                </Rps>
+		#              </ListaRps>
+		#            </LoteRps>
+		#          </EnviarLoteRpsEnvio>
+		# sign_nodes = [
+		#   {
+		# 	   node_path: "//nf:EnviarLoteRpsEnvio/nf:LoteRps/nf:ListaRps/nf:Rps/nf:InfRps", 
+		# 	   node_namespaces: {nf: 'http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd'},
+		# 	   node_ids: ['R2','R3']
+		#   },
+		#   {
+		#     node_path: "//nf:EnviarLoteRpsEnvio/nf:LoteRps", 
+		#     node_namespaces: {nf: 'http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd'},
+		#     node_ids: ['L2']
+		#   },
+		# ]
+		# 
+		# Call Method:
+		# sign_xml(@xml, sign_nodes)
+		#
+		def sign_xml(xml, sign_nodes=[])
+			return xml unless certificate
+			signer = Signer.new(xml)
+			signer.cert        = certificate
+			signer.private_key = certificate_key
+
+			# Como o documento não é um envelope SOAP preciso setar o security_node e o security_token_id
+			signer.security_node = signer.document.root
+			signer.security_token_id = ""
+
+			sign_nodes.each do |options|
+				node_ids = [options[:node_ids]].flatten
+				signer.document.xpath(options[:node_path], options[:node_namespaces]).each_with_index do |node, i|
+					# digo quais tags devem ser assinadas
+					signer.digest!(node, id: "#{node_ids[i]}", enveloped: true)
+				end				
+			end
+			
+			# Assina o XML
+			signer.sign!(security_token: false, issuer_serial: true)
+
+			signer.to_xml
+		end
+
 	private
 
 		def tag_cpf_cnpj(xml, cpf_cnpj)
 			cpf_cnpj = BrNfe::Helper::CpfCnpj.new(cpf_cnpj)
 			if cpf_cnpj.cnpj?
 				xml.Cnpj cpf_cnpj.sem_formatacao
-			elsif cpf_cnpj.cpf?				
+			elsif cpf_cnpj.cpf?       
 				xml.Cpf  cpf_cnpj.sem_formatacao
 			end
 		end

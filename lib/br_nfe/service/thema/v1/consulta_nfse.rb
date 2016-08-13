@@ -5,6 +5,10 @@ module BrNfe
 				class ConsultaNfse < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::ConsultaNfse
 
+					def wsdl
+						get_wsdl_by_city[:consult]
+					end
+
 					def method_wsdl
 						:consultar_nfse
 					end

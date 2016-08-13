@@ -20,6 +20,12 @@ describe BrNfe::Service::Thema::V1::Base do
 		end
 	end
 
+	describe "#signature_type" do
+		it "seve realizar as assinaturas pela gem signer" do
+			subject.signature_type.must_equal :method_sign
+		end
+	end
+
 	describe "#soap_namespaces" do
 		it "deve conter os namespaces padrões mais o namespace da mensagem" do
 			subject.soap_namespaces.must_equal({
@@ -60,6 +66,12 @@ describe BrNfe::Service::Thema::V1::Base do
 		it "deve encapsular o XML de xml_builder em um CDATA mantendo o XML body no padrão da Thema" do
 			subject.expects(:soap_body_root_tag).returns('rootTag').twice	
 			subject.expects(:xml_builder).returns('<xml>Builder</xml>')
+			subject.content_xml.must_equal expected_xml
+		end
+
+		it "Caso o xml_builder já vier com a tag <?xml não deve inserir a tag novamnete" do
+			subject.expects(:soap_body_root_tag).returns('rootTag').twice	
+			subject.expects(:xml_builder).returns('<?xml version="1.0" encoding="ISO-8859-1"?><xml>Builder</xml>')
 			subject.content_xml.must_equal expected_xml
 		end
 	end

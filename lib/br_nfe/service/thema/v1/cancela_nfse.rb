@@ -5,6 +5,10 @@ module BrNfe
 				class CancelaNfse < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::CancelamentoNfs
 
+					def wsdl
+						get_wsdl_by_city[:cancel]
+					end
+
 					def method_wsdl
 						:cancelar_nfse
 					end

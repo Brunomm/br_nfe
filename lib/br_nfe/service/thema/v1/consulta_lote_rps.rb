@@ -4,6 +4,10 @@ module BrNfe
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Thema::V1::Base
 
+					def wsdl
+						get_wsdl_by_city[:consult]
+					end
+
 					attr_accessor :protocolo
 					validates :protocolo, presence: true
 

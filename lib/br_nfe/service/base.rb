@@ -64,6 +64,7 @@ module BrNfe
 					nfe_xml_path:   nfse_xml_path, # Caminho para encontrar a NF dentro do XML
 					module_methods: response_path_module, # Module que contém os caminhos para encontrar cada informação pertinente para cada requisição
 					body_xml_path:  body_xml_path,
+					xml_encode:     response_encoding # Codificação do xml de resposta
 				).response
 			end
 

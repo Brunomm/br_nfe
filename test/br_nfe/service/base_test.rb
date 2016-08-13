@@ -128,12 +128,14 @@ describe BrNfe::Service::Base do
 			subject.expects(:nfse_xml_path).returns(:nfse_xml_path)
 			subject.expects(:response_path_module)
 			subject.expects(:body_xml_path).returns(:body_xml_path)
+			subject.expects(:response_encoding).returns('ENCODE')
 			BrNfe::Response::Service::BuildResponse.expects(:new).with({
 				savon_response: :savon_response, 
 				keys_root_path: :response_root_path,
 				nfe_xml_path:   :nfse_xml_path, 
 				module_methods: nil,
 				body_xml_path:  :body_xml_path,
+				xml_encode:     'ENCODE',
 			}).returns(build_response)
 			build_response.expects(:response).returns('resposta')
 

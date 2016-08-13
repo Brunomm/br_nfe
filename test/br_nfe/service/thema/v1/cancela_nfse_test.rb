@@ -22,6 +22,27 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 		end
 	end
 
+	describe "#wsdl" do
+		it "default" do
+			subject.ibge_code_of_issuer_city = '111'
+			subject.env = :production
+			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			subject.env = :test
+			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
+		end
+		describe 'Para a cidade 4205902 - Gaspar-SC' do
+			before { subject.ibge_code_of_issuer_city = '4205902' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			end			
+		end	 	
+	end
+
 	it "#response_root_path" do
 		subject.response_root_path.must_equal []
 	end

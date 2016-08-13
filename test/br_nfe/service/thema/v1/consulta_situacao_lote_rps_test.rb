@@ -29,6 +29,27 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'consultarSituacaoLoteRps'
 	end
+
+	describe "#wsdl" do
+		it "default" do
+			subject.ibge_code_of_issuer_city = '111'
+			subject.env = :production
+			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+			subject.env = :test
+			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+		end
+		describe 'Para a cidade 4205902 - Gaspar-SC' do
+			before { subject.ibge_code_of_issuer_city = '4205902' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+			end			
+		end	 	
+	end
 	
 	describe "Validação do XML através do XSD" do
 		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/thema/v1/xsd' }

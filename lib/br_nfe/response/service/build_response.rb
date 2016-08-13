@@ -21,6 +21,8 @@ module BrNfe
 				# Quando isso aocntece é preciso converter esse XML para um HASH
 				# para que possamos encontrar os valores necessários.
 				attr_accessor :body_xml_path
+
+				attr_accessor :xml_encode
 				
 				def initialize(attributes = {})
 					super(attributes)
@@ -55,7 +57,7 @@ module BrNfe
 					return @savon_body if @savon_body.present?
 					if body_xml_path.present?
 						@savon_body = Nori.new.parse(
-							find_value_for_keys(savon_response.try(:body), body_xml_path)
+							"#{find_value_for_keys(savon_response.try(:body), body_xml_path)}".encode(xml_encode).force_encoding('UTF-8')
 						).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
 					else
 						@savon_body = savon_response.try(:body) || {}

@@ -4,6 +4,28 @@ module BrNfe
 			module V1
 				class Base < BrNfe::Service::Base
 
+					def get_wsdl_by_city
+						if ibge_code_of_issuer_city == '4205902' # Gaspar-SC
+							{
+								send:    "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl",
+								consult: "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl",
+								cancel:  "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl"
+							}
+						else # Default for tdd
+							{
+								send:    "http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl",
+								consult: "http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl",
+								cancel:  "http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl"
+							}
+						end
+						
+					end
+
+					# Assinatura através da gem signer
+					def signature_type
+						:method_sign
+					end
+
 					def canonicalization_method_algorithm
 						'http://www.w3.org/TR/2001/REC-xml-c14n-20010315'
 					end
@@ -31,6 +53,10 @@ module BrNfe
 						raise "Deve ser sobrescrito nas subclasses"
 					end
 
+					def response_encoding
+						'ISO-8859-1'
+					end
+
 					# Método é sobrescrito para atender o padrão do órgão emissor.
 					# Deve ser enviado o XML da requsiução dentro da tag CDATA
 					# seguindo a estrutura requerida.
@@ -38,10 +64,13 @@ module BrNfe
 					# <b><Tipo de retorno: /b> _String_ XML
 					#
 					def content_xml
+						xml_signed = xml_builder.html_safe
+
 						dados = "<ns1:#{soap_body_root_tag}>"
 						dados += '<ns1:xml>'
-						dados += '<![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>'
-						dados += xml_builder.html_safe
+						dados += '<![CDATA['
+						dados += '<?xml version="1.0" encoding="ISO-8859-1"?>' unless xml_signed.include?('<?xml')
+						dados += xml_signed
 						dados += ']]>'
 						dados += '</ns1:xml>'
 						dados += "</ns1:#{soap_body_root_tag}>"
