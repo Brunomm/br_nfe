@@ -69,10 +69,8 @@ describe BrNfe::Service::Thema::V1::ConsultaNfse do
 	end
 
 	describe "#request and set response" do
-		require "savon/mock/spec_helper"
-		include Savon::SpecHelper
-		before(:all) { savon.mock!   }
-		after(:all)  { savon.unmock! }
+		before { savon.mock!   }
+		after  { savon.unmock! }
 
 		it "Se não encontrar nenhuma NFe" do
 			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_nfse/nfs_empty.xml')

@@ -1,7 +1,5 @@
 require 'test_helper'
 
-require "savon/mock/spec_helper"
-
 describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:service_thema_v1_recepcao_lote_rps, emitente: emitente) }
 	let(:emitente) { FactoryGirl.build(:emitente, natureza_operacao: '50')   }
@@ -27,7 +25,7 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 	end
 
 	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:recepcionar_lote_rps_limitado_response, :return]
+		subject.body_xml_path.must_equal [:recepcionar_lote_rps_response, :return]
 	end
 
 	it "#soap_body_root_tag" do
@@ -97,12 +95,8 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		include Savon::SpecHelper
-		before(:all) do 
-			subject.stubs(:wsdl).returns('http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl')
-			savon.mock! 
-		end
-		after(:all)  { savon.unmock! }
+		before { savon.mock! }
+		after  { savon.unmock! }
 
 		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
 			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/recepcao_lote_rps/success.xml')
@@ -112,9 +106,9 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 			response = subject.response
 
 			response.status.must_equal :success
-			response.protocolo.must_equal '2916411'
-			response.data_recebimento.must_equal Time.parse('2016-08-13T14:28:32.935Z')
-			response.numero_lote.must_equal '11'
+			response.protocolo.must_equal '2916414'
+			response.data_recebimento.must_equal Time.parse('2016-08-15T14:55:01.271Z')
+			response.numero_lote.must_equal '17'
 			response.successful_request?.must_equal true
 		end
 

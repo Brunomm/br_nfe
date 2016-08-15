@@ -81,6 +81,19 @@ module BrNfe
 						dados
 					end
 
+					# Alíquota. Valor percentual.
+					#  Formato: 0.XXXX
+					#  Ex: 1% = 0.01
+					#  25,5% = 0.255
+					#  100% = 1.0
+					# Irá receber o valor decimal do percentual da aliquota
+					# e irá dividir por 100 conforme indicado na documentação.
+					#
+					def ts_aliquota value
+						value = value.to_f/100
+						value_monetary(value, 4)
+					end
+
 				end
 			end
 		end

@@ -67,10 +67,8 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		require "savon/mock/spec_helper"
-		include Savon::SpecHelper
-		before(:all) { savon.mock!   }
-		after(:all)  { savon.unmock! }
+		before { savon.mock!   }
+		after  { savon.unmock! }
 
 		it "Quando processou o RPS com sucesso deve setar a situation com :success" do
 			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_situacao_lote_rps/success.xml')

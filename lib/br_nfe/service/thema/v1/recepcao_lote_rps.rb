@@ -59,7 +59,7 @@ module BrNfe
 					# para encontrar os valores para setar na resposta
 					#
 					def body_xml_path
-						[:recepcionar_lote_rps_limitado_response, :return]						
+						[:recepcionar_lote_rps_response, :return]
 					end
 				end
 			end

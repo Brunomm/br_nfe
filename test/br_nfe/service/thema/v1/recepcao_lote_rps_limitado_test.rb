@@ -69,4 +69,41 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 			validate_schema
 		end
 	end
+
+	describe "#request and set response" do
+		before { savon.mock! }
+		after  { savon.unmock! }
+
+		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/recepcao_lote_rps_limitado/success.xml')
+			
+			savon.expects(:recepcionar_lote_rps_limitado).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.status.must_equal :success
+			response.protocolo.must_equal '2916417'
+			response.data_recebimento.must_equal Time.parse('2016-08-15T17:21:35.725Z')
+			response.numero_lote.must_equal '14'
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/recepcao_lote_rps_limitado/error.xml')
+			
+			savon.expects(:recepcionar_lote_rps_limitado).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_equal '2916418'
+			response.data_recebimento.must_equal Time.parse('2016-08-15T17:22:32.796Z')
+			response.numero_lote.must_equal '14'
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal 'E500'
+			response.error_messages[0][:message].must_equal 'E500-Número de Lote já informado em outras remessas'
+			response.error_messages[0][:solution].must_be_nil
+			response.successful_request?.must_equal true
+		end
+	end
 end

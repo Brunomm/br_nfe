@@ -131,9 +131,9 @@ module BrNfe
 
 				# Alíquota. Valor percentual.
 				#  Formato: 0.0000
-				#  Ex: 1% = 0.01
-				#  25,5% = 0.255
-				#  100% = 1.0000 ou 1
+				#  Ex: 1% = 1.00
+				#  25,5% = 25.5
+				#  100% = 100.0000 ou 100
 				#
 				def ts_aliquota value
 					value_monetary(value, 4)

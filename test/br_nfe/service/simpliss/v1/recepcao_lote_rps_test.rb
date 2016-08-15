@@ -70,10 +70,8 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		require "savon/mock/spec_helper"
-		include Savon::SpecHelper
-		before(:all) { savon.mock!   }
-		after(:all)  { savon.unmock! }
+		before { savon.mock!   }
+		after  { savon.unmock! }
 
 		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
 			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps/success.xml')

@@ -76,4 +76,11 @@ describe BrNfe::Service::Thema::V1::Base do
 		end
 	end
 
+	describe '#ts_aliquota' do
+		it "sempre deve pegar o valor do parâmetro e dividir por 100" do
+			subject.ts_aliquota(35.75).must_equal 0.3575
+
+		end
+	end
+
 end

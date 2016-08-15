@@ -133,6 +133,11 @@ module BrNfe
 			# Utilizado para as cidades que não possuem multiplos itens de serviço na nota.
 			# Caso não seja definido então irá pegar a aliquota do 1º item que encontrar
 			#
+			# O Valor informado deve ser o percentual real do ISS
+			# EXEMPLO:
+			# 2%   = 2.0
+			# 3.5% = 3.5
+			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :iss_tax_rate
 			def iss_tax_rate

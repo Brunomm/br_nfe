@@ -18,6 +18,8 @@ CodeClimate::TestReporter.start
 
 require 'factory_girl_rails'
 
+require "savon/mock/spec_helper"
+
 Minitest::Reporters.use!
 
 if ActiveSupport.version >= Gem::Version.new('4.2')
@@ -36,6 +38,7 @@ class Object
 end
 
 class MiniTest::Spec
+	include Savon::SpecHelper
 	include Shoulda::Matchers::ActiveModel
 	include FactoryGirl::Syntax::Methods
 	let(:sequence_1) { sequence('sequence_1') } 

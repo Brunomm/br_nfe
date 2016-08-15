@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
   <soapenv:Body>
-    <ns:recepcionarLoteRpsResponse xmlns:ns="http://server.nfse.thema.inf.br">
+    <ns:recepcionarLoteRpsLimitadoResponse xmlns:ns="http://server.nfse.thema.inf.br">
       <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?&gt;
 &lt;EnviarLoteRpsResposta xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;
+    &lt;NumeroLote&gt;14&lt;/NumeroLote&gt;
+    &lt;DataRecebimento&gt;2016-08-15T17:22:32.796Z&lt;/DataRecebimento&gt;
+    &lt;Protocolo&gt;2916418&lt;/Protocolo&gt;
     &lt;ListaMensagemRetorno&gt;
         &lt;MensagemRetorno&gt;
-            &lt;Codigo&gt;E515&lt;/Codigo&gt;
-            &lt;Mensagem&gt;Erro ao validar assinatura. - Certificado usado para assinar a remessa não é do prestador e nem de empresa autorizada.&lt;/Mensagem&gt;
+            &lt;Codigo&gt;E500&lt;/Codigo&gt;
+            &lt;Mensagem&gt;E500-Número de Lote já informado em outras remessas&lt;/Mensagem&gt;
         &lt;/MensagemRetorno&gt;
     &lt;/ListaMensagemRetorno&gt;
 &lt;/EnviarLoteRpsResposta&gt;
 </ns:return>
-    </ns:recepcionarLoteRpsResponse>
+    </ns:recepcionarLoteRpsLimitadoResponse>
   </soapenv:Body>
-</soapenv:Envelope>
