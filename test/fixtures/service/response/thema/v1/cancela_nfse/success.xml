@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <ns:cancelarNfseResponse xmlns:ns="http://server.nfse.thema.inf.br">
+      <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?&gt;
+&lt;CancelarNfseResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;
+    &lt;Cancelamento&gt;
+        &lt;Confirmacao&gt;
+            &lt;Pedido&gt;
+                &lt;InfPedidoCancelamento id="C20160815105031610432194"&gt;
+                    &lt;IdentificacaoNfse&gt;
+                        &lt;Numero&gt;201600000000005&lt;/Numero&gt;
+                        &lt;Cnpj&gt;65978078000120&lt;/Cnpj&gt;
+                        &lt;InscricaoMunicipal&gt;135408&lt;/InscricaoMunicipal&gt;
+                        &lt;CodigoMunicipio&gt;4205902&lt;/CodigoMunicipio&gt;
+                    &lt;/IdentificacaoNfse&gt;
+                    &lt;CodigoCancelamento&gt;E506&lt;/CodigoCancelamento&gt;
+                &lt;/InfPedidoCancelamento&gt;
+            &lt;/Pedido&gt;
+            &lt;DataHoraCancelamento&gt;2016-08-15T13:50:31.016Z&lt;/DataHoraCancelamento&gt;
+        &lt;/Confirmacao&gt;
+    &lt;/Cancelamento&gt;
+    &lt;ListaMensagemRetorno&gt;
+        &lt;MensagemRetorno/&gt;
+    &lt;/ListaMensagemRetorno&gt;
+&lt;/CancelarNfseResposta&gt;
+</ns:return>
+    </ns:cancelarNfseResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

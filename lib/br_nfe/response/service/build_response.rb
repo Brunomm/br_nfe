@@ -57,11 +57,20 @@ module BrNfe
 					return @savon_body if @savon_body.present?
 					if body_xml_path.present?
 						@savon_body = Nori.new.parse(
-							"#{find_value_for_keys(savon_response.try(:body), body_xml_path)}".encode(xml_encode).force_encoding('UTF-8')
+							body_converted_to_xml
 						).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
 					else
 						@savon_body = savon_response.try(:body) || {}
 					end
+				end
+
+				# Converte o body da requisição em XML (String)
+				# Isso é necessário quando dentro do body vem a resposta com outro XML
+				#
+				# <b>Tipo de retorno: </b> _String_
+				#
+				def body_converted_to_xml
+					@body_converted_to_xml ||= canonicalize("#{find_value_for_keys(savon_response.try(:body), body_xml_path)}".encode(xml_encode).force_encoding('UTF-8'))
 				end
 
 				# Método utilizado para encontrar valores em um Hash
@@ -124,11 +133,11 @@ module BrNfe
 					if _messages.is_a?(Hash)
 						messages << get_message_for_hash(_messages)
 					elsif _messages.is_a?(Array)
-						_messages.map{|msg| messages << get_message_for_hash(msg) }
+						_messages.map{|msg| messages << get_message_for_hash(msg) if msg.present? }
 					elsif _messages.present?
 						messages << _messages
 					end
-					messages
+					messages.uniq
 				end
 
 				# Método utilizado para quando encontrar uam mensagem que seja um HAsh,
@@ -157,11 +166,11 @@ module BrNfe
 				#
 				def get_invoices
 					invoices = []
-					_inoices = find_value_for_keys(savon_body, path_with_root(invoices_path))
-					if _inoices.is_a?(Hash)
-						invoices << instance_invoice(_inoices)
-					elsif _inoices.is_a?(Array)
-						_inoices.map{|inv| invoices << instance_invoice(inv) }
+					_invoices = find_value_for_keys(savon_body, path_with_root(invoices_path))
+					if _invoices.is_a?(Hash)
+						invoices << instance_invoice(_invoices)
+					elsif _invoices.is_a?(Array)
+						_invoices.map{|inv| invoices << instance_invoice(inv) }
 					end
 					invoices
 				end
@@ -210,7 +219,11 @@ module BrNfe
 				# <b>Tipo de retorno: </b> _String_
 				#
 				def get_xml_nf
-					canonicalize(Nokogiri::XML.parse(canonicalize(savon_response.doc.to_s), nil, 'UTF-8').xpath(nfe_xml_path).to_xml)
+					if body_xml_path.present?
+						canonicalize(Nokogiri::XML.parse( body_converted_to_xml , nil, 'UTF-8').xpath(nfe_xml_path).to_xml)
+					else
+						canonicalize(Nokogiri::XML.parse(canonicalize(savon_response.doc.to_s), nil, 'UTF-8').xpath(nfe_xml_path).to_xml)
+					end
 				rescue
 					savon_response.xml
 				end

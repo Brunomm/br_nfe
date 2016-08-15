@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns:consultarNfsePorRpsResponse xmlns:ns="http://server.nfse.thema.inf.br">
+            <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+&lt;ConsultarNfseRpsResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd">
+    &lt;ListaNfse&gt;
+        &lt;CompNfse>
+            &lt;Nfse>
+                &lt;InfNfse>
+                    &lt;Numero>201600000000003&lt;/Numero>
+                    &lt;CodigoVerificacao>1004156850&lt;/CodigoVerificacao>
+                    &lt;DataEmissao>2016-08-12T20:02:36.000Z&lt;/DataEmissao>
+                    &lt;IdentificacaoRps>
+                        &lt;Numero>15&lt;/Numero>
+                        &lt;Serie>SN&lt;/Serie>
+                        &lt;Tipo>1&lt;/Tipo>
+                    &lt;/IdentificacaoRps>
+                    &lt;DataEmissaoRps>2016-08-12Z&lt;/DataEmissaoRps>
+                    &lt;NaturezaOperacao>59&lt;/NaturezaOperacao>
+                    &lt;RegimeEspecialTributacao>1&lt;/RegimeEspecialTributacao>
+                    &lt;OptanteSimplesNacional>1&lt;/OptanteSimplesNacional>
+                    &lt;IncentivadorCultural>0&lt;/IncentivadorCultural>
+                    &lt;Competencia>2016-08-12T00:00:00.000Z&lt;/Competencia>
+                    &lt;Servico>
+                        &lt;Valores>
+                            &lt;ValorServicos>1700&lt;/ValorServicos>
+                            &lt;ValorDeducoes>7&lt;/ValorDeducoes>
+                            &lt;ValorPis>1.12&lt;/ValorPis>
+                            &lt;ValorCofins>2.12&lt;/ValorCofins>
+                            &lt;ValorInss>3.12&lt;/ValorInss>
+                            &lt;ValorIr>4.12&lt;/ValorIr>
+                            &lt;ValorCsll>5.12&lt;/ValorCsll>
+                            &lt;IssRetido>2&lt;/IssRetido>
+                            &lt;ValorIss>33.72&lt;/ValorIss>
+                            &lt;ValorIssRetido>0&lt;/ValorIssRetido>
+                            &lt;OutrasRetencoes>6.12&lt;/OutrasRetencoes>
+                            &lt;BaseCalculo>1685.88&lt;/BaseCalculo>
+                            &lt;Aliquota>0.02&lt;/Aliquota>
+                            &lt;ValorLiquidoNfse>1663.02&lt;/ValorLiquidoNfse>
+                            &lt;DescontoIncondicionado>7.12&lt;/DescontoIncondicionado>
+                            &lt;DescontoCondicionado>8.12&lt;/DescontoCondicionado>
+                        &lt;/Valores>
+                        &lt;ItemListaServico>107&lt;/ItemListaServico>
+                        &lt;CodigoCnae>6202300&lt;/CodigoCnae>
+                        &lt;CodigoTributacaoMunicipio>6699&lt;/CodigoTributacaoMunicipio>
+                        &lt;Discriminacao>1 TESTE WEBSERVICE: R$ 5,00&lt;/Discriminacao>
+                        &lt;CodigoMunicipio>4204202&lt;/CodigoMunicipio>
+                    &lt;/Servico>
+                    &lt;PrestadorServico>
+                        &lt;IdentificacaoPrestador>
+                            &lt;Cnpj>65978078000120&lt;/Cnpj>
+                            &lt;InscricaoMunicipal>11849&lt;/InscricaoMunicipal>
+                        &lt;/IdentificacaoPrestador>
+                        &lt;RazaoSocial>EMPRESA EMITENTE LTDA&lt;/RazaoSocial>
+                        &lt;NomeFantasia>EMITENTE&lt;/NomeFantasia>
+                        &lt;Endereco>
+                            &lt;Endereco>DOUGLAS ALEXANDRE&lt;/Endereco>
+                            &lt;Numero>50&lt;/Numero>
+                            &lt;Complemento>&lt;/Complemento>
+                            &lt;Bairro>CENTRO&lt;/Bairro>
+                            &lt;CodigoMunicipio>4205902&lt;/CodigoMunicipio>
+                            &lt;Uf>SC&lt;/Uf>
+                            &lt;Cep>89110000&lt;/Cep>
+                        &lt;/Endereco>
+                        &lt;Contato>
+                            &lt;Telefone>3326891&lt;/Telefone>
+                            &lt;Email>emitente@gmail.com&lt;/Email>
+                        &lt;/Contato>
+                    &lt;/PrestadorServico>
+                    &lt;TomadorServico>
+                        &lt;IdentificacaoTomador>
+                            &lt;CpfCnpj>
+                                &lt;Cpf>08670364000&lt;/Cpf>
+                                &lt;Cnpj>&lt;/Cnpj>
+                            &lt;/CpfCnpj>
+                            &lt;InscricaoMunicipal>&lt;/InscricaoMunicipal>
+                        &lt;/IdentificacaoTomador>
+                        &lt;RazaoSocial>BRUNO MUCELINI MERGEN&lt;/RazaoSocial>
+                        &lt;Endereco>
+                            &lt;Endereco>RUA IGUACU E&lt;/Endereco>
+                            &lt;Numero>587&lt;/Numero>
+                            &lt;Complemento>&lt;/Complemento>
+                            &lt;Bairro>SAIC&lt;/Bairro>
+                            &lt;CodigoMunicipio>4204202&lt;/CodigoMunicipio>
+                            &lt;Uf>SC&lt;/Uf>
+                            &lt;Cep>89802171&lt;/Cep>
+                        &lt;/Endereco>
+                        &lt;Contato>
+                            &lt;Telefone>4920493900&lt;/Telefone>
+                            &lt;Email>brunomergen@gmail.com&lt;/Email>
+                        &lt;/Contato>
+                    &lt;/TomadorServico>
+                    &lt;IntermediarioServico/>
+                    &lt;OrgaoGerador>
+                        &lt;CodigoMunicipio>4205902&lt;/CodigoMunicipio>
+                        &lt;Uf>SC&lt;/Uf>
+                    &lt;/OrgaoGerador>
+                    &lt;ContrucaoCivil/>
+                &lt;/InfNfse>
+            &lt;/Nfse>
+        &lt;/CompNfse>
+    &lt;/ListaNfse&gt;
+    &lt;ListaMensagemRetorno>
+        &lt;MensagemRetorno/>
+        &lt;MensagemRetorno/>
+    &lt;/ListaMensagemRetorno>
+&lt;/ConsultarNfseRpsResposta></ns:return>
+    </ns:consultarNfsePorRpsResponse>
+</soapenv:Body></soapenv:Envelope>

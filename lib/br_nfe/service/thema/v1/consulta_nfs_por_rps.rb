@@ -14,7 +14,7 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarNfseRpsResposta
+						BrNfe::Service::Thema::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
 					end
 
 					def xml_builder

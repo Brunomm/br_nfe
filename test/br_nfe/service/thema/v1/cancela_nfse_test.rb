@@ -18,7 +18,7 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 
 	describe "#response_path_module" do
 		it "deve ter o module ServicoCancelarNfseResposta" do
-			subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
+			subject.response_path_module.must_equal BrNfe::Service::Thema::V1::ResponsePaths::ServicoCancelarNfseResposta
 		end
 	end
 
@@ -71,6 +71,59 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 					errors.must_be_empty
 				end
 			end
+		end
+	end
+
+	describe "#request and set response" do
+		require "savon/mock/spec_helper"
+		include Savon::SpecHelper
+		before(:all) { savon.mock!   }
+		after(:all)  { savon.unmock! }
+
+		it "Quando cancelou a NF com sucesso" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/cancela_nfse/success.xml')
+			
+			savon.expects(:cancelar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.cancelation_date_time.must_equal Time.parse('2016-08-15T13:50:31.016Z')
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/cancela_nfse/fault.xml')
+			
+			savon.expects(:cancelar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.protocolo.must_be_nil
+			response.data_recebimento.must_be_nil
+			response.numero_lote.must_be_nil
+			response.cancelation_date_time.must_be_nil
+			
+			response.status.must_equal :falied
+
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal     'E505'
+			response.error_messages[0][:message].must_equal  'E505-Código da Cancelamento Não existe na tabela de erros e alertas'
+			response.error_messages[0][:solution].must_be_nil
+			response.successful_request?.must_equal true
+		end
+	end
+
+	describe "#xml_builder deve assinar o cancelamento corretamente" do
+		it "deve retornar o XMl assinado e comparar com um template testado" do
+			xml_sem_assinatura = File.read("#{BrNfe.root}/test/fixtures/service/thema/v1/cancelar_nfse_envio.xml")
+			xml_assinado = File.read("#{BrNfe.root}/test/fixtures/service/thema/v1/cancelar_nfse_envio_signed.xml")		
+			
+			subject.id_cancelamento = '5544'
+			
+			subject.stubs(:render_xml).with('servico_cancelar_nfse_envio').returns(xml_sem_assinatura)
+
+			subject.xml_builder.must_equal xml_assinado
 		end
 	end
 

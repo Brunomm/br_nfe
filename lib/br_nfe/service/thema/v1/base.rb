@@ -57,6 +57,10 @@ module BrNfe
 						'ISO-8859-1'
 					end
 
+					def nfse_xml_path
+						'//*' #Começa o XMl a partir do body e pega a tag ConsultarNfseResposta
+					end
+
 					# Método é sobrescrito para atender o padrão do órgão emissor.
 					# Deve ser enviado o XML da requsiução dentro da tag CDATA
 					# seguindo a estrutura requerida.

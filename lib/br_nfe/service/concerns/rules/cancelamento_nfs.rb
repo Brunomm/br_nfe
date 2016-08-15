@@ -9,8 +9,13 @@ module BrNfe
 						
 						attr_accessor :nfe_number
 						attr_accessor :codigo_cancelamento
+						attr_accessor :id_cancelamento
 
 						validates :nfe_number, :codigo_cancelamento, presence: true
+
+						def id_cancelamento
+							@id_cancelamento ||= Time.now.strftime('%Y%m%d%H%M%S%9N')
+						end
 					end
 				end
 			end

@@ -14,11 +14,19 @@ module BrNfe
 					end
 
 					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
+						BrNfe::Service::Thema::V1::ResponsePaths::ServicoCancelarNfseResposta
 					end
 
 					def xml_builder
-						render_xml 'servico_cancelar_nfse_envio'
+						xml = render_xml 'servico_cancelar_nfse_envio'
+						sign_nodes = [
+							{
+								node_path: "//nf:CancelarNfseEnvio/nf:Pedido/nf:InfPedidoCancelamento", 
+								node_namespaces: {nf: 'http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd'},
+								node_ids: ["C#{id_cancelamento}"]
+							}
+						]
+						sign_xml('<?xml version="1.0" encoding="ISO-8859-1"?>'+xml, sign_nodes)
 					end
 
 					# Não é utilizado o response_root_path pois

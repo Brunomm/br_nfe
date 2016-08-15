@@ -101,6 +101,11 @@ module BrNfe
 		end
 		module Thema
 			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoCancelarNfseResposta
+					autoload :ServicoConsultarNfseRpsResposta
+				end
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :CancelaNfse

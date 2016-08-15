@@ -53,7 +53,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 		end
 	end
 
-		describe "#request and set response" do
+	describe "#request and set response" do
 		require "savon/mock/spec_helper"
 		include Savon::SpecHelper
 		before(:all) { savon.mock!   }
@@ -243,7 +243,5 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 			nf.destinatario.endereco.uf.must_equal 'SC'
 			nf.destinatario.endereco.cep.must_equal '89802171'
 		end
-
-
 	end
 end

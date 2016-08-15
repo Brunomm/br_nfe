@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns:consultarSituacaoLoteRpsResponse xmlns:ns="http://server.nfse.thema.inf.br">
+            <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+&lt;ConsultarSituacaoLoteRpsResposta xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd">
+    &lt;NumeroLote>11&lt;/NumeroLote>
+    &lt;Situacao>4&lt;/Situacao>
+    &lt;ListaMensagemRetorno>
+        &lt;MensagemRetorno/>
+    &lt;/ListaMensagemRetorno>
+&lt;/ConsultarSituacaoLoteRpsResposta></ns:return>
+    </ns:consultarSituacaoLoteRpsResponse>
+</soapenv:Body></soapenv:Envelope>

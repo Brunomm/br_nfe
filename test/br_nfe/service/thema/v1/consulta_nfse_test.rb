@@ -68,4 +68,199 @@ describe BrNfe::Service::Thema::V1::ConsultaNfse do
 		end
 	end
 
+	describe "#request and set response" do
+		require "savon/mock/spec_helper"
+		include Savon::SpecHelper
+		before(:all) { savon.mock!   }
+		after(:all)  { savon.unmock! }
+
+		it "Se não encontrar nenhuma NFe" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_nfse/nfs_empty.xml')
+			savon.expects(:consultar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.notas_fiscais.must_be_empty
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_nfse/fault.xml')
+			
+			savon.expects(:consultar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1, "#{response.error_messages}"
+			response.error_messages[0][:code].must_equal 'E46'
+			response.error_messages[0][:message].must_equal  'CNPJ do prestador não informado'
+			response.error_messages[0][:solution].must_equal 'Informe o CNPJ do prestador.'
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando encontrar uma nota fiscal com as informações básicas preenchidas" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_nfse/nfse_simple.xml')
+			savon.expects(:consultar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.notas_fiscais.size.must_equal 1
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+
+			nf = response.notas_fiscais[0]
+			nf.numero_nf.must_equal '201600000000002'
+			nf.codigo_verificacao.must_equal '1004156842'
+			nf.data_emissao.must_equal DateTime.parse('2016-08-12T20:02:36.000Z')
+			nf.url_nf.must_be_nil
+			nf.xml_nf[0..102].must_equal '<ConsultarNfseResposta xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"><ListaNfse><CompNfse><'
+			nf.rps_numero.must_equal '9'
+			nf.rps_serie.must_equal 'SN'
+			nf.rps_tipo.must_equal '1'
+			nf.rps_situacao.must_be_nil
+			nf.rps_substituido_numero.must_be_nil
+			nf.rps_substituido_serie.must_be_nil
+			nf.rps_substituido_tipo.must_be_nil
+			nf.data_emissao_rps.must_equal Date.parse('2016-08-12Z')
+			nf.competencia.must_equal DateTime.parse('2016-08-12T00:00:00.000Z')
+			nf.natureza_operacao.must_equal '59'
+			nf.regime_especial_tributacao.must_equal '1'
+			nf.optante_simples_nacional.must_equal '1'
+			nf.incentivador_cultural.must_equal '0'
+			nf.outras_informacoes.must_be_nil
+			nf.item_lista_servico.must_equal '107'
+			nf.cnae_code.must_equal '6202300'
+			nf.description.must_equal 'SERVICO DE COMINICACAO WEB DIGITAL 1.700,00'
+			nf.codigo_municipio.must_equal '4204202'
+			nf.total_services.must_equal '10'
+			nf.iss_retained.must_equal '2'
+			nf.total_iss.must_equal '0.2'
+			nf.base_calculation.must_equal '10'
+			nf.iss_tax_rate.must_equal '0.035'
+			nf.valor_liquido.must_equal '10'
+			nf.deductions.must_equal '0'
+			nf.valor_pis.must_equal '0'
+			nf.valor_cofins.must_equal '0'
+			nf.valor_inss.must_equal '0'
+			nf.valor_ir.must_equal '0'
+			nf.valor_csll.must_equal '0'
+			nf.outras_retencoes.must_equal '0'
+			nf.desconto_condicionado.must_equal '0'
+			nf.desconto_incondicionado.must_equal '0'
+			nf.responsavel_retencao.must_be_nil
+			nf.numero_processo.must_be_nil
+			nf.municipio_incidencia.must_be_nil
+			nf.orgao_gerador_municipio.must_equal '4205902'
+			nf.orgao_gerador_uf.must_equal 'SC'
+			nf.cancelamento_codigo.must_be_nil
+			nf.cancelamento_numero_nf.must_be_nil
+			nf.cancelamento_cnpj.must_be_nil
+			nf.cancelamento_inscricao_municipal.must_be_nil
+			nf.cancelamento_municipio.must_be_nil
+			nf.cancelamento_sucesso.must_equal false
+			nf.cancelamento_data_hora.must_be_nil
+			nf.nfe_substituidora.must_be_nil
+			nf.codigo_obra.must_be_nil
+			nf.codigo_art.must_be_nil
+
+			nf.destinatario.cpf_cnpj.must_equal '08670364000'
+		end
+
+		it "Quando encontrar uma nota fiscal com as informações completas" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/thema/v1/consulta_nfse/nfse_complete.xml')
+			savon.expects(:consultar_nfse).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.notas_fiscais.size.must_equal 1
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+
+			nf = response.notas_fiscais[0]
+			nf.numero_nf.must_equal '201600000000003'
+			nf.codigo_verificacao.must_equal '1004156850'
+			nf.data_emissao.must_equal DateTime.parse('2016-08-12T20:02:36.000Z')
+			nf.url_nf.must_be_nil
+			nf.xml_nf[0..89].must_equal '<ConsultarNfseResposta xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"><ListaNfs'
+			nf.rps_numero.must_equal '15'
+			nf.rps_serie.must_equal 'SN'
+			nf.rps_tipo.must_equal '1'
+			nf.rps_situacao.must_be_nil
+			nf.rps_substituido_numero.must_be_nil
+			nf.rps_substituido_serie.must_be_nil
+			nf.rps_substituido_tipo.must_be_nil
+			nf.data_emissao_rps.must_equal Date.parse('2016-08-12Z')
+			nf.competencia.must_equal DateTime.parse('2016-08-12T00:00:00.000Z')
+			nf.natureza_operacao.must_equal '59'
+			nf.regime_especial_tributacao.must_equal '1'
+			nf.optante_simples_nacional.must_equal '1'
+			nf.incentivador_cultural.must_equal '0'
+			nf.outras_informacoes.must_be_nil
+			nf.item_lista_servico.must_equal '107'
+			nf.cnae_code.must_equal '6202300'
+			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
+			nf.codigo_municipio.must_equal '4204202'
+			nf.total_services.must_equal '1700'
+			nf.iss_retained.must_equal '2'
+			nf.total_iss.must_equal '33.72'
+			nf.base_calculation.must_equal '1685.88'
+			nf.iss_tax_rate.must_equal '0.02'
+			nf.valor_liquido.must_equal '1663.02'
+			nf.deductions.must_equal '7'
+			nf.valor_pis.must_equal '1.12'
+			nf.valor_cofins.must_equal '2.12'
+			nf.valor_inss.must_equal '3.12'
+			nf.valor_ir.must_equal '4.12'
+			nf.valor_csll.must_equal '5.12'
+			nf.outras_retencoes.must_equal '6.12'
+			nf.desconto_condicionado.must_equal '8.12'
+			nf.desconto_incondicionado.must_equal '7.12'
+			nf.responsavel_retencao.must_be_nil
+			nf.numero_processo.must_be_nil
+			nf.orgao_gerador_municipio.must_equal '4205902'
+			nf.orgao_gerador_uf.must_equal 'SC'
+			nf.cancelamento_codigo.must_be_nil
+			nf.cancelamento_numero_nf.must_be_nil
+			nf.cancelamento_cnpj.must_be_nil
+			nf.cancelamento_inscricao_municipal.must_be_nil
+			nf.cancelamento_municipio.must_be_nil
+			nf.cancelamento_data_hora.must_be_nil
+			nf.cancelamento_sucesso.must_equal false
+			nf.nfe_substituidora.must_be_nil
+			
+			nf.emitente.cnpj.must_equal '65978078000120'
+			nf.emitente.inscricao_municipal.must_equal '11849'
+			nf.emitente.razao_social.must_equal 'EMPRESA EMITENTE LTDA'
+			nf.emitente.nome_fantasia.must_equal 'EMITENTE'
+			nf.emitente.telefone.must_equal '3326891'
+			nf.emitente.email.must_equal 'emitente@gmail.com'
+
+			nf.emitente.endereco.logradouro.must_equal 'DOUGLAS ALEXANDRE'
+			nf.emitente.endereco.numero.must_equal '50'
+			nf.emitente.endereco.complemento.must_equal ''
+			nf.emitente.endereco.bairro.must_equal 'CENTRO'
+			nf.emitente.endereco.codigo_municipio.must_equal '4205902'
+			nf.emitente.endereco.uf.must_equal 'SC'
+			nf.emitente.endereco.cep.must_equal '89110000'
+
+			nf.destinatario.cpf_cnpj.must_equal '08670364000'
+			nf.destinatario.inscricao_municipal.must_be_nil
+			nf.destinatario.inscricao_estadual.must_be_nil
+			nf.destinatario.inscricao_suframa.must_be_nil
+			nf.destinatario.razao_social.must_equal 'BRUNO MUCELINI MERGEN'
+			nf.destinatario.telefone.must_equal '4920493900'
+			nf.destinatario.email.must_equal 'brunomergen@gmail.com'
+
+			nf.destinatario.endereco.logradouro.must_equal 'RUA IGUACU E'
+			nf.destinatario.endereco.numero.must_equal '587'
+			nf.destinatario.endereco.complemento.must_equal ''
+			nf.destinatario.endereco.bairro.must_equal 'SAIC'
+			nf.destinatario.endereco.codigo_municipio.must_equal '4204202'
+			nf.destinatario.endereco.uf.must_equal 'SC'
+			nf.destinatario.endereco.cep.must_equal '89802171'
+		end
+	end
+
 end
