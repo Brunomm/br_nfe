@@ -146,17 +146,6 @@ module BrNfe
 				autoload :EmissionRPS
 				autoload :Cancellation
 			end
-			module Gaspar
-				extend ActiveSupport::Autoload
-				autoload :Base
-				autoload :CancelaNfse
-				autoload :RecepcaoLoteRps
-				autoload :ConsultaNfsPorRps
-				autoload :ConsultaSituacaoLoteRps
-				autoload :RecepcaoLoteRpsLimitado
-				autoload :ConsultaNfse
-				autoload :ConsultaLoteRps
-			end
 		end
 	end
 
