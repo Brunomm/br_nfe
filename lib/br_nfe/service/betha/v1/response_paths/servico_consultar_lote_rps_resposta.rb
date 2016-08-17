@@ -13,7 +13,7 @@ module BrNfe
 						end
 
 						def response_invoice_url_nf_path
-							default_path_to_nf + [:outras_informacoes] 
+							response_default_path_to_nf + [:outras_informacoes] 
 						end
 					end
 				end
