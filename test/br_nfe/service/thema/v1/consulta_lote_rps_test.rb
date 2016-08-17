@@ -14,10 +14,6 @@ describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 		it { subject.method_wsdl.must_equal :consultar_lote_rps }
 	end
 
-	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal []
 	end

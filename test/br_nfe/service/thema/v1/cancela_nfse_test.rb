@@ -16,12 +16,6 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 		it { subject.method_wsdl.must_equal :cancelar_nfse }
 	end
 
-	describe "#response_path_module" do
-		it "deve ter o module ServicoCancelarNfseResposta" do
-			subject.response_path_module.must_equal BrNfe::Service::Thema::V1::ResponsePaths::ServicoCancelarNfseResposta
-		end
-	end
-
 	describe "#wsdl" do
 		it "default" do
 			subject.ibge_code_of_issuer_city = '111'

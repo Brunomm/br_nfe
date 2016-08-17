@@ -16,10 +16,6 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps }
 	end
 
-	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoEnviarLoteRpsResposta
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:recepcionar_lote_rps_response]
 	end

@@ -28,12 +28,6 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 		it { subject.method_wsdl.must_equal :consultar_lote_rps_envio }
 	end
 
-	describe "#response_path_module" do
-		it "deve ter um module" do
-			subject.response_path_module.must_equal BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
-		end
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:consultar_lote_rps_envio_response]
 	end

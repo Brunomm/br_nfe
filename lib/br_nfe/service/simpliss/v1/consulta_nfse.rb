@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class ConsultaNfse < BrNfe::Service::Simpliss::V1::Base
 					include BrNfe::Service::Concerns::Rules::ConsultaNfse
+					include BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarNfseResposta
 
 					def method_wsdl
 						:consultar_nfse
@@ -13,10 +14,6 @@ module BrNfe
 						render_xml 'servico_consultar_nfse_envio'
 					end
 
-					def response_path_module
-						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarNfseResposta
-					end
-					
 					def response_root_path
 						[:consultar_nfse_response]
 					end

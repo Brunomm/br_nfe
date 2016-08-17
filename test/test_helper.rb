@@ -18,6 +18,8 @@ CodeClimate::TestReporter.start
 
 require 'factory_girl_rails'
 
+require 'pry'
+
 require "savon/mock/spec_helper"
 
 Minitest::Reporters.use!

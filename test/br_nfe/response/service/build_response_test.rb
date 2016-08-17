@@ -7,23 +7,7 @@ describe BrNfe::Response::Service::BuildResponse do
 	describe "#initialize" do
 		it "ao inicializar deve chamar o metodo include_module! depois de setar os atributos" do
 			BrNfe::Response::Service::BuildResponse.any_instance.expects(:assign_attributes).in_sequence(sequence_1)
-			BrNfe::Response::Service::BuildResponse.any_instance.expects(:include_module!).in_sequence(sequence_1)
 			BrNfe::Response::Service::BuildResponse.new(nfe_xml_path: 'path')
-		end
-	end
-
-	describe "include_module!" do
-		module RackModuleTest; end
-		
-		it "se tiver valor em module_methods deve incluir o module na classe" do
-			subject.module_methods = RackModuleTest
-			subject.class.expects(:send).with(:include, RackModuleTest)
-			subject.send(:include_module!)
-		end
-		it "se não tiver valor em module_methods não deve tenatar incluir module na classe" do
-			subject.module_methods = nil
-			subject.class.expects(:send).never
-			subject.send(:include_module!)
 		end
 	end
 

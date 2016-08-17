@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class RecepcaoLoteRps < BrNfe::Service::Betha::V1::Gateway
 					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
+					include BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
 					
 					def certificado_obrigatorio?
 						true
@@ -16,9 +17,6 @@ module BrNfe
 						:enviar_lote_rps_envio
 					end
 
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
-					end
 					def response_root_path
 						[:enviar_lote_rps_envio_response]
 					end

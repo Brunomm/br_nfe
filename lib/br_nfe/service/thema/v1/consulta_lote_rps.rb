@@ -3,6 +3,7 @@ module BrNfe
 		module Thema
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Thema::V1::Base
+					include BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
 
 					def wsdl
 						get_wsdl_by_city[:consult]
@@ -19,10 +20,6 @@ module BrNfe
 						render_xml 'servico_consultar_lote_rps_envio'
 					end
 
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
-					end
-					
 					# Não é utilizado o response_root_path pois
 					# esse órgão emissor trata o XML de forma diferente
 					# e para instanciar a resposta adequadamente é utilizado o 

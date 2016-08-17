@@ -29,10 +29,6 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 		it { subject.method_wsdl.must_equal :consultar_nfse_por_rps_envio }
 	end
 
-	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:consultar_nfse_rps_envio_response]
 	end

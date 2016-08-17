@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class RecepcaoLoteRps < BrNfe::Service::Simpliss::V1::Base
 					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
+					include BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoEnviarLoteRpsResposta
 
 					def certificado_obrigatorio?
 						true
@@ -23,9 +24,6 @@ module BrNfe
 						render_xml 'servico_enviar_lote_rps_envio'
 					end
 
-					def response_path_module
-						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoEnviarLoteRpsResposta
-					end
 
 					def response_root_path
 						[:recepcionar_lote_rps_response]

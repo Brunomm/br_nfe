@@ -8,7 +8,7 @@ module BrNfe
 						
 						# Caminho referente ao caminho onde se encontra as notas fiscais
 						# poderá encontrar apenas uma ou várias
-						def invoices_path
+						def response_invoices_path
 							[:consultar_nfse_rps_resposta, :lista_nfse, :comp_nfse]
 						end
 					end

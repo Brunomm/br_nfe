@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class ConsultaNfsPorRps < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps
+					include BrNfe::Service::Thema::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
 
 					def wsdl
 						get_wsdl_by_city[:consult]
@@ -11,10 +12,6 @@ module BrNfe
 
 					def method_wsdl
 						:consultar_nfse_por_rps
-					end
-
-					def response_path_module
-						BrNfe::Service::Thema::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
 					end
 
 					def xml_builder

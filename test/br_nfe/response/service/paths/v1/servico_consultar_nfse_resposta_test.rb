@@ -18,11 +18,11 @@ describe BrNfe::Service::Response::Paths::V1::ServicoConsultarNfseResposta do
 
 	describe "métodos sobrescritos do module ..Base" do
 		it 'valor do método message_errors_path' do
-			subject.message_errors_path.must_equal [:consultar_nfse_resposta, :lista_mensagem_retorno, :mensagem_retorno]
+			subject.response_message_errors_path.must_equal [:consultar_nfse_resposta, :lista_mensagem_retorno, :mensagem_retorno]
 		end
 
 		it 'valor do método invoices_path' do
-			subject.invoices_path.must_equal [:consultar_nfse_resposta, :lista_nfse, :comp_nfse]
+			subject.response_invoices_path.must_equal [:consultar_nfse_resposta, :lista_nfse, :comp_nfse]
 		end
 
 	end

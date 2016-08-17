@@ -16,12 +16,6 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 		it { subject.method_wsdl.must_equal :cancelar_nfse }
 	end
 
-	describe "#response_path_module" do
-		it "deve ter o module ServicoCancelarNfseResposta" do
-			subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoCancelarNfseResposta
-		end
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:cancelar_nfse_response]
 	end

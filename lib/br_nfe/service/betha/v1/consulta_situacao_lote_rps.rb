@@ -3,6 +3,7 @@ module BrNfe
 		module Betha
 			module V1
 				class ConsultaSituacaoLoteRps < BrNfe::Service::Betha::V1::ConsultaLoteRps
+					include BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsResposta
 
 					def wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarSituacaoLoteRps?wsdl"
@@ -12,9 +13,6 @@ module BrNfe
 						:consultar_situacao_lote_rps_envio
 					end
 					
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsResposta
-					end
 					def response_root_path
 						[:consultar_situacao_lote_rps_envio_response]
 					end

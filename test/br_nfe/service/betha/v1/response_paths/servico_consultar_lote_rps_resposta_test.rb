@@ -11,6 +11,6 @@ describe  BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsRespo
 	end
 
 	it "metodo invoices_path sobrescrito com valor padrão" do
-		subject.invoices_path.must_equal [:consultar_lote_rps_resposta, :lista_nfse, :compl_nfse]
+		subject.response_invoices_path.must_equal [:consultar_lote_rps_resposta, :lista_nfse, :compl_nfse]
 	end
 end

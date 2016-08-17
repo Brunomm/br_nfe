@@ -3,6 +3,7 @@ module BrNfe
 		module Simpliss
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Simpliss::V1::Base
+					include BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
 
 					attr_accessor :protocolo
 					validates :protocolo, presence: true
@@ -15,10 +16,6 @@ module BrNfe
 						render_xml 'servico_consultar_lote_rps_envio'
 					end
 
-					def response_path_module
-						BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
-					end
-					
 					def response_root_path
 						[:consultar_lote_rps_response]
 					end

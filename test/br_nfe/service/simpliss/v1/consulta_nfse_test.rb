@@ -17,10 +17,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 		it { subject.method_wsdl.must_equal :consultar_nfse }
 	end
 
-	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarNfseResposta
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:consultar_nfse_response]
 	end

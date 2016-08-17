@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class RecepcaoLoteRps < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
+					include BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
 
 					def wsdl
 						get_wsdl_by_city[:send]
@@ -38,10 +39,6 @@ module BrNfe
 							}
 						]
 						sign_xml('<?xml version="1.0" encoding="ISO-8859-1"?>'+xml, sign_nodes)
-					end
-
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
 					end
 
 					# Não é utilizado o response_root_path pois

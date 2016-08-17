@@ -17,10 +17,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfsPorRps do
 		it { subject.method_wsdl.must_equal :consultar_nfse_por_rps }
 	end
 
-	it "#response_path_module" do
-		subject.response_path_module.must_equal BrNfe::Service::Simpliss::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:consultar_nfse_por_rps_response]
 	end
