@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarNfseResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarNfseResult>
+        <ListaNfse xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd"/>
+      </ConsultarNfseResult>
+    </ConsultarNfseResponse>
+  </s:Body>
+</s:Envelope>

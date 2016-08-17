@@ -1,9 +1,9 @@
-SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"
-	CanonicalizationMethod Algorithm="#{canonicalization_method_algorithm}"
-	SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"
-	Reference URI="#{uri}"
-		Transforms
-			Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"
-			Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
-		DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"
-		DigestValue = remove_quebras Base64.encode64(OpenSSL::Digest::SHA1.digest(data_xml.html_safe))
+*{tag: "#{namespace_for_signature}SignedInfo"} xmlns="http://www.w3.org/2000/09/xmldsig#"
+	*{tag: "#{namespace_for_signature}CanonicalizationMethod"} Algorithm="#{canonicalization_method_algorithm}"
+	*{tag: "#{namespace_for_signature}SignatureMethod"} Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"
+	*{tag: "#{namespace_for_signature}Reference"} URI="#{uri}"
+		*{tag: "#{namespace_for_signature}Transforms"}
+			*{tag: "#{namespace_for_signature}Transform"} Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"
+			*{tag: "#{namespace_for_signature}Transform"} Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+		*{tag: "#{namespace_for_signature}DigestMethod"} Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"
+		*{tag: "#{namespace_for_signature}DigestValue"} = remove_quebras Base64.encode64(OpenSSL::Digest::SHA1.digest(data_xml.html_safe))

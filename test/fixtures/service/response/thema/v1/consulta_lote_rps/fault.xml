@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <ns:consultarLoteRpsResponse xmlns:ns="http://server.nfse.thema.inf.br">
+      <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?&gt;
+&lt;ConsultarLoteRpsResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;
+    &lt;ListaNfse/&gt;
+    &lt;ListaMensagemRetorno&gt;
+        &lt;MensagemRetorno&gt;
+            &lt;Codigo&gt;E86&lt;/Codigo&gt;
+            &lt;Mensagem&gt;Número do protocolo de recebimento do lote inexistente na base de dados&lt;/Mensagem&gt;
+            &lt;Correcao&gt;Confira se o lote foi enviado e informe o número correto do protocolo de recebimento.&lt;/Correcao&gt;
+        &lt;/MensagemRetorno&gt;
+    &lt;/ListaMensagemRetorno&gt;
+&lt;/ConsultarLoteRpsResposta&gt;
+</ns:return>
+    </ns:consultarLoteRpsResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

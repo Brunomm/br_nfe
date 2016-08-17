@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <ns:recepcionarLoteRpsResponse xmlns:ns="http://server.nfse.thema.inf.br">
+      <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?&gt;
+&lt;EnviarLoteRpsResposta xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;
+    &lt;ListaMensagemRetorno&gt;
+        &lt;MensagemRetorno&gt;
+            &lt;Codigo&gt;E515&lt;/Codigo&gt;
+            &lt;Mensagem&gt;Erro ao validar assinatura. - Certificado usado para assinar a remessa não é do prestador e nem de empresa autorizada.&lt;/Mensagem&gt;
+        &lt;/MensagemRetorno&gt;
+    &lt;/ListaMensagemRetorno&gt;
+&lt;/EnviarLoteRpsResposta&gt;
+</ns:return>
+    </ns:recepcionarLoteRpsResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

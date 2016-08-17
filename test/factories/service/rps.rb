@@ -1,21 +1,22 @@
 FactoryGirl.define do
 	factory :br_nfe_rps, class:  BrNfe::Service::Rps do
-		destinatario                 { FactoryGirl.build(:destinatario) }
-		numero                       556
-		serie                        'SN'
-		tipo                         '1'
-		data_emissao                 DateTime.now
-		status                       '1'
-		competencia                  Date.today
-		total_services               '349.00'
-		total_iss                    '6.98'
-		iss_tax_rate                 '0.02'
-		base_calculation             '349.00'
-		iss_retained                 '2'
-		item_lista_servico           '0107'
-		description                  "MENSALIDADE PLANO PRO. 349,00 \n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
-		codigo_municipio             '4204202'
-		cnae_code                    '6202300'
+		destinatario       { FactoryGirl.build(:destinatario) }
+		numero             556
+		serie              'SN'
+		tipo               '1'
+		data_emissao       DateTime.now
+		status             '1'
+		competencia        Date.today
+		total_services     '349.00'
+		total_iss          '6.98'
+		iss_tax_rate       '0.02'
+		base_calculation   '349.00'
+		iss_retained       '2'
+		item_lista_servico '0107'
+		description        "MENSALIDADE PLANO PRO. 349,00 \n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
+		codigo_municipio   '4204202'
+		cnae_code          '6202300'
+		items              { [ FactoryGirl.build(:service_item, unit_value: total_services, quantity: 1) ] }
 
 		trait :completo do
 			codigo_tributacao_municipio '6699'

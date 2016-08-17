@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarNfsePorRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarNfsePorRpsResult>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E4</Codigo>
+            <Mensagem>Esse RPS n&#xE3;o foi enviado para a nossa base de dados.</Mensagem>
+            <Correcao>Envie o RPS para emiss&#xE3;o da Nfs-e.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarNfsePorRpsResult>
+    </ConsultarNfsePorRpsResponse>
+  </s:Body>
+</s:Envelope>

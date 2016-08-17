@@ -1,9 +1,9 @@
-NumeroLote = ts_numero_lote(numero_lote_rps)
-Cnpj = ts_cnpj(emitente.cnpj)
-InscricaoMunicipal = ts_inscricao_municipal(emitente.inscricao_municipal)
-QuantidadeRps = ts_quantidade_rps(lote_rps.size)
-ListaRps
+*{tag: "#{namespace_for_tags}NumeroLote"} = ts_numero_lote(numero_lote_rps)
+*{tag: "#{namespace_for_tags}Cnpj"} = ts_cnpj(emitente.cnpj)
+*{tag: "#{namespace_for_tags}InscricaoMunicipal"} = ts_inscricao_municipal(emitente.inscricao_municipal)
+*{tag: "#{namespace_for_tags}QuantidadeRps"} = ts_quantidade_rps(lote_rps.size)
+*{tag: "#{namespace_for_tags}ListaRps"}
 	- lote_rps.each do |rps|
-		Rps
+		*{tag: "#{namespace_for_tags}Rps"}
 			/ tc_rps já está assinado (se tiver um certificado)
 			= render_xml '_tc_rps', rps: rps

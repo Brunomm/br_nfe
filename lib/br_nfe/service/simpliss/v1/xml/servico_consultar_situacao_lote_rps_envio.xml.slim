@@ -1,0 +1,7 @@
+*{tag: "#{namespace_identifier}ConsultarSituacaoLoteRpsEnvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}Prestador"}
+		= render_xml '_tc_identificacao_prestador'
+	*{tag: "#{namespace_for_tags}Protocolo"} = ts_numero_protocolo(protocolo)
+
+- if username.present? && password.present?
+	= render_xml '_login'

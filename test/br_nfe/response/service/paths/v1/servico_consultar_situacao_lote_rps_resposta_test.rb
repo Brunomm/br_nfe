@@ -14,15 +14,15 @@ describe BrNfe::Service::Response::Paths::V1::ServicoConsultarSituacaoLoteRpsRes
 
 	describe "métodos sobrescritos do module ..Base" do
 		it 'valor do método lot_number_path' do
-			subject.lot_number_path.must_equal [:consultar_situacao_lote_rps_resposta, :numero_lote] 
+			subject.response_lot_number_path.must_equal [:consultar_situacao_lote_rps_resposta, :numero_lote] 
 		end
 
 		it 'valor do método situation_path' do
-			subject.situation_path.must_equal [:consultar_situacao_lote_rps_resposta, :situacao] 
+			subject.response_situation_path.must_equal [:consultar_situacao_lote_rps_resposta, :situacao] 
 		end
 
 		it 'valor do método message_errors_path' do
-			subject.message_errors_path.must_equal [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno]
+			subject.response_message_errors_path.must_equal [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno]
 		end
 
 	end

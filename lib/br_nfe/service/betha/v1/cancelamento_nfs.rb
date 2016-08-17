@@ -4,6 +4,7 @@ module BrNfe
 			module V1
 				class CancelamentoNfs < BrNfe::Service::Betha::V1::Gateway
 					include BrNfe::Service::Concerns::Rules::CancelamentoNfs
+					include BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
 
 					def certificado_obrigatorio?
 						true
@@ -15,10 +16,6 @@ module BrNfe
 					
 					def method_wsdl
 						:cancelar_nfse_envio
-					end
-
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta
 					end
 
 					def response_root_path

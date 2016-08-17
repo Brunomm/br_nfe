@@ -12,7 +12,7 @@ module BrNfe
 					end
 
 					def namespace_identifier
-						:ns1
+						'ns1:'
 					end
 				end
 			end

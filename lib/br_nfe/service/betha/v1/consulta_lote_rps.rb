@@ -3,6 +3,7 @@ module BrNfe
 		module Betha
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Betha::V1::Gateway
+					include BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
 
 					attr_accessor :protocolo
 
@@ -14,10 +15,6 @@ module BrNfe
 
 					def method_wsdl
 						:consultar_lote_rps_envio
-					end
-
-					def response_path_module
-						BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
 					end
 
 					def response_root_path

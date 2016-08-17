@@ -1,5 +1,5 @@
 - cpf_cnpj = BrNfe::Helper::CpfCnpj.new(cpf_cnpj)
 - if cpf_cnpj.cnpj?
-	Cnpj = ts_cnpj(cpf_cnpj.sem_formatacao)
+	*{tag: "#{namespace_for_tags}Cnpj"} = ts_cnpj(cpf_cnpj.sem_formatacao)
 - elsif cpf_cnpj.cpf?				
-	Cpf = ts_cpf(cpf_cnpj.sem_formatacao)
+	*{tag: "#{namespace_for_tags}Cpf"} = ts_cpf(cpf_cnpj.sem_formatacao)

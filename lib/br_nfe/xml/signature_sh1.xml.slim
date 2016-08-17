@@ -1,12 +1,12 @@
 / Alguns órgãos emissores não aceitam o atributo ID na tag (Como a betha)
 - uri_value = id_attribute? ? uri : nil
-Signature xmlns="http://www.w3.org/2000/09/xmldsig#"
+*{tag: "#{namespace_for_signature}Signature"} xmlns="http://www.w3.org/2000/09/xmldsig#"
 	- info_xml = render_xml('_signed_info_sh1', data_xml: data_xml, uri: uri_value)
 	= info_xml.html_safe
 
 	- signature_hash = certificate_key.sign(OpenSSL::Digest::SHA1.new, info_xml.html_safe)
-	SignatureValue = remove_quebras( Base64.encode64( signature_hash ) )
+	*{tag: "#{namespace_for_signature}SignatureValue"} = remove_quebras( Base64.encode64( signature_hash ) )
 	
-	KeyInfo
-		X509Data
-			X509Certificate = certificate.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").gsub(/\n/,"")
+	*{tag: "#{namespace_for_signature}KeyInfo"}
+		*{tag: "#{namespace_for_signature}X509Data"}
+			*{tag: "#{namespace_for_signature}X509Certificate"} = certificate.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").gsub(/\n/,"")

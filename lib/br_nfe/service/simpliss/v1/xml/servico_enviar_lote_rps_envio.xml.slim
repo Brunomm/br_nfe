@@ -1,0 +1,11 @@
+*{tag: "#{namespace_identifier}EnviarLoteRpsEnvio"} *message_namespaces
+	- xml_lote_rps = render_xml('_tc_lote_rps')
+	/ Alguns órgãos emissores não aceitam o atributo ID na tag (Como a betha)
+	- attributes_lote_rps = id_attribute? ? {id: "L#{numero_lote_rps}"} : {}
+	*{tag: "#{namespace_for_tags}LoteRps"} *attributes_lote_rps
+		= xml_lote_rps.html_safe
+
+	- if signature_type?(:default) && certificate
+		= render_xml('signature_sh1', data_xml: xml_lote_rps.html_safe, uri: "#L#{numero_lote_rps}").html_safe
+- if username.present? && password.present?
+	= render_xml '_login'

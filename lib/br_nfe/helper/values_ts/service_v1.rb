@@ -61,7 +61,7 @@ module BrNfe
 				#  2 - Não
 				#
 				def ts_sim_nao value
-					value_true_false(value)
+					BrNfe.true_values.include?(value) ? '1' : '2'
 				end
 
 				# Quantidade de RPS do Lote
@@ -104,15 +104,19 @@ module BrNfe
 				#  1.000,00 = 1000
 				#
 				def ts_valor value
-					"#{value_monetary(value, 2)}".max_size(17)
+					value.to_f.round(2) if value.present?
 				end
 
 				# Código de item da lista de serviço
+				# Se um serviço for por exemplo: 107 deve ser enviado no formato
+				# 1.07
 				#
 				def ts_item_lista_servico value
-					BrNfe::Helper.only_number(value).max_size(5).rjust(4, '0')
+					return if value.blank?
+					number_only = BrNfe::Helper.only_number(value).max_size(4).to_i.to_s
+					number_only.reverse.scan(/.{1,2}/).join('.').reverse
 				end
-
+				
 				# Código CNAE
 				#
 				def ts_codigo_cnae value
@@ -127,12 +131,12 @@ module BrNfe
 
 				# Alíquota. Valor percentual.
 				#  Formato: 0.0000
-				#  Ex: 1% = 0.01
-				#  25,5% = 0.255
-				#  100% = 1.0000 ou 1
+				#  Ex: 1% = 1.00
+				#  25,5% = 25.5
+				#  100% = 100.0000 ou 100
 				#
 				def ts_aliquota value
-					"#{value_monetary(value, 4)}".max_size(9)
+					value_monetary(value, 4)
 				end
 
 				# Discriminação do conteúdo da NFS-e
@@ -204,7 +208,7 @@ module BrNfe
 				# Número do CEP
 				#
 				def ts_cep value
-					BrNfe::Helper.only_number(value).max_size(8)
+					BrNfe::Helper.only_number(value).max_size(8).ljust(8, '0') if value.present?
 				end
 
 				# E-mail
@@ -216,7 +220,7 @@ module BrNfe
 				# Telefone
 				#
 				def ts_telefone value
-					"#{value}".max_size(11)
+					BrNfe::Helper.only_number(value).max_size(11)
 				end
 
 				# Número CPF
@@ -230,7 +234,7 @@ module BrNfe
 				#  2 – CNPJ
 				#  3 – Não Informado
 				#
-				def ts_indicacao_cpf_cnpj
+				def ts_indicacao_cpf_cnpj value
 					BrNfe::Helper.only_number(value).max_size(1)
 				end
 

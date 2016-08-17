@@ -4,6 +4,11 @@ module BrNfe
 			module V1
 				class RecepcaoLoteRps < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
+					include BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
+
+					def wsdl
+						get_wsdl_by_city[:send]
+					end
 
 					def certificado_obrigatorio?
 						true
@@ -20,11 +25,20 @@ module BrNfe
 					end
 
 					def xml_builder
-						render_xml 'servico_enviar_lote_rps_envio'
-					end
-
-					def response_path_module
-						BrNfe::Service::Response::Paths::V1::ServicoEnviarLoteRpsResposta
+						xml = render_xml 'servico_enviar_lote_rps_envio'
+						sign_nodes = [
+							{
+								node_path: "//nf:EnviarLoteRpsEnvio/nf:LoteRps/nf:ListaRps/nf:Rps/nf:InfRps", 
+								node_namespaces: {nf: 'http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd'},
+								node_ids: lote_rps.map{|rps| "R#{rps.numero}"}
+							},
+							{
+								node_path: "//nf:EnviarLoteRpsEnvio/nf:LoteRps", 
+								node_namespaces: {nf: 'http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd'},
+								node_ids: ["L#{numero_lote_rps}"]
+							}
+						]
+						sign_xml('<?xml version="1.0" encoding="ISO-8859-1"?>'+xml, sign_nodes)
 					end
 
 					# Não é utilizado o response_root_path pois

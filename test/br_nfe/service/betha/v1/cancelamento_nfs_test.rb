@@ -32,12 +32,6 @@ describe BrNfe::Service::Betha::V1::CancelamentoNfs do
 		it { subject.method_wsdl.must_equal :cancelar_nfse_envio }
 	end
 
-	describe "#response_path_module" do
-		it "deve ter o module ServicoCancelarNfseResposta" do
-			subject.response_path_module.must_equal BrNfe::Service::Response::Paths::V1::ServicoCancelarNfseResposta			
-		end
-	end
-
 	it "#response_root_path" do
 		subject.response_root_path.must_equal [:cancelar_nfse_envio_response]
 	end

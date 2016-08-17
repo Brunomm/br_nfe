@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns:consultarNfseResponse xmlns:ns="http://server.nfse.thema.inf.br">
+            <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+&lt;ConsultarNfseResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd">
+    &lt;ListaNfse>
+        &lt;CompNfse/>
+    &lt;/ListaNfse>
+    &lt;ListaMensagemRetorno>
+        &lt;MensagemRetorno>
+            &lt;Codigo>E46&lt;/Codigo>
+            &lt;Mensagem>CNPJ do prestador não informado&lt;/Mensagem>
+            &lt;Correcao>Informe o CNPJ do prestador.&lt;/Correcao>
+        &lt;/MensagemRetorno>
+        &lt;MensagemRetorno/>
+    &lt;/ListaMensagemRetorno>
+&lt;/ConsultarNfseResposta></ns:return>
+    </ns:consultarNfseResponse>
+</soapenv:Body></soapenv:Envelope>

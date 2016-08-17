@@ -40,11 +40,6 @@ module BrNfe
 			return ''
 		end
 
-		# Irá retornar 1(true) e 2(false)
-		def value_true_false(value)
-			BrNfe.true_values.include?(value) ? '1' : '2'
-		end
-
 		# Deve receber um valor do tipo float
 		# Irá retornar o valor com a precisão
 		# Alguns WS convertem os valores para String com separador de milhar uma vírgula

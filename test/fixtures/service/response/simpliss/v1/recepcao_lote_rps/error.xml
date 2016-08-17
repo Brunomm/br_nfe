@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <RecepcionarLoteRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <RecepcionarLoteRpsResult>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E903</Codigo>
+            <Mensagem>J&#xE1; existe lote protocolado com esse n&#xFA;mero para o mesmo cnpj e inscri&#xE7;&#xE3;o municipal.</Mensagem>
+            <Correcao>Altere o n&#xFA;mero do lote.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </RecepcionarLoteRpsResult>
+    </RecepcionarLoteRpsResponse>
+  </s:Body>
+</s:Envelope>

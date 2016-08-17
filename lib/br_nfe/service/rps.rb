@@ -133,6 +133,11 @@ module BrNfe
 			# Utilizado para as cidades que não possuem multiplos itens de serviço na nota.
 			# Caso não seja definido então irá pegar a aliquota do 1º item que encontrar
 			#
+			# O Valor informado deve ser o percentual real do ISS
+			# EXEMPLO:
+			# 2%   = 2.0
+			# 3.5% = 3.5
+			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :iss_tax_rate
 			def iss_tax_rate
@@ -140,14 +145,18 @@ module BrNfe
 			end
 
 			# Valor líquido da NF (R$)
-			# 
-			# Normalmente esse valor é adquirido a partir da seguinte fórmula:
-			# (ValorServicos - ValorPIS -ValorCOFINS - ValorINSS - ValorIR - ValorCSLL - 
-			#	OutrasRetençoes - ValorISSRetido -DescontoIncondicionado -DescontoCondicionado)
+			# Caso não seja setado um valor manualmente irá calcular o valor 
 			#
 			# <b>Tipo: </b> _Float_
 			#
 			attr_accessor :net_value
+			def net_value
+				@net_value ||= total_services.to_f - (
+					valor_pis.to_f + valor_cofins.to_f + valor_inss.to_f + 
+					valor_ir.to_f  + valor_csll.to_f   + outras_retencoes.to_f + 
+					total_iss_retained.to_f + desconto_incondicionado.to_f + desconto_condicionado.to_f
+				)
+			end
 
 			attr_accessor :valor_pis
 			attr_accessor :valor_cofins

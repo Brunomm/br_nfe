@@ -1,0 +1,14 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <ns:consultarNfseResponse xmlns:ns="http://server.nfse.thema.inf.br">
+      <ns:return>&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?&gt;
+&lt;ConsultarNfseResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;
+    &lt;ListaMensagemRetorno&gt;
+        &lt;MensagemRetorno/&gt;
+    &lt;/ListaMensagemRetorno&gt;
+&lt;/ConsultarNfseResposta&gt;
+</ns:return>
+    </ns:consultarNfseResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

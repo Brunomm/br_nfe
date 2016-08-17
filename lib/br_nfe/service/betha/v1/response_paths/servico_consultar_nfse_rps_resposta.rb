@@ -6,8 +6,12 @@ module BrNfe
 					module ServicoConsultarNfseRpsResposta
 						include BrNfe::Service::Response::Paths::V1::ServicoConsultarNfseRpsResposta
 						
-						def invoices_path
+						def response_invoices_path
 							[:consultar_nfse_rps_resposta, :compl_nfse]
+						end
+
+						def response_invoice_url_nf_path
+							response_default_path_to_nf + [:outras_informacoes] 
 						end
 					end
 				end

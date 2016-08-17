@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    br_nfe (2.0.0)
+    br_nfe (2.1.0)
       activemodel (~> 4)
       activesupport (~> 4)
       nokogiri (~> 1.6)

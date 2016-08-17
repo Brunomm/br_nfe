@@ -101,6 +101,33 @@ module BrNfe
 		end
 		module Thema
 			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoCancelarNfseResposta
+					autoload :ServicoConsultarNfseRpsResposta
+				end
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :CancelaNfse
+				autoload :ConsultaSituacaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :RecepcaoLoteRps
+				autoload :RecepcaoLoteRpsLimitado
+				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
+			end
+		end
+		module Simpliss
+			module V1
+				module ResponsePaths
+					extend ActiveSupport::Autoload
+					autoload :ServicoCancelarNfseResposta
+					autoload :ServicoConsultarLoteRpsResposta
+					autoload :ServicoConsultarNfseRpsResposta
+					autoload :ServicoConsultarNfseResposta
+					autoload :ServicoConsultarSituacaoLoteRpsResposta
+					autoload :ServicoEnviarLoteRpsResposta
+				end
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :CancelaNfse
@@ -118,17 +145,6 @@ module BrNfe
 				autoload :Base
 				autoload :EmissionRPS
 				autoload :Cancellation
-			end
-			module Gaspar
-				extend ActiveSupport::Autoload
-				autoload :Base
-				autoload :CancelaNfse
-				autoload :RecepcaoLoteRps
-				autoload :ConsultaNfsPorRps
-				autoload :ConsultaSituacaoLoteRps
-				autoload :RecepcaoLoteRpsLimitado
-				autoload :ConsultaNfse
-				autoload :ConsultaLoteRps
 			end
 		end
 	end

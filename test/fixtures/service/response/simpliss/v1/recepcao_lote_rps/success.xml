@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <RecepcionarLoteRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <RecepcionarLoteRpsResult>
+        <NumeroLote xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">10</NumeroLote>
+        <DataRecebimento xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">2016-07-28T16:17:18.4043985-03:00</DataRecebimento>
+        <Protocolo xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">128277</Protocolo>
+      </RecepcionarLoteRpsResult>
+    </RecepcionarLoteRpsResponse>
+  </s:Body>
+</s:Envelope>

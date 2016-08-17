@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarNfsePorRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarNfsePorRpsResult>
+        <CompNfse>
+          <Nfse>
+            <InfNfse>
+              <Numero>4</Numero>
+              <CodigoVerificacao>E6E7686366</CodigoVerificacao>
+              <DataEmissao>2016-07-28T16:17:25.398921</DataEmissao>
+              <IdentificacaoRps>
+                <Numero>10</Numero>
+                <Serie>SN</Serie>
+                <Tipo>1</Tipo>
+              </IdentificacaoRps>
+              <DataEmissaoRps>2016-07-28</DataEmissaoRps>
+              <NaturezaOperacao>1</NaturezaOperacao>
+              <RegimeEspecialTributacao>1</RegimeEspecialTributacao>
+              <OptanteSimplesNacional>1</OptanteSimplesNacional>
+              <IncentivadorCultural>2</IncentivadorCultural>
+              <Competencia>2016-07-28T00:00:00</Competencia>
+              <NfseSubstituida/>
+              <OutrasInformacoes>Info</OutrasInformacoes>
+              <Servico>
+                <Valores>
+                  <ValorServicos>10</ValorServicos>
+                  <IssRetido>2</IssRetido>
+                  <ValorIss>0.2</ValorIss>
+                  <BaseCalculo>10</BaseCalculo>
+                  <Aliquota>3.5</Aliquota>
+                  <ValorLiquidoNfse>10</ValorLiquidoNfse>
+                </Valores>
+                <ItemListaServico>1.07</ItemListaServico>
+                <CodigoCnae>6202300</CodigoCnae>
+                <CodigoTributacaoMunicipio/>
+                <Discriminacao>1 TESTE WEBSERVICE: R$ 5,00</Discriminacao>
+                <CodigoMunicipio>4204202</CodigoMunicipio>
+                <ItensServico>
+                  <Descricao>Servi&#xE7;o</Descricao>
+                  <Quantidade>1</Quantidade>
+                  <ValorUnitario>10</ValorUnitario>
+                </ItensServico>
+              </Servico>
+              <PrestadorServico>
+                <IdentificacaoPrestador>
+                  <Cnpj>23020443000140</Cnpj>
+                  <InscricaoMunicipal>488542</InscricaoMunicipal>
+                </IdentificacaoPrestador>
+                <RazaoSocial>DUOBR SISTEMAS LTDA ME</RazaoSocial>
+                <NomeFantasia>DUOBR SISTEMAS</NomeFantasia>
+                <Endereco>
+                  <Endereco>RUA AFONSO PENA</Endereco>
+                  <Numero>520</Numero>
+                  <Complemento>D</Complemento>
+                  <Bairro>S&#xC3;O CRISTOV&#xC3;O</Bairro>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                  <Cep>89804023</Cep>
+                </Endereco>
+                <Contato>
+                  <Telefone>4933161107</Telefone>
+                  <Email>bruno@duobr.com.br</Email>
+                </Contato>
+              </PrestadorServico>
+              <TomadorServico>
+                <IdentificacaoTomador>
+                  <CpfCnpj>
+                    <Cnpj>12345678901234</Cnpj>
+                  </CpfCnpj>
+                  <InscricaoMunicipal/>
+                </IdentificacaoTomador>
+                <RazaoSocial>BRUNO MUCELINI MERGEN</RazaoSocial>
+                <Endereco>
+                  <Endereco>RUA IGUACU - E</Endereco>
+                  <Numero>587</Numero>
+                  <Complemento/>
+                  <Bairro>SAIC</Bairro>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                  <Cep>89802171</Cep>
+                </Endereco>
+                <Contato>
+                  <Telefone>4920493900</Telefone>
+                  <Email>brunomergen@gmail.com</Email>
+                </Contato>
+              </TomadorServico>
+              <OrgaoGerador>
+                <CodigoMunicipio>4204202</CodigoMunicipio>
+                <Uf>SC</Uf>
+              </OrgaoGerador>
+            </InfNfse>
+          </Nfse>
+        </CompNfse>
+      </ConsultarNfsePorRpsResult>
+    </ConsultarNfsePorRpsResponse>
+  </s:Body>
+</s:Envelope>

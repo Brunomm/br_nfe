@@ -1,4 +1,4 @@
 / Alguns órgãos emissores não aceitam o atributo ID na tag (Como a betha)
 - attributes = id_attribute? ? {id: "#{id_cancelamento}"} : {}
-InfPedidoCancelamento *attributes
+*{tag: "#{namespace_for_tags}InfPedidoCancelamento"} *attributes
 	= render_xml '_tc_inf_pedido_cancelamento'

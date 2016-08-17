@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ConsultarLoteRpsResponse xmlns="http://www.sistema.com.br/Sistema.Ws.Nfse">
+      <ConsultarLoteRpsResult>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E138</Codigo>
+            <Mensagem>CNPJ n&#xE3;o autorizado a realizar o servi&#xE7;o.</Mensagem>
+            <Correcao>Informe o CNPJ autorizado a executar o servi&#xE7;o.</Correcao>
+          </MensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E157</Codigo>
+            <Mensagem>Usu&#xE1;rio n&#xE3;o est&#xE1; autorizado a utilizar esse servi&#xE7;o para esse contribuinte.</Mensagem>
+            <Correcao>Solicite ao contribuinte autoriza&#xE7;&#xE3;o para utilizar o servi&#xE7;o em seu nome.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarLoteRpsResult>
+    </ConsultarLoteRpsResponse>
+  </s:Body>
+</s:Envelope>

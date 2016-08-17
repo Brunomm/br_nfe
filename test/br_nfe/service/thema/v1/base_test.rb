@@ -20,6 +20,12 @@ describe BrNfe::Service::Thema::V1::Base do
 		end
 	end
 
+	describe "#signature_type" do
+		it "seve realizar as assinaturas pela gem signer" do
+			subject.signature_type.must_equal :method_sign
+		end
+	end
+
 	describe "#soap_namespaces" do
 		it "deve conter os namespaces padrões mais o namespace da mensagem" do
 			subject.soap_namespaces.must_equal({
@@ -32,8 +38,10 @@ describe BrNfe::Service::Thema::V1::Base do
 		end
 	end
 
-	describe "#namespace_identifier" do
-		it { subject.namespace_identifier.must_be_nil }
+	describe "#namespaces" do
+		it '-> namespace_identifier'    do subject.namespace_identifier.must_be_nil    end
+		it '-> namespace_for_tags'      do subject.namespace_for_tags.must_be_nil      end
+		it '-> namespace_for_signature' do subject.namespace_for_signature.must_be_nil end
 	end
 
 	describe "#soap_body_root_tag" do
@@ -59,6 +67,19 @@ describe BrNfe::Service::Thema::V1::Base do
 			subject.expects(:soap_body_root_tag).returns('rootTag').twice	
 			subject.expects(:xml_builder).returns('<xml>Builder</xml>')
 			subject.content_xml.must_equal expected_xml
+		end
+
+		it "Caso o xml_builder já vier com a tag <?xml não deve inserir a tag novamnete" do
+			subject.expects(:soap_body_root_tag).returns('rootTag').twice	
+			subject.expects(:xml_builder).returns('<?xml version="1.0" encoding="ISO-8859-1"?><xml>Builder</xml>')
+			subject.content_xml.must_equal expected_xml
+		end
+	end
+
+	describe '#ts_aliquota' do
+		it "sempre deve pegar o valor do parâmetro e dividir por 100" do
+			subject.ts_aliquota(35.75).must_equal 0.3575
+
 		end
 	end
 

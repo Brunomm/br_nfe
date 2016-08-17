@@ -25,6 +25,11 @@ module BrNfe
 				attr_accessor :data_emissao_rps    # Datetime
 				attr_accessor :competencia         #DateTime
 				attr_accessor :outras_informacoes
+
+				attr_accessor :natureza_operacao
+				attr_accessor :regime_especial_tributacao
+				attr_accessor :optante_simples_nacional
+				attr_accessor :incentivador_cultural
 				
 				# dados dos serviços
 				attr_accessor :item_lista_servico
@@ -65,6 +70,10 @@ module BrNfe
 				attr_accessor :cancelamento_municipio				
 				attr_accessor :cancelamento_sucesso
 				attr_accessor :cancelamento_data_hora
+
+				def cancelamento_sucesso
+					cancelamento_numero_nf.present?
+				end
 
 				# Se a NF foi substituida
 				attr_accessor :nfe_substituidora
