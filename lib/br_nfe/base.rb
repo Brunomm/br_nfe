@@ -182,8 +182,17 @@ module BrNfe
 		def certificate_pkcs12
 			return @certificate_pkcs12 if @certificate_pkcs12
 			@certificate_pkcs12 = nil
-			# Correção bug http://stackoverflow.com/questions/33112155/pgconnectionbad-pqconsumeinput-ssl-error-key-values-mismatch/36283315#36283315
-			Thread.new { @certificate_pkcs12 = OpenSSL::PKCS12.new(certificate_pkcs12_value, certificate_pkcs12_password) }.join
+			
+			# É utilizado uma Thread e limpado os errors do OpenSSL para evitar perda de 
+			# conexão com o banco de dados PostgreSQL.
+			# Veja: http://stackoverflow.com/questions/33112155/pgconnectionbad-pqconsumeinput-ssl-error-key-values-mismatch/36283315#36283315
+			# Veja: https://github.com/tedconf/front_end_builds/pull/66
+			Thread.new do 
+				@certificate_pkcs12 = OpenSSL::PKCS12.new(certificate_pkcs12_value, certificate_pkcs12_password) 
+				OpenSSL.errors.clear
+			end.join
+			OpenSSL.errors.clear
+
 			@certificate_pkcs12 
 		rescue
 		end
