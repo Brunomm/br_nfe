@@ -12,6 +12,18 @@ module BrNfe
 		attr_accessor :client_wsdl_ssl_cert_key_file
 		attr_accessor :client_wsdl_ssl_cert_key_password
 
+		# Código IBGE da cidade emitente
+		attr_accessor :ibge_code_of_issuer_city
+		def ibge_code_of_issuer_city
+			"#{@ibge_code_of_issuer_city ||= emitente.endereco.codigo_municipio}"
+		end
+
+		# Código IBGE do estado emitente
+		attr_accessor :ibge_code_of_issuer_uf
+		def ibge_code_of_issuer_uf
+			"#{@ibge_code_of_issuer_uf ||= emitente.endereco.codigo_ibge_uf}"
+		end
+
 		validate :validar_emitente
 		validates :certificate, :certificate_key, presence: true, if: :certificado_obrigatorio?
 

@@ -3,7 +3,33 @@ require 'br_nfe/helper/have_emitente_test'
 
 describe BrNfe::Base do
 	subject { FactoryGirl.build(:br_nfe_base, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente) } 
+	let(:emitente) { FactoryGirl.build(:emitente) }
+
+	describe "#ibge_code_of_issuer_city" do
+		it "se não setar um valor deve pegar o valor do codigo IBGE do endereço do emitente" do
+			subject.emitente.endereco.codigo_municipio = '12345678'
+			subject.ibge_code_of_issuer_city = nil
+			subject.ibge_code_of_issuer_city.must_equal '12345678'
+		end
+		it "se setar o valor em ibge_code_of_issuer_city não deve pegar do endereço do emitente" do
+			subject.emitente.endereco.codigo_municipio = '12345678'
+			subject.ibge_code_of_issuer_city = 78978945
+			subject.ibge_code_of_issuer_city.must_equal '78978945'
+		end
+	end
+
+	describe "#ibge_code_of_issuer_uf" do
+		it "se não setar um valor deve pegar o valor do codigo IBGE do endereço do emitente" do
+			subject.emitente.endereco.codigo_ibge_uf = '42'
+			subject.ibge_code_of_issuer_uf = nil
+			subject.ibge_code_of_issuer_uf.must_equal '42'
+		end
+		it "se setar o valor em ibge_code_of_issuer_uf não deve pegar do endereço do emitente" do
+			subject.emitente.endereco.codigo_ibge_uf = '43'
+			subject.ibge_code_of_issuer_uf = 42
+			subject.ibge_code_of_issuer_uf.must_equal '42'
+		end
+	end
 
 	describe "validations" do
 		context "obrigatoriedade do certificado" do

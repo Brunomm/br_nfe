@@ -10,12 +10,6 @@ module BrNfe
 			attr_accessor :username
 			attr_accessor :password
 			
-			# Código IBGE da cidade emitente
-			attr_accessor :ibge_code_of_issuer_city
-			def ibge_code_of_issuer_city
-				"#{@ibge_code_of_issuer_city ||= emitente.endereco.codigo_municipio}"
-			end
-			
 			# Declaro que o método `render_xml` irá verificar os arquivos também presentes
 			# no diretório especificado
 			#
