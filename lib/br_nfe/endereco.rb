@@ -15,11 +15,21 @@ module BrNfe
 		attr_accessor :nome_municipio
 		attr_accessor :codigo_municipio # IBGE
 		attr_accessor :uf
+		attr_accessor :codigo_ibge_uf
 		attr_accessor :cep
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)
 		attr_accessor :nome_pais   # defaul: BRASIL
 
+		# Código IBGE do Estado (UF)
+		# Caso não seja setado um valor no atributo, irá pegar os primeiros 2
+		# dígitos do código IBGE do município.
+		#
+		def codigo_ibge_uf
+			@codigo_ibge_uf || "#{codigo_municipio}"[0..1]
+		end
+
 		validates :logradouro, :numero, :bairro, :codigo_municipio, :uf, :cep, presence: true
+		validates :codigo_ibge_uf, inclusion: {in: BrNfe::Constants::CODIGO_IBGE_UF}, allow_blank: true
 
 		def is_present?
 			logradouro.present? || numero.present? || complemento.present? || 

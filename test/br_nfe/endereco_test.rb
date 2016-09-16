@@ -10,6 +10,10 @@ describe BrNfe::Endereco do
 		it { must validate_presence_of(:codigo_municipio) }
 		it { must validate_presence_of(:uf) }
 		it { must validate_presence_of(:cep) }
+		it { must validate_inclusion_of(:codigo_ibge_uf).
+			       in_array(BrNfe::Constants::CODIGO_IBGE_UF).
+			       allow_blank
+		}
 	end
 	
 	describe "#default_values" do
@@ -53,6 +57,23 @@ describe BrNfe::Endereco do
 		it "deve retornar a string em maiusculoo e sem acentos" do
 			subject.nome_pais = 'ó têxtú dève vìr SÉM ÀçÊnTÕ'
 			subject.nome_pais.must_equal "O TEXTU DEVE VIR SEM ACENTO"
+		end
+	end
+
+	describe "#codigo_ibge_uf" do
+		it "se não setar nenhum valor deve pegar os primeiros 2 dígitos do código do município" do
+			subject.assign_attributes(codigo_ibge_uf: nil, codigo_municipio: 123456)
+			subject.codigo_ibge_uf.must_equal '12'
+			subject.assign_attributes(codigo_ibge_uf: nil, codigo_municipio: '65347')
+			subject.codigo_ibge_uf.must_equal '65'
+		end
+		it "se não tiver valor setado no código IBGE da cidade não da erro" do
+			subject.assign_attributes(codigo_ibge_uf: nil, codigo_municipio: nil)
+			subject.codigo_ibge_uf.must_equal ''
+		end
+		it "se setar o código ibge da uf diretamente deve desconsiderar o código do municipio" do
+			subject.assign_attributes(codigo_ibge_uf: '44', codigo_municipio: 123456)
+			subject.codigo_ibge_uf.must_equal '44'
 		end
 	end
 

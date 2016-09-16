@@ -56,6 +56,7 @@ module BrNfe
 	end
 
 	extend ActiveSupport::Autoload
+	autoload :Constants
 	autoload :ActiveModelBase
 	autoload :Endereco
 	autoload :Emitente
