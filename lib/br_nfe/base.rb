@@ -7,11 +7,6 @@ module BrNfe
 		attr_accessor :certificate_pkcs12_value
 		attr_accessor :env
 
-		attr_accessor :client_wsdl_ssl_verify_mode
-		attr_accessor :client_wsdl_ssl_cert_file
-		attr_accessor :client_wsdl_ssl_cert_key_file
-		attr_accessor :client_wsdl_ssl_cert_key_password
-
 		# Código IBGE da cidade emitente
 		attr_accessor :ibge_code_of_issuer_city
 		def ibge_code_of_issuer_city
@@ -29,6 +24,10 @@ module BrNfe
 
 		# Método que deve ser sobrescrito para as ações que necessitam do certificate_pkcs12 para assinatura
 		def certificado_obrigatorio?
+			false
+		end
+
+		def ssl_request?
 			false
 		end
 
@@ -159,30 +158,29 @@ module BrNfe
 			:v1
 		end
 
+		# Versão da requisição SSL caso o servidor necessite de autenticação SSL
+		# Valores possíveis: [:TLSv1_2, :TLSv1_1, :TLSv1, :SSLv3, :SSLv23]
+		# Default: :SSLv3
+		def ssl_version
+			:SSLv3
+		end
+
+		# Cliente WSDL utilizado para fazer a requisição.
+		# Utilizando a gem savon.
+		# Veja mais detalhes em http://savonrb.com/version2/client.html
 		def client_wsdl
-			@client_wsdl ||= Savon.client({
-				wsdl:                  wsdl,
-				log:                   BrNfe.client_wsdl_log,
-				pretty_print_xml:      BrNfe.client_wsdl_pretty_print_xml,
-
-				ssl_verify_mode:       client_wsdl_ssl_verify_mode,
-				ssl_cert_file:         client_wsdl_ssl_cert_file,
-				ssl_cert_key_file:     client_wsdl_ssl_cert_key_file,
-				ssl_cert_key_password: client_wsdl_ssl_cert_key_password
-			})
-		end
-
-		def client_wsdl_ssl_verify_mode
-			@client_wsdl_ssl_verify_mode ||= BrNfe.client_wsdl_ssl_verify_mode
-		end
-		def client_wsdl_ssl_cert_file
-			@client_wsdl_ssl_cert_file ||= BrNfe.client_wsdl_ssl_cert_file
-		end
-		def client_wsdl_ssl_cert_key_file
-			@client_wsdl_ssl_cert_key_file ||= BrNfe.client_wsdl_ssl_cert_key_file
-		end
-		def client_wsdl_ssl_cert_key_password
-			@client_wsdl_ssl_cert_key_password ||= BrNfe.client_wsdl_ssl_cert_key_password
+			@client_wsdl ||= Savon.client do |global|
+				global.wsdl             wsdl
+				global.log              BrNfe.client_wsdl_log
+				global.pretty_print_xml BrNfe.client_wsdl_pretty_print_xml
+				global.ssl_verify_mode  :none
+				if ssl_request?
+					global.ssl_version           ssl_version
+					global.ssl_cert              certificate
+					global.ssl_cert_key          certificate_key
+					global.ssl_cert_key_password certificate_pkcs12_password
+				end
+			end
 		end
 
 		# Caso não tenha o certificate_pkcs12 salvo em arquivo, pode setar a string do certificate_pkcs12 direto pelo atributo certificate_pkcs12_value

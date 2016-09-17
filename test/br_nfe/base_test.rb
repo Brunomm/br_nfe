@@ -198,80 +198,84 @@ describe BrNfe::Base do
 		end
 	end
 
+	describe "ssl_version" do
+		it "por padrão deve retornar :SSLv3" do
+			subject.ssl_version.must_equal :SSLv3
+		end
+	end
+
+	describe '#ssl_request?' do
+		it "por padrão não deve instanciar o client_wsdl com ssl" do
+			subject.ssl_request?.must_equal false
+		end
+	end
+
 	describe "#client_wsdl" do
 		it "deve instanciar um Savon.client com a configuração adequada" do
 			# Stub metodos para configuração do client WSDL
 			subject.expects(:wsdl).returns('wsdl')
 			
-			subject.client_wsdl_ssl_verify_mode = 'client_wsdl_ssl_verify_mode'
-			subject.client_wsdl_ssl_cert_file = 'client_wsdl_ssl_cert_file'
-			subject.client_wsdl_ssl_cert_key_file = 'client_wsdl_ssl_cert_key_file'
-			subject.client_wsdl_ssl_cert_key_password = 'client_wsdl_ssl_cert_key_password'
-			
 			# Ajusto a configuração da gem para testar
-			BrNfe.client_wsdl_log                   = 'client_wsdl_log'
-			BrNfe.client_wsdl_pretty_print_xml      = 'client_wsdl_pretty_print_xml'
+			BrNfe.stubs(:client_wsdl_log).returns('client_wsdl_log')
+			BrNfe.stubs(:client_wsdl_pretty_print_xml).returns('client_wsdl_pretty_print_xml')
+			# Não deve pegar o certificado para configurar o client
+			subject.expects(:ssl_version).never
+			subject.expects(:certificate).never
+			subject.expects(:certificate_key).never
+			subject.expects(:certificate_pkcs12_password).never
 
 			subject.instance_variable_get(:@client_wsdl).must_be_nil
 			
-			Savon.expects(:client).with({
-				wsdl:                  'wsdl',
-				log:                   'client_wsdl_log',
-				pretty_print_xml:      'client_wsdl_pretty_print_xml',
-				ssl_verify_mode:       'client_wsdl_ssl_verify_mode',
-				ssl_cert_file:         'client_wsdl_ssl_cert_file',
-				ssl_cert_key_file:     'client_wsdl_ssl_cert_key_file',
-				ssl_cert_key_password: 'client_wsdl_ssl_cert_key_password'
-			}).returns('client wsdl')
+			client_wsdl = subject.client_wsdl
 
-			subject.client_wsdl.must_equal 'client wsdl'
-			subject.instance_variable_get(:@client_wsdl).must_equal 'client wsdl'
+			client_wsdl.globals[:wsdl].must_equal 'wsdl'
+			client_wsdl.globals[:log].must_equal 'client_wsdl_log'
+			client_wsdl.globals[:pretty_print_xml].must_equal 'client_wsdl_pretty_print_xml'
+			client_wsdl.globals[:ssl_verify_mode].must_equal :none
+
+			client_wsdl.globals[:ssl_version].must_be_nil
+			client_wsdl.globals[:ssl_cert].must_be_nil
+			client_wsdl.globals[:ssl_cert_key].must_be_nil
+			client_wsdl.globals[:ssl_cert_key_password].must_be_nil
+
+			subject.instance_variable_get(:@client_wsdl).must_equal client_wsdl
+		end
+
+		it "se ssl_request? for true então deve instanciar um Savon.client com a configuração de SSL" do
+			# Stub metodos para configuração do client WSDL
+			subject.expects(:wsdl).returns('wsdl')
+			
+			# Ajusto a configuração da gem para testar
+			BrNfe.stubs(:client_wsdl_log).returns('client_wsdl_log')
+			BrNfe.stubs(:client_wsdl_pretty_print_xml).returns('client_wsdl_pretty_print_xml')
+			# Não deve pegar o certificado para configurar o client
+			subject.expects(:ssl_version).returns(:TLSv1)
+			subject.expects(:certificate).returns(:certificate)
+			subject.expects(:certificate_key).returns(:certificate_key)
+			subject.expects(:certificate_pkcs12_password).returns(:certificate_pkcs12_password)
+			subject.expects(:ssl_request?).returns(true)
+
+			subject.instance_variable_get(:@client_wsdl).must_be_nil
+			
+			client_wsdl = subject.client_wsdl
+
+			client_wsdl.globals[:wsdl].must_equal 'wsdl'
+			client_wsdl.globals[:log].must_equal 'client_wsdl_log'
+			client_wsdl.globals[:pretty_print_xml].must_equal 'client_wsdl_pretty_print_xml'
+			client_wsdl.globals[:ssl_verify_mode].must_equal :none
+
+			client_wsdl.globals[:ssl_version].must_equal :TLSv1
+			client_wsdl.globals[:ssl_cert].must_equal :certificate
+			client_wsdl.globals[:ssl_cert_key].must_equal :certificate_key
+			client_wsdl.globals[:ssl_cert_key_password].must_equal :certificate_pkcs12_password
+
+			subject.instance_variable_get(:@client_wsdl).must_equal client_wsdl
 		end
 		it "se ja tiver valor na variavel @client_wsdl deve manter esse valor" do
 			Savon.expects(:client).never
 			subject.instance_variable_set(:@client_wsdl, :valor_client_wsdl)
 			subject.client_wsdl.must_equal :valor_client_wsdl
 			subject.instance_variable_get(:@client_wsdl).must_equal :valor_client_wsdl
-		end
-	end
-
-	describe '#client_wsdl_ssl_verify_mode' do
-		it "se eu setar um valor deve retornar esse valor" do
-			subject.client_wsdl_ssl_verify_mode = :value_client_wsdl_ssl_verify_mode
-			subject.client_wsdl_ssl_verify_mode.must_equal :value_client_wsdl_ssl_verify_mode
-		end
-		it "se não setar nenhum valor deve retornar o valor da configuração" do
-			subject.class.new.client_wsdl_ssl_verify_mode.must_equal BrNfe.client_wsdl_ssl_verify_mode
-		end
-	end
-
-	describe '#client_wsdl_ssl_cert_file' do
-		it "se eu setar um valor deve retornar esse valor" do
-			subject.client_wsdl_ssl_cert_file = :value_client_wsdl_ssl_cert_file
-			subject.client_wsdl_ssl_cert_file.must_equal :value_client_wsdl_ssl_cert_file
-		end
-		it "se não setar nenhum valor deve retornar o valor da configuração" do
-			subject.class.new.client_wsdl_ssl_cert_file.must_equal BrNfe.client_wsdl_ssl_cert_file
-		end
-	end
-
-	describe '#client_wsdl_ssl_cert_key_file' do
-		it "se eu setar um valor deve retornar esse valor" do
-			subject.client_wsdl_ssl_cert_key_file = :value_client_wsdl_ssl_cert_key_file
-			subject.client_wsdl_ssl_cert_key_file.must_equal :value_client_wsdl_ssl_cert_key_file
-		end
-		it "se não setar nenhum valor deve retornar o valor da configuração" do
-			subject.class.new.client_wsdl_ssl_cert_key_file.must_equal BrNfe.client_wsdl_ssl_cert_key_file
-		end
-	end
-
-	describe '#client_wsdl_ssl_cert_key_password' do
-		it "se eu setar um valor deve retornar esse valor" do
-			subject.client_wsdl_ssl_cert_key_password = :value_client_wsdl_ssl_cert_key_password
-			subject.client_wsdl_ssl_cert_key_password.must_equal :value_client_wsdl_ssl_cert_key_password
-		end
-		it "se não setar nenhum valor deve retornar o valor da configuração" do
-			subject.class.new.client_wsdl_ssl_cert_key_password.must_equal BrNfe.client_wsdl_ssl_cert_key_password
 		end
 	end
 

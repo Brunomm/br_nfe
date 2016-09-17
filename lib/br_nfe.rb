@@ -190,14 +190,6 @@ module BrNfe
 	mattr_accessor :service_item_class
 	@@service_item_class = BrNfe::Service::Item
 
-	# Configurações do Cliente WSDL
-	mattr_accessor :client_wsdl_ssl_verify_mode
-	@@client_wsdl_ssl_verify_mode = :none
-
-	mattr_accessor :client_wsdl_ssl_cert_file
-	mattr_accessor :client_wsdl_ssl_cert_key_file
-	mattr_accessor :client_wsdl_ssl_cert_key_password
-	
 	mattr_accessor :client_wsdl_log
 	@@client_wsdl_log = false
 	
