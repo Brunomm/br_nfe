@@ -94,7 +94,7 @@ module BrNfe
 				# Informações adicionais ao documento.
 				#
 				def ts_outras_informacoes value
-					"#{value}".max_size(255)
+					"#{value}".max_size(255).br_nfe_escape_html
 				end
 
 				# Valor monetário.
@@ -142,7 +142,7 @@ module BrNfe
 				# Discriminação do conteúdo da NFS-e
 				#
 				def ts_discriminacao value
-					"#{value}".max_size(2_000).remove_accents
+					"#{value}".max_size(2_000).remove_accents.br_nfe_escape_html
 				end
 
 				# Código de identificação do município conforme tabela do IBGE
