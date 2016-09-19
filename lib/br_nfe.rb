@@ -36,7 +36,6 @@ require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_resposta.rb'
 require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_rps_resposta.rb'
 require 'br_nfe/response/service/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
 require 'br_nfe/response/service/paths/v1/servico_enviar_lote_rps_resposta.rb'
-require 'pry'
 # Copyright (C) 2015 Bruno M. Mergen
 #
 # @author Bruno Mucelini Mergen <brunomergen@gmail.com>
