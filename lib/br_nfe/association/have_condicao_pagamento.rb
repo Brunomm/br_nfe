@@ -1,5 +1,5 @@
 module BrNfe
-	module Helper
+	module Association
 		module HaveCondicaoPagamento
 			def condicao_pagamento
 				yield(condicao_pagamento || new_condicao_pagamento) if block_given?

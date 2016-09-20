@@ -1,5 +1,5 @@
 module BrNfe
-	module Helper
+	module Association
 		module HaveAddress
 			
 			def validar_endereco

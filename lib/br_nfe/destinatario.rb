@@ -1,6 +1,6 @@
 module BrNfe
 	class Destinatario  < BrNfe::ActiveModelBase
-		include BrNfe::Helper::HaveAddress
+		include BrNfe::Association::HaveAddress
 		
 		attr_accessor :cpf_cnpj
 		attr_accessor :inscricao_municipal

@@ -3,7 +3,7 @@ module BrNfe
 		class Rps < BrNfe::ActiveModelBase
 			include BrNfe::Helper::HaveDestinatario
 			include BrNfe::Helper::HaveIntermediario
-			include BrNfe::Helper::HaveCondicaoPagamento
+			include BrNfe::Association::HaveCondicaoPagamento
 
 			# Método utilizado para saberse o modelo deve validar
 			# as informações obrigatórias do RPS.

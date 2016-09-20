@@ -1,6 +1,6 @@
 module BrNfe
 	class Emitente  < BrNfe::ActiveModelBase
-		include BrNfe::Helper::HaveAddress
+		include BrNfe::Association::HaveAddress
 		
 		# Obrigatórios
 		attr_accessor :cnpj

@@ -12,12 +12,13 @@ require "signer"
 require "savon"
 require "slim"
 
-require "br_nfe/helper/have_address"
+require "br_nfe/association/have_address"
+require "br_nfe/association/have_condicao_pagamento"
+
 require "br_nfe/helper/have_rps"
 require "br_nfe/helper/have_emitente"
 require "br_nfe/helper/have_destinatario"
 require "br_nfe/helper/have_intermediario"
-require "br_nfe/helper/have_condicao_pagamento"
 require "br_nfe/helper/values_ts/service_v1"
 
 # Regras e atributos para as classes 

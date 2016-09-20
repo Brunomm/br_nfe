@@ -5,7 +5,7 @@ module BrNfe
 				include BrNfe::Helper::HaveIntermediario
 				include BrNfe::Helper::HaveDestinatario
 				include BrNfe::Helper::HaveEmitente
-				include BrNfe::Helper::HaveCondicaoPagamento
+				include BrNfe::Association::HaveCondicaoPagamento
 
 				attr_accessor :numero_nf
 				attr_accessor :codigo_verificacao
