@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:br_nfe_servico_betha_recepcao_lote_rps, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente)   }
+	let(:emitente) { FactoryGirl.build(:service_emitente)   }
 	let(:rps_1)    { FactoryGirl.build(:br_nfe_rps, valor_pis: '', valor_cofins: nil, valor_inss: nil, valor_ir: nil, valor_csll: nil) } 
 	let(:rps_2)    { FactoryGirl.build(:br_nfe_rps, :completo) } 
 

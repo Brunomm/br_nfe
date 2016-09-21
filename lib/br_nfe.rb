@@ -14,12 +14,14 @@ require "slim"
 
 require "br_nfe/association/have_address"
 require "br_nfe/association/have_condicao_pagamento"
+require "br_nfe/association/have_emitente"
+require "br_nfe/association/have_destinatario"
 
-require "br_nfe/helper/have_rps"
-require "br_nfe/helper/have_emitente"
-require "br_nfe/helper/have_destinatario"
-require "br_nfe/helper/have_intermediario"
-require "br_nfe/helper/values_ts/service_v1"
+require "br_nfe/service/association/have_intermediario"
+require "br_nfe/service/association/have_rps"
+
+# Formatação de valores para XML
+require "br_nfe/service/concerns/values_ts/service_v1"
 
 # Regras e atributos para as classes 
 require "br_nfe/service/concerns/rules/recepcao_lote_rps"
@@ -59,8 +61,7 @@ module BrNfe
 	autoload :Constants
 	autoload :ActiveModelBase
 	autoload :Endereco
-	autoload :Emitente
-	autoload :Destinatario
+	autoload :Person
 	autoload :Base
 	autoload :CondicaoPagamento
 
@@ -75,6 +76,8 @@ module BrNfe
 
 	module Service
 		extend ActiveSupport::Autoload
+		autoload :Emitente
+		autoload :Destinatario
 		autoload :Intermediario
 		autoload :Item
 		autoload :Rps
@@ -166,6 +169,7 @@ module BrNfe
 			autoload :Base
 			autoload :WebServiceSVRS
 		end
+		autoload :Emitente
 		autoload :ValueNf
 		autoload :Base
 		autoload :ConsultaStatusServico
@@ -182,14 +186,18 @@ module BrNfe
 	mattr_accessor :endereco_class
 	@@endereco_class = BrNfe::Endereco
 
-	mattr_accessor :emitente_class
-	@@emitente_class = BrNfe::Emitente
+	# Define as classes que serão usadas para instanciar o objeto
+	# Emitente para as notas de Serviço e Produto
+	mattr_accessor :emitente_service_class
+	mattr_accessor :emitente_product_class
+	@@emitente_service_class = BrNfe::Service::Emitente
+	@@emitente_product_class = BrNfe::Product::Emitente
 
-	mattr_accessor :destinatario_class
-	@@destinatario_class = BrNfe::Destinatario
+	mattr_accessor :destinatario_service_class
+	@@destinatario_service_class = BrNfe::Service::Destinatario
 
-	mattr_accessor :intermediario_class
-	@@intermediario_class = BrNfe::Service::Intermediario
+	mattr_accessor :intermediario_service_class
+	@@intermediario_service_class = BrNfe::Service::Intermediario
 
 	mattr_accessor :condicao_pagamento_class
 	@@condicao_pagamento_class = BrNfe::CondicaoPagamento

@@ -127,4 +127,24 @@ describe BrNfe::Product::Base do
 		end
 	end
 
+	describe "#emitente" do
+		class OtherClassEmitente < BrNfe::ActiveModelBase
+		end
+		it "deve ter incluso o module HaveEmitente" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
+		end
+		it "o método #emitente_class deve ter por padrão a class BrNfe::Product::Emitente" do
+			subject.emitente.must_be_kind_of BrNfe::Product::Emitente
+			subject.send(:emitente_class).must_equal BrNfe::Product::Emitente
+		end
+		it "a class do emitente pode ser modificada através da configuração emitente_product_class" do
+			BrNfe.emitente_product_class = OtherClassEmitente
+			subject.emitente.must_be_kind_of OtherClassEmitente
+			subject.send(:emitente_class).must_equal OtherClassEmitente
+
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.emitente_product_class = BrNfe::Product::Emitente
+		end
+	end
+
 end

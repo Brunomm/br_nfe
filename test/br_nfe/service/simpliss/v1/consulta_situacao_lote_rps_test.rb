@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 	subject             { FactoryGirl.build(:service_simpliss_v1_consulta_situacao_lote_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	it { must validate_presence_of(:protocolo) }
 

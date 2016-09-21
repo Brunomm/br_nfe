@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 	subject             { FactoryGirl.build(:service_thema_v1_consulta_lote_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	it { must validate_presence_of(:protocolo) }
 

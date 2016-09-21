@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Betha::V1::ConsultaSituacaoLoteRps do
 	subject             { FactoryGirl.build(:servico_betha_consulta_situacao_lote_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Betha::V1::ConsultaLoteRps }

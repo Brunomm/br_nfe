@@ -73,6 +73,10 @@ module BrNfe
 			def request
 				client_wsdl.call(method_wsdl, xml: soap_xml)
 			end
+
+			def emitente_class
+				BrNfe.emitente_product_class
+			end
 		end
 	end
 end

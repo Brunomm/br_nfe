@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::CancelaNfse do
 	subject             { FactoryGirl.build(:service_thema_v1_cancela_nfse, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Thema::V1::Base }

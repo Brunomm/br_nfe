@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 	subject        { FactoryGirl.build(:service_thema_v1_recepcao_lote_rps_limitado, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente, natureza_operacao: '50')   }
+	let(:emitente) { FactoryGirl.build(:service_emitente, natureza_operacao: '50')   }
 	
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Thema::V1::RecepcaoLoteRps }

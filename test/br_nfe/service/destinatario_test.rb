@@ -1,14 +1,11 @@
 require 'test_helper'
-require 'br_nfe/helper/have_address_test.rb'
 
-describe BrNfe::Emitente do
-	subject { FactoryGirl.build(:emitente, endereco: endereco) }
+describe BrNfe::Service::Destinatario do
+	subject { FactoryGirl.build(:service_destinatario, endereco: endereco) }
 	let(:endereco) { FactoryGirl.build(:endereco) } 
 
 	describe "validations" do
-		it { must validate_presence_of(:inscricao_municipal) }
-		it { must validate_presence_of(:natureza_operacao) }
-		it { must validate_presence_of(:cnpj) }
+		it { must validate_presence_of(:cpf_cnpj) }
 		it { must validate_presence_of(:razao_social) }
 		
 		describe "valida o endereco" do
@@ -24,9 +21,10 @@ describe BrNfe::Emitente do
 			end
 		end
 	end
+
 	
 	describe "#endereco" do
-		include BrNfeTest::HelperTest::HaveAddressTest
+		# include BrNfeTest::HelperTest::HaveAddressTest
 	end
 
 	describe "#razao_social" do

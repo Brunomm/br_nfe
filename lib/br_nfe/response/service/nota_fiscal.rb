@@ -2,10 +2,10 @@ module BrNfe
 	module Response
 		module Service
 			class NotaFiscal < BrNfe::ActiveModelBase
-				include BrNfe::Helper::HaveIntermediario
-				include BrNfe::Helper::HaveDestinatario
-				include BrNfe::Helper::HaveEmitente
+				include BrNfe::Association::HaveDestinatario
+				include BrNfe::Association::HaveEmitente
 				include BrNfe::Association::HaveCondicaoPagamento
+				include BrNfe::Service::Association::HaveIntermediario
 
 				attr_accessor :numero_nf
 				attr_accessor :codigo_verificacao
@@ -85,7 +85,14 @@ module BrNfe
 				attr_accessor :codigo_obra
 				attr_accessor :codigo_art
 
-				
+			private
+
+				def emitente_class
+					BrNfe.emitente_service_class
+				end
+				def destinatario_class
+					BrNfe.destinatario_service_class
+				end
 			end
 		end
 	end

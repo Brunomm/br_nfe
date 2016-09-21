@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 	subject             { FactoryGirl.build(:servico_betha_consulta_nfs_por_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:rps)           { subject.rps } 
 
 	describe "superclass" do

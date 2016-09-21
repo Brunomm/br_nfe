@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:service_simpliss_v1_recepcao_lote_rps, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente)   }
+	let(:emitente) { FactoryGirl.build(:service_emitente)   }
 	
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Simpliss::V1::Base }

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :emitente, class:  BrNfe::Emitente do
+	factory :product_emitente, class:  BrNfe::Product::Emitente do
 		endereco                   { FactoryGirl.build(:endereco) }
 		cnpj                       "40345138000147"
 		inscricao_municipal        "123465"

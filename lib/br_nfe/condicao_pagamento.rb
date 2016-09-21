@@ -1,3 +1,5 @@
+# Esta classe não está sendo utilizada para envio de NFS
+# Será usada no futuro
 module BrNfe
 	class CondicaoPagamento  < BrNfe::ActiveModelBase
 

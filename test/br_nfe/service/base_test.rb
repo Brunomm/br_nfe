@@ -97,8 +97,8 @@ describe BrNfe::Service::Base do
 	subject { FactoryGirl.build(:br_nfe_servico_base) }
 
 	describe "Included modules" do
-		it "deve ter o module BrNfe::Helper::ValuesTs::ServiceV1 incluso" do
-			subject.class.included_modules.must_include(BrNfe::Helper::ValuesTs::ServiceV1)
+		it "deve ter o module BrNfe::Service::Concerns::ValuesTs::ServiceV1 incluso" do
+			subject.class.included_modules.must_include(BrNfe::Service::Concerns::ValuesTs::ServiceV1)
 		end
 	end
 	
@@ -125,6 +125,26 @@ describe BrNfe::Service::Base do
 	describe "#body_xml_path" do
 		it "deve ter um array vazio por padrão" do
 			subject.body_xml_path.must_equal([])
+		end
+	end
+
+	describe "#emitente" do
+		class OtherClassEmitente < BrNfe::ActiveModelBase
+		end
+		it "deve ter incluso o module HaveEmitente" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
+		end
+		it "o método #emitente_class deve ter por padrão a class BrNfe::Service::Emitente" do
+			subject.emitente.must_be_kind_of BrNfe::Service::Emitente
+			subject.send(:emitente_class).must_equal BrNfe::Service::Emitente
+		end
+		it "a class do emitente pode ser modificada através da configuração emitente_service_class" do
+			BrNfe.emitente_service_class = OtherClassEmitente
+			subject.emitente.must_be_kind_of OtherClassEmitente
+			subject.send(:emitente_class).must_equal OtherClassEmitente
+
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.emitente_service_class = BrNfe::Service::Emitente
 		end
 	end
 
@@ -204,7 +224,7 @@ describe BrNfe::Service::Base do
 			subject.stubs(:nfse_xml_path).returns(:nfse_xml_path)
 			subject.stubs(:body_xml_path).returns(:body_xml_path)
 
-			subject.set_response(:original).must_equal :response
+			subject.send(:set_response, :original).must_equal :response
 			subject.instance_variable_get(:@original_response).must_equal(:original)
 		end
 		it "deve instanciar o build_response e retornar a resposta" do
@@ -313,7 +333,7 @@ describe BrNfe::Service::Base do
 			}).returns(build_response)
 			build_response.expects(:response).returns('resposta')
 
-			subject.set_response(:savon_response).must_equal 'resposta'
+			subject.send(:set_response, :savon_response).must_equal 'resposta'
 			subject.instance_variable_get(:@response).must_equal('resposta')
 		end
 	end	

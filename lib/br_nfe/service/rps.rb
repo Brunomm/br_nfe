@@ -1,8 +1,8 @@
 module BrNfe
 	module Service
 		class Rps < BrNfe::ActiveModelBase
-			include BrNfe::Helper::HaveDestinatario
-			include BrNfe::Helper::HaveIntermediario
+			include BrNfe::Association::HaveDestinatario
+			include BrNfe::Service::Association::HaveIntermediario
 			include BrNfe::Association::HaveCondicaoPagamento
 
 			# Método utilizado para saberse o modelo deve validar
@@ -234,6 +234,9 @@ module BrNfe
 
 			def municipio_incidencia_obrigatorio?
 				"#{exigibilidade_iss}".in?(['1','01','6','06','7','07'])
+			end
+			def destinatario_class
+				BrNfe.destinatario_service_class
 			end
 		end
 	end

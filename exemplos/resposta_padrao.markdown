@@ -27,8 +27,8 @@ A resposta padrão de todas as requisições de nota fiscal de serviço será um
 
 @nf = BrNfe::Service::Response::NotaFiscal.new({
 	intermediario: BrNfe::Service::Intermediario.new(...),
-	destinatario:  BrNfe::Destinatario.new(...),
-	emitente:      BrNfe::Emitente.new(...),
+	destinatario:  BrNfe::Service::Destinatario.new(...),
+	emitente:      BrNfe::Service::Emitente.new(...),
 	condicao_pagamento:     BrNfe::CondicaoPagamento.new(...),
 	numero_nf:               '55654',
 	codigo_verificacao:      '1',

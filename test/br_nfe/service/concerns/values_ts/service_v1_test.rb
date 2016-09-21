@@ -1,9 +1,9 @@
 require 'test_helper'
 
-describe BrNfe::Helper::ValuesTs::ServiceV1 do
+describe BrNfe::Service::Concerns::ValuesTs::ServiceV1 do
 	
 	class HelperValuesTsServiceV1Test < BrNfe::ActiveModelBase
-		include BrNfe::Helper::ValuesTs::ServiceV1
+		include BrNfe::Service::Concerns::ValuesTs::ServiceV1
 	end
 
 	subject { HelperValuesTsServiceV1Test.new } 

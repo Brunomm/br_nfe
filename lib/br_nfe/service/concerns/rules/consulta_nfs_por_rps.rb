@@ -6,7 +6,7 @@ module BrNfe
 					extend ActiveSupport::Concern
 
 					included do					
-						include BrNfe::Helper::HaveRps
+						include BrNfe::Service::Association::HaveRps
 
 						validate :validate_rps # metodo definido no module BrNfe::Helper::HaveRps
 					end					

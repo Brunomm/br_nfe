@@ -1,7 +1,7 @@
 module BrNfe
 	module Service
 		class Base < BrNfe::Base
-			include BrNfe::Helper::ValuesTs::ServiceV1
+			include BrNfe::Service::Concerns::ValuesTs::ServiceV1
 
 			# Alguns orgãos emissores necessitam que seja
 			# passado junto ao XML o Usuário e Senha do acesso do sistema
@@ -44,6 +44,12 @@ module BrNfe
 				return @response = BrNfe::Response::Service::Default.new(status: :http_error, error_messages: [error.message])
 			rescue Exception => error
 				return @response = BrNfe::Response::Service::Default.new(status: :unknown_error, error_messages: [error.message])
+			end
+
+		private
+
+			def emitente_class
+				BrNfe.emitente_service_class
 			end
 
 			def set_response(resp)

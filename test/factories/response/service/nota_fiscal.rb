@@ -1,8 +1,8 @@
 FactoryGirl.define do
 	factory :response_service_nota_fiscal, class:  BrNfe::Response::Service::NotaFiscal do
 		intermediario                    { FactoryGirl.build(:intermediario) }
-		destinatario                     { FactoryGirl.build(:destinatario) }
-		emitente                         { FactoryGirl.build(:emitente) }
+		destinatario                     { FactoryGirl.build(:service_destinatario) }
+		emitente                         { FactoryGirl.build(:service_emitente) }
 		condicao_pagamento               { FactoryGirl.build(:condicao_pagamento) }
 		numero_nf                        "3321"
 		codigo_verificacao               "EOSFO55"

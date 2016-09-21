@@ -3,7 +3,7 @@ require 'test_helper'
 describe BrNfe::Service::Simpliss::V1::Base do
 	subject             { FactoryGirl.build(:service_simpliss_v1_base, emitente: emitente) }
 	let(:rps)           { FactoryGirl.build(:br_nfe_rps, :completo) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 
 	describe "inheritance class" do

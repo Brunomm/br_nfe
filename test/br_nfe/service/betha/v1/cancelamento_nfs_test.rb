@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Betha::V1::CancelamentoNfs do
 	subject             { FactoryGirl.build(:servico_betha_cancelamento_nfs, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Betha::V1::Gateway }

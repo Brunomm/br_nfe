@@ -1,9 +1,12 @@
 require 'test_helper'
-require 'br_nfe/helper/have_emitente_test'
 
 describe BrNfe::Base do
 	subject { FactoryGirl.build(:br_nfe_base, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente) }
+	let(:emitente) { FactoryGirl.build(:person) }
+
+	before do
+		BrNfe::Base.any_instance.stubs(:emitente_class).returns(BrNfe::Person)
+	end
 
 	describe "#ibge_code_of_issuer_city" do
 		it "se não setar um valor deve pegar o valor do codigo IBGE do endereço do emitente" do
@@ -67,7 +70,9 @@ describe BrNfe::Base do
 	end
 
 	describe "#emitente" do
-		include BrNfeTest::HelperTest::HaveEmitenteTest
+		it "deve conter o module HaveEmitente" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
+		end
 	end
 	
 	describe "#env" do

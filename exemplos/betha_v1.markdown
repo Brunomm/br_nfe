@@ -76,7 +76,7 @@ end
 ```ruby
 @ws = BrNfe::Service::Betha::V1::ConsultaSituacaoLoteRps.new do |record|
 	record.protocolo = 'E1AS5D43ASDAS23'
-	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...) 
+	record.emitente  = BrNfe::Service::Emitente.new(cnpj: 12345678901234, ...) 
 end
 ```
 
@@ -85,12 +85,12 @@ end
 @ws = BrNfe::Service::Betha::V1::RecepcaoLoteRps.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
-	record.emitente  = BrNfe::Emitente.new(cnpj: 12345678901234, ...)
+	record.emitente  = BrNfe::Service::Emitente.new(cnpj: 12345678901234, ...)
 	record.numero_lote_rps = 988
 	record.lote_rps        = [
 		# RPS 1
 		BrNfe::Service::Rps.new do |rps|
-			rps.destinatario = BrNfe::Destinatario.new(cpf_cnpj: 123456789012, ...)
+			rps.destinatario = BrNfe::Service::Destinatario.new(cpf_cnpj: 123456789012, ...)
 			rps.numero       = 456
 			rps.serie        = 'SN'
 			rps.tipo         = '1'

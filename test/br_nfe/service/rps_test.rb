@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Rps do
 	subject { FactoryGirl.build(:br_nfe_rps) }
-	let(:destinatario)  { FactoryGirl.build(:destinatario) }
+	let(:destinatario)  { FactoryGirl.build(:service_destinatario) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 	let(:condicao_pagamento) { FactoryGirl.build(:condicao_pagamento) }
 	let(:item_1) { FactoryGirl.build(:service_item) } 
@@ -117,7 +117,12 @@ describe BrNfe::Service::Rps do
 				end
 			end
 		end
-		
+	end
+	
+	describe "#condicao_pagamento" do
+		it "deve ter incluso o module BrNfe::Association::HaveCondicaoPagamento" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveCondicaoPagamento
+		end
 	end
 
 	describe "#replace_invoice?" do
@@ -142,58 +147,22 @@ describe BrNfe::Service::Rps do
 	end
 
 	describe "#destinatario" do
-		it "sempre deve retornar um objeto BrNfe::Destinatario" do
-			novo = BrNfe::Service::Rps.new
-			novo.destinatario.class.must_equal BrNfe::Destinatario
-			novo.destinatario = nil
-			novo.destinatario.class.must_equal BrNfe::Destinatario
-			novo.destinatario = 'outro valor qualquer'
-			novo.destinatario.class.must_equal BrNfe::Destinatario
+		class OtherClassDestinatario < BrNfe::ActiveModelBase
 		end
-
-		it "a classe do destinatario deve segir a configuração de BrNfe.destinatario_class" do
-			BrNfe.destinatario_class = BrNfe::Emitente
-			
-			novo = BrNfe::Service::Rps.new
-			novo.destinatario.class.must_equal BrNfe::Emitente
-			novo.destinatario = nil
-			novo.destinatario.class.must_equal BrNfe::Emitente
-			novo.destinatario = 'outro valor qualquer'
-			novo.destinatario.class.must_equal BrNfe::Emitente
-
-			BrNfe.destinatario_class = BrNfe::Destinatario
+		it "deve ter incluso o module HaveDestinatario" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveDestinatario
 		end
-
-		it "atributos pode ser atribuidos em forma de bloco" do
-			subject.destinatario do |dest|
-				dest.cpf_cnpj = '12345678901234'
-				dest.telefone = '33666633'
-				dest.email    = 'mail@teste.com'
-			end
-			subject.destinatario.cpf_cnpj.must_equal '12345678901234'
-			subject.destinatario.telefone.must_equal '33666633'
-			subject.destinatario.email.must_equal 'mail@teste.com'
+		it "o método #destinatario_class deve ter por padrão a class BrNfe::Service::Destinatario" do
+			subject.destinatario.must_be_kind_of BrNfe::Service::Destinatario
+			subject.send(:destinatario_class).must_equal BrNfe::Service::Destinatario
 		end
+		it "a class do destinatario pode ser modificada através da configuração destinatario_service_class" do
+			BrNfe.destinatario_service_class = OtherClassDestinatario
+			subject.destinatario.must_be_kind_of OtherClassDestinatario
+			subject.send(:destinatario_class).must_equal OtherClassDestinatario
 
-		it "atributos pode ser atribuidos em forma de hash" do
-			subject.destinatario = {
-				cpf_cnpj: '999879879',
-				telefone: '99999999',
-				email:    'mail@teste.com'
-			}
-			subject.destinatario.cpf_cnpj.must_equal '999879879'
-			subject.destinatario.telefone.must_equal '99999999'
-			subject.destinatario.email.must_equal 'mail@teste.com'
-		end
-
-		it "pode modificar o objeto do atributo" do
-			destinatario_old = subject.destinatario
-			subject.destinatario.must_equal destinatario_old
-			subject.destinatario.wont_equal destinatario
-			
-			subject.destinatario = destinatario
-			subject.destinatario.wont_equal destinatario_old
-			subject.destinatario.must_equal destinatario
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.destinatario_service_class = BrNfe::Service::Destinatario
 		end
 	end
 
@@ -205,11 +174,11 @@ describe BrNfe::Service::Rps do
 			novo.intermediario.must_be_nil
 		end
 
-		it "a classe do intermediario deve segir a configuração de BrNfe.intermediario_class" do
-			BrNfe.intermediario_class = BrNfe::Emitente
+		it "a classe do intermediario deve segir a configuração de BrNfe.intermediario_service_class" do
+			BrNfe.intermediario_service_class = BrNfe::Service::Emitente
 			
-			novo = BrNfe::Service::Rps.new(intermediario: BrNfe::Emitente.new)
-			novo.intermediario.class.must_equal BrNfe::Emitente
+			novo = BrNfe::Service::Rps.new(intermediario: BrNfe::Service::Emitente.new)
+			novo.intermediario.class.must_equal BrNfe::Service::Emitente
 			
 			novo.intermediario = nil
 			novo.intermediario.must_be_nil
@@ -217,7 +186,7 @@ describe BrNfe::Service::Rps do
 			novo.intermediario = 'outro valor qualquer'
 			novo.intermediario.must_be_nil
 
-			BrNfe.intermediario_class = BrNfe::Service::Intermediario
+			BrNfe.intermediario_service_class = BrNfe::Service::Intermediario
 		end
 
 		it "atributos pode ser atribuidos em forma de bloco" do
@@ -274,10 +243,10 @@ describe BrNfe::Service::Rps do
 		end
 
 		it "a classe do condicao_pagamento deve segir a configuração de BrNfe.condicao_pagamento_class" do
-			BrNfe.condicao_pagamento_class = BrNfe::Emitente
+			BrNfe.condicao_pagamento_class = BrNfe::Service::Emitente
 			
-			novo = BrNfe::Service::Rps.new(condicao_pagamento: BrNfe::Emitente.new)
-			novo.condicao_pagamento.class.must_equal BrNfe::Emitente
+			novo = BrNfe::Service::Rps.new(condicao_pagamento: BrNfe::Service::Emitente.new)
+			novo.condicao_pagamento.class.must_equal BrNfe::Service::Emitente
 			
 			novo.condicao_pagamento = nil
 			novo.condicao_pagamento.must_be_nil

@@ -3,6 +3,6 @@ FactoryGirl.define do
 		nfe_number  '5566778'
 		start_date { Date.yesterday }
 		end_date   { Date.today }
-		emitente     { FactoryGirl.build(:emitente) }
+		emitente     { FactoryGirl.build(:service_emitente) }
 	end
 end

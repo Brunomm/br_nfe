@@ -1,24 +1,28 @@
 module BrNfe
-	class Emitente  < BrNfe::ActiveModelBase
+	class Person  < BrNfe::ActiveModelBase
 		include BrNfe::Association::HaveAddress
 		
 		# Obrigatórios
-		attr_accessor :cnpj
-		attr_accessor :inscricao_municipal
+		attr_accessor :cpf_cnpj
+		alias_attribute :cpf,  :cpf_cnpj
+		alias_attribute :cnpj, :cpf_cnpj
 		attr_accessor :razao_social
-		attr_accessor :natureza_operacao
 
 		#Não obrigatórios
 		attr_accessor :nome_fantasia
 		attr_accessor :telefone
 		attr_accessor :email
+		
 		attr_accessor :regime_especial_tributacao
+		attr_accessor :natureza_operacao
+		attr_accessor :inscricao_municipal
+		attr_accessor :inscricao_estadual
+		attr_accessor :inscricao_suframa
 		attr_accessor :optante_simples_nacional
 		attr_accessor :incentivo_fiscal
 
 
-		validates :inscricao_municipal, :natureza_operacao, :cnpj, :razao_social, presence: true
-		validate :validar_endereco
+		validates :cpf_cnpj, :razao_social, presence: true
 		
 		def razao_social
 			"#{@razao_social}".to_valid_format_nf

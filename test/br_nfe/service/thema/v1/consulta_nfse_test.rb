@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::ConsultaNfse do
 	subject             { FactoryGirl.build(:service_thema_v1_consulta_nfse, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:rps)           { subject.rps } 
 
 	describe "superclass" do

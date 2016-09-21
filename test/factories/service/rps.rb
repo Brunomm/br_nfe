@@ -1,6 +1,6 @@
 FactoryGirl.define do
 	factory :br_nfe_rps, class:  BrNfe::Service::Rps do
-		destinatario       { FactoryGirl.build(:destinatario) }
+		destinatario       { FactoryGirl.build(:service_destinatario) }
 		numero             556
 		serie              'SN'
 		tipo               '1'

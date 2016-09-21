@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Simpliss::V1::ConsultaNfsPorRps do
 	subject             { FactoryGirl.build(:service_simpliss_v1_consulta_nfs_por_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:rps)           { subject.rps } 
 
 	describe "superclass" do

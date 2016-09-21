@@ -1,6 +1,6 @@
 module BrNfe
 	class Base < BrNfe::ActiveModelBase
-		include BrNfe::Helper::HaveEmitente
+		include BrNfe::Association::HaveEmitente
 
 		attr_accessor :certificate_pkcs12_password
 		attr_accessor :certificate_pkcs12_path
