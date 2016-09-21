@@ -33,7 +33,6 @@ require "br_nfe/service/concerns/rules/cancelamento_nfs"
 require 'br_nfe/service/response/paths/base.rb'
 require 'br_nfe/service/response/paths/v1/tc_nfse.rb'
 
-require 'br_nfe/service/response/paths/v1/servico_cancelar_nfse_resposta.rb'
 require 'br_nfe/service/response/paths/v1/servico_consultar_lote_rps_resposta.rb'
 require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_resposta.rb'
 require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_rps_resposta.rb'

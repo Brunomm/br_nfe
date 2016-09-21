@@ -32,10 +32,6 @@ describe BrNfe::Service::Betha::V1::CancelamentoNfs do
 		it { subject.method_wsdl.must_equal :cancelar_nfse_envio }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:cancelar_nfse_envio_response]
-	end
-
 	describe "Validação do XML através do XSD" do
 		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/betha/v1/xsd' }
 				
@@ -48,6 +44,46 @@ describe BrNfe::Service::Betha::V1::CancelamentoNfs do
 					errors.must_be_empty
 				end
 			end
+		end
+	end
+
+	describe "#request and set response" do
+		before { savon.mock!   }
+		after  { savon.unmock! }
+
+		it "Quando cancelou a NF com sucesso" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/cancela_nfse/success.xml')
+			
+			savon.expects(:cancelar_nfse_envio).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.must_be_kind_of BrNfe::Service::Response::Cancelamento
+			response.data_hora_cancelamento.must_equal Time.parse('2016-09-21T17:33:45.718-03:00')
+			response.codigo_cancelamento.must_equal '2'
+			response.numero_nfs.must_equal '3188'
+
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/cancela_nfse/fault.xml')
+			
+			savon.expects(:cancelar_nfse_envio).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.data_hora_cancelamento.must_be_nil
+			
+			response.status.must_equal :falied
+
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal     'E42'
+			response.error_messages[0][:message].must_equal  'Código do município da prestação do serviço inválido.'
+			response.error_messages[0][:solution].must_equal 'Informe o código do município onde foi prestado o serviço, conforme Tabela de Municípios do IBGE.'
+
+			response.successful_request?.must_equal true
 		end
 	end
 

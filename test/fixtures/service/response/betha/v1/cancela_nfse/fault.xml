@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns3:CancelarNfseEnvioResponse xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://www.betha.com.br/e-nota-contribuinte-ws">
+      <CancelarNfseResposta>
+        <ListaMensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E42</Codigo>
+            <Mensagem>C&#xF3;digo do munic&#xED;pio da presta&#xE7;&#xE3;o do servi&#xE7;o inv&#xE1;lido.</Mensagem>
+            <Correcao>Informe o c&#xF3;digo do munic&#xED;pio onde foi prestado o servi&#xE7;o, conforme Tabela de Munic&#xED;pios do IBGE.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </CancelarNfseResposta>
+    </ns3:CancelarNfseEnvioResponse>
+  </env:Body>
+</env:Envelope>
