@@ -1,18 +1,18 @@
 require 'test_helper'
 
-describe BrNfe::Response::Service::BuildResponse do
+describe BrNfe::Service::Response::BuildResponse do
 	subject { FactoryGirl.build(:service_build_response) }
 	let(:response) { FactoryGirl.build(:response_service_default) }
 
 	describe "#initialize" do
 		it "ao inicializar deve chamar o metodo include_module! depois de setar os atributos" do
-			BrNfe::Response::Service::BuildResponse.any_instance.expects(:assign_attributes).in_sequence(sequence_1)
-			BrNfe::Response::Service::BuildResponse.new(nfe_xml_path: 'path')
+			BrNfe::Service::Response::BuildResponse.any_instance.expects(:assign_attributes).in_sequence(sequence_1)
+			BrNfe::Service::Response::BuildResponse.new(nfe_xml_path: 'path')
 		end
 	end
 
 	describe "#response" do
-		it "Deve instanciar se setar na variavel @response um objeto da classe BrNfe::Response::Service::Default" do
+		it "Deve instanciar se setar na variavel @response um objeto da classe BrNfe::Service::Response::Default" do
 			response
 			subject.stubs(:message_errors_path).returns('message_errors_path')
 			subject.stubs(:get_message_for_path).with('message_errors_path').returns('get_message_for_path')
@@ -23,7 +23,7 @@ describe BrNfe::Response::Service::BuildResponse do
 			subject.stubs(:get_situation).returns('get_situation')
 			subject.stubs(:savon_response).returns(stub(xml: 'savon_response'))
 			subject.stubs(:get_cancelation_date_time).returns('get_cancelation_date_time')
-			BrNfe::Response::Service::Default.expects(:new).with({
+			BrNfe::Service::Response::Default.expects(:new).with({
 				error_messages:   'get_message_for_path',
 				notas_fiscais:    'get_invoices',
 				protocolo:        'get_protocol',
@@ -38,7 +38,7 @@ describe BrNfe::Response::Service::BuildResponse do
 		end
 		it "se já tem valor setado em @response não deve instanciar um novo" do
 			subject.instance_variable_set(:@response, response)
-			BrNfe::Response::Service::Default.expects(:new).never
+			BrNfe::Service::Response::Default.expects(:new).never
 			subject.response.must_equal response
 		end
 	end

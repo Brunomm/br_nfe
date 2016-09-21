@@ -1,6 +1,6 @@
 module BrNfe
-	module Response
-		module Service
+	module Service
+		module Response
 			class NotaFiscal < BrNfe::ActiveModelBase
 				include BrNfe::Association::HaveDestinatario
 				include BrNfe::Association::HaveEmitente

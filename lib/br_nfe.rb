@@ -30,15 +30,15 @@ require "br_nfe/service/concerns/rules/consulta_nfs_por_rps"
 require "br_nfe/service/concerns/rules/cancelamento_nfs"
 
 # Carrega os modules que contém os paths para buildar a resposta das requisições
-require 'br_nfe/response/service/paths/base.rb'
-require 'br_nfe/response/service/paths/v1/tc_nfse.rb'
+require 'br_nfe/service/response/paths/base.rb'
+require 'br_nfe/service/response/paths/v1/tc_nfse.rb'
 
-require 'br_nfe/response/service/paths/v1/servico_cancelar_nfse_resposta.rb'
-require 'br_nfe/response/service/paths/v1/servico_consultar_lote_rps_resposta.rb'
-require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_resposta.rb'
-require 'br_nfe/response/service/paths/v1/servico_consultar_nfse_rps_resposta.rb'
-require 'br_nfe/response/service/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
-require 'br_nfe/response/service/paths/v1/servico_enviar_lote_rps_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_cancelar_nfse_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_consultar_lote_rps_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_rps_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
+require 'br_nfe/service/response/paths/v1/servico_enviar_lote_rps_resposta.rb'
 # Copyright (C) 2015 Bruno M. Mergen
 #
 # @author Bruno Mucelini Mergen <brunomergen@gmail.com>
@@ -65,17 +65,16 @@ module BrNfe
 	autoload :Base
 	autoload :CondicaoPagamento
 
-	module Response
-		module Service
-			extend ActiveSupport::Autoload
-			autoload :Default
-			autoload :NotaFiscal
-			autoload :BuildResponse
-		end
-	end
 
 	module Service
 		extend ActiveSupport::Autoload
+		module Response
+			extend ActiveSupport::Autoload
+			autoload :Default
+			autoload :NotaFiscal
+			autoload :BuildResponse			
+		end
+		
 		autoload :Emitente
 		autoload :Destinatario
 		autoload :Intermediario

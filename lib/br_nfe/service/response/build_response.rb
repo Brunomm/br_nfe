@@ -1,7 +1,7 @@
 #encoding UTF-8
 module BrNfe
-	module Response
-		module Service
+	module Service
+		module Response
 			class BuildResponse  < BrNfe::ActiveModelBase
 				# 1: A resposta da requisição soap
 				attr_accessor :savon_response
@@ -128,7 +128,7 @@ module BrNfe
 				######################################################################################
 				
 				def response
-					@response ||= BrNfe::Response::Service::Default.new({
+					@response ||= BrNfe::Service::Response::Default.new({
 						error_messages:   get_message_for_path(message_errors_path),
 						notas_fiscais:    get_invoices,
 						protocolo:        get_protocol,
@@ -334,7 +334,7 @@ module BrNfe
 				# O parâmetro recebido deve ser o Hash representado pelo tipo de dados tcCompNfse(do manual NFS-e v1)
 				#
 				def instance_invoice(invoice_hash)
-					nfe = BrNfe::Response::Service::NotaFiscal.new({
+					nfe = BrNfe::Service::Response::NotaFiscal.new({
 						xml_nf:                           get_xml_nf.force_encoding('UTF-8'),
 						numero_nf:                        find_value_for_keys(invoice_hash, invoice_numero_nf_path                       ),
 						codigo_verificacao:               find_value_for_keys(invoice_hash, invoice_codigo_verificacao_path              ),

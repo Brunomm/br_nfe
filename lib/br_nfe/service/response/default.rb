@@ -1,6 +1,6 @@
 module BrNfe
-	module Response
-		module Service
+	module Service
+		module Response
 			class Default  < BrNfe::ActiveModelBase
 				
 				# Array contendo as mensagens de erros
@@ -13,7 +13,7 @@ module BrNfe
 				
 				# Array contendo as notas fiscais encontradas no xml de retorno.
 				# Utillizado em algumas requisições onde pode ser que retorne algum XML de NFe
-				# É um Array contendo objetos da classe BrNfe::Response::Service::NotaFiscal
+				# É um Array contendo objetos da classe BrNfe::Service::Response::NotaFiscal
 				#
 				# <b>Tipo de retorno: </b> _Array_
 				#

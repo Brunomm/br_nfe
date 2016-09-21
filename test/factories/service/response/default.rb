@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :response_service_default, class:  BrNfe::Response::Service::Default do
+	factory :response_service_default, class:  BrNfe::Service::Response::Default do
 		status          :success
 		error_messages   { [] }
 		notas_fiscais    { [FactoryGirl.build(:response_service_nota_fiscal)] }

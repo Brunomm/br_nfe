@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe BrNfe::Response::Service::Default do
+describe BrNfe::Service::Response::Default do
 	subject { FactoryGirl.build(:response_service_default) }
 
 

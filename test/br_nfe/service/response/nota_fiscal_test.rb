@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe BrNfe::Response::Service::NotaFiscal do
+describe BrNfe::Service::Response::NotaFiscal do
 	subject { FactoryGirl.build(:response_service_nota_fiscal, emitente: emitente) }
 	let(:emitente)           { FactoryGirl.build(:service_emitente) } 
 	let(:destinatario)       { subject.destinatario } 

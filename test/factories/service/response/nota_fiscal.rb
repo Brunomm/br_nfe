@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :response_service_nota_fiscal, class:  BrNfe::Response::Service::NotaFiscal do
+	factory :response_service_nota_fiscal, class:  BrNfe::Service::Response::NotaFiscal do
 		intermediario                    { FactoryGirl.build(:intermediario) }
 		destinatario                     { FactoryGirl.build(:service_destinatario) }
 		emitente                         { FactoryGirl.build(:service_emitente) }
