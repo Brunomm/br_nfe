@@ -16,6 +16,10 @@ module BrNfe
 						def id_cancelamento
 							@id_cancelamento ||= Time.now.strftime('%Y%m%d%H%M%S%9N')
 						end
+
+						def response_class
+							BrNfe::Service::Response::Cancelamento
+						end
 					end
 				end
 			end

@@ -37,14 +37,6 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 		end	 	
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal []
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:cancelar_nfse_response, :return]
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'cancelarNfse'
 	end
@@ -79,7 +71,11 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 			subject.request
 			response = subject.response
 
-			response.cancelation_date_time.must_equal Time.parse('2016-08-15T13:50:31.016Z')
+			response.must_be_kind_of BrNfe::Service::Response::Cancelamento
+			response.data_hora_cancelamento.must_equal Time.parse('2016-08-15T13:50:31.016Z')
+			response.codigo_cancelamento.must_equal 'E506'
+			response.numero_nfs.must_equal '201600000000005'
+
 			response.status.must_equal :success
 			response.successful_request?.must_equal true
 		end
@@ -91,10 +87,7 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 			subject.request
 			response = subject.response
 
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
-			response.numero_lote.must_be_nil
-			response.cancelation_date_time.must_be_nil
+			response.data_hora_cancelamento.must_be_nil
 			
 			response.status.must_equal :falied
 

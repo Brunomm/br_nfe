@@ -37,13 +37,14 @@ module BrNfe
 			end
 
 			def request
-				set_response( client_wsdl.call(method_wsdl, xml: soap_xml) )
+				@original_response = client_wsdl.call(method_wsdl, xml: soap_xml)
+				set_response
 			rescue Savon::SOAPFault => error
-				return @response = BrNfe::Service::Response::Default.new(status: :soap_error, error_messages: [error.message])
+				return @response = response_class.new(status: :soap_error, error_messages: [error.message])
 			rescue Savon::HTTPError => error
-				return @response = BrNfe::Service::Response::Default.new(status: :http_error, error_messages: [error.message])
+				return @response = response_class.new(status: :http_error, error_messages: [error.message])
 			rescue Exception => error
-				return @response = BrNfe::Service::Response::Default.new(status: :unknown_error, error_messages: [error.message])
+				return @response = response_class.new(status: :unknown_error, error_messages: [error.message])
 			end
 
 		private
@@ -52,10 +53,13 @@ module BrNfe
 				BrNfe.emitente_service_class
 			end
 
-			def set_response(resp)
-				@original_response = resp
+			def response_class
+				BrNfe::Service::Response::Default
+			end
+
+			def set_response
 				@response = BrNfe::Service::Response::Build::Base.new(
-					savon_response: resp, # Rsposta da requisição SOAP
+					savon_response: @original_response, # Rsposta da requisição SOAP
 					keys_root_path: response_root_path, # Caminho inicial da resposta / Chave pai principal
 					nfe_xml_path:   nfse_xml_path, # Caminho para encontrar a NF dentro do XML
 					body_xml_path:  body_xml_path,

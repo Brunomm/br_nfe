@@ -180,13 +180,14 @@ describe BrNfe::Service::Base do
 
 		it "deve fazer a requisição para o WS passando a resposta para o metodo set_response" do
 			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
-			subject.expects(:set_response).with(:savon_response).returns(:result)
+			subject.expects(:set_response).returns(:result)
 			subject.request.must_equal :result
+			subject.instance_variable_get(:@original_response).must_equal :savon_response
 		end
 
 		it "Se ocorrer erro Savon::SOAPFault deve ser tratado e setar o status da resposta com :soap_error" do
-			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
-			subject.expects(:set_response).with(:savon_response).raises(soap_fault)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).raises(soap_fault)
+			subject.expects(:set_response).never
 			
 			subject.request
 			subject.response.error_messages.must_equal(['Message Error'])
@@ -217,16 +218,6 @@ describe BrNfe::Service::Base do
 
 	describe "#set_response" do
 		let(:build_response) { BrNfe::Service::Response::Build::Base.new() } 
-		it "Deve setar a variavel @original_response com a resposta original do savon" do
-			subject.class.send(:include, ResponsePathTest)
-			BrNfe::Service::Response::Build::Base.any_instance.stubs(:response).returns(:response)
-			subject.stubs(:response_root_path).returns(:response_root_path)
-			subject.stubs(:nfse_xml_path).returns(:nfse_xml_path)
-			subject.stubs(:body_xml_path).returns(:body_xml_path)
-
-			subject.send(:set_response, :original).must_equal :response
-			subject.instance_variable_get(:@original_response).must_equal(:original)
-		end
 		it "deve instanciar o build_response e retornar a resposta" do
 			build_response
 			subject.class.send(:include, ResponsePathTest)
@@ -333,7 +324,9 @@ describe BrNfe::Service::Base do
 			}).returns(build_response)
 			build_response.expects(:response).returns('resposta')
 
-			subject.send(:set_response, :savon_response).must_equal 'resposta'
+			subject.instance_variable_set(:@original_response, :savon_response)
+
+			subject.send(:set_response).must_equal 'resposta'
 			subject.instance_variable_get(:@response).must_equal('resposta')
 		end
 	end	

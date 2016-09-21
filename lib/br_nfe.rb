@@ -72,10 +72,12 @@ module BrNfe
 			extend ActiveSupport::Autoload
 			autoload :Default
 			autoload :NotaFiscal
+			autoload :Cancelamento
 			
 			module Build
 				extend ActiveSupport::Autoload
 				autoload :Base
+				autoload :Cancelamento
 			end
 		end
 		
@@ -110,7 +112,6 @@ module BrNfe
 			module V1
 				module ResponsePaths
 					extend ActiveSupport::Autoload
-					autoload :ServicoCancelarNfseResposta
 					autoload :ServicoConsultarNfseRpsResposta
 				end
 				extend ActiveSupport::Autoload
@@ -128,7 +129,6 @@ module BrNfe
 			module V1
 				module ResponsePaths
 					extend ActiveSupport::Autoload
-					autoload :ServicoCancelarNfseResposta
 					autoload :ServicoConsultarLoteRpsResposta
 					autoload :ServicoConsultarNfseRpsResposta
 					autoload :ServicoConsultarNfseResposta
