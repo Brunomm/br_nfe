@@ -11,5 +11,5 @@ describe BrNfe::Service::Concerns::Rules::CancelamentoNfs do
 	
 	it { must validate_presence_of(:nfe_number) }
 	it { must validate_presence_of(:codigo_cancelamento) }
-	
+	it { must validate_presence_of(:codigo_ibge_municipio_prestacao) }
 end
