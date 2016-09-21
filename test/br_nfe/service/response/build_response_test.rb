@@ -1,13 +1,13 @@
 require 'test_helper'
 
-describe BrNfe::Service::Response::BuildResponse do
+describe BrNfe::Service::Response::Build::Base do
 	subject { FactoryGirl.build(:service_build_response) }
 	let(:response) { FactoryGirl.build(:response_service_default) }
 
 	describe "#initialize" do
 		it "ao inicializar deve chamar o metodo include_module! depois de setar os atributos" do
-			BrNfe::Service::Response::BuildResponse.any_instance.expects(:assign_attributes).in_sequence(sequence_1)
-			BrNfe::Service::Response::BuildResponse.new(nfe_xml_path: 'path')
+			BrNfe::Service::Response::Build::Base.any_instance.expects(:assign_attributes).in_sequence(sequence_1)
+			BrNfe::Service::Response::Build::Base.new(nfe_xml_path: 'path')
 		end
 	end
 

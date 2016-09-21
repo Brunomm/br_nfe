@@ -72,7 +72,11 @@ module BrNfe
 			extend ActiveSupport::Autoload
 			autoload :Default
 			autoload :NotaFiscal
-			autoload :BuildResponse			
+			
+			module Build
+				extend ActiveSupport::Autoload
+				autoload :Base
+			end
 		end
 		
 		autoload :Emitente

@@ -54,7 +54,7 @@ module BrNfe
 
 			def set_response(resp)
 				@original_response = resp
-				@response = BrNfe::Service::Response::BuildResponse.new(
+				@response = BrNfe::Service::Response::Build::Base.new(
 					savon_response: resp, # Rsposta da requisição SOAP
 					keys_root_path: response_root_path, # Caminho inicial da resposta / Chave pai principal
 					nfe_xml_path:   nfse_xml_path, # Caminho para encontrar a NF dentro do XML

@@ -216,10 +216,10 @@ describe BrNfe::Service::Base do
 	end
 
 	describe "#set_response" do
-		let(:build_response) { BrNfe::Service::Response::BuildResponse.new() } 
+		let(:build_response) { BrNfe::Service::Response::Build::Base.new() } 
 		it "Deve setar a variavel @original_response com a resposta original do savon" do
 			subject.class.send(:include, ResponsePathTest)
-			BrNfe::Service::Response::BuildResponse.any_instance.stubs(:response).returns(:response)
+			BrNfe::Service::Response::Build::Base.any_instance.stubs(:response).returns(:response)
 			subject.stubs(:response_root_path).returns(:response_root_path)
 			subject.stubs(:nfse_xml_path).returns(:nfse_xml_path)
 			subject.stubs(:body_xml_path).returns(:body_xml_path)
@@ -234,7 +234,7 @@ describe BrNfe::Service::Base do
 			subject.expects(:nfse_xml_path).returns(:nfse_xml_path)
 			subject.expects(:body_xml_path).returns(:body_xml_path)
 			subject.expects(:response_encoding).returns('ENCODE')
-			BrNfe::Service::Response::BuildResponse.expects(:new).with({
+			BrNfe::Service::Response::Build::Base.expects(:new).with({
 				savon_response: :savon_response, 
 				keys_root_path: :response_root_path,
 				nfe_xml_path:   :nfse_xml_path, 
