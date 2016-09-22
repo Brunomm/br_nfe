@@ -39,6 +39,20 @@ describe BrNfe::Service::Betha::V1::ConsultaSituacaoLoteRps do
 		end
 	end
 
+	it "não deve adicionar a tag InscricaoMunicipal no XML" do
+		# Se emitir uma NFS com InscricaoMunicipal 1234 e no cadastro da prefeitura
+		# a InscricaoMunicipal estiver cadastrada como 123-4, a nota vai emitir porém
+		# no momento de consultar da erro dizendo que a inscrição municipal não existe
+		# para o municipio.
+		subject.emitente.inscricao_municipal = '12345'
+		subject.emitente.cpf_cnpj = '12345678901234'
+		content_xml = Nori.new.parse(subject.content_xml).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
+		prestador = content_xml[:'ns1:consultar_situacao_lote_rps_envio'][:prestador]
+		
+		prestador[:cnpj].must_equal '12345678901234'
+		prestador[:inscricao_municipal].must_be_nil
+	end
+
 	describe "#request and set response" do
 		before { savon.mock!   }
 		after  { savon.unmock! }

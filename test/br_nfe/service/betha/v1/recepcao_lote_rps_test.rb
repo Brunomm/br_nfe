@@ -72,6 +72,18 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 		end
 	end
 
+	it "Deve adicionar a tag InscricaoMunicipal no XML" do
+		subject.lote_rps = [rps_1]
+		# Esse test foi feito devido a sobrescrita do XML _tc_identificacao_prestador
+		subject.emitente.inscricao_municipal = '12345'
+		subject.emitente.cpf_cnpj = '12345678901234'
+		content_xml = Nori.new.parse(subject.content_xml).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
+		prestador =  content_xml[:'ns1:enviar_lote_rps_envio'][:lote_rps][:lista_rps][:rps][:inf_rps][:prestador]
+		
+		prestador[:cnpj].must_equal '12345678901234'
+		prestador[:inscricao_municipal].must_equal '12345'
+	end
+
 	describe "#request and set response" do
 		before { savon.mock!   }
 		after  { savon.unmock! }
