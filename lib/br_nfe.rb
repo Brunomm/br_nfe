@@ -75,6 +75,7 @@ module BrNfe
 			autoload :ConsultaLoteRps
 			autoload :ConsultaNfsPorRps
 			autoload :ConsultaNfse
+			autoload :ConsultaSituacaoLoteRps
 			
 			module Build
 				extend ActiveSupport::Autoload
@@ -84,6 +85,7 @@ module BrNfe
 				autoload :ConsultaLoteRps
 				autoload :ConsultaNfsPorRps
 				autoload :ConsultaNfse
+				autoload :ConsultaSituacaoLoteRps
 			end
 		end
 		
@@ -131,7 +133,6 @@ module BrNfe
 			module V1
 				module ResponsePaths
 					extend ActiveSupport::Autoload
-					autoload :ServicoConsultarSituacaoLoteRpsResposta
 					autoload :ServicoEnviarLoteRpsResposta
 				end
 				extend ActiveSupport::Autoload

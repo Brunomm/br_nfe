@@ -14,14 +14,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 		it { subject.method_wsdl.must_equal :consultar_situacao_lote_rps }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:consultar_situacao_lote_rps_response]
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal []
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'ConsultarSituacaoLoteRps'
 	end
@@ -59,6 +51,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :success
 			response.numero_lote.must_equal '10'
 			response.status.must_equal :success
@@ -71,6 +64,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :error
 			response.numero_lote.must_equal '13'
 			response.status.must_equal :success
@@ -83,6 +77,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :unprocessed
 			response.numero_lote.must_equal '11'
 			response.status.must_equal :success
@@ -95,6 +90,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :unreceived
 			response.numero_lote.must_equal '12'
 			response.status.must_equal :success
@@ -108,9 +104,9 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.numero_lote.must_be_nil
+			response.situation.must_equal :error
 			response.status.must_equal :falied
 			response.error_messages.size.must_equal 1
 			response.error_messages[0][:code].must_equal 'E900'
