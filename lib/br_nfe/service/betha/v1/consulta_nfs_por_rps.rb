@@ -26,7 +26,7 @@ module BrNfe
 							body_xml_path:  nil,
 							xml_encode:     response_encoding, # Codificação do xml de resposta
 							#//Envelope/Body/ConsultarLoteRpsEnvioResponse/ConsultarLoteRpsResposta
-							nfe_xml_path:                '//*/*/*/*',							
+							nfe_xml_path:                '//*/*/*/*',
 							invoice_url_nf_path: [:nfse, :inf_nfse, :outras_informacoes]
 						).response
 					end

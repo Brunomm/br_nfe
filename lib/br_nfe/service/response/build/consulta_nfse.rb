@@ -4,6 +4,12 @@ module BrNfe
 		module Response
 			module Build
 				class ConsultaNfse  < BrNfe::Service::Response::Build::InvoiceBuild
+					def default_values
+						super.merge({
+							message_errors_path: [:consultar_nfse_resposta, :lista_mensagem_retorno, :mensagem_retorno],
+							invoices_path:       [:consultar_nfse_resposta, :lista_nfse, :compl_nfse]
+						})
+					end
 					def response
 						@response ||= BrNfe::Service::Response::ConsultaNfse.new({
 							original_xml:     savon_response.xml.force_encoding('UTF-8'),

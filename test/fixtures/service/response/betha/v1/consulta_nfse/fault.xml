@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarNfseEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarNfseResposta>
+        <ListaNfse/>
+        <ListaMensagemRetorno xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd">
+          <MensagemRetorno>
+            <Codigo>E160</Codigo>
+            <Mensagem>Arquivo enviado fora da estrutura do arquivo XML de entrada.</Mensagem>
+            <Correcao>Envie um arquivo dentro do schema do arquivo XML de entrada.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarNfseResposta>
+    </ns2:ConsultarNfseEnvioResponse>
+  </env:Body>
+</env:Envelope>

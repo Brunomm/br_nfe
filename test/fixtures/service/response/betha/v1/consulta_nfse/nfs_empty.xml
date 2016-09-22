@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarNfseEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarNfseResposta>
+        <ListaNfse/>
+        <ListaMensagemRetorno/>
+      </ConsultarNfseResposta>
+    </ns2:ConsultarNfseEnvioResponse>
+  </env:Body>
+</env:Envelope>
