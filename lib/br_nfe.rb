@@ -72,11 +72,14 @@ module BrNfe
 			autoload :Default
 			autoload :NotaFiscal
 			autoload :Cancelamento
+			autoload :ConsultaLoteRps
 			
 			module Build
 				extend ActiveSupport::Autoload
 				autoload :Base
+				autoload :InvoiceBuild
 				autoload :Cancelamento
+				autoload :ConsultaLoteRps
 			end
 		end
 		

@@ -14,14 +14,6 @@ describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 		it { subject.method_wsdl.must_equal :consultar_lote_rps }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal []
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:consultar_lote_rps_response, :return]
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'consultarLoteRps'
 	end

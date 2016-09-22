@@ -14,10 +14,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 		it { subject.method_wsdl.must_equal :consultar_lote_rps }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:consultar_lote_rps_response]
-	end
-
 	it "#body_xml_path" do
 		subject.body_xml_path.must_equal []
 	end

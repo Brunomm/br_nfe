@@ -20,28 +20,35 @@ module BrNfe
 						render_xml 'servico_consultar_lote_rps_envio'
 					end
 
-					# Não é utilizado o response_root_path pois
-					# esse órgão emissor trata o XML de forma diferente
-					# e para instanciar a resposta adequadamente é utilizado o 
-					# body_xml_path.
-					# A resposta contém outro XML dentro do Body.
-					#
-					def response_root_path
-						[]
-					end
-
-					# Caminho de hash através do body da resposta SOAP até encontrar
-					# o XML correspondente na qual contém as informações necessárias 
-					# para encontrar os valores para setar na resposta
-					#
-					def body_xml_path
-						[:consultar_lote_rps_response, :return]
-					end
-
 					# Tag root da requisição
 					#
 					def soap_body_root_tag
 						'consultarLoteRps'
+					end
+				private
+
+					# Não é utilizado o keys_root_path pois
+					# esse órgão emissor trata o XML de forma diferente,
+					# e para instanciar a resposta adequadamente é utilizado o 
+					# body_xml_path.
+					# A resposta contém outro XML dentro do Body.
+					#
+					def set_response
+						@response = BrNfe::Service::Response::Build::ConsultaLoteRps.new(
+							savon_response:       @original_response, # Rsposta da requisição SOAP
+							keys_root_path:       [], # Caminho inicial da resposta / Chave pai principal
+							body_xml_path:        [:consultar_lote_rps_response, :return],
+							xml_encode:           response_encoding, # Codificação do xml de resposta
+							nfe_xml_path:         '//*',
+							invoices_path:        [:consultar_lote_rps_resposta, :lista_nfse, :comp_nfse],
+							message_errors_path:  [:consultar_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno],
+							message_code_key:     :codigo,
+							message_msg_key:      :mensagem,
+							message_solution_key: :correcao,
+						).response
+					end
+					def response_class
+						BrNfe::Service::Response::ConsultaLoteRps
 					end
 				end
 			end
