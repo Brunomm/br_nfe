@@ -30,10 +30,7 @@ module BrNfe
 							codigo_cancelamento_path:    [:cancelar_nfse_result, :cancelamento, :confirmacao, :pedido, :inf_pedido_cancelamento, :codigo_cancelamento],
 							data_hora_cancelamento_path: [:cancelar_nfse_result, :cancelamento, :confirmacao, :data_hora_cancelamento],
 							numero_nfs_path:             [:cancelar_nfse_result, :cancelamento, :confirmacao, :pedido, :inf_pedido_cancelamento, :identificacao_nfse, :numero],
-							message_errors_path:         [:cancelar_nfse_result, :lista_mensagem_retorno, :mensagem_retorno],
-							message_code_key:            :codigo,
-							message_msg_key:             :mensagem,
-							message_solution_key:        :correcao,
+							message_errors_path:         [:cancelar_nfse_result, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 				end

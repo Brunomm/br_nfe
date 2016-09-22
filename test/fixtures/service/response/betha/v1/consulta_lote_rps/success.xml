@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarLoteRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarLoteRpsResposta>
+        <ListaNfse>
+          <ComplNfse>
+            <Nfse>
+              <InfNfse>
+                <Numero>4</Numero>
+                <CodigoVerificacao>E6E7686366</CodigoVerificacao>
+                <DataEmissao>2016-09-08T10:03:16.850-03:00</DataEmissao>
+                <IdentificacaoRps>
+                  <Numero>3146</Numero>
+                  <Serie>SN</Serie>
+                  <Tipo>1</Tipo>
+                </IdentificacaoRps>
+                <DataEmissaoRps>2016-09-08T10:02:00-03:00</DataEmissaoRps>
+                <NaturezaOperacao>1</NaturezaOperacao>
+                <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                <Competencia>2016-09-01T00:00:00-03:00</Competencia>
+                <OutrasInformacoes>http://e-gov.betha.com.br/e-nota/visualizarnotaeletronica?link=XXXXXXXXXXXXX</OutrasInformacoes>
+                <Servico>
+                  <Valores>
+                    <ValorServicos>349</ValorServicos>
+                    <ValorDeducoes>0</ValorDeducoes>
+                    <IssRetido>2</IssRetido>
+                    <ValorIss>0</ValorIss>
+                    <BaseCalculo>349</BaseCalculo>
+                    <Aliquota>2.0000</Aliquota>
+                    <DescontoCondicionado>0</DescontoCondicionado>
+                    <DescontoIncondicionado>0</DescontoIncondicionado>
+                  </Valores>
+                  <ItemListaServico>0107</ItemListaServico>
+                  <CodigoCnae>6202300</CodigoCnae>
+                  <Discriminacao>1 TESTE WEBSERVICE: R$ 5,00</Discriminacao>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                </Servico>
+                <PrestadorServico>
+                  <IdentificacaoPrestador>
+                    <Cnpj>12345678901234</Cnpj>
+                    <InscricaoMunicipal>42615-6</InscricaoMunicipal>
+                  </IdentificacaoPrestador>
+                  <RazaoSocial>RAZAO SOCIAL EMITENTE LTDA EPP</RazaoSocial>
+                  <NomeFantasia>NOME FANTASIA EMITENTE</NomeFantasia>
+                  <Endereco>
+                    <Endereco>R AFONSO JULHO</Endereco>
+                    <Numero>654 D</Numero>
+                    <Bairro>SAO BENTO</Bairro>
+                    <CodigoMunicipio>4204202</CodigoMunicipio>
+                    <Uf>SC</Uf>
+                    <Cep>89804023</Cep>
+                  </Endereco>
+                  <Contato>
+                    <Telefone>4936541251</Telefone>
+                    <Email>financeiro@empresa.com.br</Email>
+                  </Contato>
+                </PrestadorServico>
+                <TomadorServico>
+                  <IdentificacaoTomador>
+                    <CpfCnpj>
+                      <Cnpj>12345678901234</Cnpj>
+                    </CpfCnpj>
+                  </IdentificacaoTomador>
+                  <RazaoSocial>TOMADOR SERVICO - ME</RazaoSocial>
+                  <Endereco>
+                    <Endereco>AV. DR. REINALDO SCHMITHAUSEN</Endereco>
+                    <Numero>111</Numero>
+                    <Complemento>SALA 05 ANEXO AO SUPERMERCADO SCHIMIT</Complemento>
+                    <Bairro>BAIRRO CORDEIROS</Bairro>
+                    <CodigoMunicipio>4208203</CodigoMunicipio>
+                    <Uf>SC</Uf>
+                    <Cep>88310000</Cep>
+                  </Endereco>
+                  <Contato>
+                    <Telefone>4732154566</Telefone>
+                    <Email>cliente@gmail.com</Email>
+                  </Contato>
+                </TomadorServico>
+                <OrgaoGerador>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                </OrgaoGerador>
+                <ConstrucaoCivil/>
+              </InfNfse>
+            </Nfse>
+            <NfseCancelamento>
+              <Confirmacao>
+                <Pedido>
+                  <InfPedidoCancelamento/>
+                  <ns3:Signature/>
+                </Pedido>
+                <InfConfirmacaoCancelamento>
+                  <Sucesso>false</Sucesso>
+                </InfConfirmacaoCancelamento>
+              </Confirmacao>
+            </NfseCancelamento>
+            <NfseSubstituicao>
+              <SubstituicaoNfse/>
+            </NfseSubstituicao>
+          </ComplNfse>
+        </ListaNfse>
+        <ListaMensagemRetorno/>
+      </ConsultarLoteRpsResposta>
+    </ns2:ConsultarLoteRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

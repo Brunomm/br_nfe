@@ -27,13 +27,7 @@ module BrNfe
 							keys_root_path: [],
 							body_xml_path:  [:consultar_situacao_lote_rps_response, :return],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
-							message_errors_path:  [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno],
-							message_code_key:     :codigo,
-							message_msg_key:      :mensagem,
-							message_solution_key: :correcao,
-							# situation_key_values: Default,
-							# lot_number_path:    #Default,
-							# situation_path:     #Default,
+							message_errors_path:  [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 				end

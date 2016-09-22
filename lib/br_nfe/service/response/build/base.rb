@@ -124,7 +124,14 @@ module BrNfe
 						attr_accessor :invoice_destinatario_endereco_codigo_municipio_path # Codigo_municipio do destinatário da NFS
 						attr_accessor :invoice_destinatario_endereco_uf_path               # Uf do destinatário da NFS
 						attr_accessor :invoice_destinatario_endereco_cep_path              # Cep do destinatário da NFS
-					
+						
+						def default_values
+							super.merge({
+								message_code_key:     :codigo,
+								message_msg_key:      :mensagem,
+								message_solution_key: :correcao,
+							})
+						end
 					#######################   FIM DA DEFINIÇÃO DOS CAMINHOS   ############################
 					######################################################################################
 					

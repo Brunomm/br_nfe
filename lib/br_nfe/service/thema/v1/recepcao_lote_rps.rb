@@ -52,9 +52,6 @@ module BrNfe
 							keys_root_path: [],
 							body_xml_path:  [:recepcionar_lote_rps_response, :return],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
-							message_code_key:     :codigo,
-							message_msg_key:      :mensagem,
-							message_solution_key: :correcao,
 						).response
 					end
 				end

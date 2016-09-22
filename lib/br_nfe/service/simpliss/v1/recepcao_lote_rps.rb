@@ -37,10 +37,7 @@ module BrNfe
 							lot_number_path:      [:recepcionar_lote_rps_result, :numero_lote],
 							protocol_path:        [:recepcionar_lote_rps_result, :protocolo],
 							received_date_path:   [:recepcionar_lote_rps_result, :data_recebimento],
-							message_errors_path:  [:recepcionar_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno],
-							message_code_key:     :codigo,
-							message_msg_key:      :mensagem,
-							message_solution_key: :correcao,
+							message_errors_path:  [:recepcionar_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 				end

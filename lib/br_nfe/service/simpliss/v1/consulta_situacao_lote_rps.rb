@@ -30,10 +30,7 @@ module BrNfe
 							# situation_key_values: Default,
 							lot_number_path:      [:consultar_situacao_lote_rps_result, :numero_lote] ,
 							situation_path:       [:consultar_situacao_lote_rps_result, :situacao],
-							message_errors_path:  [:consultar_situacao_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno],
-							message_code_key:     :codigo,
-							message_msg_key:      :mensagem,
-							message_solution_key: :correcao,
+							message_errors_path:  [:consultar_situacao_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 				end

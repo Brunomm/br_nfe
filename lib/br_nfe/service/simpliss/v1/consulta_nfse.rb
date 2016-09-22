@@ -31,10 +31,7 @@ module BrNfe
 							nfe_xml_path:                '//*/*/*/*',
 							
 							invoices_path:               [:consultar_nfse_result, :lista_nfse, :comp_nfse],
-							message_errors_path:         [:consultar_nfse_result, :lista_mensagem_retorno, :mensagem_retorno],
-							message_code_key:            :codigo,
-							message_msg_key:             :mensagem,
-							message_solution_key:        :correcao,
+							message_errors_path:         [:consultar_nfse_result, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 					def response_class
