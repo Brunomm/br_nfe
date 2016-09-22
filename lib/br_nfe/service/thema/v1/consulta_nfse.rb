@@ -4,8 +4,7 @@ module BrNfe
 			module V1
 				class ConsultaNfse < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::ConsultaNfse
-					include BrNfe::Service::Response::Paths::V1::ServicoConsultarNfseResposta
-
+					
 					def wsdl
 						get_wsdl_by_city[:consult]
 					end

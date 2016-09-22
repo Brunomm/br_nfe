@@ -33,11 +33,6 @@ require "br_nfe/service/concerns/rules/cancelamento_nfs"
 require 'br_nfe/service/response/paths/base.rb'
 require 'br_nfe/service/response/paths/v1/tc_nfse.rb'
 
-require 'br_nfe/service/response/paths/v1/servico_consultar_lote_rps_resposta.rb'
-require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_resposta.rb'
-require 'br_nfe/service/response/paths/v1/servico_consultar_nfse_rps_resposta.rb'
-require 'br_nfe/service/response/paths/v1/servico_consultar_situacao_lote_rps_resposta.rb'
-require 'br_nfe/service/response/paths/v1/servico_enviar_lote_rps_resposta.rb'
 # Copyright (C) 2015 Bruno M. Mergen
 #
 # @author Bruno Mucelini Mergen <brunomergen@gmail.com>
@@ -102,12 +97,6 @@ module BrNfe
 			extend ActiveSupport::Autoload
 			autoload :Base
 			module V1
-				module ResponsePaths
-					extend ActiveSupport::Autoload
-					autoload :ServicoConsultarLoteRpsResposta
-					autoload :ServicoConsultarNfseResposta
-					autoload :ServicoConsultarNfseRpsResposta
-				end
 				extend ActiveSupport::Autoload
 				autoload :Gateway
 				autoload :ConsultaLoteRps

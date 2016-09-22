@@ -3,8 +3,6 @@ module BrNfe
 		module Thema
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Thema::V1::Base
-					include BrNfe::Service::Response::Paths::V1::ServicoConsultarLoteRpsResposta
-
 					def wsdl
 						get_wsdl_by_city[:consult]
 					end
