@@ -17,13 +17,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfsPorRps do
 		it { subject.method_wsdl.must_equal :consultar_nfse_por_rps }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:consultar_nfse_por_rps_response]
-	end
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal []
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'ConsultarNfsePorRps'
 	end

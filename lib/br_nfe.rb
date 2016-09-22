@@ -73,6 +73,7 @@ module BrNfe
 			autoload :NotaFiscal
 			autoload :Cancelamento
 			autoload :ConsultaLoteRps
+			autoload :ConsultaNfsPorRps
 			
 			module Build
 				extend ActiveSupport::Autoload
@@ -80,6 +81,7 @@ module BrNfe
 				autoload :InvoiceBuild
 				autoload :Cancelamento
 				autoload :ConsultaLoteRps
+				autoload :ConsultaNfsPorRps
 			end
 		end
 		
@@ -112,10 +114,6 @@ module BrNfe
 		end
 		module Thema
 			module V1
-				module ResponsePaths
-					extend ActiveSupport::Autoload
-					autoload :ServicoConsultarNfseRpsResposta
-				end
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :CancelaNfse
@@ -131,8 +129,6 @@ module BrNfe
 			module V1
 				module ResponsePaths
 					extend ActiveSupport::Autoload
-					autoload :ServicoConsultarLoteRpsResposta
-					autoload :ServicoConsultarNfseRpsResposta
 					autoload :ServicoConsultarNfseResposta
 					autoload :ServicoConsultarSituacaoLoteRpsResposta
 					autoload :ServicoEnviarLoteRpsResposta
