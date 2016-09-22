@@ -16,14 +16,6 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal []
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:recepcionar_lote_rps_response, :return]
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'recepcionarLoteRps'
 	end
@@ -101,6 +93,7 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
 			response.status.must_equal :success
 			response.protocolo.must_equal '2916414'
 			response.data_recebimento.must_equal Time.parse('2016-08-15T14:55:01.271Z')
@@ -115,6 +108,7 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
 			response.protocolo.must_be_nil
 			response.data_recebimento.must_be_nil
 			response.numero_lote.must_be_nil

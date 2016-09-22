@@ -12,10 +12,6 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps_limitado }
 	end
 
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:recepcionar_lote_rps_limitado_response, :return]
-	end
-
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'recepcionarLoteRpsLimitado'
 	end

@@ -16,12 +16,17 @@ module BrNfe
 						'recepcionarLoteRpsLimitado'
 					end
 
-					# Caminho de hash através do body da resposta SOAP até encontrar
-					# o XML correspondente na qual contém as informações necessárias 
-					# para encontrar os valores para setar na resposta
-					#
-					def body_xml_path
-						[:recepcionar_lote_rps_limitado_response, :return]						
+				private
+					def set_response
+						@response = BrNfe::Service::Response::Build::RecepcaoLoteRps.new(
+							savon_response: @original_response, # Rsposta da requisição SOAP
+							keys_root_path: [],
+							body_xml_path:  [:recepcionar_lote_rps_limitado_response, :return],
+							xml_encode:     response_encoding, # Codificação do xml de resposta
+							message_code_key:     :codigo,
+							message_msg_key:      :mensagem,
+							message_solution_key: :correcao,
+						).response
 					end
 				end
 			end

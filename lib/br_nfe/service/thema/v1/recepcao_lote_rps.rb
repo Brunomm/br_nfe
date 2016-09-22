@@ -41,22 +41,21 @@ module BrNfe
 						sign_xml('<?xml version="1.0" encoding="ISO-8859-1"?>'+xml, sign_nodes)
 					end
 
-					# Não é utilizado o response_root_path pois
-					# esse órgão emissor trata o XML de forma diferente
-					# e para instanciar a resposta adequadamente é utilizado o 
-					# body_xml_path.
-					# A resposta contém outro XML dentro do Body.
-					#
-					def response_root_path
-						[]
+				private	
+					def response_class
+						BrNfe::Service::Response::RecepcaoLoteRps
 					end
 
-					# Caminho de hash através do body da resposta SOAP até encontrar
-					# o XML correspondente na qual contém as informações necessárias 
-					# para encontrar os valores para setar na resposta
-					#
-					def body_xml_path
-						[:recepcionar_lote_rps_response, :return]
+					def set_response
+						@response = BrNfe::Service::Response::Build::RecepcaoLoteRps.new(
+							savon_response: @original_response, # Rsposta da requisição SOAP
+							keys_root_path: [],
+							body_xml_path:  [:recepcionar_lote_rps_response, :return],
+							xml_encode:     response_encoding, # Codificação do xml de resposta
+							message_code_key:     :codigo,
+							message_msg_key:      :mensagem,
+							message_solution_key: :correcao,
+						).response
 					end
 				end
 			end

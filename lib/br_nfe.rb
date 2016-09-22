@@ -76,6 +76,7 @@ module BrNfe
 			autoload :ConsultaNfsPorRps
 			autoload :ConsultaNfse
 			autoload :ConsultaSituacaoLoteRps
+			autoload :RecepcaoLoteRps
 			
 			module Build
 				extend ActiveSupport::Autoload
@@ -86,6 +87,7 @@ module BrNfe
 				autoload :ConsultaNfsPorRps
 				autoload :ConsultaNfse
 				autoload :ConsultaSituacaoLoteRps
+				autoload :RecepcaoLoteRps
 			end
 		end
 		
@@ -131,10 +133,6 @@ module BrNfe
 		end
 		module Simpliss
 			module V1
-				module ResponsePaths
-					extend ActiveSupport::Autoload
-					autoload :ServicoEnviarLoteRpsResposta
-				end
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :CancelaNfse
