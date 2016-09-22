@@ -29,8 +29,7 @@ require "br_nfe/service/concerns/rules/consulta_nfse"
 require "br_nfe/service/concerns/rules/consulta_nfs_por_rps"
 require "br_nfe/service/concerns/rules/cancelamento_nfs"
 
-# Carrega os modules que contém os paths para buildar a resposta das requisições
-require 'br_nfe/service/response/paths/base.rb'
+# Carrega os modules que contém os paths para buildar a nfs
 require 'br_nfe/service/response/paths/v1/tc_nfse.rb'
 
 # Copyright (C) 2015 Bruno M. Mergen

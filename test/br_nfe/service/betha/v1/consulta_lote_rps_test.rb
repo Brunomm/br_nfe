@@ -55,9 +55,6 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 			response = subject.response
 
 			response.must_be_kind_of BrNfe::Service::Response::ConsultaLoteRps
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
-			response.numero_lote.must_be_nil
 			response.status.must_equal :falied
 			response.error_messages.size.must_equal 1
 			response.error_messages[0][:code].must_equal     'E10'

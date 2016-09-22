@@ -65,9 +65,6 @@ describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 			subject.request
 			response = subject.response
 
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
-			response.numero_lote.must_be_nil
 			response.status.must_equal :falied
 			response.error_messages.size.must_equal 1
 			response.error_messages[0][:code].must_equal 'E86'

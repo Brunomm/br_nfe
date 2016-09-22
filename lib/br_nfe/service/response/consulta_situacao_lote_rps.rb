@@ -3,6 +3,12 @@ module BrNfe
 		module Response
 			class ConsultaSituacaoLoteRps  < Default
 				
+				# Número do lote RPS
+				# Nesse atributo é setado o número do lote RPS
+				# quando o mesmo for retornado na resposta
+				#
+				# <b>Tipo de retorno: </b> _Integer_
+				#
 				attr_accessor :numero_lote
 
 				# Código da situação do lote RPS
