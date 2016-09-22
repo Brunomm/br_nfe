@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarSituacaoLoteRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws">
+      <ConsultarSituacaoLoteRpsResposta>
+        <ListaMensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E4</Codigo>
+            <Mensagem>N&#xFA;mero recebido.</Mensagem>
+            <Correcao>Confira se o lote foi enviado e informe o n&#xFA;mero correto do protocolo de recebimento.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarSituacaoLoteRpsResposta>
+    </ns2:ConsultarSituacaoLoteRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

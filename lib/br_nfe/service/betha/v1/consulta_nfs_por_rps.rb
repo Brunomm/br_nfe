@@ -4,8 +4,7 @@ module BrNfe
 			module V1
 				class ConsultaNfsPorRps < BrNfe::Service::Betha::V1::Gateway
 					include BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps
-					include BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarNfseRpsResposta
-
+					
 					def wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarNfsePorRps?wsdl"
 					end

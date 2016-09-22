@@ -8,15 +8,9 @@ module BrNfe
 					#######################   CAMINHOS PARA ENCONTRAR OS VALORES NA RESPOSTA DA REQUISIÇÃO   #####################
 						# o numero do lote
 						attr_accessor :lot_number_path
-						def lot_number_path
-							@lot_number_path ||= [:consultar_situacao_lote_rps_resposta, :numero_lote] 
-						end
-
+						
 						# a situação do lote rps
 						attr_accessor :situation_path
-						def situation_path
-							@situation_path ||= [:consultar_situacao_lote_rps_resposta, :situacao] 
-						end
 						
 						attr_accessor :situation_key_values
 						def situation_key_values
@@ -26,6 +20,14 @@ module BrNfe
 								'3' =>  :error,      # Processado com Erro
 								'4' =>  :success,    # Processado com Sucesso
 							}
+						end
+
+						def default_values
+							super.merge({
+								message_errors_path: [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno],
+								lot_number_path:     [:consultar_situacao_lote_rps_resposta, :numero_lote],
+								situation_path:      [:consultar_situacao_lote_rps_resposta, :situacao],
+							})
 						end
 					#######################   FIM DA DEFINIÇÃO DOS CAMINHOS   ############################
 					######################################################################################

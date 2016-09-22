@@ -3,8 +3,7 @@ module BrNfe
 		module Betha
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Betha::V1::Gateway
-					include BrNfe::Service::Betha::V1::ResponsePaths::ServicoConsultarLoteRpsResposta
-
+					
 					attr_accessor :protocolo
 
 					validates :protocolo, presence: true
