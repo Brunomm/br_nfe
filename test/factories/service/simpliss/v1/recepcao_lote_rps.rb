@@ -1,6 +1,6 @@
 FactoryGirl.define do
 	factory :service_simpliss_v1_recepcao_lote_rps, class:  BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
-		emitente  { FactoryGirl.build(:emitente) }
+		emitente  { FactoryGirl.build(:service_emitente) }
 		numero_lote_rps '123'
 		operacao        '1'
 		certificate_pkcs12_password 'associacao'

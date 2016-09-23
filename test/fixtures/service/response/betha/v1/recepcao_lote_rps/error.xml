@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns3:EnviarLoteRpsEnvioResponse xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://www.betha.com.br/e-nota-contribuinte-ws">
+      <EnviarLoteRpsResposta>
+        <ListaMensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E44</Codigo>
+            <Mensagem>CNPJ do prestador inv&#xE1;lido</Mensagem>
+            <Correcao>Informe o n&#xFA;mero do CNPJ correto do prestador.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </EnviarLoteRpsResposta>
+    </ns3:EnviarLoteRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

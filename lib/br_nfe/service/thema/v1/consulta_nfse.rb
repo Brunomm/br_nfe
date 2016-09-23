@@ -4,8 +4,7 @@ module BrNfe
 			module V1
 				class ConsultaNfse < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::ConsultaNfse
-					include BrNfe::Service::Response::Paths::V1::ServicoConsultarNfseResposta
-
+					
 					def wsdl
 						get_wsdl_by_city[:consult]
 					end
@@ -18,28 +17,29 @@ module BrNfe
 						render_xml 'servico_consultar_nfse_envio'
 					end
 
-					# Não é utilizado o response_root_path pois
-					# esse órgão emissor trata o XML de forma diferente
-					# e para instanciar a resposta adequadamente é utilizado o 
-					# body_xml_path.
-					# A resposta contém outro XML dentro do Body.
-					#
-					def response_root_path
-						[]
-					end
-
-					# Caminho de hash através do body da resposta SOAP até encontrar
-					# o XML correspondente na qual contém as informações necessárias 
-					# para encontrar os valores para setar na resposta
-					#
-					def body_xml_path
-						[:consultar_nfse_response, :return]
-					end
-
 					# Tag root da requisição
 					#
 					def soap_body_root_tag
 						'consultarNfse'
+					end
+				private
+
+					def set_response
+						@response = BrNfe::Service::Response::Build::ConsultaNfse.new(
+							savon_response: @original_response, # Rsposta da requisição SOAP
+							keys_root_path: [], # Caminho inicial da resposta / Chave pai principal
+							body_xml_path:  [:consultar_nfse_response, :return],
+							xml_encode:     response_encoding, # Codificação do xml de resposta
+							
+							#//Envelope/Body/ConsultarLoteRpsEnvioResponse/ConsultarLoteRpsResposta
+							nfe_xml_path:                '//*',
+							
+							invoices_path:               [:consultar_nfse_resposta, :lista_nfse, :comp_nfse],
+							message_errors_path:         [:consultar_nfse_resposta, :lista_mensagem_retorno, :mensagem_retorno]
+						).response
+					end
+					def response_class
+						BrNfe::Service::Response::ConsultaNfse
 					end
 				end
 			end

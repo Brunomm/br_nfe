@@ -34,18 +34,18 @@ module ResponsePathTest
 	def response_invoice_cnae_code_path; :response_invoice_cnae_code_path end
 	def response_invoice_description_path; :response_invoice_description_path end
 	def response_invoice_codigo_municipio_path; :response_invoice_codigo_municipio_path end
-	def response_invoice_total_services_path; :response_invoice_total_services_path end
-	def response_invoice_deductions_path; :response_invoice_deductions_path end
+	def response_invoice_valor_total_servicos_path; :response_invoice_valor_total_servicos_path end
+	def response_invoice_deducoes_path; :response_invoice_deducoes_path end
 	def response_invoice_valor_pis_path; :response_invoice_valor_pis_path end
 	def response_invoice_valor_cofins_path; :response_invoice_valor_cofins_path end
 	def response_invoice_valor_inss_path; :response_invoice_valor_inss_path end
 	def response_invoice_valor_ir_path; :response_invoice_valor_ir_path end
 	def response_invoice_valor_csll_path; :response_invoice_valor_csll_path end
-	def response_invoice_iss_retained_path; :response_invoice_iss_retained_path end
+	def response_invoice_iss_retido_path; :response_invoice_iss_retido_path end
 	def response_invoice_outras_retencoes_path; :response_invoice_outras_retencoes_path end
 	def response_invoice_total_iss_path; :response_invoice_total_iss_path end
-	def response_invoice_base_calculation_path; :response_invoice_base_calculation_path end
-	def response_invoice_iss_tax_rate_path; :response_invoice_iss_tax_rate_path end
+	def response_invoice_base_calculo_path; :response_invoice_base_calculo_path end
+	def response_invoice_iss_aliquota_path; :response_invoice_iss_aliquota_path end
 	def response_invoice_valor_liquido_path; :response_invoice_valor_liquido_path end
 	def response_invoice_desconto_condicionado_path; :response_invoice_desconto_condicionado_path end
 	def response_invoice_desconto_incondicionado_path; :response_invoice_desconto_incondicionado_path end
@@ -97,8 +97,8 @@ describe BrNfe::Service::Base do
 	subject { FactoryGirl.build(:br_nfe_servico_base) }
 
 	describe "Included modules" do
-		it "deve ter o module BrNfe::Helper::ValuesTs::ServiceV1 incluso" do
-			subject.class.included_modules.must_include(BrNfe::Helper::ValuesTs::ServiceV1)
+		it "deve ter o module BrNfe::Service::Concerns::ValuesTs::ServiceV1 incluso" do
+			subject.class.included_modules.must_include(BrNfe::Service::Concerns::ValuesTs::ServiceV1)
 		end
 	end
 	
@@ -125,6 +125,26 @@ describe BrNfe::Service::Base do
 	describe "#body_xml_path" do
 		it "deve ter um array vazio por padrão" do
 			subject.body_xml_path.must_equal([])
+		end
+	end
+
+	describe "#emitente" do
+		class OtherClassEmitente < BrNfe::ActiveModelBase
+		end
+		it "deve ter incluso o module HaveEmitente" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
+		end
+		it "o método #emitente_class deve ter por padrão a class BrNfe::Service::Emitente" do
+			subject.emitente.must_be_kind_of BrNfe::Service::Emitente
+			subject.send(:emitente_class).must_equal BrNfe::Service::Emitente
+		end
+		it "a class do emitente pode ser modificada através da configuração emitente_service_class" do
+			BrNfe.emitente_service_class = OtherClassEmitente
+			subject.emitente.must_be_kind_of OtherClassEmitente
+			subject.send(:emitente_class).must_equal OtherClassEmitente
+
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.emitente_service_class = BrNfe::Service::Emitente
 		end
 	end
 
@@ -160,13 +180,14 @@ describe BrNfe::Service::Base do
 
 		it "deve fazer a requisição para o WS passando a resposta para o metodo set_response" do
 			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
-			subject.expects(:set_response).with(:savon_response).returns(:result)
+			subject.expects(:set_response).returns(:result)
 			subject.request.must_equal :result
+			subject.instance_variable_get(:@original_response).must_equal :savon_response
 		end
 
 		it "Se ocorrer erro Savon::SOAPFault deve ser tratado e setar o status da resposta com :soap_error" do
-			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).returns(:savon_response)
-			subject.expects(:set_response).with(:savon_response).raises(soap_fault)
+			subject.client_wsdl.expects(:call).with(:operation, xml: soap_xml).raises(soap_fault)
+			subject.expects(:set_response).never
 			
 			subject.request
 			subject.response.error_messages.must_equal(['Message Error'])
@@ -196,17 +217,7 @@ describe BrNfe::Service::Base do
 	end
 
 	describe "#set_response" do
-		let(:build_response) { BrNfe::Response::Service::BuildResponse.new() } 
-		it "Deve setar a variavel @original_response com a resposta original do savon" do
-			subject.class.send(:include, ResponsePathTest)
-			BrNfe::Response::Service::BuildResponse.any_instance.stubs(:response).returns(:response)
-			subject.stubs(:response_root_path).returns(:response_root_path)
-			subject.stubs(:nfse_xml_path).returns(:nfse_xml_path)
-			subject.stubs(:body_xml_path).returns(:body_xml_path)
-
-			subject.set_response(:original).must_equal :response
-			subject.instance_variable_get(:@original_response).must_equal(:original)
-		end
+		let(:build_response) { BrNfe::Service::Response::Build::Base.new() } 
 		it "deve instanciar o build_response e retornar a resposta" do
 			build_response
 			subject.class.send(:include, ResponsePathTest)
@@ -214,7 +225,7 @@ describe BrNfe::Service::Base do
 			subject.expects(:nfse_xml_path).returns(:nfse_xml_path)
 			subject.expects(:body_xml_path).returns(:body_xml_path)
 			subject.expects(:response_encoding).returns('ENCODE')
-			BrNfe::Response::Service::BuildResponse.expects(:new).with({
+			BrNfe::Service::Response::Build::Base.expects(:new).with({
 				savon_response: :savon_response, 
 				keys_root_path: :response_root_path,
 				nfe_xml_path:   :nfse_xml_path, 
@@ -253,18 +264,18 @@ describe BrNfe::Service::Base do
 				invoice_cnae_code_path:                  :response_invoice_cnae_code_path,
 				invoice_description_path:                :response_invoice_description_path,
 				invoice_codigo_municipio_path:           :response_invoice_codigo_municipio_path,
-				invoice_total_services_path:             :response_invoice_total_services_path,
-				invoice_deductions_path:                 :response_invoice_deductions_path,
+				invoice_valor_total_servicos_path:             :response_invoice_valor_total_servicos_path,
+				invoice_deducoes_path:                 :response_invoice_deducoes_path,
 				invoice_valor_pis_path:                  :response_invoice_valor_pis_path,
 				invoice_valor_cofins_path:               :response_invoice_valor_cofins_path,
 				invoice_valor_inss_path:                 :response_invoice_valor_inss_path,
 				invoice_valor_ir_path:                   :response_invoice_valor_ir_path,
 				invoice_valor_csll_path:                 :response_invoice_valor_csll_path,
-				invoice_iss_retained_path:               :response_invoice_iss_retained_path,
+				invoice_iss_retido_path:               :response_invoice_iss_retido_path,
 				invoice_outras_retencoes_path:           :response_invoice_outras_retencoes_path,
 				invoice_total_iss_path:                  :response_invoice_total_iss_path,
-				invoice_base_calculation_path:           :response_invoice_base_calculation_path,
-				invoice_iss_tax_rate_path:               :response_invoice_iss_tax_rate_path,
+				invoice_base_calculo_path:           :response_invoice_base_calculo_path,
+				invoice_iss_aliquota_path:               :response_invoice_iss_aliquota_path,
 				invoice_valor_liquido_path:              :response_invoice_valor_liquido_path,
 				invoice_desconto_condicionado_path:      :response_invoice_desconto_condicionado_path,
 				invoice_desconto_incondicionado_path:    :response_invoice_desconto_incondicionado_path,
@@ -313,21 +324,10 @@ describe BrNfe::Service::Base do
 			}).returns(build_response)
 			build_response.expects(:response).returns('resposta')
 
-			subject.set_response(:savon_response).must_equal 'resposta'
+			subject.instance_variable_set(:@original_response, :savon_response)
+
+			subject.send(:set_response).must_equal 'resposta'
 			subject.instance_variable_get(:@response).must_equal('resposta')
 		end
-	end
-
-	describe "#ibge_code_of_issuer_city" do
-		it "se não setar um valor deve pegar o valor do codigo IBGE do endereço do emitente" do
-			subject.emitente.endereco.codigo_municipio = '12345678'
-			subject.ibge_code_of_issuer_city = nil
-			subject.ibge_code_of_issuer_city.must_equal '12345678'
-		end
-		it "se setar o valor em ibge_code_of_issuer_city não deve pegar do endereço do emitente" do
-			subject.emitente.endereco.codigo_municipio = '12345678'
-			subject.ibge_code_of_issuer_city = 78978945
-			subject.ibge_code_of_issuer_city.must_equal '78978945'
-		end
-	end
+	end	
 end

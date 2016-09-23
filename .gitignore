@@ -3,3 +3,4 @@ coverage/
 **/*.subl*
 **/*.~lock.*
 dev_load_data.rb
+br_nfe*.gem

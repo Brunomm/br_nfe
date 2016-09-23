@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:br_nfe_servico_betha_recepcao_lote_rps, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente)   }
+	let(:emitente) { FactoryGirl.build(:service_emitente)   }
 	let(:rps_1)    { FactoryGirl.build(:br_nfe_rps, valor_pis: '', valor_cofins: nil, valor_inss: nil, valor_ir: nil, valor_csll: nil) } 
 	let(:rps_2)    { FactoryGirl.build(:br_nfe_rps, :completo) } 
 
@@ -44,10 +44,6 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 		it { subject.method_wsdl.must_equal :enviar_lote_rps_envio }
 	end
 
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:enviar_lote_rps_envio_response]
-	end
-
 	describe "Validação do XML através do XSD" do
 		let(:rps_basico) { FactoryGirl.build(:br_nfe_rps)              } 
 		let(:rps_completo) { FactoryGirl.build(:br_nfe_rps, :completo) } 
@@ -76,5 +72,55 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 		end
 	end
 
+	it "Deve adicionar a tag InscricaoMunicipal no XML" do
+		subject.lote_rps = [rps_1]
+		# Esse test foi feito devido a sobrescrita do XML _tc_identificacao_prestador
+		subject.emitente.inscricao_municipal = '12345'
+		subject.emitente.cpf_cnpj = '12345678901234'
+		content_xml = Nori.new.parse(subject.content_xml).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
+		prestador =  content_xml[:'ns1:enviar_lote_rps_envio'][:lote_rps][:lista_rps][:rps][:inf_rps][:prestador]
+		
+		prestador[:cnpj].must_equal '12345678901234'
+		prestador[:inscricao_municipal].must_equal '12345'
+	end
+
+	describe "#request and set response" do
+		before { savon.mock!   }
+		after  { savon.unmock! }
+
+		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/recepcao_lote_rps/success.xml')
+			
+			savon.expects(:enviar_lote_rps_envio).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
+			response.protocolo.must_equal '925721130413341'
+			response.data_recebimento.must_equal Time.parse('2016-09-22T18:11:20.310-03:00')
+			response.numero_lote.must_equal '1'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
+
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/recepcao_lote_rps/error.xml')
+			
+			savon.expects(:enviar_lote_rps_envio).returns(fixture)
+			subject.request
+			response = subject.response
+
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
+			response.protocolo.must_be_nil
+			response.data_recebimento.must_be_nil
+			response.numero_lote.must_be_nil
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal 'E44'
+			response.error_messages[0][:message].must_equal 'CNPJ do prestador inválido'
+			response.error_messages[0][:solution].must_equal 'Informe o número do CNPJ correto do prestador.'
+			response.successful_request?.must_equal true
+		end
+	end
 
 end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 	subject             { FactoryGirl.build(:service_simpliss_v1_cancela_nfse, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Simpliss::V1::Base }
@@ -14,10 +14,6 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :cancelar_nfse }
-	end
-
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:cancelar_nfse_response]
 	end
 
 	it "#body_xml_path" do
@@ -62,7 +58,11 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 			subject.request
 			response = subject.response
 
-			response.cancelation_date_time.must_equal Time.parse('2016-07-29T09:38:24.4803985-03:00')
+			response.must_be_kind_of BrNfe::Service::Response::Cancelamento
+			response.data_hora_cancelamento.must_equal Time.parse('2016-07-29T09:38:24.4803985-03:00')
+			response.codigo_cancelamento.must_equal '2'
+			response.numero_nfs.must_equal '3'
+
 			response.status.must_equal :success
 			response.successful_request?.must_equal true
 		end
@@ -74,10 +74,7 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 			subject.request
 			response = subject.response
 
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
-			response.numero_lote.must_be_nil
-			response.cancelation_date_time.must_be_nil
+			response.data_hora_cancelamento.must_be_nil
 			
 			response.status.must_equal :falied
 

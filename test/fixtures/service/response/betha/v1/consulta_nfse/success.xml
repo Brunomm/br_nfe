@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarNfseEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarNfseResposta>
+        <ListaNfse>
+          <ComplNfse>
+            <Nfse>
+              <InfNfse>
+                <Numero>55</Numero>
+                <CodigoVerificacao>F0O08ZQ2M</CodigoVerificacao>
+                <DataEmissao>2013-12-17T21:39:57.630-02:00</DataEmissao>
+                <IdentificacaoRps>
+                  <Numero>22</Numero>
+                  <Serie>SN</Serie>
+                  <Tipo>1</Tipo>
+                </IdentificacaoRps>
+                <DataEmissaoRps>2013-12-17T00:00:00-02:00</DataEmissaoRps>
+                <NaturezaOperacao>1</NaturezaOperacao>
+                <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                <Competencia>2013-12-01T00:00:00-02:00</Competencia>
+                <OutrasInformacoes>http://e-gov.betha.com.br/e-nota/visualizarnotaeletronica?id=tQ12313131==</OutrasInformacoes>
+                <Servico>
+                  <Valores>
+                    <ValorServicos>1600</ValorServicos>
+                    <ValorDeducoes>0</ValorDeducoes>
+                    <ValorPis>0.00</ValorPis>
+                    <ValorCofins>0.00</ValorCofins>
+                    <ValorInss>0.00</ValorInss>
+                    <ValorIr>0.00</ValorIr>
+                    <ValorCsll>0.00</ValorCsll>
+                    <IssRetido>2</IssRetido>
+                    <ValorIss>0</ValorIss>
+                    <BaseCalculo>1600</BaseCalculo>
+                    <Aliquota>2</Aliquota>
+                    <ValorLiquidoNfse>1600</ValorLiquidoNfse>
+                    <DescontoCondicionado>0</DescontoCondicionado>
+                    <DescontoIncondicionado>0</DescontoIncondicionado>
+                  </Valores>
+                  <ItemListaServico>0102</ItemListaServico>
+                  <CodigoCnae>6202300</CodigoCnae>
+                  <Discriminacao>Descri&#xE7;&#xE3;o: 1 Video Institucional. 1.600,00</Discriminacao>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                </Servico>
+                <PrestadorServico>
+                  <IdentificacaoPrestador>
+                    <Cnpj>11111111111111</Cnpj>
+                    <InscricaoMunicipal>42615-6</InscricaoMunicipal>
+                  </IdentificacaoPrestador>
+                  <RazaoSocial>RAZAO SOCIAL EMITENTE LTDA - ME</RazaoSocial>
+                  <NomeFantasia>NOME FANTASIA EMITENTE</NomeFantasia>
+                  <Endereco>
+                    <Endereco>R AFONSO PENA</Endereco>
+                    <Numero>420 D</Numero>
+                    <Bairro>SAO CRISTOVAO</Bairro>
+                    <CodigoMunicipio>4204202</CodigoMunicipio>
+                    <Uf>SC</Uf>
+                    <Cep>89804111</Cep>
+                  </Endereco>
+                  <Contato>
+                    <Telefone>4934561122</Telefone>
+                    <Email>admin@emitente.com.br</Email>
+                  </Contato>
+                </PrestadorServico>
+                <TomadorServico>
+                  <IdentificacaoTomador>
+                    <CpfCnpj>
+                      <Cnpj>22222222222222</Cnpj>
+                    </CpfCnpj>
+                  </IdentificacaoTomador>
+                  <RazaoSocial>TOMADOR SERVICO LTDA - EPP</RazaoSocial>
+                  <Endereco>
+                    <Endereco>Rua Rua Doutor Jose de Miranda Ramos</Endereco>
+                    <Numero>10</Numero>
+                    <Complemento>SALA X</Complemento>
+                    <Bairro>Centro</Bairro>
+                    <CodigoMunicipio>4219507</CodigoMunicipio>
+                    <Uf>SC</Uf>
+                    <Cep>89820000</Cep>
+                  </Endereco>
+                  <Contato>
+                    <Telefone>66546546</Telefone>
+                    <Email>eduardo@cliente.com.br</Email>
+                  </Contato>
+                </TomadorServico>
+                <OrgaoGerador>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                </OrgaoGerador>
+                <ConstrucaoCivil/>
+              </InfNfse>
+            </Nfse>
+            <NfseCancelamento>
+              <Confirmacao>
+                <Pedido>
+                  <InfPedidoCancelamento/>
+                  <ns3:Signature/>
+                </Pedido>
+                <InfConfirmacaoCancelamento>
+                  <Sucesso>true</Sucesso>
+                  <DataHora>2016-09-21T17:33:45.638-03:00</DataHora>
+                </InfConfirmacaoCancelamento>
+              </Confirmacao>
+            </NfseCancelamento>
+            <NfseSubstituicao>
+              <SubstituicaoNfse/>
+            </NfseSubstituicao>
+          </ComplNfse>
+        </ListaNfse>
+        <ListaMensagemRetorno/>
+      </ConsultarNfseResposta>
+    </ns2:ConsultarNfseEnvioResponse>
+  </env:Body>
+</env:Envelope>

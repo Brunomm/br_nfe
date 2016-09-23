@@ -1,7 +1,7 @@
 module BrNfe
 	module Service
 		class Base < BrNfe::Base
-			include BrNfe::Helper::ValuesTs::ServiceV1
+			include BrNfe::Service::Concerns::ValuesTs::ServiceV1
 
 			# Alguns orgãos emissores necessitam que seja
 			# passado junto ao XML o Usuário e Senha do acesso do sistema
@@ -9,12 +9,6 @@ module BrNfe
 			#
 			attr_accessor :username
 			attr_accessor :password
-			
-			# Código IBGE da cidade emitente
-			attr_accessor :ibge_code_of_issuer_city
-			def ibge_code_of_issuer_city
-				"#{@ibge_code_of_issuer_city ||= emitente.endereco.codigo_municipio}"
-			end
 			
 			# Declaro que o método `render_xml` irá verificar os arquivos também presentes
 			# no diretório especificado
@@ -43,19 +37,29 @@ module BrNfe
 			end
 
 			def request
-				set_response( client_wsdl.call(method_wsdl, xml: soap_xml) )
+				@original_response = client_wsdl.call(method_wsdl, xml: soap_xml)
+				set_response
 			rescue Savon::SOAPFault => error
-				return @response = BrNfe::Response::Service::Default.new(status: :soap_error, error_messages: [error.message])
+				return @response = response_class.new(status: :soap_error, error_messages: [error.message])
 			rescue Savon::HTTPError => error
-				return @response = BrNfe::Response::Service::Default.new(status: :http_error, error_messages: [error.message])
+				return @response = response_class.new(status: :http_error, error_messages: [error.message])
 			rescue Exception => error
-				return @response = BrNfe::Response::Service::Default.new(status: :unknown_error, error_messages: [error.message])
+				return @response = response_class.new(status: :unknown_error, error_messages: [error.message])
 			end
 
-			def set_response(resp)
-				@original_response = resp
-				@response = BrNfe::Response::Service::BuildResponse.new(
-					savon_response: resp, # Rsposta da requisição SOAP
+		private
+
+			def emitente_class
+				BrNfe.emitente_service_class
+			end
+
+			def response_class
+				BrNfe::Service::Response::Default
+			end
+
+			def set_response
+				@response = BrNfe::Service::Response::Build::Base.new(
+					savon_response: @original_response, # Rsposta da requisição SOAP
 					keys_root_path: response_root_path, # Caminho inicial da resposta / Chave pai principal
 					nfe_xml_path:   nfse_xml_path, # Caminho para encontrar a NF dentro do XML
 					body_xml_path:  body_xml_path,
@@ -93,18 +97,18 @@ module BrNfe
 					invoice_cnae_code_path:                              response_invoice_cnae_code_path,
 					invoice_description_path:                            response_invoice_description_path,
 					invoice_codigo_municipio_path:                       response_invoice_codigo_municipio_path,
-					invoice_total_services_path:                         response_invoice_total_services_path,
-					invoice_deductions_path:                             response_invoice_deductions_path,
+					invoice_valor_total_servicos_path:                         response_invoice_valor_total_servicos_path,
+					invoice_deducoes_path:                             response_invoice_deducoes_path,
 					invoice_valor_pis_path:                              response_invoice_valor_pis_path,
 					invoice_valor_cofins_path:                           response_invoice_valor_cofins_path,
 					invoice_valor_inss_path:                             response_invoice_valor_inss_path,
 					invoice_valor_ir_path:                               response_invoice_valor_ir_path,
 					invoice_valor_csll_path:                             response_invoice_valor_csll_path,
-					invoice_iss_retained_path:                           response_invoice_iss_retained_path,
+					invoice_iss_retido_path:                           response_invoice_iss_retido_path,
 					invoice_outras_retencoes_path:                       response_invoice_outras_retencoes_path,
 					invoice_total_iss_path:                              response_invoice_total_iss_path,
-					invoice_base_calculation_path:                       response_invoice_base_calculation_path,
-					invoice_iss_tax_rate_path:                           response_invoice_iss_tax_rate_path,
+					invoice_base_calculo_path:                       response_invoice_base_calculo_path,
+					invoice_iss_aliquota_path:                           response_invoice_iss_aliquota_path,
 					invoice_valor_liquido_path:                          response_invoice_valor_liquido_path,
 					invoice_desconto_condicionado_path:                  response_invoice_desconto_condicionado_path,
 					invoice_desconto_incondicionado_path:                response_invoice_desconto_incondicionado_path,

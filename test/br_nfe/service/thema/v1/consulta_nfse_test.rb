@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::ConsultaNfse do
 	subject             { FactoryGirl.build(:service_thema_v1_consulta_nfse, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:rps)           { subject.rps } 
 
 	describe "superclass" do
@@ -15,13 +15,6 @@ describe BrNfe::Service::Thema::V1::ConsultaNfse do
 
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :consultar_nfse }
-	end
-
-	it "#response_root_path" do
-		subject.response_root_path.must_equal []
-	end
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:consultar_nfse_response, :return]
 	end
 
 	it "#soap_body_root_tag" do
@@ -128,13 +121,13 @@ describe BrNfe::Service::Thema::V1::ConsultaNfse do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal 'SERVICO DE COMINICACAO WEB DIGITAL 1.700,00'
 			nf.codigo_municipio.must_equal '4204202'
-			nf.total_services.must_equal '10'
-			nf.iss_retained.must_equal '2'
+			nf.valor_total_servicos.must_equal '10'
+			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0.2'
-			nf.base_calculation.must_equal '10'
-			nf.iss_tax_rate.must_equal '0.035'
+			nf.base_calculo.must_equal '10'
+			nf.iss_aliquota.must_equal '0.035'
 			nf.valor_liquido.must_equal '10'
-			nf.deductions.must_equal '0'
+			nf.deducoes.must_equal '0'
 			nf.valor_pis.must_equal '0'
 			nf.valor_cofins.must_equal '0'
 			nf.valor_inss.must_equal '0'
@@ -196,13 +189,13 @@ describe BrNfe::Service::Thema::V1::ConsultaNfse do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
 			nf.codigo_municipio.must_equal '4204202'
-			nf.total_services.must_equal '1700'
-			nf.iss_retained.must_equal '2'
+			nf.valor_total_servicos.must_equal '1700'
+			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '33.72'
-			nf.base_calculation.must_equal '1685.88'
-			nf.iss_tax_rate.must_equal '0.02'
+			nf.base_calculo.must_equal '1685.88'
+			nf.iss_aliquota.must_equal '0.02'
 			nf.valor_liquido.must_equal '1663.02'
-			nf.deductions.must_equal '7'
+			nf.deducoes.must_equal '7'
 			nf.valor_pis.must_equal '1.12'
 			nf.valor_cofins.must_equal '2.12'
 			nf.valor_inss.must_equal '3.12'

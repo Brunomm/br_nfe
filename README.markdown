@@ -36,8 +36,8 @@ Foi criado várias classes para auxiliar na montagem dos dados para emissão da 
 
 ```ruby
 BrNfe::Endereco
-BrNfe::Emitente
-BrNfe::Destinatario
+BrNfe::Service::Emitente
+BrNfe::Service::Destinatario
 BrNfe::CondicaoPagamento
 BrNfe::Service::Intermediario
 BrNfe::Service::Rps
@@ -63,7 +63,7 @@ A seguir um exemplo de cada  objeto com valores:
 ***
 **Emitente:**
 ```ruby
-@emitente = BrNfe::Emitente.new({
+@emitente = BrNfe::Service::Emitente.new({
 	cnpj: '11.111.111/1111-00',
 	inscricao_municipal: '66165-4',
 	razao_social: 'RAZÃO SOCIAL',
@@ -81,7 +81,7 @@ A seguir um exemplo de cada  objeto com valores:
  Perceba que para definir o endereço do emitente, foi setado diretamente o objeto `@endereco`, porém, também é possível setar o objeto endereço em forma de `block` ou `hash` (isso vale para todas as classes), por exemplo:
 ```ruby
 # Hash
-@emitente = BrNfe::Emitente.new({
+@emitente = BrNfe::Service::Emitente.new({
 	cnpj: '11.111.111/1111-00',
 	...
 	endereco: {
@@ -92,7 +92,7 @@ A seguir um exemplo de cada  objeto com valores:
 	}
 })
 # Block
-@emitente = BrNfe::Emitente.new do |emitente|
+@emitente = BrNfe::Service::Emitente.new do |emitente|
 	emitente.cnpj = '11.111.111/1111-00'
 	...
 	emitente.endereco do |endereco|
@@ -106,14 +106,14 @@ end
 
 Lembrando que por padrão, sempre que for chamar `@emitente.endereco` irá retornar um objeto da class `BrNfe::Endereco`, mesmo que não seja setado valor algum, ex:
 ```ruby
-@emitente = BrNfe::Emitente.new
+@emitente = BrNfe::Service::Emitente.new
 @emitente.endereco
 # => #<BrNfe::Endereco:0x000000022669a0 @codigo_pais="1058",  ....>
 ```
 ***
 **Destinatário**
 ```ruby
-@destinatario = BrNfe::Destinatario.new({
+@destinatario = BrNfe::Service::Destinatario.new({
 	cpf_cnpj: "111.111.111-00",
 	inscricao_municipal: "",
 	inscricao_estadual:  "",
@@ -151,7 +151,7 @@ end
 **RPS**
 ```ruby
 @rps = BrNfe::Service::Rps.new do |rps|
-	rps.destinatario  = { ... } # Attributos da class BrNfe::Destinatario
+	rps.destinatario  = { ... } # Attributos da class BrNfe::Service::Destinatario
 	rps.intermediario do |intermediario|
 		.... # Dados da class BrNfe::Service::Intermediario
 	end
@@ -224,9 +224,9 @@ BrNfe.setup do |config|
 	# config.endereco_class = ClasseCustomizadaEndereco
 	
 	config.endereco_class = BrNfe::Endereco
-	config.emitente_class = BrNfe::Emitente
-	config.destinatario_class = BrNfe::Destinatario
-	config.intermediario_class = BrNfe::Service::Intermediario
+	config.emitente_service_class = BrNfe::Service::Emitente
+	config.destinatario_service_class = BrNfe::Service::Destinatario
+	config.intermediario_service_class = BrNfe::Service::Intermediario
 	config.condicao_pagamento_class = BrNfe::CondicaoPagamento
 	config.rps_class BrNfe::Service::Rps
 	

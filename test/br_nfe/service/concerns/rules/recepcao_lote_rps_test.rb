@@ -6,7 +6,7 @@ end
 
 describe BrNfe::Service::Concerns::Rules::RecepcaoLoteRps do
 	subject { RuleRecepcaoLoteRpsTest.new(numero_lote_rps: 545, operacao: '1', emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente, endereco: endereco) }
+	let(:emitente) { FactoryGirl.build(:service_emitente, endereco: endereco) }
 	let(:endereco) { FactoryGirl.build(:endereco) } 
 	let(:rps) { FactoryGirl.build(:br_nfe_rps) } 
 

@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 	subject             { FactoryGirl.build(:service_thema_v1_consulta_situacao_lote_rps, emitente: emitente) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	it { must validate_presence_of(:protocolo) }
 
@@ -12,14 +12,6 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :consultar_situacao_lote_rps }
-	end
-
-	it "#response_root_path" do
-		subject.response_root_path.must_equal []
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:consultar_situacao_lote_rps_response, :return]
 	end
 
 	it "#soap_body_root_tag" do
@@ -72,6 +64,7 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :success, "#{response.inspect}"
 			response.numero_lote.must_equal '11'
 			response.status.must_equal :success
@@ -84,6 +77,7 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :error
 			response.numero_lote.must_equal '11'
 			response.status.must_equal :success
@@ -96,6 +90,7 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :unprocessed
 			response.numero_lote.must_equal '11'
 			response.status.must_equal :success
@@ -108,6 +103,7 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
 			response.situation.must_equal :unreceived
 			response.numero_lote.must_equal '0'
 			response.status.must_equal :falied
@@ -126,8 +122,8 @@ describe BrNfe::Service::Thema::V1::ConsultaSituacaoLoteRps do
 			subject.request
 			response = subject.response
 
-			response.protocolo.must_be_nil
-			response.data_recebimento.must_be_nil
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.situation.must_equal :error
 			response.numero_lote.must_be_nil
 			response.status.must_equal :falied
 			response.error_messages.size.must_equal 1

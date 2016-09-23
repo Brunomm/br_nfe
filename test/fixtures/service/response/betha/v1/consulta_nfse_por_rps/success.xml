@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarNfseRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarNfseRpsResposta>
+        <ComplNfse>
+          <Nfse>
+            <InfNfse>
+              <Numero>3186</Numero>
+              <CodigoVerificacao>CKT4JFKQT</CodigoVerificacao>
+              <DataEmissao>2016-09-08T10:29:13.330-03:00</DataEmissao>
+              <IdentificacaoRps>
+                <Numero>3148</Numero>
+                <Serie>SN</Serie>
+                <Tipo>1</Tipo>
+              </IdentificacaoRps>
+              <DataEmissaoRps>2016-09-08T10:29:00-03:00</DataEmissaoRps>
+              <NaturezaOperacao>1</NaturezaOperacao>
+              <OptanteSimplesNacional>1</OptanteSimplesNacional>
+              <Competencia>2016-09-01T00:00:00-03:00</Competencia>
+              <OutrasInformacoes>http://e-gov.betha.com.br/e-nota/visualizarnotaeletronica?link=45646546</OutrasInformacoes>
+              <Servico>
+                <Valores>
+                  <ValorServicos>49</ValorServicos>
+                  <ValorDeducoes>0</ValorDeducoes>
+                  <IssRetido>2</IssRetido>
+                  <ValorIss>0</ValorIss>
+                  <BaseCalculo>49</BaseCalculo>
+                  <Aliquota>2.0000</Aliquota>
+                  <ValorLiquidoNfse>49</ValorLiquidoNfse>
+                  <DescontoCondicionado>0</DescontoCondicionado>
+                  <DescontoIncondicionado>0</DescontoIncondicionado>
+                </Valores>
+                <ItemListaServico>0107</ItemListaServico>
+                <CodigoCnae>6202300</CodigoCnae>
+                <Discriminacao>Descri&#xE7;&#xE3;o: 1 MENSALIDADE WEBSITE: R$ 49,00</Discriminacao>
+                <CodigoMunicipio>4204202</CodigoMunicipio>
+              </Servico>
+              <PrestadorServico>
+                <IdentificacaoPrestador>
+                  <Cnpj>12345678901234</Cnpj>
+                  <InscricaoMunicipal>42615-6</InscricaoMunicipal>
+                </IdentificacaoPrestador>
+                <RazaoSocial>RAZAO SOCIAL EMITENTE LTDA EPP</RazaoSocial>
+                <NomeFantasia>NOME FANTASIA EMITENTE</NomeFantasia>
+                <Endereco>
+                  <Endereco>R AFONSO PENA</Endereco>
+                  <Numero>420 D</Numero>
+                  <Bairro>SAO CRISTOVAO</Bairro>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                  <Cep>89804000</Cep>
+                </Endereco>
+                <Contato>
+                  <Telefone>4933161107</Telefone>
+                  <Email>financeiro@emitente.com.br</Email>
+                </Contato>
+              </PrestadorServico>
+              <TomadorServico>
+                <IdentificacaoTomador>
+                  <CpfCnpj>
+                    <Cnpj>11111111111111</Cnpj>
+                  </CpfCnpj>
+                </IdentificacaoTomador>
+                <RazaoSocial>TOMADOR SERVICO - ME</RazaoSocial>
+                <Endereco>
+                  <Endereco>RUA RADIO - D</Endereco>
+                  <Numero>24</Numero>
+                  <Bairro>CENTRO</Bairro>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                  <Uf>SC</Uf>
+                  <Cep>89801085</Cep>
+                </Endereco>
+                <Contato/>
+              </TomadorServico>
+              <OrgaoGerador>
+                <CodigoMunicipio>4204202</CodigoMunicipio>
+                <Uf>SC</Uf>
+              </OrgaoGerador>
+              <ConstrucaoCivil/>
+            </InfNfse>
+          </Nfse>
+          <NfseCancelamento>
+            <Confirmacao>
+              <Pedido>
+                <InfPedidoCancelamento/>
+                <ns3:Signature/>
+              </Pedido>
+              <InfConfirmacaoCancelamento>
+                <Sucesso>false</Sucesso>
+              </InfConfirmacaoCancelamento>
+            </Confirmacao>
+          </NfseCancelamento>
+          <NfseSubstituicao>
+            <SubstituicaoNfse/>
+          </NfseSubstituicao>
+        </ComplNfse>
+        <ListaMensagemRetorno/>
+      </ConsultarNfseRpsResposta>
+    </ns2:ConsultarNfseRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

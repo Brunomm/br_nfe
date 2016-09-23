@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 	subject        { FactoryGirl.build(:service_thema_v1_recepcao_lote_rps_limitado, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente, natureza_operacao: '50')   }
+	let(:emitente) { FactoryGirl.build(:service_emitente, natureza_operacao: '50')   }
 	
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Thema::V1::RecepcaoLoteRps }
@@ -10,10 +10,6 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps_limitado }
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal [:recepcionar_lote_rps_limitado_response, :return]
 	end
 
 	it "#soap_body_root_tag" do

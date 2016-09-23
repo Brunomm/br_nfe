@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns3:CancelarNfseEnvioResponse xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://www.betha.com.br/e-nota-contribuinte-ws">
+      <CancelarNfseResposta>
+        <Cancelamento>
+          <Confirmacao>
+            <Pedido>
+              <InfPedidoCancelamento>
+                <IdentificacaoNfse>
+                  <Numero>3188</Numero>
+                  <Cnpj>23020443000140</Cnpj>
+                  <CodigoMunicipio>4204202</CodigoMunicipio>
+                </IdentificacaoNfse>
+                <CodigoCancelamento>2</CodigoCancelamento>
+              </InfPedidoCancelamento>
+              <ns2:Signature>
+                <ns2:SignedInfo>
+                  <ns2:CanonicalizationMethod/>
+                  <ns2:SignatureMethod/>
+                  <ns2:Reference URI="#C20160921173345079570049">
+                    <ns2:Transforms>
+                      <ns2:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                      <ns2:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                    </ns2:Transforms>
+                    <ns2:DigestMethod/>
+                    <ns2:DigestValue>Eni7DA5fjUZAYemxDzZ2oDulrHc=</ns2:DigestValue>
+                  </ns2:Reference>
+                </ns2:SignedInfo>
+                <ns2:SignatureValue>LLnyzy6LQnbpXiii9vuo</ns2:SignatureValue>
+                <ns2:KeyInfo>
+                  <ns2:X509Data>
+                    <ns2:X509Certificate>MIIIBjCCBe6gAwI</ns2:X509Certificate>
+                  </ns2:X509Data>
+                </ns2:KeyInfo>
+              </ns2:Signature>
+            </Pedido>
+            <InfConfirmacaoCancelamento>
+              <Sucesso>true</Sucesso>
+              <DataHora>2016-09-21T17:33:45.718-03:00</DataHora>
+            </InfConfirmacaoCancelamento>
+          </Confirmacao>
+        </Cancelamento>
+      </CancelarNfseResposta>
+    </ns3:CancelarNfseEnvioResponse>
+  </env:Body>
+</env:Envelope>

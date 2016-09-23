@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarNfseRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarNfseRpsResposta>
+        <ComplNfse/>
+        <ListaMensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E10</Codigo>
+            <Mensagem>Esse RPS n&#xE3;o foi enviado para a nossa base de dados.</Mensagem>
+            <Correcao>Envie o RPS para emiss&#xE3;o da Nfs-e.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarNfseRpsResposta>
+    </ns2:ConsultarNfseRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

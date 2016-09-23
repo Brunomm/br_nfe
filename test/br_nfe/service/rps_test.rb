@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Rps do
 	subject { FactoryGirl.build(:br_nfe_rps) }
-	let(:destinatario)  { FactoryGirl.build(:destinatario) }
+	let(:destinatario)  { FactoryGirl.build(:service_destinatario) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 	let(:condicao_pagamento) { FactoryGirl.build(:condicao_pagamento) }
 	let(:item_1) { FactoryGirl.build(:service_item) } 
@@ -26,11 +26,11 @@ describe BrNfe::Service::Rps do
 				it { must validate_presence_of(:item_lista_servico) }
 				it { must validate_presence_of(:description) }
 				it { must validate_presence_of(:codigo_municipio) }
-				it { must validate_numericality_of(:total_services).is_greater_than(0) }
-				it { must validate_numericality_of(:base_calculation).is_greater_than(0) }
+				it { must validate_numericality_of(:valor_total_servicos).is_greater_than(0) }
+				it { must validate_numericality_of(:base_calculo).is_greater_than(0) }
 				
-				it { must validate_numericality_of(:total_services) }
-				it { must validate_numericality_of(:deductions) }
+				it { must validate_numericality_of(:valor_total_servicos) }
+				it { must validate_numericality_of(:deducoes) }
 				it { must validate_numericality_of(:valor_pis) }
 				it { must validate_numericality_of(:valor_cofins) }
 				it { must validate_numericality_of(:valor_inss) }
@@ -38,8 +38,8 @@ describe BrNfe::Service::Rps do
 				it { must validate_numericality_of(:valor_csll) }
 				it { must validate_numericality_of(:outras_retencoes) }
 				it { must validate_numericality_of(:total_iss) }
-				it { must validate_numericality_of(:iss_tax_rate) }
-				it { must validate_numericality_of(:base_calculation) }
+				it { must validate_numericality_of(:iss_aliquota) }
+				it { must validate_numericality_of(:base_calculo) }
 				it { must validate_numericality_of(:desconto_incondicionado) }
 				it { must validate_numericality_of(:desconto_condicionado) }
 
@@ -53,19 +53,19 @@ describe BrNfe::Service::Rps do
 					subject.valid?
 				end
 
-				describe "option iss_retained?" do
+				describe "option iss_retido?" do
 					context "quando for true" do
-						before { subject.stubs(:iss_retained?).returns(true) }
+						before { subject.stubs(:iss_retido?).returns(true) }
 						it { wont validate_presence_of(:total_iss) }
-						it { wont validate_presence_of(:iss_tax_rate) }
+						it { wont validate_presence_of(:iss_aliquota) }
 					end
 					context "quando for false" do
 						before do 
 							subject.items = []
-							subject.stubs(:iss_retained?).returns(false)
+							subject.stubs(:iss_retido?).returns(false)
 						end
 						it { must validate_presence_of(:total_iss) }
-						it { must validate_presence_of(:iss_tax_rate) }
+						it { must validate_presence_of(:iss_aliquota) }
 					end
 				end
 			end
@@ -76,11 +76,11 @@ describe BrNfe::Service::Rps do
 				it { wont validate_presence_of(:item_lista_servico) }
 				it { wont validate_presence_of(:description) }
 				it { wont validate_presence_of(:codigo_municipio) }
-				it { wont validate_numericality_of(:total_services).is_greater_than(0) }
-				it { wont validate_numericality_of(:base_calculation).is_greater_than(0) }
+				it { wont validate_numericality_of(:valor_total_servicos).is_greater_than(0) }
+				it { wont validate_numericality_of(:base_calculo).is_greater_than(0) }
 				
-				it { wont validate_numericality_of(:total_services) }
-				it { wont validate_numericality_of(:deductions) }
+				it { wont validate_numericality_of(:valor_total_servicos) }
+				it { wont validate_numericality_of(:deducoes) }
 				it { wont validate_numericality_of(:valor_pis) }
 				it { wont validate_numericality_of(:valor_cofins) }
 				it { wont validate_numericality_of(:valor_inss) }
@@ -88,8 +88,8 @@ describe BrNfe::Service::Rps do
 				it { wont validate_numericality_of(:valor_csll) }
 				it { wont validate_numericality_of(:outras_retencoes) }
 				it { wont validate_numericality_of(:total_iss) }
-				it { wont validate_numericality_of(:iss_tax_rate) }
-				it { wont validate_numericality_of(:base_calculation) }
+				it { wont validate_numericality_of(:iss_aliquota) }
+				it { wont validate_numericality_of(:base_calculo) }
 				it { wont validate_numericality_of(:desconto_incondicionado) }
 				it { wont validate_numericality_of(:desconto_condicionado) }
 
@@ -103,21 +103,26 @@ describe BrNfe::Service::Rps do
 					subject.valid?
 				end
 
-				describe "option iss_retained?" do
+				describe "option iss_retido?" do
 					context "quando for true" do
-						before { subject.stubs(:iss_retained?).returns(true) }
+						before { subject.stubs(:iss_retido?).returns(true) }
 						it { wont validate_presence_of(:total_iss) }
-						it { wont validate_presence_of(:iss_tax_rate) }
+						it { wont validate_presence_of(:iss_aliquota) }
 					end
 					context "quando for false" do
-						before { subject.stubs(:iss_retained?).returns(false) }
+						before { subject.stubs(:iss_retido?).returns(false) }
 						it { wont validate_presence_of(:total_iss) }
-						it { wont validate_presence_of(:iss_tax_rate) }
+						it { wont validate_presence_of(:iss_aliquota) }
 					end
 				end
 			end
 		end
-		
+	end
+	
+	describe "#condicao_pagamento" do
+		it "deve ter incluso o module BrNfe::Association::HaveCondicaoPagamento" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveCondicaoPagamento
+		end
 	end
 
 	describe "#replace_invoice?" do
@@ -142,58 +147,22 @@ describe BrNfe::Service::Rps do
 	end
 
 	describe "#destinatario" do
-		it "sempre deve retornar um objeto BrNfe::Destinatario" do
-			novo = BrNfe::Service::Rps.new
-			novo.destinatario.class.must_equal BrNfe::Destinatario
-			novo.destinatario = nil
-			novo.destinatario.class.must_equal BrNfe::Destinatario
-			novo.destinatario = 'outro valor qualquer'
-			novo.destinatario.class.must_equal BrNfe::Destinatario
+		class OtherClassDestinatario < BrNfe::ActiveModelBase
 		end
-
-		it "a classe do destinatario deve segir a configuração de BrNfe.destinatario_class" do
-			BrNfe.destinatario_class = BrNfe::Emitente
-			
-			novo = BrNfe::Service::Rps.new
-			novo.destinatario.class.must_equal BrNfe::Emitente
-			novo.destinatario = nil
-			novo.destinatario.class.must_equal BrNfe::Emitente
-			novo.destinatario = 'outro valor qualquer'
-			novo.destinatario.class.must_equal BrNfe::Emitente
-
-			BrNfe.destinatario_class = BrNfe::Destinatario
+		it "deve ter incluso o module HaveDestinatario" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveDestinatario
 		end
-
-		it "atributos pode ser atribuidos em forma de bloco" do
-			subject.destinatario do |dest|
-				dest.cpf_cnpj = '12345678901234'
-				dest.telefone = '33666633'
-				dest.email    = 'mail@teste.com'
-			end
-			subject.destinatario.cpf_cnpj.must_equal '12345678901234'
-			subject.destinatario.telefone.must_equal '33666633'
-			subject.destinatario.email.must_equal 'mail@teste.com'
+		it "o método #destinatario_class deve ter por padrão a class BrNfe::Service::Destinatario" do
+			subject.destinatario.must_be_kind_of BrNfe::Service::Destinatario
+			subject.send(:destinatario_class).must_equal BrNfe::Service::Destinatario
 		end
+		it "a class do destinatario pode ser modificada através da configuração destinatario_service_class" do
+			BrNfe.destinatario_service_class = OtherClassDestinatario
+			subject.destinatario.must_be_kind_of OtherClassDestinatario
+			subject.send(:destinatario_class).must_equal OtherClassDestinatario
 
-		it "atributos pode ser atribuidos em forma de hash" do
-			subject.destinatario = {
-				cpf_cnpj: '999879879',
-				telefone: '99999999',
-				email:    'mail@teste.com'
-			}
-			subject.destinatario.cpf_cnpj.must_equal '999879879'
-			subject.destinatario.telefone.must_equal '99999999'
-			subject.destinatario.email.must_equal 'mail@teste.com'
-		end
-
-		it "pode modificar o objeto do atributo" do
-			destinatario_old = subject.destinatario
-			subject.destinatario.must_equal destinatario_old
-			subject.destinatario.wont_equal destinatario
-			
-			subject.destinatario = destinatario
-			subject.destinatario.wont_equal destinatario_old
-			subject.destinatario.must_equal destinatario
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.destinatario_service_class = BrNfe::Service::Destinatario
 		end
 	end
 
@@ -205,11 +174,11 @@ describe BrNfe::Service::Rps do
 			novo.intermediario.must_be_nil
 		end
 
-		it "a classe do intermediario deve segir a configuração de BrNfe.intermediario_class" do
-			BrNfe.intermediario_class = BrNfe::Emitente
+		it "a classe do intermediario deve segir a configuração de BrNfe.intermediario_service_class" do
+			BrNfe.intermediario_service_class = BrNfe::Service::Emitente
 			
-			novo = BrNfe::Service::Rps.new(intermediario: BrNfe::Emitente.new)
-			novo.intermediario.class.must_equal BrNfe::Emitente
+			novo = BrNfe::Service::Rps.new(intermediario: BrNfe::Service::Emitente.new)
+			novo.intermediario.class.must_equal BrNfe::Service::Emitente
 			
 			novo.intermediario = nil
 			novo.intermediario.must_be_nil
@@ -217,7 +186,7 @@ describe BrNfe::Service::Rps do
 			novo.intermediario = 'outro valor qualquer'
 			novo.intermediario.must_be_nil
 
-			BrNfe.intermediario_class = BrNfe::Service::Intermediario
+			BrNfe.intermediario_service_class = BrNfe::Service::Intermediario
 		end
 
 		it "atributos pode ser atribuidos em forma de bloco" do
@@ -274,10 +243,10 @@ describe BrNfe::Service::Rps do
 		end
 
 		it "a classe do condicao_pagamento deve segir a configuração de BrNfe.condicao_pagamento_class" do
-			BrNfe.condicao_pagamento_class = BrNfe::Emitente
+			BrNfe.condicao_pagamento_class = BrNfe::Service::Emitente
 			
-			novo = BrNfe::Service::Rps.new(condicao_pagamento: BrNfe::Emitente.new)
-			novo.condicao_pagamento.class.must_equal BrNfe::Emitente
+			novo = BrNfe::Service::Rps.new(condicao_pagamento: BrNfe::Service::Emitente.new)
+			novo.condicao_pagamento.class.must_equal BrNfe::Service::Emitente
 			
 			novo.condicao_pagamento = nil
 			novo.condicao_pagamento.must_be_nil
@@ -395,84 +364,84 @@ describe BrNfe::Service::Rps do
 		end
 	end
 
-	describe "#total_services" do
-		it "se não setar valor em total_services deve somar o total_value de todos os items" do
-			subject.total_services = nil
-			item_1.total_value = 55.70
-			item_2.total_value = 40.35
+	describe "#valor_total_servicos" do
+		it "se não setar valor em valor_total_servicos deve somar o valor_total de todos os items" do
+			subject.valor_total_servicos = nil
+			item_1.valor_total = 55.70
+			item_2.valor_total = 40.35
 			subject.items = [item_1, item_2]
 
-			subject.total_services.must_equal 96.05
+			subject.valor_total_servicos.must_equal 96.05
 		end
 		it "se não houver itens e nem um valor setado deve retornar zero" do
-			subject.total_services = nil
+			subject.valor_total_servicos = nil
 			subject.items = []
 
-			subject.total_services.must_equal 0.0
+			subject.valor_total_servicos.must_equal 0.0
 		end
 		it "se setar um valor deve retornar esse valor e não pode somar dos itens" do
-			subject.total_services = 47.0
-			item_1.total_value = 55.70
-			item_2.total_value = 40.35
+			subject.valor_total_servicos = 47.0
+			item_1.valor_total = 55.70
+			item_2.valor_total = 40.35
 			subject.items = [item_1, item_2]
 
-			subject.total_services.must_equal 47.0
+			subject.valor_total_servicos.must_equal 47.0
 		end
 	end
 
-	describe "#base_calculation" do
-		it "se não setar valor em base_calculation deve subtratir o total_services com deductions" do
+	describe "#base_calculo" do
+		it "se não setar valor em base_calculo deve subtratir o valor_total_servicos com deducoes" do
 			subject.assign_attributes({
-				base_calculation: nil,
-				total_services: 100.0,
-				deductions: 4.500000555
+				base_calculo: nil,
+				valor_total_servicos: 100.0,
+				deducoes: 4.500000555
 			})
 
-			subject.base_calculation.must_equal 95.5
+			subject.base_calculo.must_equal 95.5
 		end
-		it "deve retornar zero se não houver valor em base_calculation e nem em total_services ou deductions" do
+		it "deve retornar zero se não houver valor em base_calculo e nem em valor_total_servicos ou deducoes" do
 			subject.assign_attributes({
-				base_calculation: nil,
-				total_services:   nil,
-				deductions:       nil,
+				base_calculo: nil,
+				valor_total_servicos:   nil,
+				deducoes:       nil,
 				items:            []
 			})
 
-			subject.base_calculation.must_equal 0.0
+			subject.base_calculo.must_equal 0.0
 		end
-		it "se setar um valor deve retornar esse valor e não pode celcular o total_services subtraindo as deductions" do
+		it "se setar um valor deve retornar esse valor e não pode celcular o valor_total_servicos subtraindo as deducoes" do
 			subject.assign_attributes({
-				base_calculation: 200,
-				total_services:   100,
-				deductions:       50
+				base_calculo: 200,
+				valor_total_servicos:   100,
+				deducoes:       50
 			})
 
-			subject.base_calculation.must_equal 200
+			subject.base_calculo.must_equal 200
 		end
 	end
 
-	describe "#iss_tax_rate" do
-		it "deve pegar o valor de iss_tax_rate do primeiro item se não houver valor setado em iss_tax_rate do RPS" do
-			subject.iss_tax_rate = nil
-			item_1.iss_tax_rate = 0.3
-			item_2.iss_tax_rate = 0.4
+	describe "#iss_aliquota" do
+		it "deve pegar o valor de iss_aliquota do primeiro item se não houver valor setado em iss_aliquota do RPS" do
+			subject.iss_aliquota = nil
+			item_1.iss_aliquota = 0.3
+			item_2.iss_aliquota = 0.4
 			subject.items = [item_2, item_1]
 
-			subject.iss_tax_rate.must_equal 0.4
+			subject.iss_aliquota.must_equal 0.4
 		end
 		it "Deve retornar nil se não houver itens e nem um valor setado" do
-			subject.iss_tax_rate = nil
+			subject.iss_aliquota = nil
 			subject.items = []
 
-			subject.iss_tax_rate.must_be_nil
+			subject.iss_aliquota.must_be_nil
 		end
 		it "se setar um valor deve retornar esse valor e não pode pegar dos itens" do
-			subject.iss_tax_rate = 0.4
-			item_1.total_value = 0.1
-			item_2.total_value = 0.2
+			subject.iss_aliquota = 0.4
+			item_1.valor_total = 0.1
+			item_2.valor_total = 0.2
 			subject.items = [item_1, item_2]
 
-			subject.iss_tax_rate.must_equal 0.4
+			subject.iss_aliquota.must_equal 0.4
 		end
 	end
 
@@ -493,43 +462,43 @@ describe BrNfe::Service::Rps do
 		end
 		it "se setar um valor deve retornar esse valor e não pode pegar dos itens" do
 			subject.cnae_code  = '2'
-			item_1.total_value = '3'
-			item_2.total_value = '4'
+			item_1.valor_total = '3'
+			item_2.valor_total = '4'
 			subject.items = [item_1, item_2]
 
 			subject.cnae_code.must_equal '2'
 		end
 	end
 
-	describe "#net_value" do
+	describe "#valor_liquido" do
 		it "Se setar um valor deve retornar o valor setado" do
-			subject.assign_attributes(total_services: 10.00, net_value: 9_999.55)
-			subject.net_value.must_equal 9_999.55
+			subject.assign_attributes(valor_total_servicos: 10.00, valor_liquido: 9_999.55)
+			subject.valor_liquido.must_equal 9_999.55
 		end
-		it "se não tiver valor setado manualmente em net_value deve realizar o calcula automaticamente" do
-			subject.assign_attributes({total_services: 100.00, valor_pis: 1.5, valor_cofins: 1.0,
+		it "se não tiver valor setado manualmente em valor_liquido deve realizar o calcula automaticamente" do
+			subject.assign_attributes({valor_total_servicos: 100.00, valor_pis: 1.5, valor_cofins: 1.0,
 				valor_inss: 0.5, valor_ir: 0.0, valor_csll: 2.0, outras_retencoes: 3.0,
-				total_iss_retained: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
-				net_value: nil
+				total_iss_retido: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
+				valor_liquido: nil
 			})
-			subject.net_value.must_equal 77.00
+			subject.valor_liquido.must_equal 77.00
 		end
 		it "se todos os valores para o calculo estiverem nil não deve dar erro e retorna zero" do
 			subject.items = []
-			subject.assign_attributes({total_services: nil, valor_pis: nil, valor_cofins: nil,
+			subject.assign_attributes({valor_total_servicos: nil, valor_pis: nil, valor_cofins: nil,
 				valor_inss: nil, valor_ir: nil, valor_csll: nil, outras_retencoes: nil,
-				total_iss_retained: nil, desconto_incondicionado: nil, desconto_condicionado: nil,
-				net_value: nil
+				total_iss_retido: nil, desconto_incondicionado: nil, desconto_condicionado: nil,
+				valor_liquido: nil
 			})
-			subject.net_value.must_equal 0.0
+			subject.valor_liquido.must_equal 0.0
 		end
 		it "se alguns dos valores para o calculo estiverem nil não deve dar erro e considera esse valor como zero" do
-			subject.assign_attributes({total_services: 100.00, valor_pis: nil, valor_cofins: nil,
+			subject.assign_attributes({valor_total_servicos: 100.00, valor_pis: nil, valor_cofins: nil,
 				valor_inss: nil, valor_ir: 0.0, valor_csll: 2.0, outras_retencoes: 3.0,
-				total_iss_retained: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
-				net_value: nil
+				total_iss_retido: 4.0, desconto_incondicionado: 5.0, desconto_condicionado: 6.0,
+				valor_liquido: nil
 			})
-			subject.net_value.must_equal 80.0
+			subject.valor_liquido.must_equal 80.0
 		end
 	end
 

@@ -3,7 +3,7 @@ require 'test_helper'
 describe BrNfe::Service::Betha::V1::Gateway do
 	subject             { FactoryGirl.build(:br_nfe_servico_betha_v1_gateway, emitente: emitente) }
 	let(:rps)           { FactoryGirl.build(:br_nfe_rps, :completo) }
-	let(:emitente)      { FactoryGirl.build(:emitente) }
+	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 	let(:intermediario) { FactoryGirl.build(:intermediario) }
 
 	describe "inheritance class" do

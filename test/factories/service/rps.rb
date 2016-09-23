@@ -1,22 +1,22 @@
 FactoryGirl.define do
 	factory :br_nfe_rps, class:  BrNfe::Service::Rps do
-		destinatario       { FactoryGirl.build(:destinatario) }
+		destinatario       { FactoryGirl.build(:service_destinatario) }
 		numero             556
 		serie              'SN'
 		tipo               '1'
 		data_emissao       DateTime.now
 		status             '1'
 		competencia        Date.today
-		total_services     '349.00'
+		valor_total_servicos     '349.00'
 		total_iss          '6.98'
-		iss_tax_rate       '0.02'
-		base_calculation   '349.00'
-		iss_retained       '2'
+		iss_aliquota       '0.02'
+		base_calculo   '349.00'
+		iss_retido       '2'
 		item_lista_servico '0107'
 		description        "MENSALIDADE PLANO PRO. 349,00 \n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
 		codigo_municipio   '4204202'
 		cnae_code          '6202300'
-		items              { [ FactoryGirl.build(:service_item, unit_value: total_services, quantity: 1) ] }
+		items              { [ FactoryGirl.build(:service_item, valor_unitario: valor_total_servicos, quantidade: 1) ] }
 
 		trait :completo do
 			codigo_tributacao_municipio '6699'
@@ -28,9 +28,9 @@ FactoryGirl.define do
 			codigo_obra               '66'
 			codigo_art                '223'
 			outras_informacoes        'info a mais'
-			total_base_calculation_st 55.77
+			total_base_calculo_st 55.77
 			total_issqn_st            4.87
-			deductions                7.0
+			deducoes                7.0
 			valor_pis                 1.123
 			valor_cofins              2.123
 			valor_inss                3.123
@@ -42,9 +42,9 @@ FactoryGirl.define do
 			responsavel_retencao      '1'
 			exigibilidade_iss         '5'
 			numero_processo           '6546'
-			iss_retained              true
-			total_iss_retained        5.55
-			net_value                 349.00
+			iss_retido              true
+			total_iss_retido        5.55
+			valor_liquido                 349.00
 			municipio_incidencia     '111'
 		end
 	end

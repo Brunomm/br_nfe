@@ -4,6 +4,6 @@ FactoryGirl.define do
 		codigo_cancelamento '1'
 		certificate_pkcs12_password 'associacao'
 		certificate_pkcs12_path {   "#{BrNfe.root}/test/cert.pfx" }
-		
+		codigo_ibge_municipio_prestacao '4204202'
 	end
 end

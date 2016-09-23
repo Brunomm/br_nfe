@@ -74,7 +74,7 @@ describe BrNfe::Service::SC::Florianopolis::EmissionRPS do
 		end
 
 		context "atributos de DadosServico" do
-			let(:item_2) { FactoryGirl.build(:service_item, cnae_code: '666', description: 'DESC', total_value:  547.8888) } 
+			let(:item_2) { FactoryGirl.build(:service_item, cnae_code: '666', description: 'DESC', valor_total:  547.8888) } 
 			it "o deve ter um atributo ItemServico para cada item de serviço com suas respectivas informações" do
 				rps.items << item_2
 				items = xml.at('InfRequisicao/DadosServico').search('ItemServico')
@@ -98,25 +98,25 @@ describe BrNfe::Service::SC::Florianopolis::EmissionRPS do
 				items[1].at('ValorTotal').text.must_equal '547.89'
 			end
 
-			it "atributo BaseCalculo deve ter o valor monetário do base_calculation do RPS" do
-				rps.base_calculation = '31.1111'
+			it "atributo BaseCalculo deve ter o valor monetário do base_calculo do RPS" do
+				rps.base_calculo = '31.1111'
 				items = xml.at('InfRequisicao/DadosServico/BaseCalculo').text.must_equal '31.11'
 			end
 			it "atributo ValorISSQN deve ter o valor monetário do total_iss do RPS" do
 				rps.total_iss = '7.666'
 				items = xml.at('InfRequisicao/DadosServico/ValorISSQN').text.must_equal '7.67'
 			end
-			it "atributo ValorTotalServicos deve ter o valor monetário do total_services do RPS" do
-				rps.total_services = 28_731.664
+			it "atributo ValorTotalServicos deve ter o valor monetário do valor_total_servicos do RPS" do
+				rps.valor_total_servicos = 28_731.664
 				items = xml.at('InfRequisicao/DadosServico/ValorTotalServicos').text.must_equal '28731.66'
 			end
 			context "BaseCalculoSubstituicao" do
-				it "se houver valor no atributo total_base_calculation_st do RPS deve exibir o atribudo do XML" do
-					rps.total_base_calculation_st = 778
+				it "se houver valor no atributo total_base_calculo_st do RPS deve exibir o atribudo do XML" do
+					rps.total_base_calculo_st = 778
 					items = xml.at('InfRequisicao/DadosServico/BaseCalculoSubstituicao').text.must_equal '778.0'	
 				end
-				it "se não houver valor no atributo total_base_calculation_st do RPS não irá exibir o atribudo do XML" do
-					rps.total_base_calculation_st = nil
+				it "se não houver valor no atributo total_base_calculo_st do RPS não irá exibir o atribudo do XML" do
+					rps.total_base_calculo_st = nil
 					items = xml.at('InfRequisicao/DadosServico/BaseCalculoSubstituicao').must_be_nil
 				end
 			end

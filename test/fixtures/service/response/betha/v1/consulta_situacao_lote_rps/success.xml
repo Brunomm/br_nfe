@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarSituacaoLoteRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws">
+      <ConsultarSituacaoLoteRpsResposta>
+        <NumeroLote>10</NumeroLote>
+        <Situacao>4</Situacao>
+        <ListaMensagemRetorno/>
+      </ConsultarSituacaoLoteRpsResposta>
+    </ns2:ConsultarSituacaoLoteRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

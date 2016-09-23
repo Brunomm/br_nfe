@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <ns2:ConsultarLoteRpsEnvioResponse xmlns:ns2="http://www.betha.com.br/e-nota-contribuinte-ws" xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+      <ConsultarLoteRpsResposta>
+        <ListaNfse/>
+        <ListaMensagemRetorno>
+          <MensagemRetorno>
+            <Codigo>E10</Codigo>
+            <Mensagem>RPS j&#xE1; informado.</Mensagem>
+            <Correcao>Para essa Inscri&#xE7;&#xE3;o Municipal/CNPJ j&#xE1; existe um RPS informado com o mesmo n&#xFA;mero, s&#xE9;rie e tipo.</Correcao>
+          </MensagemRetorno>
+        </ListaMensagemRetorno>
+      </ConsultarLoteRpsResposta>
+    </ns2:ConsultarLoteRpsEnvioResponse>
+  </env:Body>
+</env:Envelope>

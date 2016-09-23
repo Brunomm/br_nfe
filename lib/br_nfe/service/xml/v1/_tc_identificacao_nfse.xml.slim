@@ -4,4 +4,4 @@
 - if emitente.inscricao_municipal.present?
 	*{tag: "#{namespace_for_tags}InscricaoMunicipal"} = ts_inscricao_municipal(emitente.inscricao_municipal)
 
-*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(emitente.endereco.codigo_municipio)
+*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(codigo_ibge_municipio_prestacao)

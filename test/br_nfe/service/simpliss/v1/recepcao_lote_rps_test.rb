@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	subject        { FactoryGirl.build(:service_simpliss_v1_recepcao_lote_rps, emitente: emitente) }
-	let(:emitente) { FactoryGirl.build(:emitente)   }
+	let(:emitente) { FactoryGirl.build(:service_emitente)   }
 	
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Simpliss::V1::Base }
@@ -14,14 +14,6 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 
 	describe "#method_wsdl" do
 		it { subject.method_wsdl.must_equal :recepcionar_lote_rps }
-	end
-
-	it "#response_root_path" do
-		subject.response_root_path.must_equal [:recepcionar_lote_rps_response]
-	end
-
-	it "#body_xml_path" do
-		subject.body_xml_path.must_equal []
 	end
 
 	it "#soap_body_root_tag" do
@@ -76,6 +68,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
 			response.protocolo.must_equal '128277'
 			response.data_recebimento.must_equal Time.parse('2016-07-28T16:17:18.4043985-03:00')
 			response.numero_lote.must_equal '10'
@@ -90,6 +83,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 			subject.request
 			response = subject.response
 
+			response.must_be_kind_of BrNfe::Service::Response::RecepcaoLoteRps
 			response.protocolo.must_be_nil
 			response.data_recebimento.must_be_nil
 			response.numero_lote.must_be_nil
