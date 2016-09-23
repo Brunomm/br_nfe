@@ -19,14 +19,14 @@ module BrNfe
 			validates :numero, :serie, :tipo, presence: true, if: :validate_rps?
 
 			with_options if: :validar_recepcao_rps do |record|
-				record.validates :data_emissao, :item_lista_servico, :description, :codigo_municipio, :base_calculation, presence: true
-				record.validates :total_iss, :iss_tax_rate, presence: true, unless: :iss_retained?
+				record.validates :data_emissao, :item_lista_servico, :description, :codigo_municipio, :base_calculo, presence: true
+				record.validates :total_iss, :iss_aliquota, presence: true, unless: :iss_retido?
 				record.validates :municipio_incidencia, presence: true, if: :municipio_incidencia_obrigatorio?
 
-				record.validates :total_services, :base_calculation, numericality: {greater_than: 0}
+				record.validates :valor_total_servicos, :base_calculo, numericality: {greater_than: 0}
 				
-				record.validates :deductions, :valor_pis, :valor_cofins, :valor_inss, :valor_ir, 
-				          :valor_csll, :outras_retencoes, :total_iss, :iss_tax_rate, :base_calculation, 
+				record.validates :deducoes, :valor_pis, :valor_cofins, :valor_inss, :valor_ir, 
+				          :valor_csll, :outras_retencoes, :total_iss, :iss_aliquota, :base_calculo, 
 				          :desconto_incondicionado, :desconto_condicionado, numericality: true, allow_blank: true
 
 				record.validate :validar_intermediario
@@ -60,7 +60,7 @@ module BrNfe
 			# Valor da base de cálculo da substituição tributária
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :total_base_calculation_st
+			attr_accessor :total_base_calculo_st
 
 			# Valor total do ISS de substituição tributária
 			#
@@ -90,9 +90,9 @@ module BrNfe
 			# do valor de todos os itens
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :total_services
-			def total_services
-				@total_services || items.map(&:total_value).map(&:to_f).sum.round(2)
+			attr_accessor :valor_total_servicos
+			def valor_total_servicos
+				@valor_total_servicos || items.map(&:valor_total).map(&:to_f).sum.round(2)
 			end
 
 			# Valor da base de cálculo
@@ -100,28 +100,28 @@ module BrNfe
 			# o valor das deduções
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :base_calculation
-			def base_calculation
-				@base_calculation || (total_services.to_f - deductions.to_f).round(2)
+			attr_accessor :base_calculo
+			def base_calculo
+				@base_calculo || (valor_total_servicos.to_f - deducoes.to_f).round(2)
 			end
 
 			# Valor das deduções de impostos 
 			# 
 			# <b>Tipo: </b> _Float_
-			attr_accessor :deductions
+			attr_accessor :deducoes
 
 			# Iss retido?
 			# Identifica se o ISS foi retido 
 			#
 			# <b>Tipo: </b> _Integer_
-			attr_accessor :iss_retained
+			attr_accessor :iss_retido
 
 			# Valor do Iss retido 
 			# Total de iss retido da nota
 			#
 			# <b>Tipo: </b> _float_
 			#
-			attr_accessor :total_iss_retained
+			attr_accessor :total_iss_retido
 
 			# Valor total do ISS (R$)
 			# Valor utilizado para identificar o valor total do ISS
@@ -139,9 +139,9 @@ module BrNfe
 			# 3.5% = 3.5
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :iss_tax_rate
-			def iss_tax_rate
-				@iss_tax_rate || items.first.try(:iss_tax_rate)
+			attr_accessor :iss_aliquota
+			def iss_aliquota
+				@iss_aliquota || items.first.try(:iss_aliquota)
 			end
 
 			# Valor líquido da NF (R$)
@@ -149,12 +149,12 @@ module BrNfe
 			#
 			# <b>Tipo: </b> _Float_
 			#
-			attr_accessor :net_value
-			def net_value
-				@net_value ||= total_services.to_f - (
+			attr_accessor :valor_liquido
+			def valor_liquido
+				@valor_liquido ||= valor_total_servicos.to_f - (
 					valor_pis.to_f + valor_cofins.to_f + valor_inss.to_f + 
 					valor_ir.to_f  + valor_csll.to_f   + outras_retencoes.to_f + 
-					total_iss_retained.to_f + desconto_incondicionado.to_f + desconto_condicionado.to_f
+					total_iss_retido.to_f + desconto_incondicionado.to_f + desconto_condicionado.to_f
 				)
 			end
 
@@ -203,8 +203,8 @@ module BrNfe
 				numero_substituicao.present? && serie_substituicao.present? && tipo_substituicao.present?
 			end
 
-			def iss_retained?
-				BrNfe.true_values.include?(iss_retained)
+			def iss_retido?
+				BrNfe.true_values.include?(iss_retido)
 			end
 
 			def competencia

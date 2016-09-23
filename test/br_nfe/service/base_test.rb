@@ -34,18 +34,18 @@ module ResponsePathTest
 	def response_invoice_cnae_code_path; :response_invoice_cnae_code_path end
 	def response_invoice_description_path; :response_invoice_description_path end
 	def response_invoice_codigo_municipio_path; :response_invoice_codigo_municipio_path end
-	def response_invoice_total_services_path; :response_invoice_total_services_path end
-	def response_invoice_deductions_path; :response_invoice_deductions_path end
+	def response_invoice_valor_total_servicos_path; :response_invoice_valor_total_servicos_path end
+	def response_invoice_deducoes_path; :response_invoice_deducoes_path end
 	def response_invoice_valor_pis_path; :response_invoice_valor_pis_path end
 	def response_invoice_valor_cofins_path; :response_invoice_valor_cofins_path end
 	def response_invoice_valor_inss_path; :response_invoice_valor_inss_path end
 	def response_invoice_valor_ir_path; :response_invoice_valor_ir_path end
 	def response_invoice_valor_csll_path; :response_invoice_valor_csll_path end
-	def response_invoice_iss_retained_path; :response_invoice_iss_retained_path end
+	def response_invoice_iss_retido_path; :response_invoice_iss_retido_path end
 	def response_invoice_outras_retencoes_path; :response_invoice_outras_retencoes_path end
 	def response_invoice_total_iss_path; :response_invoice_total_iss_path end
-	def response_invoice_base_calculation_path; :response_invoice_base_calculation_path end
-	def response_invoice_iss_tax_rate_path; :response_invoice_iss_tax_rate_path end
+	def response_invoice_base_calculo_path; :response_invoice_base_calculo_path end
+	def response_invoice_iss_aliquota_path; :response_invoice_iss_aliquota_path end
 	def response_invoice_valor_liquido_path; :response_invoice_valor_liquido_path end
 	def response_invoice_desconto_condicionado_path; :response_invoice_desconto_condicionado_path end
 	def response_invoice_desconto_incondicionado_path; :response_invoice_desconto_incondicionado_path end
@@ -264,18 +264,18 @@ describe BrNfe::Service::Base do
 				invoice_cnae_code_path:                  :response_invoice_cnae_code_path,
 				invoice_description_path:                :response_invoice_description_path,
 				invoice_codigo_municipio_path:           :response_invoice_codigo_municipio_path,
-				invoice_total_services_path:             :response_invoice_total_services_path,
-				invoice_deductions_path:                 :response_invoice_deductions_path,
+				invoice_valor_total_servicos_path:             :response_invoice_valor_total_servicos_path,
+				invoice_deducoes_path:                 :response_invoice_deducoes_path,
 				invoice_valor_pis_path:                  :response_invoice_valor_pis_path,
 				invoice_valor_cofins_path:               :response_invoice_valor_cofins_path,
 				invoice_valor_inss_path:                 :response_invoice_valor_inss_path,
 				invoice_valor_ir_path:                   :response_invoice_valor_ir_path,
 				invoice_valor_csll_path:                 :response_invoice_valor_csll_path,
-				invoice_iss_retained_path:               :response_invoice_iss_retained_path,
+				invoice_iss_retido_path:               :response_invoice_iss_retido_path,
 				invoice_outras_retencoes_path:           :response_invoice_outras_retencoes_path,
 				invoice_total_iss_path:                  :response_invoice_total_iss_path,
-				invoice_base_calculation_path:           :response_invoice_base_calculation_path,
-				invoice_iss_tax_rate_path:               :response_invoice_iss_tax_rate_path,
+				invoice_base_calculo_path:           :response_invoice_base_calculo_path,
+				invoice_iss_aliquota_path:               :response_invoice_iss_aliquota_path,
 				invoice_valor_liquido_path:              :response_invoice_valor_liquido_path,
 				invoice_desconto_condicionado_path:      :response_invoice_desconto_condicionado_path,
 				invoice_desconto_incondicionado_path:    :response_invoice_desconto_incondicionado_path,

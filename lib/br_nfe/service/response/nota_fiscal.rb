@@ -38,18 +38,18 @@ module BrNfe
 				attr_accessor :codigo_municipio
 
 				#Valores dos serviços
-				attr_accessor :total_services
-				attr_accessor :deductions
+				attr_accessor :valor_total_servicos
+				attr_accessor :deducoes
 				attr_accessor :valor_pis
 				attr_accessor :valor_cofins
 				attr_accessor :valor_inss
 				attr_accessor :valor_ir
 				attr_accessor :valor_csll
-				attr_accessor :iss_retained
+				attr_accessor :iss_retido
 				attr_accessor :outras_retencoes
 				attr_accessor :total_iss
-				attr_accessor :base_calculation
-				attr_accessor :iss_tax_rate
+				attr_accessor :base_calculo
+				attr_accessor :iss_aliquota
 				attr_accessor :valor_liquido # v2
 				attr_accessor :desconto_condicionado # v2
 				attr_accessor :desconto_incondicionado # v2

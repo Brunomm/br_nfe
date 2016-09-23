@@ -36,34 +36,34 @@ module BrNfe
 			# Ex: se a aliquita for 7.5% então o valor setado no campo é 0.075
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :iss_tax_rate
+			attr_accessor :iss_aliquota
 
 			# Valor unitário do item
 			# Refere-se ao valor separado de cada serviço prestado
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :unit_value
+			attr_accessor :valor_unitario
 
 			# Quantidade prestada de serviços do item
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :quantity
+			attr_accessor :quantidade
 
 			# Valor total cobrado do item
 			#
 			# <b>Tipo: </b> _Float_
-			attr_accessor :total_value
+			attr_accessor :valor_total
 
 			
 			def default_values
 				{
-					quantity: 1.0,
+					quantidade: 1.0,
 				}
 			end
 
 
-			def total_value
-				@total_value || (quantity.to_f * unit_value.to_f)
+			def valor_total
+				@valor_total || (quantidade.to_f * valor_unitario.to_f)
 			end
 		end
 	end

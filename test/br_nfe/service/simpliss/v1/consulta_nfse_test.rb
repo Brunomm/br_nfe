@@ -85,13 +85,13 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
 			nf.codigo_municipio.must_equal '4204202'
-			nf.total_services.must_equal '10'
-			nf.iss_retained.must_equal '2'
+			nf.valor_total_servicos.must_equal '10'
+			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0.2'
-			nf.base_calculation.must_equal '10'
-			nf.iss_tax_rate.must_equal '3.5'
+			nf.base_calculo.must_equal '10'
+			nf.iss_aliquota.must_equal '3.5'
 			nf.valor_liquido.must_equal '10'
-			nf.deductions.must_be_nil
+			nf.deducoes.must_be_nil
 			nf.valor_pis.must_be_nil
 			nf.valor_cofins.must_be_nil
 			nf.valor_inss.must_be_nil
@@ -153,13 +153,13 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
 			nf.codigo_municipio.must_equal '4204202'
-			nf.total_services.must_equal '500'
-			nf.iss_retained.must_equal '2'
+			nf.valor_total_servicos.must_equal '500'
+			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0.2'
-			nf.base_calculation.must_equal '10'
-			nf.iss_tax_rate.must_equal '2'
+			nf.base_calculo.must_equal '10'
+			nf.iss_aliquota.must_equal '2'
 			nf.valor_liquido.must_equal '463.02'
-			nf.deductions.must_equal '7'
+			nf.deducoes.must_equal '7'
 			nf.valor_pis.must_equal '1.12'
 			nf.valor_cofins.must_equal '2.12'
 			nf.valor_inss.must_equal '3.12'

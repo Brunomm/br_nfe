@@ -79,11 +79,11 @@ module BrNfe
 								response_default_path_to_nf + [:servico, :codigo_municipio] 
 							end
 
-							def response_invoice_total_services_path
+							def response_invoice_valor_total_servicos_path
 								response_default_path_to_nf + [:servico, :valores, :valor_servicos]
 							end
 
-							def response_invoice_deductions_path
+							def response_invoice_deducoes_path
 								response_default_path_to_nf + [:servico, :valores, :valor_deducoes]
 							end
 
@@ -107,7 +107,7 @@ module BrNfe
 								response_default_path_to_nf + [:servico, :valores, :valor_csll]
 							end
 
-							def response_invoice_iss_retained_path
+							def response_invoice_iss_retido_path
 								response_default_path_to_nf + [:servico, :valores, :iss_retido]
 							end
 
@@ -119,11 +119,11 @@ module BrNfe
 								response_default_path_to_nf + [:servico, :valores, :valor_iss]
 							end
 
-							def response_invoice_base_calculation_path
+							def response_invoice_base_calculo_path
 								response_default_path_to_nf + [:servico, :valores, :base_calculo]
 							end
 
-							def response_invoice_iss_tax_rate_path
+							def response_invoice_iss_aliquota_path
 								response_default_path_to_nf + [:servico, :valores, :aliquota]
 							end
 

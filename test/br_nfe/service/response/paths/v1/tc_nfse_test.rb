@@ -55,12 +55,12 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 		subject.response_invoice_codigo_municipio_path.must_equal( [:nfse, :inf_nfse, :servico, :codigo_municipio] )
 	end
 
-	it 'valor padrão para o método invoice_total_services_path' do
-		subject.response_invoice_total_services_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_servicos] )
+	it 'valor padrão para o método invoice_valor_total_servicos_path' do
+		subject.response_invoice_valor_total_servicos_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_servicos] )
 	end
 
-	it 'valor padrão para o método invoice_deductions_path' do
-		subject.response_invoice_deductions_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_deducoes] )
+	it 'valor padrão para o método invoice_deducoes_path' do
+		subject.response_invoice_deducoes_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_deducoes] )
 	end
 
 	it 'valor padrão para o método invoice_valor_pis_path' do
@@ -83,8 +83,8 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 		subject.response_invoice_valor_csll_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_csll] )
 	end
 
-	it 'valor padrão para o método invoice_iss_retained_path' do
-		subject.response_invoice_iss_retained_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :iss_retido] )
+	it 'valor padrão para o método invoice_iss_retido_path' do
+		subject.response_invoice_iss_retido_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :iss_retido] )
 	end
 
 	it 'valor padrão para o método invoice_outras_retencoes_path' do
@@ -95,12 +95,12 @@ describe BrNfe::Service::Response::Paths::V1::TcNfse do
 		subject.response_invoice_total_iss_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :valor_iss] )
 	end
 
-	it 'valor padrão para o método invoice_base_calculation_path' do
-		subject.response_invoice_base_calculation_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :base_calculo] )
+	it 'valor padrão para o método invoice_base_calculo_path' do
+		subject.response_invoice_base_calculo_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :base_calculo] )
 	end
 
-	it 'valor padrão para o método invoice_iss_tax_rate_path' do
-		subject.response_invoice_iss_tax_rate_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :aliquota] )
+	it 'valor padrão para o método invoice_iss_aliquota_path' do
+		subject.response_invoice_iss_aliquota_path.must_equal( [:nfse, :inf_nfse, :servico, :valores, :aliquota] )
 	end
 
 	it 'valor padrão para o método invoice_valor_liquido_path' do

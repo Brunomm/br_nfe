@@ -112,13 +112,13 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
 			nf.codigo_municipio.must_equal '4204202'
-			nf.total_services.must_equal '349'
-			nf.iss_retained.must_equal '2'
+			nf.valor_total_servicos.must_equal '349'
+			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0'
-			nf.base_calculation.must_equal '349'
-			nf.iss_tax_rate.must_equal '2.0000'
+			nf.base_calculo.must_equal '349'
+			nf.iss_aliquota.must_equal '2.0000'
 			nf.valor_liquido.must_be_nil
-			nf.deductions.must_equal '0'
+			nf.deducoes.must_equal '0'
 			nf.valor_pis.must_be_nil
 			nf.valor_cofins.must_be_nil
 			nf.valor_inss.must_be_nil

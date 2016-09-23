@@ -1,10 +1,10 @@
 - rps ||= false
 - raise "É obrigatório passar um RPS por parâmetro" unless rps
 
-*{tag: "#{namespace_for_tags}ValorServicos"} = ts_valor(rps.total_services)
+*{tag: "#{namespace_for_tags}ValorServicos"} = ts_valor(rps.valor_total_servicos)
 
-- if rps.deductions.present? && rps.deductions.to_f > 0.0
-	*{tag: "#{namespace_for_tags}ValorDeducoes"} = ts_valor(rps.deductions)
+- if rps.deducoes.present? && rps.deducoes.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorDeducoes"} = ts_valor(rps.deducoes)
 
 - if rps.valor_pis.present? && rps.valor_pis.to_f > 0.0
 	*{tag: "#{namespace_for_tags}ValorPis"}      = ts_valor(rps.valor_pis)
@@ -21,24 +21,24 @@
 - if rps.valor_csll.present? && rps.valor_csll.to_f > 0.0
 	*{tag: "#{namespace_for_tags}ValorCsll"}     = ts_valor(rps.valor_csll)	
 
-*{tag: "#{namespace_for_tags}IssRetido"} = ts_sim_nao(rps.iss_retained?)
+*{tag: "#{namespace_for_tags}IssRetido"} = ts_sim_nao(rps.iss_retido?)
 
 - if rps.total_iss.present? && rps.total_iss.to_f > 0.0
 	*{tag: "#{namespace_for_tags}ValorIss"} = ts_valor(rps.total_iss)
 
-- if rps.total_iss_retained.present? && rps.total_iss_retained.to_f > 0.0
-	*{tag: "#{namespace_for_tags}ValorIssRetido"} = ts_valor(rps.total_iss_retained)
+- if rps.total_iss_retido.present? && rps.total_iss_retido.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorIssRetido"} = ts_valor(rps.total_iss_retido)
 
 - if rps.outras_retencoes.present? && rps.outras_retencoes.to_f > 0.0
 	*{tag: "#{namespace_for_tags}OutrasRetencoes"} = ts_valor(rps.outras_retencoes)
 
-- if rps.base_calculation.present? && rps.base_calculation.to_f > 0.0
-	*{tag: "#{namespace_for_tags}BaseCalculo"} = ts_valor(rps.base_calculation)
+- if rps.base_calculo.present? && rps.base_calculo.to_f > 0.0
+	*{tag: "#{namespace_for_tags}BaseCalculo"} = ts_valor(rps.base_calculo)
 
-- if rps.iss_tax_rate.present? && rps.iss_tax_rate.to_f > 0.0
-	*{tag: "#{namespace_for_tags}Aliquota"} = ts_aliquota(rps.iss_tax_rate)
+- if rps.iss_aliquota.present? && rps.iss_aliquota.to_f > 0.0
+	*{tag: "#{namespace_for_tags}Aliquota"} = ts_aliquota(rps.iss_aliquota)
 
-*{tag: "#{namespace_for_tags}ValorLiquidoNfse"} = ts_valor(rps.net_value)
+*{tag: "#{namespace_for_tags}ValorLiquidoNfse"} = ts_valor(rps.valor_liquido)
 
 - if rps.desconto_incondicionado.present? && rps.desconto_incondicionado.to_f > 0.0
 	*{tag: "#{namespace_for_tags}DescontoIncondicionado"} = ts_valor(rps.desconto_incondicionado)

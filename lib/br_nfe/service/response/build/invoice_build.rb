@@ -38,18 +38,18 @@ module BrNfe
 						attr_accessor :invoice_cnae_code_path                              # CNAE utilizado na nf
 						attr_accessor :invoice_description_path                            # Descrição da nf
 						attr_accessor :invoice_codigo_municipio_path                       # Código do municipio prestador do serviço
-						attr_accessor :invoice_total_services_path                         # Valor total dos serviços
-						attr_accessor :invoice_deductions_path                             # Valor das deduções
+						attr_accessor :invoice_valor_total_servicos_path                         # Valor total dos serviços
+						attr_accessor :invoice_deducoes_path                             # Valor das deduções
 						attr_accessor :invoice_valor_pis_path                              # Valor do PIS
 						attr_accessor :invoice_valor_cofins_path                           # Valor do COFINS
 						attr_accessor :invoice_valor_inss_path                             # Valor do INSS
 						attr_accessor :invoice_valor_ir_path                               # Valor do IR
 						attr_accessor :invoice_valor_csll_path                             # Valor da CSLL
-						attr_accessor :invoice_iss_retained_path                           # Se o ISS está retido
+						attr_accessor :invoice_iss_retido_path                           # Se o ISS está retido
 						attr_accessor :invoice_outras_retencoes_path                       # Valor Outras retenções
 						attr_accessor :invoice_total_iss_path                              # Valor total de ISS
-						attr_accessor :invoice_base_calculation_path                       # Valor da base de cálculo
-						attr_accessor :invoice_iss_tax_rate_path                           # Percentual do imposto de ISS
+						attr_accessor :invoice_base_calculo_path                       # Valor da base de cálculo
+						attr_accessor :invoice_iss_aliquota_path                           # Percentual do imposto de ISS
 						attr_accessor :invoice_valor_liquido_path                          # Valor liquido da NFS
 						attr_accessor :invoice_desconto_condicionado_path                  # Valor do desconto condicionado
 						attr_accessor :invoice_desconto_incondicionado_path                # Valor do desconto incondicionado
@@ -126,18 +126,18 @@ module BrNfe
 								invoice_cnae_code_path:                              response_invoice_cnae_code_path,
 								invoice_description_path:                            response_invoice_description_path,
 								invoice_codigo_municipio_path:                       response_invoice_codigo_municipio_path,
-								invoice_total_services_path:                         response_invoice_total_services_path,
-								invoice_deductions_path:                             response_invoice_deductions_path,
+								invoice_valor_total_servicos_path:                         response_invoice_valor_total_servicos_path,
+								invoice_deducoes_path:                             response_invoice_deducoes_path,
 								invoice_valor_pis_path:                              response_invoice_valor_pis_path,
 								invoice_valor_cofins_path:                           response_invoice_valor_cofins_path,
 								invoice_valor_inss_path:                             response_invoice_valor_inss_path,
 								invoice_valor_ir_path:                               response_invoice_valor_ir_path,
 								invoice_valor_csll_path:                             response_invoice_valor_csll_path,
-								invoice_iss_retained_path:                           response_invoice_iss_retained_path,
+								invoice_iss_retido_path:                           response_invoice_iss_retido_path,
 								invoice_outras_retencoes_path:                       response_invoice_outras_retencoes_path,
 								invoice_total_iss_path:                              response_invoice_total_iss_path,
-								invoice_base_calculation_path:                       response_invoice_base_calculation_path,
-								invoice_iss_tax_rate_path:                           response_invoice_iss_tax_rate_path,
+								invoice_base_calculo_path:                       response_invoice_base_calculo_path,
+								invoice_iss_aliquota_path:                           response_invoice_iss_aliquota_path,
 								invoice_valor_liquido_path:                          response_invoice_valor_liquido_path,
 								invoice_desconto_condicionado_path:                  response_invoice_desconto_condicionado_path,
 								invoice_desconto_incondicionado_path:                response_invoice_desconto_incondicionado_path,
@@ -290,18 +290,18 @@ module BrNfe
 
 					def build_values_nfe(nfe, invoice_hash)
 						nfe.assign_attributes({
-							total_services:          find_value_for_keys(invoice_hash, invoice_total_services_path                  ),
-							deductions:              find_value_for_keys(invoice_hash, invoice_deductions_path                      ),
+							valor_total_servicos:          find_value_for_keys(invoice_hash, invoice_valor_total_servicos_path                  ),
+							deducoes:              find_value_for_keys(invoice_hash, invoice_deducoes_path                      ),
 							valor_pis:               find_value_for_keys(invoice_hash, invoice_valor_pis_path                       ),
 							valor_cofins:            find_value_for_keys(invoice_hash, invoice_valor_cofins_path                    ),
 							valor_inss:              find_value_for_keys(invoice_hash, invoice_valor_inss_path                      ),
 							valor_ir:                find_value_for_keys(invoice_hash, invoice_valor_ir_path                        ),
 							valor_csll:              find_value_for_keys(invoice_hash, invoice_valor_csll_path                      ),
-							iss_retained:            find_value_for_keys(invoice_hash, invoice_iss_retained_path                    ),
+							iss_retido:            find_value_for_keys(invoice_hash, invoice_iss_retido_path                    ),
 							outras_retencoes:        find_value_for_keys(invoice_hash, invoice_outras_retencoes_path                ),
 							total_iss:               find_value_for_keys(invoice_hash, invoice_total_iss_path                       ),
-							base_calculation:        find_value_for_keys(invoice_hash, invoice_base_calculation_path                ),
-							iss_tax_rate:            find_value_for_keys(invoice_hash, invoice_iss_tax_rate_path                    ),
+							base_calculo:        find_value_for_keys(invoice_hash, invoice_base_calculo_path                ),
+							iss_aliquota:            find_value_for_keys(invoice_hash, invoice_iss_aliquota_path                    ),
 							valor_liquido:           find_value_for_keys(invoice_hash, invoice_valor_liquido_path                   ),
 							desconto_condicionado:   find_value_for_keys(invoice_hash, invoice_desconto_condicionado_path           ),
 							desconto_incondicionado: find_value_for_keys(invoice_hash, invoice_desconto_incondicionado_path         ),
