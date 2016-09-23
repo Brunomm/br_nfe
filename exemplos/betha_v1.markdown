@@ -3,7 +3,7 @@
 
 ###**1 - CancelamentoNfs **
 ```ruby
-@ws = BrNfe::Service::Betha::V1::CancelamentoNfs.new do |record|
+@ws = BrNfe::Service::Betha::V1::CancelaNfse.new do |record|
 	record.certificado_password = 'MINHASENHA'
 	record.certificado_path     = 'local/do/meu/certificado.pfx'
 	# record.certificado = @certificado # Se você já tem em sua app um certificado instanciado

@@ -101,7 +101,7 @@ module BrNfe
 				autoload :ConsultaLoteRps
 				autoload :ConsultaNfse
 				autoload :ConsultaNfsPorRps
-				autoload :CancelamentoNfs
+				autoload :CancelaNfse
 				autoload :ConsultaSituacaoLoteRps
 				autoload :RecepcaoLoteRps
 			end

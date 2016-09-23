@@ -2,7 +2,7 @@ module BrNfe
 	module Service
 		module Betha
 			module V1
-				class CancelamentoNfs < BrNfe::Service::Betha::V1::Gateway
+				class CancelaNfse < BrNfe::Service::Betha::V1::Gateway
 					include BrNfe::Service::Concerns::Rules::CancelamentoNfs
 					
 					def certificado_obrigatorio?

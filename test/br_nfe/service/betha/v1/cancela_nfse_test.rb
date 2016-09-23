@@ -1,7 +1,7 @@
 require 'test_helper'
 
-describe BrNfe::Service::Betha::V1::CancelamentoNfs do
-	subject             { FactoryGirl.build(:servico_betha_cancelamento_nfs, emitente: emitente) }
+describe BrNfe::Service::Betha::V1::CancelaNfse do
+	subject             { FactoryGirl.build(:servico_betha_cancela_nfse, emitente: emitente) }
 	let(:emitente)      { FactoryGirl.build(:service_emitente) }
 
 	describe "superclass" do

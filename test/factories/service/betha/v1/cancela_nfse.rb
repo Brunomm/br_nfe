@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :servico_betha_cancelamento_nfs, class:  BrNfe::Service::Betha::V1::CancelamentoNfs do
+	factory :servico_betha_cancela_nfse, class:  BrNfe::Service::Betha::V1::CancelaNfse do
 		nfe_number '3365'
 		codigo_cancelamento '1'
 		certificate_pkcs12_password 'associacao'
