@@ -29,7 +29,7 @@ module BrNfe
 				# Status possíveis
 				# [:success, :falied, :soap_error, :http_error, :unknown_error]
 				#
-				# <b>Tipo de retorno: </b> _Hash_
+				# <b>Tipo de retorno: </b> _Symbol_
 				#
 				attr_accessor :status
 				
