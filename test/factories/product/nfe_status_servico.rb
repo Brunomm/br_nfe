@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :product_consulta_status_servico, class:  BrNfe::Product::ConsultaStatusServico do
+	factory :product_nfe_status_servico, class:  BrNfe::Product::NfeStatusServico do
 		transient do
 			endereco_emitente { FactoryGirl.build(:endereco, codigo_municipio: '4216008') }
 		end

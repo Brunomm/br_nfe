@@ -161,7 +161,7 @@ module BrNfe
 		autoload :Emitente
 		autoload :ValueNf
 		autoload :Base
-		autoload :ConsultaStatusServico
+		autoload :NfeStatusServico
 	end
 
 

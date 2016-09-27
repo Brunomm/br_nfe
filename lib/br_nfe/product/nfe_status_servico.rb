@@ -1,6 +1,6 @@
 module BrNfe
 	module Product
-		class ConsultaStatusServico < BrNfe::Product::Base
+		class NfeStatusServico < BrNfe::Product::Base
 			# URL que será setada no atribto xmlns do XML;
 			# Ex:
 			# nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2"
@@ -28,7 +28,7 @@ module BrNfe
 			# XML que será enviado no body da requisição SOAP contendo as informações
 			# específicas de cada operação.
 			def xml_builder
-				render_xml 'consulta_status_servico'
+				render_xml 'nfe_status_servico'
 			end
 		end
 	end

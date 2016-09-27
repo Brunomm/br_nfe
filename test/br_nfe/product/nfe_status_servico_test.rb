@@ -1,7 +1,7 @@
 require 'test_helper'
 
-describe BrNfe::Product::ConsultaStatusServico do
-	subject { FactoryGirl.build(:product_consulta_status_servico) }
+describe BrNfe::Product::NfeStatusServico do
+	subject { FactoryGirl.build(:product_nfe_status_servico) }
 	let(:gateway) { FactoryGirl.build(:product_gateway_web_service_svrs) }
 
 	before do
@@ -29,8 +29,8 @@ describe BrNfe::Product::ConsultaStatusServico do
 	end
 
 	describe '#xml_builder' do
-		it "deve renderizar para o xml consulta_status_servico" do
-			subject.expects(:render_xml).with('consulta_status_servico').returns('<ok>1</ok>')
+		it "deve renderizar para o xml nfe_status_servico" do
+			subject.expects(:render_xml).with('nfe_status_servico').returns('<ok>1</ok>')
 			subject.xml_builder.must_equal '<ok>1</ok>'
 		end
 	end
