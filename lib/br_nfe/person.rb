@@ -18,11 +18,17 @@ module BrNfe
 		attr_accessor :inscricao_municipal
 		attr_accessor :inscricao_estadual
 		attr_accessor :inscricao_suframa
-		attr_accessor :optante_simples_nacional
 		attr_accessor :incentivo_fiscal
 
+		# CRT - Código de Regime Tributário
+		# 1=Simples Nacional;
+		# 2=Simples Nacional, excesso sublimite de receita bruta;
+		# 3=Regime Normal.
+		#
+		attr_accessor :codigo_regime_tributario
 
 		validates :cpf_cnpj, :razao_social, presence: true
+		validates :codigo_regime_tributario, inclusion: {in: ['1', '2', '3', 1, 2, 3]}, allow_blank: true
 		
 		def razao_social
 			"#{@razao_social}".to_valid_format_nf
@@ -33,7 +39,7 @@ module BrNfe
 		end
 
 		def optante_simples_nacional?
-			BrNfe.true_values.include?(optante_simples_nacional)
+			"#{codigo_regime_tributario}".in?(['1','2'])
 		end
 
 		def incentivo_fiscal?

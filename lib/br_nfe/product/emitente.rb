@@ -3,6 +3,14 @@ module BrNfe
 		class Emitente  < BrNfe::Person
 			validates :inscricao_municipal, :natureza_operacao, presence: true
 			validate  :validar_endereco
+
+			# IE do Substituto Tributário da UF de destino da mercadoria,
+			# quando houver a retenção do ICMS ST para a UF de destino.
+			#
+			# <b>Tipo: </b> _Number_
+			# 
+			attr_accessor :inscricao_estadual_st
+
 		end
 	end
 end

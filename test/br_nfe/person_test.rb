@@ -7,6 +7,7 @@ describe BrNfe::Person do
 	describe "validations" do
 		it { must validate_presence_of(:cpf_cnpj) }
 		it { must validate_presence_of(:razao_social) }
+		it { must validate_inclusion_of(:codigo_regime_tributario).in_array(['1', '2', '3', 1, 2, 3]).allow_blank }
 	end
 
 	it "deve ter alias attribute com cpf, cnpj e cpf_cnpj" do
@@ -50,6 +51,21 @@ describe BrNfe::Person do
 			subject.nome_fantasia = 'ó têxtú dève vìr SÉM ÀçÊnTÕ'
 			subject.nome_fantasia.must_equal "O TEXTU DEVE VIR SEM ACENTO"
 		end
+	end
+
+	describe "#optante_simples_nacional?" do
+		it "se o CRT for 1 deve ser true" do
+			subject.codigo_regime_tributario = 1
+			subject.optante_simples_nacional?.must_equal true
+		end
+		it "se o CRT for 2 deve ser true" do
+			subject.codigo_regime_tributario = '2'
+			subject.optante_simples_nacional?.must_equal true
+		end
+		it "se o CRT for 3 deve ser false" do
+			subject.codigo_regime_tributario = 3
+			subject.optante_simples_nacional?.must_equal false
+		end		
 	end
 
 end
