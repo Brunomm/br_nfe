@@ -161,6 +161,7 @@ module BrNfe
 		autoload :ValueNf
 		autoload :Emitente
 		autoload :Destinatario
+		autoload :NotaFiscal
 		
 		autoload :Base
 		autoload :NfeStatusServico

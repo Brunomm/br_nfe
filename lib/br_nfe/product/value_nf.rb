@@ -20,7 +20,7 @@ module BrNfe
 			end
 
 			def value_nf_text value, max=60, xml_version=:v3_10
-				"#{value}".max_size(max).br_nfe_escape_html.to_valid_format_nf
+				"#{value}".strip.max_size(max).br_nfe_escape_html
 			end
 
 			def value_nf_codigo_ibge_municipio value, xml_version=:v3_10
