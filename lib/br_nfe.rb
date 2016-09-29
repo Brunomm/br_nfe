@@ -158,8 +158,10 @@ module BrNfe
 			autoload :Base
 			autoload :WebServiceSVRS
 		end
-		autoload :Emitente
 		autoload :ValueNf
+		autoload :Emitente
+		autoload :Destinatario
+		
 		autoload :Base
 		autoload :NfeStatusServico
 	end
@@ -184,6 +186,9 @@ module BrNfe
 
 	mattr_accessor :destinatario_service_class
 	@@destinatario_service_class = BrNfe::Service::Destinatario
+	
+	mattr_accessor :destinatario_product_class
+	@@destinatario_product_class = BrNfe::Product::Destinatario
 
 	mattr_accessor :intermediario_service_class
 	@@intermediario_service_class = BrNfe::Service::Intermediario

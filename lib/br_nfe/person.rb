@@ -43,7 +43,7 @@ module BrNfe
 		end
 
 		def incentivo_fiscal?
-			BrNfe.true_values.include?(incentivo_fiscal)
+			convert_to_boolean(incentivo_fiscal)
 		end
 		
 	end

@@ -1,16 +1,13 @@
 require 'test_helper'
 
-describe BrNfe::Product::Emitente do
-	subject { FactoryGirl.build(:product_emitente, endereco: endereco) }
+describe BrNfe::Product::Destinatario do
+	subject { FactoryGirl.build(:product_destinatario, endereco: endereco) }
 	let(:endereco) { FactoryGirl.build(:endereco) } 
 
-	it "deve herdar da classe ::Person" do
-		subject.must_be_kind_of BrNfe::Product::Emitente
-		subject.must_be_kind_of BrNfe::Person
-	end
-
 	describe "validations" do
-		it { wont validate_presence_of(:inscricao_municipal) }
+		it { must validate_presence_of(:cpf_cnpj) }
+		it { must validate_presence_of(:razao_social) }
+		
 		describe "valida o endereco" do
 			it "deve ser inválido se endereco for invalido" do
 				subject.endereco.stubs(:valid?).returns(false)
@@ -24,5 +21,4 @@ describe BrNfe::Product::Emitente do
 			end
 		end
 	end
-
 end
