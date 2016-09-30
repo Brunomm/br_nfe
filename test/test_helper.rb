@@ -11,6 +11,7 @@ require 'minitest/matchers_vaccine'
 require 'shoulda/matchers'
 require "minitest/reporters"
 require 'mocha/mini_test'
+require 'webmock/minitest'
 
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
@@ -43,5 +44,15 @@ class MiniTest::Spec
 	include Savon::SpecHelper
 	include Shoulda::Matchers::ActiveModel
 	include FactoryGirl::Syntax::Methods
-	let(:sequence_1) { sequence('sequence_1') } 
+	let(:sequence_1) { sequence('sequence_1') }
+
+	def open_fixture(path)
+		file_path = File.expand_path('../fixtures', __FILE__) + '/'+ path
+		File.open(file_path)
+	end
+
+	def read_fixture(path)
+		file_path = File.expand_path('../fixtures', __FILE__) + '/'+ path
+		File.read(file_path)
+	end
 end

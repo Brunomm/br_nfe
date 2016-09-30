@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions name='CancelarNEV01Service' targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://www.w3.org/2000/09/xmldsig#' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' version='1.0' xmlns:ns1='http://www.w3.org/2000/09/xmldsig#' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://www.w3.org/2000/09/xmldsig#'/>
+   <xs:element name='CancelarNfseEnvio' type='tns:CancelarNfseEnvio'/>
+   <xs:element name='CancelarNfseEnvioResponse' type='tns:CancelarNfseEnvioResponse'/>
+   <xs:complexType name='CancelarNfseEnvio'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Pedido' type='tns:tcPedidoCancelamento'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcPedidoCancelamento'>
+    <xs:sequence>
+     <xs:element name='InfPedidoCancelamento' type='tns:tcInfPedidoCancelamento'/>
+     <xs:element ref='ns1:Signature'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcInfPedidoCancelamento'>
+    <xs:sequence>
+     <xs:element name='IdentificacaoNfse' type='tns:tcIdentificacaoNfse'/>
+     <xs:element name='CodigoCancelamento' type='xs:string'/>
+    </xs:sequence>
+    <xs:attribute name='Id' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoNfse'>
+    <xs:sequence>
+     <xs:element name='Numero' type='xs:string'/>
+     <xs:element name='Cnpj' type='xs:string'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+     <xs:element name='CodigoMunicipio' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcSigInfo'>
+    <xs:sequence>
+     <xs:element ref='ns1:CanonicalizationMethod'/>
+     <xs:element ref='ns1:SignatureMethod'/>
+     <xs:element ref='ns1:Reference'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcReference'>
+    <xs:sequence>
+     <xs:element ref='ns1:Transforms'/>
+     <xs:element ref='ns1:DigestMethod'/>
+     <xs:element ref='ns1:DigestValue'/>
+    </xs:sequence>
+    <xs:attribute name='URI' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcTransforms'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' ref='ns1:Transform'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcTransform'>
+    <xs:sequence/>
+    <xs:attribute name='Algorithm' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcKeyInfo'>
+    <xs:sequence>
+     <xs:element ref='ns1:X509Data'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='CancelarNfseEnvioResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='CancelarNfseReposta' type='tns:cancelarNfseResposta'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cancelarNfseResposta'>
+    <xs:sequence>
+     <xs:choice maxOccurs='unbounded' minOccurs='0'>
+      <xs:element name='Cancelamento' type='tns:tcCancelamentoNfse'/>
+      <xs:element name='ListaMensagemRetorno' type='tns:tcListaMensagemRetorno'/>
+     </xs:choice>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcCancelamentoNfse'>
+    <xs:sequence>
+     <xs:element name='Confirmacao' type='tns:tcConfirmacaoCancelamento'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcConfirmacaoCancelamento'>
+    <xs:sequence>
+     <xs:element name='Pedido' type='tns:tcPedidoCancelamento'/>
+     <xs:element name='InfConfirmacaoCancelamento' type='tns:tcInfConfirmacaoCancelamento'/>
+    </xs:sequence>
+    <xs:attribute name='Id' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcInfConfirmacaoCancelamento'>
+    <xs:sequence>
+     <xs:element name='Sucesso' type='xs:boolean'/>
+     <xs:element name='DataHora' type='xs:dateTime'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcListaMensagemRetorno'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' name='MensagemRetorno' type='tns:tcMensagemRetorno'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcMensagemRetorno'>
+    <xs:sequence>
+     <xs:element name='Codigo' type='xs:string'/>
+     <xs:element name='Mensagem' type='xs:string'/>
+     <xs:element minOccurs='0' name='Correcao' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://www.w3.org/2000/09/xmldsig#' version='1.0' xmlns:ns1='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:tns='http://www.w3.org/2000/09/xmldsig#' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://www.betha.com.br/e-nota-contribuinte-ws'/>
+   <xs:element name='CanonicalizationMethod' type='tns:tcCanonicalizationMethod'/>
+   <xs:element name='DigestMethod' type='tns:tcDigestMethod'/>
+   <xs:element name='DigestValue' type='xs:string'/>
+   <xs:element name='Reference' type='ns1:tcReference'/>
+   <xs:element name='Signature' type='tns:Signature'/>
+   <xs:element name='SignatureMethod' type='tns:tcSignatureMethod'/>
+   <xs:element name='Transform' type='ns1:tcTransform'/>
+   <xs:element name='Transforms' type='ns1:tcTransforms'/>
+   <xs:element name='X509Data' type='tns:tcX509Data'/>
+   <xs:element name='tcCanonicalizationMethod' type='tns:tcCanonicalizationMethod'/>
+   <xs:element name='tcDigestMethod' type='tns:tcDigestMethod'/>
+   <xs:element name='tcSignatureMethod' type='tns:tcSignatureMethod'/>
+   <xs:element name='tcX509Data' type='tns:tcX509Data'/>
+   <xs:complexType name='Signature'>
+    <xs:sequence>
+     <xs:element form='qualified' name='SignedInfo' type='ns1:tcSigInfo'/>
+     <xs:element form='qualified' name='SignatureValue' type='xs:string'/>
+     <xs:element form='qualified' name='KeyInfo' type='ns1:tcKeyInfo'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcCanonicalizationMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcSignatureMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcDigestMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcX509Data'>
+    <xs:sequence>
+     <xs:element form='qualified' name='X509Certificate' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:attribute name='Algorithm' type='xs:string'/>
+  </xs:schema>
+ </types>
+ <message name='CancelarNEV01_CancelarNfseEnvio'>
+  <part element='tns:CancelarNfseEnvio' name='CancelarNfseEnvio'></part>
+ </message>
+ <message name='CancelarNEV01_CancelarNfseEnvioResponse'>
+  <part element='tns:CancelarNfseEnvioResponse' name='CancelarNfseEnvioResponse'></part>
+ </message>
+ <portType name='CancelarNEV01'>
+  <operation name='CancelarNfseEnvio' parameterOrder='CancelarNfseEnvio'>
+   <input message='tns:CancelarNEV01_CancelarNfseEnvio'></input>
+   <output message='tns:CancelarNEV01_CancelarNfseEnvioResponse'></output>
+  </operation>
+ </portType>
+ <binding name='CancelarNEV01Binding' type='tns:CancelarNEV01'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='CancelarNfseEnvio'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='CancelarNEV01Service'>
+  <port binding='tns:CancelarNEV01Binding' name='CancelarNEV01Port'>
+   <soap:address location='http://e-gov.betha.com.br/e-nota-contribuinte-ws/cancelarNfse'/>
+  </port>
+ </service>
+</definitions>

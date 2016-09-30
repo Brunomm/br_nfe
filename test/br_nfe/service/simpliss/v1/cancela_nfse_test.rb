@@ -48,11 +48,14 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando cancelou a NF com sucesso" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/cancela_nfse/success.xml')
+			fixture = read_fixture('service/response/simpliss/v1/cancela_nfse/success.xml')
 			
 			savon.expects(:cancelar_nfse).returns(fixture)
 			subject.request
@@ -68,7 +71,7 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/cancela_nfse/fault.xml')
+			fixture = read_fixture('service/response/simpliss/v1/cancela_nfse/fault.xml')
 			
 			savon.expects(:cancelar_nfse).returns(fixture)
 			subject.request

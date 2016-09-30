@@ -58,11 +58,14 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_nfse.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Se não encontrar nenhuma NFe" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/consulta_nfse/nfs_empty.xml')
+			fixture = read_fixture('service/response/betha/v1/consulta_nfse/nfs_empty.xml')
 			savon.expects(:consultar_nfse_envio).returns(fixture)
 			subject.request
 			response = subject.response
@@ -73,7 +76,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/consulta_nfse/fault.xml')
+			fixture = read_fixture('service/response/betha/v1/consulta_nfse/fault.xml')
 			
 			savon.expects(:consultar_nfse_envio).returns(fixture)
 			subject.request
@@ -88,7 +91,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações básicas preenchidas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/consulta_nfse/success.xml')
+			fixture = read_fixture('service/response/betha/v1/consulta_nfse/success.xml')
 			savon.expects(:consultar_nfse_envio).returns(fixture)
 			subject.request
 			response = subject.response

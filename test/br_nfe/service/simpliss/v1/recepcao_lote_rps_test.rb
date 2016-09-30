@@ -58,11 +58,14 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps/success.xml')
+			fixture = read_fixture('service/response/simpliss/v1/recepcao_lote_rps/success.xml')
 			
 			savon.expects(:recepcionar_lote_rps).returns(fixture)
 			subject.request
@@ -77,7 +80,7 @@ describe BrNfe::Service::Simpliss::V1::RecepcaoLoteRps do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/recepcao_lote_rps/error.xml')
+			fixture = read_fixture('service/response/simpliss/v1/recepcao_lote_rps/error.xml')
 			
 			savon.expects(:recepcionar_lote_rps).returns(fixture)
 			subject.request

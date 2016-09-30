@@ -46,11 +46,14 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_lote_rps/fault.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_lote_rps/fault.xml')
 			
 			savon.expects(:consultar_lote_rps).returns(fixture)
 			subject.request
@@ -68,7 +71,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações básicas preenchidas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_lote_rps/nfse_simple.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_lote_rps/nfse_simple.xml')
 			savon.expects(:consultar_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -136,7 +139,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações completas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_lote_rps/nfse_complete.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_lote_rps/nfse_complete.xml')
 			savon.expects(:consultar_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response

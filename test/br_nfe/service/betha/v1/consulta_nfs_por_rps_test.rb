@@ -59,11 +59,14 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_nfse_por_rps.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/consulta_nfse_por_rps/fault.xml')
+			fixture = read_fixture('service/response/betha/v1/consulta_nfse_por_rps/fault.xml')
 			
 			savon.expects(:consultar_nfse_por_rps_envio).returns(fixture)
 			subject.request
@@ -78,7 +81,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações preenchidas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/consulta_nfse_por_rps/success.xml')
+			fixture = read_fixture('service/response/betha/v1/consulta_nfse_por_rps/success.xml')
 			savon.expects(:consultar_nfse_por_rps_envio).returns(fixture)
 			subject.request
 			response = subject.response

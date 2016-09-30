@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://server.nfse.thema.inf.br" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://server.nfse.thema.inf.br">
+    <wsdl:documentation>
+		Serviço destinado ao cancelamento de notas fiscais.
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://server.nfse.thema.inf.br">
+            <xs:element name="cancelarNfse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="xml" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cancelarNfseResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="cancelarNfseRequest">
+        <wsdl:part name="parameters" element="ns:cancelarNfse"/>
+    </wsdl:message>
+    <wsdl:message name="cancelarNfseResponse">
+        <wsdl:part name="parameters" element="ns:cancelarNfseResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="NFSEcancelamentoPortType">
+        <wsdl:operation name="cancelarNfse">
+            <wsdl:input message="ns:cancelarNfseRequest" wsaw:Action="urn:cancelarNfse"/>
+            <wsdl:output message="ns:cancelarNfseResponse" wsaw:Action="urn:cancelarNfseResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NFSEcancelamentoSoap11Binding" type="ns:NFSEcancelamentoPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="cancelarNfse">
+            <soap:operation soapAction="urn:cancelarNfse" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEcancelamentoSoap12Binding" type="ns:NFSEcancelamentoPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="cancelarNfse">
+            <soap12:operation soapAction="urn:cancelarNfse" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEcancelamentoHttpBinding" type="ns:NFSEcancelamentoPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="cancelarNfse">
+            <http:operation location="cancelarNfse"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NFSEcancelamento">
+        <wsdl:port name="NFSEcancelamentoHttpSoap11Endpoint" binding="ns:NFSEcancelamentoSoap11Binding">
+            <soap:address location="http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento.NFSEcancelamentoHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEcancelamentoHttpSoap12Endpoint" binding="ns:NFSEcancelamentoSoap12Binding">
+            <soap12:address location="http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento.NFSEcancelamentoHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEcancelamentoHttpEndpoint" binding="ns:NFSEcancelamentoHttpBinding">
+            <http:address location="http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento.NFSEcancelamentoHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

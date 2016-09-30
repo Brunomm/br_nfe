@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions name='ConsultarSituacaoLoteRpsService' targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' version='1.0' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:element name='ConsultarSituacaoLoteRpsEnvio' type='tns:ConsultarSituacaoLoteRpsEnvio'/>
+   <xs:element name='ConsultarSituacaoLoteRpsEnvioResponse' type='tns:ConsultarSituacaoLoteRpsEnvioResponse'/>
+   <xs:complexType name='ConsultarSituacaoLoteRpsEnvio'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Prestador' type='tns:tcIdentificacaoPrestador'/>
+     <xs:element minOccurs='0' name='Protocolo' type='xs:integer'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoPrestador'>
+    <xs:sequence>
+     <xs:element name='Cnpj' type='xs:string'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='ConsultarSituacaoLoteRpsEnvioResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='ConsultarSituacaoLoteRpsResposta' type='tns:consultarSituacaoLoteRpsResposta'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='consultarSituacaoLoteRpsResposta'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='NumeroLote' type='xs:integer'/>
+     <xs:element minOccurs='0' name='Situacao' type='xs:string'/>
+     <xs:element minOccurs='0' name='ListaMensagemRetorno' type='tns:tcListaMensagemRetorno'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcListaMensagemRetorno'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' name='MensagemRetorno' type='tns:tcMensagemRetorno'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcMensagemRetorno'>
+    <xs:sequence>
+     <xs:element name='Codigo' type='xs:string'/>
+     <xs:element name='Mensagem' type='xs:string'/>
+     <xs:element minOccurs='0' name='Correcao' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='ConsultarSituacaoLoteRps_ConsultarSituacaoLoteRpsEnvio'>
+  <part element='tns:ConsultarSituacaoLoteRpsEnvio' name='ConsultarSituacaoLoteRpsEnvio'></part>
+ </message>
+ <message name='ConsultarSituacaoLoteRps_ConsultarSituacaoLoteRpsEnvioResponse'>
+  <part element='tns:ConsultarSituacaoLoteRpsEnvioResponse' name='ConsultarSituacaoLoteRpsEnvioResponse'></part>
+ </message>
+ <portType name='ConsultarSituacaoLoteRps'>
+  <operation name='ConsultarSituacaoLoteRpsEnvio' parameterOrder='ConsultarSituacaoLoteRpsEnvio'>
+   <input message='tns:ConsultarSituacaoLoteRps_ConsultarSituacaoLoteRpsEnvio'></input>
+   <output message='tns:ConsultarSituacaoLoteRps_ConsultarSituacaoLoteRpsEnvioResponse'></output>
+  </operation>
+ </portType>
+ <binding name='ConsultarSituacaoLoteRpsBinding' type='tns:ConsultarSituacaoLoteRps'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='ConsultarSituacaoLoteRpsEnvio'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='ConsultarSituacaoLoteRpsService'>
+  <port binding='tns:ConsultarSituacaoLoteRpsBinding' name='ConsultarSituacaoLoteRpsPort'>
+   <soap:address location='http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarSituacaoLoteRps'/>
+  </port>
+ </service>
+</definitions>

@@ -10,7 +10,7 @@ module BrNfe
 					end
 
 					def wsdl
-						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/cancelarNfseV02?wsdl"
+						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/cancelarNfse?wsdl"
 					end
 					
 					def method_wsdl
