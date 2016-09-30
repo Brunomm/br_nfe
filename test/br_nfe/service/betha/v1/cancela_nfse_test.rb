@@ -18,13 +18,13 @@ describe BrNfe::Service::Betha::V1::CancelaNfse do
 	
 	describe "#wsdl" do
 		context "for env production" do
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/cancelarNfseV02?wsdl' }
+			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/cancelarNfse?wsdl' }
 		end
 		context "for env test" do
 			before do 
 				subject.env = :test
 			end
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/cancelarNfseV02?wsdl' }
+			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/cancelarNfse?wsdl' }
 		end
 	end
 
@@ -48,12 +48,14 @@ describe BrNfe::Service::Betha::V1::CancelaNfse do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/cancelar_nfse.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando cancelou a NF com sucesso" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/cancela_nfse/success.xml')
-			
+			fixture = read_fixture('service/response/betha/v1/cancela_nfse/success.xml')
 			savon.expects(:cancelar_nfse_envio).returns(fixture)
 			subject.request
 			response = subject.response
@@ -68,7 +70,7 @@ describe BrNfe::Service::Betha::V1::CancelaNfse do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/cancela_nfse/fault.xml')
+			fixture = read_fixture('service/response/betha/v1/cancela_nfse/fault.xml')
 			
 			savon.expects(:cancelar_nfse_envio).returns(fixture)
 			subject.request

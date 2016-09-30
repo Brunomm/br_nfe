@@ -22,11 +22,14 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Se não encontrar nenhuma NFe" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_nfse/nfs_empty.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_nfse/nfs_empty.xml')
 			savon.expects(:consultar_nfse).returns(fixture)
 			subject.request
 			response = subject.response
@@ -37,7 +40,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_nfse/fault.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_nfse/fault.xml')
 			
 			savon.expects(:consultar_nfse).returns(fixture)
 			subject.request
@@ -52,7 +55,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações básicas preenchidas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_nfse/nfse_simple.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_nfse/nfse_simple.xml')
 			savon.expects(:consultar_nfse).returns(fixture)
 			subject.request
 			response = subject.response
@@ -120,7 +123,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaNfse do
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações completas" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_nfse/nfse_complete.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_nfse/nfse_complete.xml')
 			savon.expects(:consultar_nfse).returns(fixture)
 			subject.request
 			response = subject.response

@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions name='RecepcionarLoteRpsService' targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://www.w3.org/2000/09/xmldsig#' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://www.betha.com.br/e-nota-contribuinte-ws' version='1.0' xmlns:ns1='http://www.w3.org/2000/09/xmldsig#' xmlns:tns='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://www.w3.org/2000/09/xmldsig#'/>
+   <xs:element name='EnviarLoteRpsEnvio' type='tns:EnviarLoteRpsEnvio'/>
+   <xs:element name='EnviarLoteRpsEnvioResponse' type='tns:EnviarLoteRpsEnvioResponse'/>
+   <xs:element name='EnviarLoteRpsResposta' type='tns:enviarLoteRpsResposta'/>
+   <xs:complexType name='EnviarLoteRpsEnvio'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='LoteRps' type='tns:tcLoteRps'/>
+     <xs:element minOccurs='0' ref='ns1:Signature'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcLoteRps'>
+    <xs:sequence>
+     <xs:element name='NumeroLote' type='xs:long'/>
+     <xs:element name='Cnpj' type='xs:string'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+     <xs:element name='QuantidadeRps' type='xs:int'/>
+     <xs:element name='ListaRps' type='tns:tcListaRps'/>
+    </xs:sequence>
+    <xs:attribute name='Id' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcListaRps'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' name='Rps' type='tns:tcRps'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcRps'>
+    <xs:sequence>
+     <xs:element name='InfRps' type='tns:tcInfRps'/>
+     <xs:element ref='ns1:Signature'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcInfRps'>
+    <xs:sequence>
+     <xs:element name='IdentificacaoRps' type='tns:tcIdentificacaoRps'/>
+     <xs:element name='DataEmissao' type='xs:dateTime'/>
+     <xs:element name='NaturezaOperacao' type='xs:int'/>
+     <xs:element minOccurs='0' name='RegimeEspecialTributacao' type='xs:int'/>
+     <xs:element name='OptanteSimplesNacional' type='xs:int'/>
+     <xs:element name='IncentivadorCultural' type='xs:int'/>
+     <xs:element name='Status' type='xs:int'/>
+     <xs:element minOccurs='0' name='RpsSubstituido' type='tns:tcIdentificacaoRps'/>
+     <xs:element name='Servico' type='tns:tcDadosServico'/>
+     <xs:element name='Prestador' type='tns:tcIdentificacaoPrestador'/>
+     <xs:element name='Tomador' type='tns:tcDadosTomador'/>
+     <xs:element minOccurs='0' name='IntermediarioServico' type='tns:tcIdentificacaoIntermediarioServico'/>
+     <xs:element minOccurs='0' name='ConstrucaoCivil' type='tns:tcDadosConstrucaoCivil'/>
+     <xs:element minOccurs='0' name='OutrasInformacoes' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='CondicaoPagamento' type='tns:tcCondicoesPagamentos'/>
+    </xs:sequence>
+    <xs:attribute name='Id' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoRps'>
+    <xs:sequence>
+     <xs:element name='Numero' type='xs:string'/>
+     <xs:element name='Serie' type='xs:string'/>
+     <xs:element name='Tipo' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcDadosServico'>
+    <xs:sequence>
+     <xs:element name='Valores' type='tns:tcValores'/>
+     <xs:element name='ItemListaServico' type='xs:string'/>
+     <xs:element minOccurs='0' name='CodigoCnae' type='xs:string'/>
+     <xs:element minOccurs='0' name='CodigoTributacaoMunicipio' type='xs:string'/>
+     <xs:element name='Discriminacao' type='xs:string'/>
+     <xs:element name='CodigoMunicipio' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcValores'>
+    <xs:sequence>
+     <xs:element name='ValorServicos' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorDeducoes' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorPis' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorCofins' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorInss' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorIr' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorCsll' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='IssRetido' type='xs:int'/>
+     <xs:element minOccurs='0' name='ValorIss' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='OutrasRetencoes' type='xs:decimal'/>
+     <xs:element name='BaseCalculo' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='Aliquota' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorLiquidoNfse' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='ValorIssRetido' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='DescontoCondicionado' type='xs:decimal'/>
+     <xs:element minOccurs='0' name='DescontoIncondicionado' type='xs:decimal'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoPrestador'>
+    <xs:sequence>
+     <xs:element name='Cnpj' type='xs:string'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcDadosTomador'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='IdentificacaoTomador' type='tns:tcIdentificacaoTomador'/>
+     <xs:element minOccurs='0' name='RazaoSocial' type='xs:string'/>
+     <xs:element minOccurs='0' name='Endereco' type='tns:tcEndereco'/>
+     <xs:element minOccurs='0' name='Contato' type='tns:tcContato'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoTomador'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='CpfCnpj' type='tns:tcCpfCnpj'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+     <xs:element minOccurs='0' name='InscricaoEstadual' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcCpfCnpj'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Cnpj' type='xs:string'/>
+     <xs:element minOccurs='0' name='Cpf' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcEndereco'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Endereco' type='xs:string'/>
+     <xs:element minOccurs='0' name='Numero' type='xs:string'/>
+     <xs:element minOccurs='0' name='Complemento' type='xs:string'/>
+     <xs:element minOccurs='0' name='Bairro' type='xs:string'/>
+     <xs:element minOccurs='0' name='CodigoMunicipio' type='xs:int'/>
+     <xs:element minOccurs='0' name='Uf' type='xs:string'/>
+     <xs:element minOccurs='0' name='Cep' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcContato'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Telefone' type='xs:string'/>
+     <xs:element minOccurs='0' name='Email' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcIdentificacaoIntermediarioServico'>
+    <xs:sequence>
+     <xs:element name='RazaoSocial' type='xs:string'/>
+     <xs:element name='CpfCnpj' type='tns:tcCpfCnpj'/>
+     <xs:element minOccurs='0' name='InscricaoMunicipal' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcDadosConstrucaoCivil'>
+    <xs:sequence>
+     <xs:element name='CodigoObra' type='xs:string'/>
+     <xs:element name='Art' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcCondicoesPagamentos'>
+    <xs:sequence>
+     <xs:element name='Condicao' type='tns:Condicao'/>
+     <xs:element minOccurs='0' name='QtdParcela' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='Parcelas' type='tns:tcParcelas'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcParcelas'>
+    <xs:sequence>
+     <xs:element name='Parcela' type='xs:int'/>
+     <xs:element minOccurs='0' name='DataVencimento' type='xs:string'/>
+     <xs:element minOccurs='0' name='Valor' type='xs:decimal'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcSigInfo'>
+    <xs:sequence>
+     <xs:element ref='ns1:CanonicalizationMethod'/>
+     <xs:element ref='ns1:SignatureMethod'/>
+     <xs:element ref='ns1:Reference'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcReference'>
+    <xs:sequence>
+     <xs:element ref='ns1:Transforms'/>
+     <xs:element ref='ns1:DigestMethod'/>
+     <xs:element ref='ns1:DigestValue'/>
+    </xs:sequence>
+    <xs:attribute name='URI' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcTransforms'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' ref='ns1:Transform'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcTransform'>
+    <xs:sequence/>
+    <xs:attribute name='Algorithm' type='xs:string' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcKeyInfo'>
+    <xs:sequence>
+     <xs:element ref='ns1:X509Data'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='EnviarLoteRpsEnvioResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='EnviarLoteRpsResposta' type='tns:enviarLoteRpsResposta'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='enviarLoteRpsResposta'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='NumeroLote' type='xs:integer'/>
+     <xs:element minOccurs='0' name='DataRecebimento' type='xs:dateTime'/>
+     <xs:element minOccurs='0' name='Protocolo' type='xs:integer'/>
+     <xs:element minOccurs='0' name='ListaMensagemRetorno' type='tns:tcListaMensagemRetorno'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcListaMensagemRetorno'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' name='MensagemRetorno' type='tns:tcMensagemRetorno'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcMensagemRetorno'>
+    <xs:sequence>
+     <xs:element name='Codigo' type='xs:string'/>
+     <xs:element name='Mensagem' type='xs:string'/>
+     <xs:element minOccurs='0' name='Correcao' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name='Condicao'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='A_VISTA'/>
+     <xs:enumeration value='A_PRAZO'/>
+     <xs:enumeration value='NA_APRESENTACAO'/>
+     <xs:enumeration value='CARTAO_DEBITO'/>
+     <xs:enumeration value='CARTAO_CREDITO'/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://www.w3.org/2000/09/xmldsig#' version='1.0' xmlns:ns1='http://www.betha.com.br/e-nota-contribuinte-ws' xmlns:tns='http://www.w3.org/2000/09/xmldsig#' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://www.betha.com.br/e-nota-contribuinte-ws'/>
+   <xs:element name='CanonicalizationMethod' type='tns:tcCanonicalizationMethod'/>
+   <xs:element name='DigestMethod' type='tns:tcDigestMethod'/>
+   <xs:element name='DigestValue' type='xs:string'/>
+   <xs:element name='Reference' type='ns1:tcReference'/>
+   <xs:element name='Signature' type='tns:Signature'/>
+   <xs:element name='SignatureMethod' type='tns:tcSignatureMethod'/>
+   <xs:element name='Transform' type='ns1:tcTransform'/>
+   <xs:element name='Transforms' type='ns1:tcTransforms'/>
+   <xs:element name='X509Data' type='tns:tcX509Data'/>
+   <xs:element name='tcCanonicalizationMethod' type='tns:tcCanonicalizationMethod'/>
+   <xs:element name='tcDigestMethod' type='tns:tcDigestMethod'/>
+   <xs:element name='tcSignatureMethod' type='tns:tcSignatureMethod'/>
+   <xs:element name='tcX509Data' type='tns:tcX509Data'/>
+   <xs:complexType name='Signature'>
+    <xs:sequence>
+     <xs:element form='qualified' name='SignedInfo' type='ns1:tcSigInfo'/>
+     <xs:element form='qualified' name='SignatureValue' type='xs:string'/>
+     <xs:element form='qualified' name='KeyInfo' type='ns1:tcKeyInfo'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='tcCanonicalizationMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcSignatureMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcDigestMethod'>
+    <xs:sequence/>
+    <xs:attribute ref='tns:Algorithm' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='tcX509Data'>
+    <xs:sequence>
+     <xs:element form='qualified' name='X509Certificate' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:attribute name='Algorithm' type='xs:string'/>
+  </xs:schema>
+ </types>
+ <message name='RecepcionarLoteRps_EnviarLoteRpsEnvioResponse'>
+  <part element='tns:EnviarLoteRpsEnvioResponse' name='EnviarLoteRpsEnvioResponse'></part>
+ </message>
+ <message name='RecepcionarLoteRps_EnviarLoteRpsEnvio'>
+  <part element='tns:EnviarLoteRpsEnvio' name='EnviarLoteRpsEnvio'></part>
+ </message>
+ <portType name='RecepcionarLoteRps'>
+  <operation name='EnviarLoteRpsEnvio' parameterOrder='EnviarLoteRpsEnvio'>
+   <input message='tns:RecepcionarLoteRps_EnviarLoteRpsEnvio'></input>
+   <output message='tns:RecepcionarLoteRps_EnviarLoteRpsEnvioResponse'></output>
+  </operation>
+ </portType>
+ <binding name='RecepcionarLoteRpsBinding' type='tns:RecepcionarLoteRps'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='EnviarLoteRpsEnvio'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='RecepcionarLoteRpsService'>
+  <port binding='tns:RecepcionarLoteRpsBinding' name='RecepcionarLoteRpsPort'>
+   <soap:address location='http://e-gov.betha.com.br/e-nota-contribuinte-ws/recepcionarLoteRps'/>
+  </port>
+ </service>
+</definitions>

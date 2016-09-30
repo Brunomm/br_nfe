@@ -42,11 +42,14 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando processou o RPS com sucesso deve setar a situation com :success" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/success.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_situacao_lote_rps/success.xml')
 			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -59,7 +62,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 		end
 
 		it "Quando processou o RPS com erros deve setar a situation com :error" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/error.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_situacao_lote_rps/error.xml')
 			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -72,7 +75,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 		end
 
 		it "Quando não processou o RPS deve setar a situation com :unprocessed" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/unprocessed.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_situacao_lote_rps/unprocessed.xml')
 			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -85,7 +88,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 		end
 
 		it "Quando não encontrar o RPS deve setar a situation com :unreceived" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/unreceived.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_situacao_lote_rps/unreceived.xml')
 			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -98,7 +101,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaSituacaoLoteRps do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/simpliss/v1/consulta_situacao_lote_rps/fault.xml')
+			fixture = read_fixture('service/response/simpliss/v1/consulta_situacao_lote_rps/fault.xml')
 			
 			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
 			subject.request

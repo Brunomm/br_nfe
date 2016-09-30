@@ -9,6 +9,8 @@ module BrNfe
 							'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
 						elsif ibge_code_of_issuer_city == '4202008' # Balneário Camboriú
 							'http://wsbalneariocamboriu.simplissweb.com.br/nfseservice.svc?wsdl'
+						else # Se não encontrar a cidade pega por padrão o WS de homologação
+							'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
 						end
 					end
 

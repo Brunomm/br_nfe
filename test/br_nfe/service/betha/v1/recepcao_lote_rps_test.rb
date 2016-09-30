@@ -85,11 +85,14 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 	end
 
 	describe "#request and set response" do
-		before { savon.mock!   }
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/recepcionar_lote_rps.xml') )
+		end
 		after  { savon.unmock! }
 
 		it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/recepcao_lote_rps/success.xml')
+			fixture = read_fixture('service/response/betha/v1/recepcao_lote_rps/success.xml')
 			
 			savon.expects(:enviar_lote_rps_envio).returns(fixture)
 			subject.request
@@ -104,7 +107,7 @@ describe BrNfe::Service::Betha::V1::RecepcaoLoteRps do
 		end
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-			fixture = File.read(BrNfe.root+'/test/fixtures/service/response/betha/v1/recepcao_lote_rps/error.xml')
+			fixture = read_fixture('service/response/betha/v1/recepcao_lote_rps/error.xml')
 			
 			savon.expects(:enviar_lote_rps_envio).returns(fixture)
 			subject.request
