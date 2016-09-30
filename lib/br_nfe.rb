@@ -156,6 +156,8 @@ module BrNfe
 		module Gateway
 			extend ActiveSupport::Autoload
 			autoload :Base
+			autoload :WebServiceAM
+			autoload :WebServiceBA
 			autoload :WebServiceSVRS
 		end
 		autoload :ValueNf

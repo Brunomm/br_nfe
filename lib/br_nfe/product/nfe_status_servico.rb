@@ -25,11 +25,17 @@ module BrNfe
 				gateway.version_xml_status_servico
 			end
 
+			# Versão SSL utilizada pelo webservice
+			def ssl_version
+				gateway.ssl_version_status_servico
+			end
+
 			# XML que será enviado no body da requisição SOAP contendo as informações
 			# específicas de cada operação.
 			def xml_builder
 				render_xml 'nfe_status_servico'
 			end
+
 		end
 	end
 end
