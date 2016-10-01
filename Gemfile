@@ -13,5 +13,5 @@ group :test do
 	gem 'shoulda-matchers', require: false
 	gem "minitest-matchers_vaccine"
 	gem 'simplecov'
-	gem 'webmock'
+	gem 'webmock', require: false
 end

@@ -13,6 +13,8 @@ require "minitest/reporters"
 require 'mocha/mini_test'
 require 'webmock/minitest'
 
+WebMock.disable_net_connect!(allow: 'codeclimate.com')
+
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 
