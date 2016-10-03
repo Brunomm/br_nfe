@@ -1,8 +1,9 @@
 require 'test_helper'
 
 describe BrNfe::Product::NotaFiscal do
-	subject { FactoryGirl.build(:product_nota_fiscal) }
+	subject { FactoryGirl.build(:product_nota_fiscal, emitente: emitente) }
 	let(:endereco) { FactoryGirl.build(:endereco) } 
+	let(:emitente) { FactoryGirl.build(:product_emitente, endereco: endereco) } 
 
 	describe "#default_values" do
 		it '#versao_aplicativo deve ter o padrão 0' do
@@ -37,6 +38,9 @@ describe BrNfe::Product::NotaFiscal do
 		end
 		it '#processo_emissao deve ter o padrão 0' do
 			subject.class.new.processo_emissao.must_be_within_delta 0
+		end
+		it '#codigo_tipo_emissao deve ter o padrão 1' do
+			subject.class.new.codigo_tipo_emissao.must_be_within_delta 1
 		end
 	end
 
@@ -105,6 +109,10 @@ describe BrNfe::Product::NotaFiscal do
 			it { must validate_presence_of(:processo_emissao) }
 			it { must validate_inclusion_of(:processo_emissao).in_array([0, 1, 2, 3, '0', '1', '2', '3']) }
 		end
+		context '#codigo_tipo_emissao' do
+			it { must validate_presence_of(:codigo_tipo_emissao) }
+			it { must validate_inclusion_of(:codigo_tipo_emissao).in_array([1, 6, 7, 9, '1', '6', '7', '9']) }
+		end
 	end
 
 	describe '#nfe?' do
@@ -136,4 +144,130 @@ describe BrNfe::Product::NotaFiscal do
 			subject.nfce?.must_equal false
 		end
 	end
+
+	describe "#emitente" do
+		class OtherClassEmitente < BrNfe::ActiveModelBase
+		end
+		it "deve ter incluso o module HaveEmitente" do
+			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
+		end
+		it "o método #emitente_class deve ter por padrão a class BrNfe::Product::Emitente" do
+			subject.emitente.must_be_kind_of BrNfe::Product::Emitente
+			subject.send(:emitente_class).must_equal BrNfe::Product::Emitente
+		end
+		it "a class do emitente pode ser modificada através da configuração emitente_product_class" do
+			BrNfe.emitente_product_class = OtherClassEmitente
+			subject.emitente.must_be_kind_of OtherClassEmitente
+			subject.send(:emitente_class).must_equal OtherClassEmitente
+
+			# É necessário voltar a configuração original para não falhar outros testes
+			BrNfe.emitente_product_class = BrNfe::Product::Emitente
+		end
+	end
+
+	describe 'chave_de_acesso' do
+		it "se já tem chave de acesso setada na variavel @chave_de_acesso não deve calcular a chave novamente" do
+			subject.chave_de_acesso = '123'
+			subject.chave_de_acesso.must_equal '123'
+			subject.instance_variable_get(:@chave_de_acesso).must_equal '123'
+		end
+		it "deve calcular a chave de acesso com o DV se não tiver chave setada" do
+			emitente.endereco.codigo_ibge_uf = '42'
+			subject.data_hora_emissao = Time.parse('2016-06-09')
+			emitente.cnpj = '01.498.013/0001-98'
+			subject.modelo_nf = 65
+			subject.serie = 1
+			subject.numero_nf = 664
+			subject.codigo_tipo_emissao = 7
+			subject.codigo_nf = 100
+
+			key = subject.chave_de_acesso
+			key.size.must_equal 44
+
+			key[0..1].must_equal '42' # UF
+			key[2..5].must_equal  '1606' # Ano e mês da emissão
+			key[6..19].must_equal '01498013000198' # CNPJ
+			key[20..21].must_equal '65' # Modelo NF
+			key[22..24].must_equal '001' # Série
+			key[25..33].must_equal '000000664' # numero nf
+			key[34].must_equal '7' # Tipo emissão
+			key[35..42].must_equal '00000100' # codigo nf
+			key[43].must_equal '7' # DV
+
+			subject.instance_variable_get(:@chave_de_acesso).must_equal key
+		end
+		it "deve calcular a chave de acesso conforme exemplo da documentação" do
+			emitente.endereco.codigo_ibge_uf = '52'
+			subject.data_hora_emissao = Time.parse('2006-04-12')
+			emitente.cnpj = '33009911002506'
+			subject.modelo_nf = 55
+			subject.serie = 12
+			subject.numero_nf = '0780'
+			subject.codigo_tipo_emissao = 0
+			subject.codigo_nf = 26730161
+
+			key = subject.chave_de_acesso
+			key.size.must_equal 44
+
+			key[0..1].must_equal   '52' # UF
+			key[2..5].must_equal   '0604' # Ano e mês da emissão
+			key[6..19].must_equal  '33009911002506' # CNPJ
+			key[20..21].must_equal '55' # Modelo NF
+			key[22..24].must_equal '012' # Série
+			key[25..33].must_equal '000000780' # numero nf
+			key[34].must_equal     '0' # Tipo emissão
+			key[35..42].must_equal '26730161' # codigo nf
+			key[43].must_equal     '5' # DV
+		end
+
+		it "deve calcular a chave de acesso conforme exemplo de uma NF-e válida" do
+			emitente.endereco.codigo_ibge_uf = '35'
+			subject.data_hora_emissao = Time.parse('2015-03-04')
+			emitente.cnpj = '00776574000741'
+			subject.modelo_nf = 55
+			subject.serie = 3
+			subject.numero_nf = 5616108
+			subject.codigo_tipo_emissao = 4
+			subject.codigo_nf = 65900349
+
+			key = subject.chave_de_acesso
+			key.size.must_equal 44
+
+			key[0..1].must_equal   '35' # UF
+			key[2..5].must_equal   '1503' # Ano e mês da emissão
+			key[6..19].must_equal  '00776574000741' # CNPJ
+			key[20..21].must_equal '55' # Modelo NF
+			key[22..24].must_equal '003' # Série
+			key[25..33].must_equal '005616108' # numero nf
+			key[34].must_equal     '4' # Tipo emissão
+			key[35..42].must_equal '65900349' # codigo nf
+			key[43].must_equal     '0' # DV
+		end
+	end
+
+	describe '#chave_de_acesso_dv' do
+		it "deve pegar sempre o último dígido da chave_de_acesso" do
+			subject.chave_de_acesso = '35150300776574000741550030056161084659003490'
+			subject.chave_de_acesso_dv.must_equal '0'
+
+			subject.chave_de_acesso = '52060433009911002506550120000007800267301615'
+			subject.chave_de_acesso_dv.must_equal '5'
+
+			subject.chave_de_acesso = '5206043300991100250655012000000780026730161X'
+			subject.chave_de_acesso_dv.must_equal 'X'
+		end
+	end
+	describe '#chave_de_acesso_sem_dv' do
+		it "deve pegar sempre o último dígido da chave_de_acesso" do
+			subject.chave_de_acesso = '35150300776574000741550030056161084659003490'
+			subject.chave_de_acesso_sem_dv.must_equal '3515030077657400074155003005616108465900349'
+
+			subject.chave_de_acesso = '24729423849324793274947940000007800267301615'
+			subject.chave_de_acesso_sem_dv.must_equal '2472942384932479327494794000000780026730161'
+
+			subject.chave_de_acesso = '5206043300991100250655012000000780026730161X'
+			subject.chave_de_acesso_sem_dv.must_equal '5206043300991100250655012000000780026730161'
+		end
+	end
+
 end

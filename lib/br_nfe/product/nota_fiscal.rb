@@ -2,7 +2,36 @@ module BrNfe
 	module Product
 		class NotaFiscal  < BrNfe::ActiveModelBase
 			include BrNfe::Association::HaveDestinatario
+			include BrNfe::Association::HaveEmitente
 			# include BrNfe::Association::HaveCondicaoPagamento
+			
+			# Código do Tipo de Emissão da NF-e
+			#  ✓ 1=Emissão normal (não em contingência);
+			#  ✓ 6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);
+			#  ✓ 7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);
+			#  ✓ 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas 
+			#      também para a NFC-e).
+			#  Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
+			# 
+			# <b>Tipo: </b> _Number_
+			# <b>Max: </b> _1_
+			# <b>Required: </b> _Yes_
+			# <b>Default: </b> _1_
+			#
+			attr_accessor :codigo_tipo_emissao
+
+			attr_accessor :chave_de_acesso
+
+			def chave_de_acesso_dv
+				chave_de_acesso[-1]
+			end
+			def chave_de_acesso_sem_dv
+				chave_de_acesso[0..-2]
+			end
+			def chave_de_acesso
+				@chave_de_acesso ||= gerar_chave_de_acesso!
+			end
+
 
 			# Código numérico que compõe a Chave de Acesso. Número aleatório gerado pelo 
 			# emitente para cada NF-e para evitar acessos indevidos da NF-e.
@@ -153,7 +182,6 @@ module BrNfe
 				convert_to_boolean(@consumidor_final)
 			end
 
-
 			# Indicador de presença do comprador no estabelecimento comercial no 
 			# momento da operação:
 			#   0=Não se aplica (por exemplo, Nota Fiscal complementar ou de ajuste);
@@ -187,7 +215,6 @@ module BrNfe
 			#
 			attr_accessor :versao_aplicativo
 			
-
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -201,9 +228,13 @@ module BrNfe
 					finalidade_emissao:  1, # 1=NF-e normal;
 					presenca_comprador:  9, # 9=Operação não presencial, outros.
 					processo_emissao:    0, # 0=Emissão de NF-e com aplicativo do contribuinte;
+					codigo_tipo_emissao: 1, # 1=Normal
 				}
 			end
 
+			validates :codigo_tipo_emissao, presence: true
+			validates :codigo_tipo_emissao, inclusion: [1, 6, 7, 9, '1', '6', '7', '9']
+			
 			validates :codigo_nf, presence: true
 			validates :codigo_nf, numericality: { only_integer: true }
 			validates :codigo_nf, length: { maximum: 8 }
@@ -254,6 +285,28 @@ module BrNfe
 				BrNfe.destinatario_product_class
 			end
 
+			def emitente_class
+				BrNfe.emitente_product_class
+			end
+
+			###############################################################################################
+			#       | Código | AAMM da | CNPJ do  | Modelo | Série | Número  | Cód. tipo | Código   | DV  |
+			#       | da UF  | emissão | Emitente |        |       | da NF-e | emissão   | Numérico |     |
+			#       ---------------------------------------------------------------------------------------
+			# Tam = |  02    |   04    |    14    |   02   |   03  |   09    |    01     |    08    | 01  |
+			#       °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+			def gerar_chave_de_acesso!
+				chave_sem_dv =  "#{emitente.endereco.codigo_ibge_uf}"
+				chave_sem_dv << "#{data_hora_emissao.try(:strftime, '%y%m')}"
+				chave_sem_dv << "#{emitente.cnpj}".rjust(14,'0')
+				chave_sem_dv << "#{modelo_nf}"
+				chave_sem_dv << "#{serie}".rjust(3, '0')
+				chave_sem_dv << "#{numero_nf}".rjust(9, '0')
+				chave_sem_dv << "#{codigo_tipo_emissao}"
+				chave_sem_dv << "#{codigo_nf}".rjust(8, '0')
+				dv = BrNfe::Calculos::Modulo11FatorDe2a9RestoZero.new(chave_sem_dv)
+				"#{chave_sem_dv}#{dv}"
+			end
 		end
 	end
 end

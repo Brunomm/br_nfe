@@ -11,13 +11,18 @@ describe BrNfe::Person do
 	end
 
 	it "deve ter alias attribute com cpf, cnpj e cpf_cnpj" do
-		subject.cpf_cnpj = '123'
-		subject.cpf.must_equal '123'
-		subject.cnpj.must_equal '123'
+		subject.cpf_cnpj = '00000000123'
+		subject.cpf.must_equal '00000000123'
+		subject.cnpj.must_equal '00000000123'
 
-		subject.cnpj = '665'
-		subject.cpf_cnpj.must_equal '665'
-		subject.cpf.must_equal '665'
+		subject.cnpj = '33221144556655'
+		subject.cpf_cnpj.must_equal '33221144556655'
+		subject.cpf.must_equal '33221144556655'
+	end
+
+	it "cpf_cnpj deve retornar apenas os números" do
+		subject.cpf_cnpj = '012.345.55/0001-66'
+		subject.cpf_cnpj.must_equal '01234555000166'
 	end
 	
 	describe "#endereco" do

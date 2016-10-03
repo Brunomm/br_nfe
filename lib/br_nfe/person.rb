@@ -30,6 +30,11 @@ module BrNfe
 		validates :cpf_cnpj, :razao_social, presence: true
 		validates :codigo_regime_tributario, inclusion: {in: ['1', '2', '3', 1, 2, 3]}, allow_blank: true
 		
+		def cpf_cnpj
+			return "" unless @cpf_cnpj.present?
+			BrNfe::Helper::CpfCnpj.new(@cpf_cnpj).sem_formatacao
+		end
+			
 		def razao_social
 			"#{@razao_social}".to_valid_format_nf
 		end

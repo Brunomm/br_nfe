@@ -50,6 +50,14 @@ module BrNfe
 		[true, :true, 'true', 't', :t, 1, '1', :TRUE, 'TRUE', 'T']
 	end
 
+	module Calculos
+		extend ActiveSupport::Autoload
+		autoload :FatoresDeMultiplicacao
+		autoload :Modulo11
+		autoload :Modulo11FatorDe2a9
+		autoload :Modulo11FatorDe2a9RestoZero
+	end
+
 	extend ActiveSupport::Autoload
 	autoload :Constants
 	autoload :ActiveModelBase
