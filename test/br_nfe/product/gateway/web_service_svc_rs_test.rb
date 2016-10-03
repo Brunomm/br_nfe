@@ -1,10 +1,10 @@
 require 'test_helper'
 
-describe BrNfe::Product::Gateway::WebServiceSVRS do
-	subject { FactoryGirl.build(:product_gateway_web_service_svrs) }
+describe BrNfe::Product::Gateway::WebServiceSvcRS do
+	subject { BrNfe::Product::Gateway::WebServiceSvcRS.new(env: :test) }
 
-	it "deve herdar da class base" do
-		subject.class.superclass.must_equal BrNfe::Product::Gateway::Base
+	it "deve herdar da class WebServiceSVRS" do
+		subject.class.superclass.must_equal BrNfe::Product::Gateway::WebServiceSVRS
 	end
 
 	describe 'STATUS SERVIÇO' do
@@ -127,28 +127,28 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_inutilizacao' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_inutilizacao.must_equal 'https://nfe.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+				subject.wsdl_inutilizacao.must_be_nil
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_inutilizacao.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+				subject.wsdl_inutilizacao.must_be_nil
 			end
 		end
 
 		describe '#operation_inutilizacao' do
-			it { subject.operation_inutilizacao.must_equal :nfe_inutilizacao_nf2 }
+			it { subject.operation_inutilizacao.must_be_nil }
 		end
 
 		describe '#version_xml_inutilizacao' do
-			it { subject.version_xml_inutilizacao.must_equal :v3_10 }
+			it { subject.version_xml_inutilizacao.must_be_nil }
 		end
 
 		describe '#url_xmlns_inutilizacao' do
-			it { subject.url_xmlns_inutilizacao.must_equal 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao2' }
+			it { subject.url_xmlns_inutilizacao.must_be_nil }
 		end
 
 		describe '#ssl_version_inutilizacao' do
-			it { subject.ssl_version_inutilizacao.must_equal :SSLv3 }
+			it { subject.ssl_version_inutilizacao.must_be_nil }
 		end
 	end
 	

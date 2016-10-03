@@ -1,15 +1,15 @@
 module BrNfe
 	module Product
 		module Gateway
-			class WebServiceSVRS < Base
+			class WebServiceCE < Base
 
 				##########################################################################################
 				################################  NFE STATUS SERVIÇO  ####################################
 					def wsdl_status_servico
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeStatusServico2?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeStatusServico2?wsdl'
 						end
 					end
 					def operation_status_servico
@@ -29,9 +29,9 @@ module BrNfe
 				################################  NFE AUTORIZAÇÃO  #######################################
 					def wsdl_autorizacao
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeAutorizacao?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeAutorizacao?wsdl'
 						end
 					end
 					def operation_autorizacao
@@ -51,9 +51,9 @@ module BrNfe
 				################################  NFE RETORNO AUTORIZAÇÃO  ###############################
 					def wsdl_retorno_autorizacao
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
 						end
 					end
 					def operation_retorno_autorizacao
@@ -73,9 +73,9 @@ module BrNfe
 				################################  NFE CONSULTA PROTOCOLO  ################################
 					def wsdl_consulta_protocolo
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeConsulta2?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeConsulta2?wsdl'
 						end
 					end
 					def operation_consulta_protocolo
@@ -95,9 +95,9 @@ module BrNfe
 				################################  NFE INUTILIZAÇÃO  ######################################
 					def wsdl_inutilizacao
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
 						end
 					end
 					def operation_inutilizacao
@@ -117,9 +117,9 @@ module BrNfe
 				################################  NFE RECEPÇÃO EVENTO  ###################################
 					def wsdl_recepcao_evento
 						if env_production?
-							'https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+							'https://nfe.sefaz.ce.gov.br/nfe2/services/RecepcaoEvento?wsdl'
 						else
-							'https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+							'https://nfeh.sefaz.ce.gov.br/nfe2/services/RecepcaoEvento?wsdl'
 						end
 					end
 					def operation_recepcao_evento

@@ -1,7 +1,7 @@
 require 'test_helper'
 
-describe BrNfe::Product::Gateway::WebServiceSVRS do
-	subject { FactoryGirl.build(:product_gateway_web_service_svrs) }
+describe BrNfe::Product::Gateway::WebServiceGO do
+	subject { BrNfe::Product::Gateway::WebServiceGO.new(env: :test) }
 
 	it "deve herdar da class base" do
 		subject.class.superclass.must_equal BrNfe::Product::Gateway::Base
@@ -11,11 +11,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_status_servico' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_status_servico.must_equal 'https://nfe.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+				subject.wsdl_status_servico.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_status_servico.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+				subject.wsdl_status_servico.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl'
 			end
 		end
 
@@ -32,7 +32,7 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		end
 
 		describe '#ssl_version_status_servico' do
-			it { subject.ssl_version_status_servico.must_equal :SSLv3 }
+			it { subject.ssl_version_status_servico.must_equal :TLSv1 }
 		end
 	end
 
@@ -40,11 +40,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_autorizacao' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_autorizacao.must_equal 'https://nfe.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+				subject.wsdl_autorizacao.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_autorizacao.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+				subject.wsdl_autorizacao.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl'
 			end
 		end
 
@@ -69,11 +69,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_retorno_autorizacao' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_retorno_autorizacao.must_equal 'https://nfe.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+				subject.wsdl_retorno_autorizacao.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_retorno_autorizacao.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+				subject.wsdl_retorno_autorizacao.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl'
 			end
 		end
 
@@ -98,11 +98,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_consulta_protocolo' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_consulta_protocolo.must_equal 'https://nfe.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+				subject.wsdl_consulta_protocolo.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_consulta_protocolo.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+				subject.wsdl_consulta_protocolo.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'
 			end
 		end
 
@@ -127,11 +127,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_inutilizacao' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_inutilizacao.must_equal 'https://nfe.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+				subject.wsdl_inutilizacao.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_inutilizacao.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+				subject.wsdl_inutilizacao.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl'
 			end
 		end
 
@@ -156,11 +156,11 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 		describe '#wsdl_recepcao_evento' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.wsdl_recepcao_evento.must_equal 'https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+				subject.wsdl_recepcao_evento.must_equal 'https://nfe.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl'
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.wsdl_recepcao_evento.must_equal 'https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+				subject.wsdl_recepcao_evento.must_equal 'https://homolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl'
 			end
 		end
 

@@ -158,6 +158,18 @@ module BrNfe
 			autoload :Base
 			autoload :WebServiceAM
 			autoload :WebServiceBA
+			autoload :WebServiceCE
+			autoload :WebServiceGO
+			autoload :WebServiceMG
+			autoload :WebServiceMS
+			autoload :WebServiceMT
+			autoload :WebServicePE
+			autoload :WebServicePR
+			autoload :WebServiceRS
+			autoload :WebServiceSP
+			autoload :WebServiceSVAN
+			autoload :WebServiceSvcAN
+			autoload :WebServiceSvcRS
 			autoload :WebServiceSVRS
 		end
 		autoload :ValueNf
