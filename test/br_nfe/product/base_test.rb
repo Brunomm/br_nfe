@@ -2,11 +2,32 @@ require 'test_helper'
 
 describe BrNfe::Product::Base do
 	subject { FactoryGirl.build(:product_base) }
+	let(:nota_fiscal) { FactoryGirl.build(:product_nota_fiscal) } 
 	
 	describe "Validations" do
 		it do
 			subject.certificate_pkcs12_path = nil
 			must validate_presence_of(:certificate) 
+		end
+		it { must validate_inclusion_of(:tipo_emissao).in_array([:normal, :svc]) }
+
+		describe '#inicio_contingencia' do
+			context "Quando estiver em contingência" do
+				before { subject.stubs(:contingencia?).returns(true) }
+				it { must validate_presence_of(:inicio_contingencia) }
+				it { must validate_length_of(:motivo_contingencia).is_at_least(15).is_at_most(256) }
+			end
+			context "Quando não estiver em contingência" do
+				before { subject.stubs(:contingencia?).returns(false) }
+				it { wont validate_presence_of(:inicio_contingencia) }
+				it { wont validate_length_of(:motivo_contingencia).is_at_least(15).is_at_most(256) }
+			end
+		end
+	end
+
+	describe '#default_values' do
+		it "tipo_emissao deve ser normal" do
+			subject.class.new.tipo_emissao.must_equal :normal
 		end
 	end
 
@@ -15,89 +36,354 @@ describe BrNfe::Product::Base do
 	end
 
 	describe '#gateway' do
-		context "Estados que usam o servidor SVRS" do
-			let(:env) { SecureRandom.hex(5) } 
-			it 'AC 12 - Acre' do
+		let(:env) { SecureRandom.hex(5) }
+		describe 'UF: 12 - Acre/AC' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '12', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '12', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'AL 27 - Alagoas' do
+		describe 'UF: 27 - Alagoas/AL' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '27', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '27', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'AP 16 - Amapá ' do
+		describe 'UF: 16 - Amapá/AP' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '16', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '16', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'DF 53 - Distrito Federal' do
+		describe 'UF: 13 - Amazonas/AM' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '13', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceAM
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '13', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 29 - Bahia/BA' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '29', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceBA
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '29', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 23 - Ceará/CE' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '23', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceCE
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '23', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 53 - Distrito Federal/DF' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '53', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '53', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'ES 32 - Espírito Santo' do
+		describe 'UF: 32 - Espírito Santo/ES' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '32', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '32', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'PB 25 - Paraíba' do
+		describe 'UF: 52 - Goiás/GO' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '52', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceGO
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '52', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 21 - Maranhão/MA' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '21', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVAN
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '21', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 51 - Mato Grosso/MT' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '51', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceMT
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '51', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 50 - Mato Grosso do Sul/MS' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '50', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceMS
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '50', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 31 - Minas Gerais/MG' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '31', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceMG
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '31', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 15 - Pará/PA' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '15', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVAN
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '15', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 25 - Paraíba/PB' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '25', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '25', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'RJ 33 - Rio de Janeiro' do
+		describe 'UF: 41 - Paraná/PR' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '41', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServicePR
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '41', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 26 - Pernambuco/PE' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '26', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServicePE
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '26', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 22 - Piauí/PI' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '22', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVAN
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '22', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcRS
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 33 - Rio de Janeiro/RJ' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '33', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '33', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'RN 24 - Rio Grande do Norte' do
+		describe 'UF: 24 - Rio Grande do Norte/RN' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '24', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
-
-			it 'RN 43 - Rio Grande do Sul' do
-				subject.assign_attributes ibge_code_of_issuer_uf: '43', env: env
-				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '24', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
 				subject.gateway.env.must_equal env
 			end
+		end
 
-			it 'RO 11 - Rondônia' do
+		describe 'UF: 43 - Rio Grande do Sul/RS' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '43', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceRS
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '43', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 11 - Rondônia/RO' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '11', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '11', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'RR 14 - Roraima' do
+		describe 'UF: 14 - Roraima/RR' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '14', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '14', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'SC 42 - Santa Catarina' do
+		describe 'UF: 42 - Santa Catarina/SC' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '42', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '42', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'SE 28 - Sergipe' do
+		describe 'UF: 35 - São Paulo/SP' do
+			it "Para tipo de emissão :normal" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '35', env: env
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSP
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '35', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
+
+		describe 'UF: 28 - Sergipe/SE' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '28', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
 				subject.gateway.env.must_equal env
 			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '28', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
+				subject.gateway.env.must_equal env
+			end
+		end
 
-			it 'TO 17 - Tocantins' do
+		describe 'UF: 17 - Tocantins/TO' do
+			it "Para tipo de emissão :normal" do
 				subject.assign_attributes ibge_code_of_issuer_uf: '17', env: env
 				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSVRS
+				subject.gateway.env.must_equal env
+			end
+			it "Para tipo de emissão :svc" do
+				subject.assign_attributes ibge_code_of_issuer_uf: '17', env: env, tipo_emissao: :svc
+				subject.gateway.must_be_kind_of BrNfe::Product::Gateway::WebServiceSvcAN
 				subject.gateway.env.must_equal env
 			end
 		end
@@ -144,6 +430,59 @@ describe BrNfe::Product::Base do
 
 			# É necessário voltar a configuração original para não falhar outros testes
 			BrNfe.emitente_product_class = BrNfe::Product::Emitente
+		end
+	end
+
+	describe '#contingencia?' do
+		it "se o tipo_emissao for normal deve retornar false" do
+			subject.tipo_emissao = :normal
+			subject.contingencia?.must_equal false
+		end
+		it "se o tipo_emissao for svc deve retornar true" do
+			subject.tipo_emissao = :svc
+			subject.contingencia?.must_equal true
+		end
+	end
+
+	describe '#codigo_tipo_emissao' do
+		it "se a nfe for uma NFC-e deve retornar 9" do
+			nota_fiscal.modelo_nf = 65
+			subject.tipo_emissao = :normal
+			subject.codigo_tipo_emissao(nota_fiscal).must_equal 9
+			subject.tipo_emissao = :svc
+			subject.codigo_tipo_emissao(nota_fiscal).must_equal 9
+		end
+		it "se a emissão da nfe for normal deve retornar o código 1" do
+			subject.tipo_emissao = :normal
+			subject.codigo_tipo_emissao(nota_fiscal).must_equal 1
+		end
+		it "se a emissão da nfe for :svc e o estado usa o SVC-RS deve retornar 7" do
+			subject.tipo_emissao = :svc
+			subject.ibge_code_of_issuer_uf = 13
+			subject.codigo_tipo_emissao(nota_fiscal).must_equal 7
+		end
+		it "se a emissão da nfe for :svc e o estado usa o SVC-AN deve retornar 6" do
+			subject.tipo_emissao = :svc
+			subject.ibge_code_of_issuer_uf = 42
+			subject.codigo_tipo_emissao(nota_fiscal).must_equal 6
+		end
+	end
+
+	describe '#inicio_contingencia' do
+		it "deve fazer parse para Time se passar qualquer valor" do
+			subject.inicio_contingencia = '05/06/2018 03:35'
+			subject.inicio_contingencia.must_equal Time.parse('05/06/2018 03:35')
+
+			subject.inicio_contingencia = now = DateTime.current
+			subject.inicio_contingencia.must_equal now.to_time
+		end
+		it "se passar um valor Time deve retornar o mesmo valor" do
+			subject.inicio_contingencia = now = Time.current
+			subject.inicio_contingencia.must_equal now
+		end
+		it "deve retornar nil se passar um valor inválido" do
+			subject.inicio_contingencia = '77777777777'
+			subject.inicio_contingencia.must_be_nil
 		end
 	end
 
