@@ -45,11 +45,20 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe "Validations" do
-		class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-			# Sobrescrevo o metodo para que quando vai executar os testes
-			# de tamanho, sempre vai setar um valor numérico
-			def string_of_length(length)
-				'1' * length
+		before do 
+			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+				# Sobrescrevo o metodo para que quando vai executar os testes
+				# de tamanho, sempre vai setar um valor numérico
+				def string_of_length(length)
+					'1' * length
+				end
+			end
+		end
+		after do 
+			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+				def string_of_length(length)
+					'x' * length
+				end
 			end
 		end
 

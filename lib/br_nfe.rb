@@ -42,6 +42,8 @@ module BrNfe
 		File.expand_path '../..', __FILE__
 	end
 
+	I18n.load_path += Dir[BrNfe.root+'/lib/config/locales/br_nfe/**/*.{rb,yml}']
+
 	Time::DATE_FORMATS[:br_nfe]     = "%Y-%m-%dT%H:%M:%S"
 	DateTime::DATE_FORMATS[:br_nfe] = "%Y-%m-%dT%H:%M:%S"
 	Date::DATE_FORMATS[:br_nfe]     = "%Y-%m-%d"
@@ -187,6 +189,7 @@ module BrNfe
 		
 		autoload :Base
 		autoload :NfeStatusServico
+		autoload :NfeAutorizacao
 	end
 
 
@@ -200,30 +203,28 @@ module BrNfe
 	mattr_accessor :endereco_class
 	@@endereco_class = BrNfe::Endereco
 
-	# Define as classes que serão usadas para instanciar o objeto
-	# Emitente para as notas de Serviço e Produto
-	mattr_accessor :emitente_service_class
-	mattr_accessor :emitente_product_class
-	@@emitente_service_class = BrNfe::Service::Emitente
-	@@emitente_product_class = BrNfe::Product::Emitente
-
-	mattr_accessor :destinatario_service_class
-	@@destinatario_service_class = BrNfe::Service::Destinatario
-	
-	mattr_accessor :destinatario_product_class
-	@@destinatario_product_class = BrNfe::Product::Destinatario
-
-	mattr_accessor :intermediario_service_class
-	@@intermediario_service_class = BrNfe::Service::Intermediario
-
 	mattr_accessor :condicao_pagamento_class
 	@@condicao_pagamento_class = BrNfe::CondicaoPagamento
 
+	# Definição de classes padrões para NFS-e
+	mattr_accessor :emitente_service_class
+	@@emitente_service_class = BrNfe::Service::Emitente
+	mattr_accessor :destinatario_service_class
+	@@destinatario_service_class = BrNfe::Service::Destinatario
+	mattr_accessor :intermediario_service_class
+	@@intermediario_service_class = BrNfe::Service::Intermediario
 	mattr_accessor :rps_class
 	@@rps_class = BrNfe::Service::Rps
-
 	mattr_accessor :service_item_class
 	@@service_item_class = BrNfe::Service::Item
+
+	# Definição de classes padrões para NF-e
+	mattr_accessor :destinatario_product_class
+	@@destinatario_product_class = BrNfe::Product::Destinatario
+	mattr_accessor :emitente_product_class
+	@@emitente_product_class = BrNfe::Product::Emitente
+	mattr_accessor :nota_fiscal_product_class
+	@@nota_fiscal_product_class = BrNfe::Product::NotaFiscal
 
 	mattr_accessor :client_wsdl_log
 	@@client_wsdl_log = false
