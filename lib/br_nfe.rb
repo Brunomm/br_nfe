@@ -182,7 +182,7 @@ module BrNfe
 			autoload :WebServiceSvcRS
 			autoload :WebServiceSVRS
 		end
-		autoload :ValueNf
+		autoload :NfXmlValue
 		autoload :Emitente
 		autoload :Destinatario
 		autoload :NotaFiscal

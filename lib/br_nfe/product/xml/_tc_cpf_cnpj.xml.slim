@@ -1,7 +1,7 @@
 - cpf_cnpj = BrNfe::Helper::CpfCnpj.new(cpf_cnpj)
 - if cpf_cnpj.cnpj?
-	CNPJ = value_nf_cnpj(cpf_cnpj.sem_formatacao)
+	CNPJ = nf_xml_value_cnpj(cpf_cnpj.sem_formatacao)
 - elsif cpf_cnpj.cpf?				
-	CPF  = value_nf_cpf( cpf_cnpj.sem_formatacao)
+	CPF  = nf_xml_value_cpf( cpf_cnpj.sem_formatacao)
 - else
-	idEstrangeiro = value_nf_id_estrangeiro(cpf_cnpj.sem_formatacao)
+	idEstrangeiro = nf_xml_value_id_estrangeiro(cpf_cnpj.sem_formatacao)

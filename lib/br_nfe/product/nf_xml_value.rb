@@ -1,57 +1,57 @@
 module BrNfe
 	module Product
-		module ValueNf
-			def value_nf_tp_amb value, xml_version=:v3_10
+		module NfXmlValue
+			def nf_xml_value_tipo_ambiente value, xml_version=:v3_10
 				value == :production ? '1' : '2'
 			end
-			def value_nf_cpf value, xml_version=:v3_10
+			def nf_xml_value_cpf value, xml_version=:v3_10
 				"#{value}".max_size(11)
 			end
-			def value_nf_cnpj value, xml_version=:v3_10
+			def nf_xml_value_cnpj value, xml_version=:v3_10
 				"#{value}".max_size(14)
 			end
 
-			def value_nf_id_estrangeiro value, xml_version=:v3_10
+			def nf_xml_value_id_estrangeiro value, xml_version=:v3_10
 				"#{value}".max_size(20)
 			end
 
-			def value_nf_fone value, xml_version=:v3_10
+			def nf_xml_value_fone value, xml_version=:v3_10
 				"#{value}".gsub(/[^\d]/,'').rjust(6, '0').max_size(14)
 			end
 
-			def value_nf_text value, max=60, xml_version=:v3_10
+			def nf_xml_value_text value, max=60, xml_version=:v3_10
 				"#{value}".strip.max_size(max).br_nfe_escape_html
 			end
 
-			def value_nf_codigo_ibge_municipio value, xml_version=:v3_10
+			def nf_xml_value_codigo_ibge_municipio value, xml_version=:v3_10
 				"#{value}".gsub(/[^\d]/,'').rjust(7, '0').max_size(7)
 			end
 
-			def value_nf_UF value, xml_version=:v3_10
+			def nf_xml_value_UF value, xml_version=:v3_10
 				"#{value}".max_size(2)
 			end
 
-			def value_nf_CEP value, xml_version=:v3_10
+			def nf_xml_value_CEP value, xml_version=:v3_10
 				"#{value}".gsub(/[^\d]/,'').ljust(8, '0').max_size(8)
 			end
 
-			def value_nf_codigo_pais value, xml_version=:v3_10
+			def nf_xml_value_codigo_pais value, xml_version=:v3_10
 				"#{value}".gsub(/[^\d]/,'').rjust(4, '0').max_size(4)
 			end
 
-			def value_nf_IE value, xml_version=:v3_10
+			def nf_xml_value_IE value, xml_version=:v3_10
 				"#{value}".gsub(/[^\w]/,'').rjust(2, '0').max_size(14)
 			end
 
-			def value_nf_IM value, xml_version=:v3_10
+			def nf_xml_value_IM value, xml_version=:v3_10
 				"#{value}".max_size(15)
 			end
 
-			def value_nf_CNAE value, xml_version=:v3_10
+			def nf_xml_value_CNAE value, xml_version=:v3_10
 				"#{value}".gsub(/[^\d]/,'').rjust(7, '0').max_size(7)
 			end
 
-			def value_nf_CRT value, xml_version=:v3_10
+			def nf_xml_value_CRT value, xml_version=:v3_10
 				"#{value}".max_size(1)
 			end
 
@@ -68,7 +68,7 @@ module BrNfe
 			# Nota 3: No caso de Contribuinte Isento de Inscrição (indIEDest=2), 
 			#         não informar a tag IE do destinatário.
 			#
-			def value_nf_indicador_IE v_ie, nfe, xml_version=:v3_10
+			def nf_xml_value_indicador_IE v_ie, nfe, xml_version=:v3_10
 				if nfe.nfce? # 65 NFC-e
 					'9'
 				elsif "#{v_ie}".strip.upcase == 'ISENTO'
@@ -88,18 +88,18 @@ module BrNfe
 			# comprovação do ingresso / internamento da mercadoria nestas
 			# áreas.
 			# Min: 8 Max: 9
-			def value_nf_inscricao_suframa v_suframa, xml_version=:v3_10
+			def nf_xml_value_inscricao_suframa v_suframa, xml_version=:v3_10
 				"#{v_suframa}".gsub(/[^\d]/,'').rjust(8, '0').max_size(9)
 			end
 
-			def value_nf_email v_email, xml_version=:v3_10
-				value_nf_text(v_email, 60)
+			def nf_xml_value_email v_email, xml_version=:v3_10
+				nf_xml_value_text(v_email, 60)
 			end
 
 			# 1=Operação interna;
 			# 2=Operação interestadual;
 			# 3=Operação com exterior.
-			def value_nf_id_local_destino v_endereco_destino, xml_version=:v3_10
+			def nf_xml_value_id_local_destino v_endereco_destino, xml_version=:v3_10
 				if v_endereco_destino.exterior?
 					3
 				elsif emitente.endereco.codigo_ibge_uf == v_endereco_destino.codigo_ibge_uf
@@ -112,10 +112,21 @@ module BrNfe
 			# Indica operação com Consumidor final
 			# 0=Normal;
 			# 1=Consumidor final;
-			def value_nf_consumidor_final value, xml_version=:v3_10
+			def nf_xml_value_consumidor_final value, xml_version=:v3_10
 				value ? '1' : 	'0'
 			end
 
+			def nf_xml_value_date_time time, xml_version=:v3_10
+				if time.is_a?(Time) || time.is_a?(DateTime)
+					time.to_s(:iso8601)
+				end
+			end
+
+			def nf_xml_value_date date, xml_version=:v3_10
+				if date.is_a?(Date)
+					date.to_s(:iso8601)
+				end
+			end
 		end
 	end
 end

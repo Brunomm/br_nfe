@@ -1,7 +1,7 @@
 module BrNfe
 	module Product
 		class Base < BrNfe::Base
-			include ValueNf
+			include NfXmlValue
 
 			# Serve para saber se vai usar o módo de contingência, e se usar,
 			# serve para saber qual o tipo de contingência será utilizado.
