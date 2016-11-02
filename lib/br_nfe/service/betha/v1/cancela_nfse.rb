@@ -21,6 +21,10 @@ module BrNfe
 						render_xml 'servico_cancelar_nfse_envio'
 					end
 
+					def tag_id
+						:Id
+					end
+
 				private
 
 					def set_response

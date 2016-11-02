@@ -354,7 +354,7 @@ module BrNfe
 				node_ids = [options[:node_ids]].flatten
 				signer.document.xpath(options[:node_path], options[:node_namespaces]).each_with_index do |node, i|
 					# digo quais tags devem ser assinadas
-					signer.digest!(node, id: "#{node_ids[i]}", enveloped: true)
+					signer.digest!(node, tag_id => "#{node_ids[i]}", enveloped: true)
 				end				
 			end
 			

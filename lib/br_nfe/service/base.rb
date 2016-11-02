@@ -32,8 +32,27 @@ module BrNfe
 				[]
 			end
 
+			# Método para poder configurar se o emissor aceita adicionar 
+			# a tag ID no XML
+			#
+			# <b>Tipo de retorno: </b> _Boolean_
+			# <b>Default: </b> _true_
+			#
 			def id_attribute?
 				true
+			end
+
+			# A `tag_id` é utilizada para poder customizar como será a chave do ID para
+			# cada órgão emissor. 
+			# Isso foi criado pois alguns emissores obrigam que a tag ID seja minúscula, outras
+			# que apenas o I seja maiúsculo, e assim vai.
+			# Exemplo: :id ou :ID, ou :Id
+			#
+			# <b>Tipo de retorno: </b> _String_ ou _Symbol_
+			# <b>Default: </b> _:id_
+			#
+			def tag_id
+				:id
 			end
 
 			def request

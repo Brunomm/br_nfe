@@ -27,6 +27,17 @@ module BrNfe
 						def lote_rps
 							@lote_rps = [@lote_rps].flatten # Para retornar sempre um vetor
 						end
+
+						# Método que pode ser sobrescrito para cada orgão emissor que obriga
+						# a inclusão de atributos fixos na tag LoteRps, além do ID.
+						# Exemplo: <LoteRps id="lote_XXX" versao="1.00">
+						# Nesse caso, o valor do método deve ser: {versao: "1.00"}
+						#
+						# <b>Tipo de retorno: </b> _Hash_
+						#
+						def lote_rps_fixed_attributes
+							{}
+						end
 						
 						private
 

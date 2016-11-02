@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <env:Body>
+    <EnviarLoteRpsResposta xmlns="http://www.abrasf.org.br/nfse.xsd">
+      <NumeroLote>1</NumeroLote>
+      <DataRecebimento>2009-09-25T12:57:07</DataRecebimento>
+      <Protocolo>Ak0591217L2009q000000006</Protocolo>
+    </EnviarLoteRpsResposta>
+  </env:Body>
+</env:Envelope>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <ns2:RecepcionarLoteRpsResponse xmlns:ns2="http://ws.bhiss.pbh.gov.br">
+      <outputXML>&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;EnviarLoteRpsResposta xmlns="http://www.abrasf.org.br/nfse.xsd"&gt;&lt;ListaMensagemRetorno&gt;&lt;MensagemRetorno&gt;&lt;Codigo&gt;E69&lt;/Codigo&gt;&lt;Mensagem&gt;O documento XML do cabeçalho de dados esta fora do padrao especificado.&lt;/Mensagem&gt;&lt;/MensagemRetorno&gt;&lt;/ListaMensagemRetorno&gt;&lt;/EnviarLoteRpsResposta&gt;</outputXML>
+    </ns2:RecepcionarLoteRpsResponse>
+  </S:Body>
+</S:Envelope>

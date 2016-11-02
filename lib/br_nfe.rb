@@ -132,6 +132,20 @@ module BrNfe
 				autoload :ConsultaLoteRps
 			end
 		end
+		module MG
+			module BeloHorizonte
+				module V1
+					extend ActiveSupport::Autoload
+					autoload :Base
+					autoload :CancelaNfse
+					autoload :ConsultaLoteRps
+					autoload :ConsultaNfsPorRps
+					autoload :ConsultaNfse
+					autoload :ConsultaSituacaoLoteRps
+					autoload :RecepcaoLoteRps
+				end
+			end
+		end
 		module SC
 			module Florianopolis
 				extend ActiveSupport::Autoload
