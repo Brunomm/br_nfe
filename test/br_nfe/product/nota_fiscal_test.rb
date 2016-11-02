@@ -279,4 +279,163 @@ describe BrNfe::Product::NotaFiscal do
 		end
 	end
 
+	describe '#endereco_retirada' do
+		describe '#endereco_retirada_cpf_cnpj validations' do
+			before do 
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					# Sobrescrevo o metodo para que quando vai executar os testes
+					# de tamanho, sempre vai setar um valor numérico
+					def string_of_length(length)
+						'1' * length
+					end
+				end
+			end
+			after do 
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					def string_of_length(length)
+						'x' * length
+					end
+				end
+			end
+			context "quando o endereco_retirada for preenchido" do
+				before { subject.endereco_retirada = BrNfe.endereco_class.new }
+				it { must validate_presence_of(:endereco_retirada_cpf_cnpj) }
+				it { must validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
+			end
+			context "quando o endereco_retirada não for preenchido" do
+				before { subject.endereco_retirada = nil }
+				it { wont validate_presence_of(:endereco_retirada_cpf_cnpj) }				
+				it { wont validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
+			end
+			
+		end
+		it "deve ignorar valores que não são da class de endereço" do
+			subject.endereco_retirada = 123
+			subject.endereco_retirada.must_be_nil
+			subject.endereco_retirada = 'aaaa'
+			subject.endereco_retirada.must_be_nil
+			subject.endereco_retirada = BrNfe.endereco_class.new
+			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
+		end
+		it "deve instanciar um endereço com os atributos se setar um Hash " do
+			subject.endereco_retirada = nil
+			subject.endereco_retirada = {logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
+			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
+
+			subject.endereco_retirada.logradouro.must_equal 'LOG'
+			subject.endereco_retirada.numero.must_equal 'NR'
+			subject.endereco_retirada.bairro.must_equal 'BRR'
+		end
+		it "deve instanciar um endereço setar os atributos em forma de Block " do
+			subject.endereco_retirada = nil
+			subject.endereco_retirada do |e| 
+				e.logradouro = 'LOGBLK'
+				e.numero     = 'NR'
+				e.bairro     = 'BRR'
+			end
+			
+			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
+			subject.endereco_retirada.logradouro.must_equal 'LOGBLK'
+			subject.endereco_retirada.numero.must_equal 'NR'
+			subject.endereco_retirada.bairro.must_equal 'BRR'
+		end
+		it "deve ser possível limpar o atributo" do
+			subject.endereco_retirada = {logradouro: 'LOG'}
+			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
+
+			subject.endereco_retirada = nil
+			subject.endereco_retirada.must_be_nil
+		end
+			
+		it "deve validar o endereço de retirada se tiver for preenchido" do
+			endereco = BrNfe.endereco_class.new
+			endereco.errors.add :base, 'Erro 1'
+			endereco.errors.add :base, 'Erro 2'
+			endereco.expects(:invalid?).returns(true)
+			subject.endereco_retirada = endereco
+			
+			must_be_message_error :base, 'Endereço de retirada: Erro 1'
+			must_be_message_error :base, 'Endereço de retirada: Erro 2', {}, false # Para não executar mais o valid?
+		end
+	end
+
+	describe '#endereco_entrega' do
+		describe '#endereco_entrega_cpf_cnpj validations' do
+			before do 
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					# Sobrescrevo o metodo para que quando vai executar os testes
+					# de tamanho, sempre vai setar um valor numérico
+					def string_of_length(length)
+						'1' * length
+					end
+				end
+			end
+			after do 
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					def string_of_length(length)
+						'x' * length
+					end
+				end
+			end
+			context "quando o endereco_entrega for preenchido" do
+				before { subject.endereco_entrega = BrNfe.endereco_class.new }
+				it { must validate_presence_of(:endereco_entrega_cpf_cnpj) }
+				it { must validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
+			end
+			context "quando o endereco_entrega não for preenchido" do
+				before { subject.endereco_entrega = nil }
+				it { wont validate_presence_of(:endereco_entrega_cpf_cnpj) }				
+				it { wont validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
+			end
+			
+		end
+		it "deve ignorar valores que não são da class de endereço" do
+			subject.endereco_entrega = 123
+			subject.endereco_entrega.must_be_nil
+			subject.endereco_entrega = 'aaaa'
+			subject.endereco_entrega.must_be_nil
+			subject.endereco_entrega = BrNfe.endereco_class.new
+			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
+		end
+		it "deve instanciar um endereço com os atributos se setar um Hash " do
+			subject.endereco_entrega = nil
+			subject.endereco_entrega = {logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
+			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
+
+			subject.endereco_entrega.logradouro.must_equal 'LOG'
+			subject.endereco_entrega.numero.must_equal 'NR'
+			subject.endereco_entrega.bairro.must_equal 'BRR'
+		end
+		it "deve instanciar um endereço setar os atributos em forma de Block " do
+			subject.endereco_entrega = nil
+			subject.endereco_entrega do |e| 
+				e.logradouro = 'LOGBLK'
+				e.numero     = 'NR'
+				e.bairro     = 'BRR'
+			end
+			
+			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
+			subject.endereco_entrega.logradouro.must_equal 'LOGBLK'
+			subject.endereco_entrega.numero.must_equal 'NR'
+			subject.endereco_entrega.bairro.must_equal 'BRR'
+		end
+		it "deve ser possível limpar o atributo" do
+			subject.endereco_entrega = {logradouro: 'LOG'}
+			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
+
+			subject.endereco_entrega = nil
+			subject.endereco_entrega.must_be_nil
+		end
+			
+		it "deve validar o endereço de entrega se tiver for preenchido" do
+			endereco = BrNfe.endereco_class.new
+			endereco.errors.add :base, 'Erro 1'
+			endereco.errors.add :base, 'Erro 2'
+			endereco.expects(:invalid?).returns(true)
+			subject.endereco_entrega = endereco
+			
+			must_be_message_error :base, 'Endereço de entrega: Erro 1'
+			must_be_message_error :base, 'Endereço de entrega: Erro 2', {}, false # Para não executar mais o valid?
+		end
+	end
 end

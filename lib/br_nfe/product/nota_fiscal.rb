@@ -13,7 +13,7 @@ module BrNfe
 			#      também para a NFC-e).
 			#  Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
 			# 
-			# <b>Tipo: </b> _Number_
+			# <b>Type: </b> _Number_
 			# <b>Max: </b> _1_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _1_
@@ -38,7 +38,7 @@ module BrNfe
 			# Resumo: É um código controlado pelo sistema. Pode por exemplo ser
 			#        utilizado o ID da tabela da nota fiscal.
 			# 
-			# <b>Tipo: </b> _Number_
+			# <b>Type: </b> _Number_
 			# <b>Max: </b> _8_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _nil_
@@ -52,7 +52,7 @@ module BrNfe
 			#    (procEmi=2). (v2.0)
 			# Serie 900-999: uso exclusivo de NF-e emitidas no SCAN. (v2.0)
 			#
-			# <b>Tipo: </b> _Number_
+			# <b>Type: </b> _Number_
 			# <b>Max: </b> _3_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _nil_
@@ -62,7 +62,7 @@ module BrNfe
 			# Número do Documento Fiscal.
 			# Número da nota fiscal -< De fato
 			#
-			# <b>Tipo: </b> _Number_
+			# <b>Type: </b> _Number_
 			# <b>Max: </b> _9_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _nil_
@@ -77,7 +77,7 @@ module BrNfe
 			# inciso I, art. 19 do CONVÊNIO S/No, de 15 de dezembro de
 			# 1970.
 			#
-			# <b>Tipo: </b> _String_
+			# <b>Type: </b> _String_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _'Venda'_
 			#
@@ -88,7 +88,7 @@ module BrNfe
 			# 1=Pagamento a prazo;
 			# 2=Outros.
 			#
-			# <b>Tipo: </b> _Number_ OR _String_
+			# <b>Type: </b> _Number_ OR _String_
 			# <b>Max: </b> _1_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _0_
@@ -99,7 +99,7 @@ module BrNfe
 			# 55=NF-e emitida em substituição ao modelo 1 ou 1A; (Default)
 			# 65=NFC-e, utilizada nas operações de venda no varejo (a critério da UF aceitar este modelo de documento).
 			#
-			# <b>Tipo: </b> _Number_ OR _String_
+			# <b>Type: </b> _Number_ OR _String_
 			# <b>Max: </b> _2_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _55_
@@ -108,7 +108,7 @@ module BrNfe
 
 			# Data e hora de emissão do Documento Fiscal
 			#
-			# <b>Tipo: </b> _Time_
+			# <b>Type: </b> _Time_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _Time.current_
 			#
@@ -120,7 +120,7 @@ module BrNfe
 			# Data e hora de Saída ou da Entrada da Mercadoria/Produto
 			# Campo não considerado para a NFC-e.
 			#
-			# <b>Tipo: </b> _Time_
+			# <b>Type: </b> _Time_
 			# <b>Required: </b> _Yes_ (apenas para modelo 55)
 			# <b>Default: </b> _Time.current_
 			#
@@ -133,7 +133,7 @@ module BrNfe
 			# 0=Entrada;
 			# 1=Saída (Default)
 			#
-			# <b>Tipo: </b> _Number_ OR _String_
+			# <b>Type: </b> _Number_ OR _String_
 			# <b>Max: </b> _1_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _1_
@@ -173,7 +173,7 @@ module BrNfe
 			#
 			# Preencher esse campo com true ou false
 			#
-			# <b>Tipo: </b> _Boolean_
+			# <b>Type: </b> _Boolean_
 			# <b>Required: </b> _Yes_
 			# <b>Default: </b> _false_
 			#
@@ -214,6 +214,74 @@ module BrNfe
 			# <b>Default: </b> _0_
 			#
 			attr_accessor :versao_aplicativo
+
+			# Endereço da retirada da mercadoria
+			#
+			# <b>Type: </b> _BrNfe.endereco_class_
+			# <b>Required: </b> _No_
+			# <b>Default: </b> _nil_
+			#
+			def endereco_retirada
+				yield(endereco_retirada_force_instance) if block_given?
+				@endereco_retirada.is_a?(BrNfe.endereco_class) ? @endereco_retirada : nil
+			end
+			def endereco_retirada=(value)
+				if value.is_a?(BrNfe.endereco_class) 
+					@endereco_retirada = value
+				elsif value.is_a?(Hash)
+					endereco_retirada_force_instance.assign_attributes(value)
+				elsif value.blank?
+					@endereco_retirada = nil
+				end
+			end
+
+			# CPF ou CNPJ do local de retirada da mercadoria.
+			# Só é obrigatório se o endereco_retirada for preenchido
+			#
+			# <b>Type: </b> _String_
+			# <b>Required: </b> _No_ (_Yes_ if endereco_retirada is present)
+			# <b>Default: </b> _nil_
+			#
+			attr_accessor :endereco_retirada_cpf_cnpj
+			def endereco_retirada_cpf_cnpj
+				return unless @endereco_retirada_cpf_cnpj.present?
+				BrNfe::Helper::CpfCnpj.new(@endereco_retirada_cpf_cnpj).sem_formatacao
+			end
+
+
+			# Endereço da entrega da mercadoria
+			# Informar apenas quando for diferente do endereço do destinatário
+			#
+			# <b>Type: </b> _BrNfe.endereco_class_
+			# <b>Required: </b> _No_
+			# <b>Default: </b> _nil_
+			#
+			def endereco_entrega
+				yield(endereco_entrega_force_instance) if block_given?
+				@endereco_entrega.is_a?(BrNfe.endereco_class) ? @endereco_entrega : nil
+			end
+			def endereco_entrega=(value)
+				if value.is_a?(BrNfe.endereco_class) 
+					@endereco_entrega = value
+				elsif value.is_a?(Hash)
+					endereco_entrega_force_instance.assign_attributes(value)
+				elsif value.blank?
+					@endereco_entrega = nil
+				end
+			end
+
+			# CPF ou CNPJ do local de entrega da mercadoria.
+			# Só é obrigatório se o endereco_entrega for preenchido
+			#
+			# <b>Type: </b> _String_
+			# <b>Required: </b> _No_ (_Yes_ if endereco_entrega is present)
+			# <b>Default: </b> _nil_
+			#
+			attr_accessor :endereco_entrega_cpf_cnpj
+			def endereco_entrega_cpf_cnpj
+				return unless @endereco_entrega_cpf_cnpj.present?
+				BrNfe::Helper::CpfCnpj.new(@endereco_entrega_cpf_cnpj).sem_formatacao
+			end
 			
 			def default_values
 				{
@@ -271,6 +339,17 @@ module BrNfe
 			validates :processo_emissao, presence: true
 			validates :processo_emissao, inclusion: [0, 1, 2, 3, '0', '1', '2', '3']
 
+			with_options if: :endereco_retirada do |record|
+				record.validates :endereco_retirada_cpf_cnpj, presence: true
+				record.validates :endereco_retirada_cpf_cnpj, length: {maximum: 14}
+				record.validate  :endereco_retirada_validation
+			end
+
+			with_options if: :endereco_entrega do |record|
+				record.validates :endereco_entrega_cpf_cnpj, presence: true
+				record.validates :endereco_entrega_cpf_cnpj, length: {maximum: 14}
+				record.validate  :endereco_entrega_validation
+			end
 
 			def nfe?
 				modelo_nf.to_i == 55
@@ -287,6 +366,40 @@ module BrNfe
 
 			def emitente_class
 				BrNfe.emitente_product_class
+			end
+
+			################################  ENDEREÇO DE RETIRADA  ################################
+			# Utilizado para validar se o endereço de retirada está valido.
+			# Só irá validar caso o endereço de retirada seja preenchidp.
+			#
+			def endereco_retirada_validation
+				if endereco_retirada.invalid?
+					endereco_retirada.errors.full_messages.each { |msg| errors.add(:base, "Endereço de retirada: #{msg}") }
+				end
+			end
+			# Instancía um endereço de retirada e seta na variavé  @endereco_retirada.
+			# É utilizado quando setar o endereço em forma da Hash ou Block
+			#
+			def endereco_retirada_force_instance
+				@endereco_retirada = BrNfe.endereco_class.new unless @endereco_retirada.is_a?(BrNfe.endereco_class)
+				@endereco_retirada
+			end
+
+			################################  ENDEREÇO DE ENTREGA  ################################
+			# Utilizado para validar se o endereço de entrega está valido.
+			# Só irá validar caso o endereço de entrega seja preenchidp.
+			#
+			def endereco_entrega_validation
+				if endereco_entrega.invalid?
+					endereco_entrega.errors.full_messages.each { |msg| errors.add(:base, "Endereço de entrega: #{msg}") }
+				end
+			end
+			# Instancía um endereço de entrega e seta na variavé  @endereco_entrega.
+			# É utilizado quando setar o endereço em forma da Hash ou Block
+			#
+			def endereco_entrega_force_instance
+				@endereco_entrega = BrNfe.endereco_class.new unless @endereco_entrega.is_a?(BrNfe.endereco_class)
+				@endereco_entrega
 			end
 
 			###############################################################################################

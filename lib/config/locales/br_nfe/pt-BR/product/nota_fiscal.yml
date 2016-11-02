@@ -1,0 +1,5 @@
+pt-BR:
+  activemodel:
+    attributes::
+      br_nfe/product/nota_fiscal:
+        endereco_retirada_cpf_cnpj: CPF/CNPJ do endereço de retirada
