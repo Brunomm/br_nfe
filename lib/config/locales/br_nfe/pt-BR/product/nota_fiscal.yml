@@ -3,3 +3,10 @@ pt-BR:
     attributes::
       br_nfe/product/nota_fiscal:
         endereco_retirada_cpf_cnpj: CPF/CNPJ do endereço de retirada
+        autorizados_download_xml: CPF/CNPJ autorizados a baixar o XML da NF-e
+    errors:
+      models:
+        br_nfe/product/nota_fiscal:
+          attributes:
+            autorizados_download_xml:
+              too_long:  'excedeu o limite máximo de %{count} CPF/CNPJ'

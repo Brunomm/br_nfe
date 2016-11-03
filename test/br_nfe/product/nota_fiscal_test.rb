@@ -122,6 +122,42 @@ describe BrNfe::Product::NotaFiscal do
 			it { must validate_presence_of(:codigo_tipo_emissao) }
 			it { must validate_inclusion_of(:codigo_tipo_emissao).in_array([1, 6, 7, 9, '1', '6', '7', '9']) }
 		end
+		describe '#endereco_entrega_cpf_cnpj validations' do
+			context "quando o endereco_entrega for preenchido" do
+				before { subject.endereco_entrega = BrNfe.endereco_class.new }
+				it { must validate_presence_of(:endereco_entrega_cpf_cnpj) }
+				it { must validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
+			end
+			context "quando o endereco_entrega não for preenchido" do
+				before { subject.endereco_entrega = nil }
+				it { wont validate_presence_of(:endereco_entrega_cpf_cnpj) }				
+				it { wont validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
+			end
+		end
+		describe '#endereco_retirada_cpf_cnpj validations' do
+			context "quando o endereco_retirada for preenchido" do
+				before { subject.endereco_retirada = BrNfe.endereco_class.new }
+				it { must validate_presence_of(:endereco_retirada_cpf_cnpj) }
+				it { must validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
+			end
+			context "quando o endereco_retirada não for preenchido" do
+				before { subject.endereco_retirada = nil }
+				it { wont validate_presence_of(:endereco_retirada_cpf_cnpj) }				
+				it { wont validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
+			end
+		end
+		describe '#autorizados_download_xml' do
+			before do 
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					# Sobrescrevo o metodo para que quando vai executar os testes
+					# de tamanho, sempre vai setar um valor numérico
+					def string_of_length(length)
+						['1'] * length
+					end
+				end
+			end
+			it { must validate_length_of(:autorizados_download_xml).is_at_most(10) }
+		end
 	end
 
 	describe '#nfe?' do
@@ -280,35 +316,6 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_retirada' do
-		describe '#endereco_retirada_cpf_cnpj validations' do
-			before do 
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					# Sobrescrevo o metodo para que quando vai executar os testes
-					# de tamanho, sempre vai setar um valor numérico
-					def string_of_length(length)
-						'1' * length
-					end
-				end
-			end
-			after do 
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						'x' * length
-					end
-				end
-			end
-			context "quando o endereco_retirada for preenchido" do
-				before { subject.endereco_retirada = BrNfe.endereco_class.new }
-				it { must validate_presence_of(:endereco_retirada_cpf_cnpj) }
-				it { must validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
-			end
-			context "quando o endereco_retirada não for preenchido" do
-				before { subject.endereco_retirada = nil }
-				it { wont validate_presence_of(:endereco_retirada_cpf_cnpj) }				
-				it { wont validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
-			end
-			
-		end
 		it "deve ignorar valores que não são da class de endereço" do
 			subject.endereco_retirada = 123
 			subject.endereco_retirada.must_be_nil
@@ -360,35 +367,6 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_entrega' do
-		describe '#endereco_entrega_cpf_cnpj validations' do
-			before do 
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					# Sobrescrevo o metodo para que quando vai executar os testes
-					# de tamanho, sempre vai setar um valor numérico
-					def string_of_length(length)
-						'1' * length
-					end
-				end
-			end
-			after do 
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						'x' * length
-					end
-				end
-			end
-			context "quando o endereco_entrega for preenchido" do
-				before { subject.endereco_entrega = BrNfe.endereco_class.new }
-				it { must validate_presence_of(:endereco_entrega_cpf_cnpj) }
-				it { must validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
-			end
-			context "quando o endereco_entrega não for preenchido" do
-				before { subject.endereco_entrega = nil }
-				it { wont validate_presence_of(:endereco_entrega_cpf_cnpj) }				
-				it { wont validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
-			end
-			
-		end
 		it "deve ignorar valores que não são da class de endereço" do
 			subject.endereco_entrega = 123
 			subject.endereco_entrega.must_be_nil
@@ -436,6 +414,29 @@ describe BrNfe::Product::NotaFiscal do
 			
 			must_be_message_error :base, 'Endereço de entrega: Erro 1'
 			must_be_message_error :base, 'Endereço de entrega: Erro 2', {}, false # Para não executar mais o valid?
+		end
+	end
+
+	describe '#autorizados_download_xml' do
+		it "deve  inicializar com um array vazio" do
+			subject.class.new.autorizados_download_xml.must_be_kind_of Array
+			subject.class.new.autorizados_download_xml.must_be_empty
+		end
+		it "mesmo que setar um valor qualquer deve sempre retornar um array" do
+			subject.autorizados_download_xml = 123
+			subject.autorizados_download_xml.must_equal([123])
+			subject.autorizados_download_xml = 'xxx'
+			subject.autorizados_download_xml.must_equal(['xxx'])
+			subject.autorizados_download_xml = ['xxx',123]
+			subject.autorizados_download_xml.must_equal(['xxx',123])
+		end
+		it "deve desconsiderar os valores nil" do
+			subject.autorizados_download_xml = [nil,123,nil,'xxx',nil]
+			subject.autorizados_download_xml.must_equal([123,'xxx'])
+			subject.autorizados_download_xml = nil
+			subject.autorizados_download_xml.must_equal([])
+			subject.autorizados_download_xml = [nil]
+			subject.autorizados_download_xml.must_equal([])
 		end
 	end
 end

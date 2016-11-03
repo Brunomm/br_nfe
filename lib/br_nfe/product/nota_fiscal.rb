@@ -282,7 +282,21 @@ module BrNfe
 				return unless @endereco_entrega_cpf_cnpj.present?
 				BrNfe::Helper::CpfCnpj.new(@endereco_entrega_cpf_cnpj).sem_formatacao
 			end
-			
+
+			# CPF ou CNPJ das pessoas que estão autorizadas a fazer o download do XML da NF-e.
+			# Deve ser um Array com os CPF's e CNPJ's válidos.
+			#
+			# <b>Type: </b> _Array_
+			# <b>Required: </b> _No_
+			# <b>Default: </b> _[]_
+			#
+			attr_accessor :autorizados_download_xml
+			def autorizados_download_xml
+				@autorizados_download_xml = [@autorizados_download_xml].flatten unless @autorizados_download_xml.is_a?(Array)
+				@autorizados_download_xml.compact!
+				@autorizados_download_xml
+			end
+
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -350,6 +364,8 @@ module BrNfe
 				record.validates :endereco_entrega_cpf_cnpj, length: {maximum: 14}
 				record.validate  :endereco_entrega_validation
 			end
+			
+			validates :autorizados_download_xml, length: { maximum: 10 }
 
 			def nfe?
 				modelo_nf.to_i == 55
