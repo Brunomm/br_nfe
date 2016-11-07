@@ -145,11 +145,26 @@ module BrNfe
 			end
 
 			# Declaro que o método `render_xml` irá verificar os arquivos também presentes
-			# nos diretórios especificados
+			# nos diretórios especificados.
+			# O diretório dos XMLs irá variar de acordo com a operação e a versão do XML utilizado.
+			# EX:
+			#   Se a versão do XML que a operação utiliza for a versão 2.0, então irá procurar o arquivo
+			#   XML primeiro no diretório da v2, caso não encontre vai procurar no diretório da v1.
+			#   Já se a versão do XML for a versão 3.1, irá procurar primeiro no diretório v3_10,
+			#   se não contrar irá procurar no diretório da v2_00, e se ainda assim não encontrar, vai procurar
+			#   no diretório v1_00.
+			# Foi construido dessa forma pois algumas tags utilizadas na v3.10 são exatamente iguais
+			# da v2.0, e nesse caso não há a necessidade de duplicar o código.
 			#
 			# <b>Tipo de retorno: </b> _Array_
 			def xml_current_dir_path
-				["#{BrNfe.root}/lib/br_nfe/product/xml/#{gateway_xml_version}", "#{BrNfe.root}/lib/br_nfe/product/xml"]+super
+				return @xml_current_dir_path if @xml_current_dir_path.present?
+				paths = ["#{BrNfe.root}/lib/br_nfe/product/xml/v1_00"] # Sempre terá o path da v1_00
+				paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v1_10" if gateway_xml_version >= :v1_10
+				paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v2_00" if gateway_xml_version >= :v2_00
+				paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v3_10" if gateway_xml_version == :v3_10
+				
+				@xml_current_dir_path = paths.reverse+["#{BrNfe.root}/lib/br_nfe/product/xml"]+super
 			end
 			
 			# Método utilizado para saber se a operação será em contingência.

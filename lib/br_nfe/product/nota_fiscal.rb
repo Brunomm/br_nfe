@@ -297,6 +297,27 @@ module BrNfe
 				@autorizados_download_xml
 			end
 
+			# Transporte da mercadoria
+			# Informações referentes ao transporte da mercadoria.
+			#
+			# <b>Type: </b> _BrNfe.transporte_product_class_
+			# <b>Required: </b> _No_
+			# <b>Default: </b> _nil_
+			#
+			def transporte
+				yield(transporte_force_instance) if block_given?
+				@transporte.is_a?(BrNfe.transporte_product_class) ? @transporte : nil
+			end
+			def transporte=(value)
+				if value.is_a?(BrNfe.transporte_product_class) 
+					@transporte = value
+				elsif value.is_a?(Hash)
+					transporte_force_instance.assign_attributes(value)
+				elsif value.blank?
+					@transporte = nil
+				end
+			end
+
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -353,6 +374,10 @@ module BrNfe
 			validates :processo_emissao, presence: true
 			validates :processo_emissao, inclusion: [0, 1, 2, 3, '0', '1', '2', '3']
 
+			validates :autorizados_download_xml, length: { maximum: 10 }
+
+			validate :transporte_validation, if: :transporte
+			
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
 				record.validates :endereco_retirada_cpf_cnpj, length: {maximum: 14}
@@ -365,7 +390,6 @@ module BrNfe
 				record.validate  :endereco_entrega_validation
 			end
 			
-			validates :autorizados_download_xml, length: { maximum: 10 }
 
 			def nfe?
 				modelo_nf.to_i == 55
@@ -385,38 +409,56 @@ module BrNfe
 			end
 
 			################################  ENDEREÇO DE RETIRADA  ################################
-			# Utilizado para validar se o endereço de retirada está valido.
-			# Só irá validar caso o endereço de retirada seja preenchidp.
-			#
-			def endereco_retirada_validation
-				if endereco_retirada.invalid?
-					endereco_retirada.errors.full_messages.each { |msg| errors.add(:base, "Endereço de retirada: #{msg}") }
+				# Utilizado para validar se o endereço de retirada está valido.
+				# Só irá validar caso o endereço de retirada seja preenchidp.
+				#
+				def endereco_retirada_validation
+					if endereco_retirada.invalid?
+						endereco_retirada.errors.full_messages.each { |msg| errors.add(:base, "Endereço de retirada: #{msg}") }
+					end
 				end
-			end
-			# Instancía um endereço de retirada e seta na variavé  @endereco_retirada.
-			# É utilizado quando setar o endereço em forma da Hash ou Block
-			#
-			def endereco_retirada_force_instance
-				@endereco_retirada = BrNfe.endereco_class.new unless @endereco_retirada.is_a?(BrNfe.endereco_class)
-				@endereco_retirada
-			end
+				# Instancía um endereço de retirada e seta na variavé  @endereco_retirada.
+				# É utilizado quando setar o endereço em forma da Hash ou Block
+				#
+				def endereco_retirada_force_instance
+					@endereco_retirada = BrNfe.endereco_class.new unless @endereco_retirada.is_a?(BrNfe.endereco_class)
+					@endereco_retirada
+				end
 
 			################################  ENDEREÇO DE ENTREGA  ################################
-			# Utilizado para validar se o endereço de entrega está valido.
-			# Só irá validar caso o endereço de entrega seja preenchidp.
-			#
-			def endereco_entrega_validation
-				if endereco_entrega.invalid?
-					endereco_entrega.errors.full_messages.each { |msg| errors.add(:base, "Endereço de entrega: #{msg}") }
+				# Utilizado para validar se o endereço de entrega está valido.
+				# Só irá validar caso o endereço de entrega seja preenchidp.
+				#
+				def endereco_entrega_validation
+					if endereco_entrega.invalid?
+						endereco_entrega.errors.full_messages.each { |msg| errors.add(:base, "Endereço de entrega: #{msg}") }
+					end
 				end
-			end
-			# Instancía um endereço de entrega e seta na variavé  @endereco_entrega.
-			# É utilizado quando setar o endereço em forma da Hash ou Block
-			#
-			def endereco_entrega_force_instance
-				@endereco_entrega = BrNfe.endereco_class.new unless @endereco_entrega.is_a?(BrNfe.endereco_class)
-				@endereco_entrega
-			end
+				# Instancía um endereço de entrega e seta na variavé  @endereco_entrega.
+				# É utilizado quando setar o endereço em forma da Hash ou Block
+				#
+				def endereco_entrega_force_instance
+					@endereco_entrega = BrNfe.endereco_class.new unless @endereco_entrega.is_a?(BrNfe.endereco_class)
+					@endereco_entrega
+				end
+
+			##############################  TRANSPORTE  ##############################
+				# Utilizado para validar se o transporte está valido.
+				# Só irá validar caso o transporte da entrega seja preenchido.
+				#
+				def transporte_validation
+					if transporte.invalid?
+						transporte.errors.full_messages.each { |msg| errors.add(:base, :invalid_transporte, {error_message: msg}) }
+					end
+				end
+				# Instancía um transporte e seta na variavel  @transporte.
+				# É utilizado quando setar o transporte em forma da Hash ou Block
+				# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
+				#
+				def transporte_force_instance
+					@transporte = BrNfe.transporte_product_class.new unless @transporte.is_a?(BrNfe.transporte_product_class)
+					@transporte
+				end
 
 			###############################################################################################
 			#       | Código | AAMM da | CNPJ do  | Modelo | Série | Número  | Cód. tipo | Código   | DV  |

@@ -35,6 +35,53 @@ describe BrNfe::Product::Base do
 		subject.ssl_request?.must_equal true
 	end
 
+	describe '#xml_current_dir_path' do
+		let(:path_v1_00) { "#{BrNfe.root}/lib/br_nfe/product/xml/v1_00" } 
+		let(:path_v1_10) { "#{BrNfe.root}/lib/br_nfe/product/xml/v1_10" } 
+		let(:path_v2_00) { "#{BrNfe.root}/lib/br_nfe/product/xml/v2_00" } 
+		let(:path_v3_10) { "#{BrNfe.root}/lib/br_nfe/product/xml/v3_10" } 
+		let(:product_default_path) { "#{BrNfe.root}/lib/br_nfe/product/xml" } 
+
+		it "se a versão da operação for 1.0 deve pegar apenas o path da versão 1" do
+			subject.stubs(:gateway_xml_version).returns(:v1_00)
+			subject.xml_current_dir_path[0].must_equal path_v1_00
+			subject.xml_current_dir_path[1].must_equal product_default_path
+
+			subject.xml_current_dir_path.wont_include path_v1_10
+			subject.xml_current_dir_path.wont_include path_v2_00
+			subject.xml_current_dir_path.wont_include path_v3_10
+		end
+
+		it "se a versão da operação for 1.10 deve pegar apenas o path da versão 1 e 1.1" do
+			subject.stubs(:gateway_xml_version).returns(:v1_10)
+			subject.xml_current_dir_path[0].must_equal path_v1_10
+			subject.xml_current_dir_path[1].must_equal path_v1_00
+			subject.xml_current_dir_path[2].must_equal product_default_path
+
+			subject.xml_current_dir_path.wont_include path_v2_00
+			subject.xml_current_dir_path.wont_include path_v3_10
+		end
+
+		it "se a versão da operação for 2.00 deve pegar apenas o path da versão 2.0, 1.1 e 1" do
+			subject.stubs(:gateway_xml_version).returns(:v2_00)
+			subject.xml_current_dir_path[0].must_equal path_v2_00
+			subject.xml_current_dir_path[1].must_equal path_v1_10
+			subject.xml_current_dir_path[2].must_equal path_v1_00
+			subject.xml_current_dir_path[3].must_equal product_default_path
+
+			subject.xml_current_dir_path.wont_include path_v3_10
+		end
+
+		it "se a versão da operação for 3.10 deve pegar apenas os paths da versões 3.1, 2.0, 1.1 e 1" do
+			subject.stubs(:gateway_xml_version).returns(:v3_10)
+			subject.xml_current_dir_path[0].must_equal path_v3_10
+			subject.xml_current_dir_path[1].must_equal path_v2_00
+			subject.xml_current_dir_path[2].must_equal path_v1_10
+			subject.xml_current_dir_path[3].must_equal path_v1_00
+			subject.xml_current_dir_path[4].must_equal product_default_path
+		end
+	end
+
 	describe '#gateway' do
 		let(:env) { SecureRandom.hex(5) }
 		describe 'UF: 12 - Acre/AC' do

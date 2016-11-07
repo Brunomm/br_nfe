@@ -1,6 +1,18 @@
 module BrNfe
 	class Person  < BrNfe::ActiveModelBase
 		include BrNfe::Association::HaveAddress
+
+		delegate :uf,              :uf=,               to: :endereco, prefix: :endereco
+		delegate :cep,             :cep=,              to: :endereco, prefix: :endereco
+		delegate :bairro,          :bairro=,           to: :endereco, prefix: :endereco
+		delegate :numero,          :numero=,           to: :endereco, prefix: :endereco
+		delegate :nome_pais,       :nome_pais=,        to: :endereco, prefix: :endereco
+		delegate :logradouro,      :logradouro=,       to: :endereco, prefix: :endereco
+		delegate :codigo_pais,     :codigo_pais=,      to: :endereco, prefix: :endereco
+		delegate :complemento,     :complemento=,      to: :endereco, prefix: :endereco
+		delegate :nome_municipio,  :nome_municipio=,   to: :endereco, prefix: :endereco
+		delegate :codigo_ibge_uf,  :codigo_ibge_uf=,   to: :endereco, prefix: :endereco
+		delegate :codigo_municipio,:codigo_municipio=, to: :endereco, prefix: :endereco
 		
 		# Obrigatórios
 		attr_accessor :cpf_cnpj
@@ -28,7 +40,7 @@ module BrNfe
 		attr_accessor :codigo_regime_tributario
 
 		validates :cpf_cnpj, :razao_social, presence: true
-		validates :codigo_regime_tributario, inclusion: {in: ['1', '2', '3', 1, 2, 3]}, allow_blank: true
+		validates :codigo_regime_tributario, inclusion: {in: ['1', '2', '3', 1, 2, 3]}, allow_blank: true, if: :validate_regime_tributario?
 		
 		def cpf_cnpj
 			return "" unless @cpf_cnpj.present?
@@ -49,6 +61,12 @@ module BrNfe
 
 		def incentivo_fiscal?
 			convert_to_boolean(incentivo_fiscal)
+		end
+
+	private
+
+		def validate_regime_tributario?
+			true
 		end
 		
 	end

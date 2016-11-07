@@ -1,0 +1,13 @@
+en:
+  activemodel:
+    attributes::
+      br_nfe/product/nota_fiscal:
+        endereco_retirada_cpf_cnpj: CPF/CNPJ withdrawal address
+        autorizados_download_xml: CPF/CNPJ authorized to download the XML of NF-e
+    errors:
+      models:
+        br_nfe/product/nota_fiscal:
+          invalid_transporte: 'Transport: %{error_message}'
+          attributes:
+            autorizados_download_xml:
+              too_long:  "exceeded the maximum limit of %{count} CPF/CNPJ's"

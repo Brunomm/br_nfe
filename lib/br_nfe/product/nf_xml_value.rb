@@ -16,7 +16,7 @@ module BrNfe
 			end
 
 			def nf_xml_value_fone value, xml_version=:v3_10
-				"#{value}".gsub(/[^\d]/,'').rjust(6, '0').max_size(14)
+				only_numbers value, {min_size: 6, max_size: 14}
 			end
 
 			def nf_xml_value_text value, max=60, xml_version=:v3_10
@@ -24,7 +24,7 @@ module BrNfe
 			end
 
 			def nf_xml_value_codigo_ibge_municipio value, xml_version=:v3_10
-				"#{value}".gsub(/[^\d]/,'').rjust(7, '0').max_size(7)
+				only_numbers value, {min_size: 7, max_size: 7}
 			end
 
 			def nf_xml_value_UF value, xml_version=:v3_10
@@ -32,15 +32,19 @@ module BrNfe
 			end
 
 			def nf_xml_value_CEP value, xml_version=:v3_10
-				"#{value}".gsub(/[^\d]/,'').ljust(8, '0').max_size(8)
+				only_numbers value, {min_size: 8, max_size: 8}
 			end
 
 			def nf_xml_value_codigo_pais value, xml_version=:v3_10
-				"#{value}".gsub(/[^\d]/,'').rjust(4, '0').max_size(4)
+				only_numbers value, {min_size: 4, max_size: 4}
 			end
 
 			def nf_xml_value_IE value, xml_version=:v3_10
-				"#{value}".gsub(/[^\w]/,'').rjust(2, '0').max_size(14)
+				if value.blank?
+					'ISENTO'
+				else
+					"#{value}".gsub(/[^\w]/,'').rjust(2, '0').max_size(14)
+				end
 			end
 
 			def nf_xml_value_IM value, xml_version=:v3_10
@@ -48,7 +52,7 @@ module BrNfe
 			end
 
 			def nf_xml_value_CNAE value, xml_version=:v3_10
-				"#{value}".gsub(/[^\d]/,'').rjust(7, '0').max_size(7)
+				only_numbers value, {min_size: 7, max_size: 7}
 			end
 
 			def nf_xml_value_CRT value, xml_version=:v3_10
@@ -89,7 +93,7 @@ module BrNfe
 			# áreas.
 			# Min: 8 Max: 9
 			def nf_xml_value_inscricao_suframa v_suframa, xml_version=:v3_10
-				"#{v_suframa}".gsub(/[^\d]/,'').rjust(8, '0').max_size(9)
+				only_numbers v_suframa, {min_size: 8, max_size: 9}
 			end
 
 			def nf_xml_value_email v_email, xml_version=:v3_10
@@ -119,13 +123,56 @@ module BrNfe
 			def nf_xml_value_date_time time, xml_version=:v3_10
 				if time.is_a?(Time) || time.is_a?(DateTime)
 					time.to_s(:iso8601)
+				elsif time.is_a?(Date)
+					time.to_time.to_s(:iso8601)
+				end
+			end
+
+			def nf_xml_value_time time, xml_version=:v3_10
+				if time.is_a?(Time) || time.is_a?(DateTime)
+					time.strftime('%H:%M:%S')
 				end
 			end
 
 			def nf_xml_value_date date, xml_version=:v3_10
 				if date.is_a?(Date)
 					date.to_s(:iso8601)
+				elsif time.is_a?(Time) || time.is_a?(DateTime)
+					date.to_date.to_s(:iso8601)
 				end
+			end
+
+			def nf_xml_value_monetary value, xml_version=:v3_10
+				value.to_f.round(2)
+			end
+
+			def nf_xml_value_percent value, xml_version=:v3_10
+				value.to_f.round(4)
+			end
+
+			def nf_xml_value_peso value, xml_version=:v3_10
+				value.to_f.round(3)
+			end
+
+			def nf_xml_value_CFOP value, xml_version=:v3_10
+				only_numbers value, {min_size: 4, max_size: 4}
+			end
+
+			def nf_xml_value_placa placa, xml_version=:v3_10
+				"#{placa}".gsub(/[^\w]/,'').rjust(7, '0').max_size(7)
+			end
+
+			# Registro Nacional de Transportador de Carga (ANTT)
+			#
+			def nf_xml_value_RNTC rntc, xml_version=:v3_10
+				nf_xml_value_text rntc, 20
+			end
+		private
+
+			def only_numbers value, options={}
+				options[:min_size] ||= 0
+				options[:max_size] ||= 1
+				"#{value}".gsub(/[^\d]/,'').rjust(options[:min_size], '0').max_size(options[:max_size])
 			end
 		end
 	end

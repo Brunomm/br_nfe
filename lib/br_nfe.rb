@@ -163,6 +163,13 @@ module BrNfe
 
 	module Product
 		extend ActiveSupport::Autoload
+		module Transporte
+			extend ActiveSupport::Autoload
+			autoload :Base
+			autoload :Veiculo
+			autoload :Volume
+			autoload :Transportador
+		end
 		module Gateway
 			extend ActiveSupport::Autoload
 			autoload :Base
@@ -226,6 +233,19 @@ module BrNfe
 	mattr_accessor :nota_fiscal_product_class
 	@@nota_fiscal_product_class = BrNfe::Product::NotaFiscal
 
+	############################ TRANSPORTE ############################
+	mattr_accessor :transporte_product_class
+	@@transporte_product_class = BrNfe::Product::Transporte::Base
+
+	mattr_accessor :veiculo_product_class
+	@@veiculo_product_class = BrNfe::Product::Transporte::Veiculo
+
+	mattr_accessor :volume_transporte_product_class
+	@@volume_transporte_product_class = BrNfe::Product::Transporte::Volume
+	
+	mattr_accessor :transportador_product_class
+	@@transportador_product_class = BrNfe::Product::Transporte::Transportador
+	
 	mattr_accessor :client_wsdl_log
 	@@client_wsdl_log = false
 	

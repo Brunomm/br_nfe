@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/transporte/base:
+          invalid_reboque: 'Reboque %{index}: %{error_message}'
+          invalid_volume: 'Volume %{index}: %{error_message}'
+          invalid_transportador: 'Shipping company: %{error_message}'

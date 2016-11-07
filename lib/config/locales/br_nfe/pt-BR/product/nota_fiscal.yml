@@ -7,6 +7,7 @@ pt-BR:
     errors:
       models:
         br_nfe/product/nota_fiscal:
+          invalid_transporte: 'Transporte: %{error_message}'
           attributes:
             autorizados_download_xml:
               too_long:  'excedeu o limite máximo de %{count} CPF/CNPJ'

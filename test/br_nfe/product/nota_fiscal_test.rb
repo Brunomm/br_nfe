@@ -439,4 +439,56 @@ describe BrNfe::Product::NotaFiscal do
 			subject.autorizados_download_xml.must_equal([])
 		end
 	end
+
+	describe '#transporte' do
+		let(:alias_msg_erro) { 'Veículo: ' } 
+		let(:msg_erro_1) { 'Erro 1' } 
+		let(:msg_erro_2) { 'Erro 2' } 
+		it "deve ignorar valores que não são da class de transporte" do
+			subject.transporte = nil
+			subject.transporte = 123
+			subject.transporte.must_be_nil
+			subject.transporte = 'aaaa'
+			subject.transporte.must_be_nil
+			subject.transporte = BrNfe.transporte_product_class.new
+			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
+		end
+		it "deve instanciar um transporte com os atributos se setar um Hash " do
+			subject.transporte = nil
+			subject.transporte = {retencao_cfop: 'LOG', retencao_valor_sevico: 50.55}
+			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
+
+			subject.transporte.retencao_cfop.must_equal 'LOG'
+			subject.transporte.retencao_valor_sevico.must_equal  50.55
+		end
+		it "deve instanciar um transporte setar os atributos em forma de Block " do
+			subject.transporte = nil
+			subject.transporte do |e| 
+				e.retencao_cfop = 'PLACA'
+				e.retencao_valor_sevico  = 47.74
+			end
+
+			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
+			subject.transporte.retencao_cfop.must_equal 'PLACA'
+			subject.transporte.retencao_valor_sevico.must_equal  47.74
+		end
+		it "deve ser possível limpar o atributo" do
+			subject.transporte = {retencao_valor_sevico: 132}
+			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
+
+			subject.transporte = nil
+			subject.transporte.must_be_nil
+		end
+			
+		it "deve validar o transporte se for preenchido" do
+			transporte = BrNfe.transporte_product_class.new
+			transporte.errors.add :base, msg_erro_1
+			transporte.errors.add :base, msg_erro_2
+			transporte.expects(:invalid?).returns(true)
+			subject.transporte = transporte
+			
+			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_1})
+			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
+		end
+	end
 end
