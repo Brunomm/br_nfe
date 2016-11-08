@@ -5,6 +5,8 @@ describe BrNfe::Product::NotaFiscal do
 	let(:endereco) { FactoryGirl.build(:endereco) } 
 	let(:emitente) { FactoryGirl.build(:product_emitente, endereco: endereco) } 
 
+	let(:pagamento) { FactoryGirl.build(:product_cobranca_pagamento) } 
+
 	describe "#default_values" do
 		it '#versao_aplicativo deve ter o padrão 0' do
 			subject.class.new.versao_aplicativo.must_equal 0
@@ -157,6 +159,56 @@ describe BrNfe::Product::NotaFiscal do
 				end
 			end
 			it { must validate_length_of(:autorizados_download_xml).is_at_most(10) }
+		end
+
+		describe '#pagamentos' do
+			before do
+				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+					def string_of_length(length)
+						[BrNfe.pagamento_product_class.new] * length
+					end
+				end
+			end
+			context 'Deve aplicar a validação dos pagamentos se for uma NFC-e' do
+				before { subject.modelo_nf = '65' }
+				it 'Deve ter no máximo 100 pagamentos' do 
+					must validate_length_of(:pagamentos).is_at_most(100)
+				end
+
+				it "Se tiver mais que 1 pagamento e pelo menos 1 deles não for válido deve adiiconar o erro do pagamento no objeto" do
+					pagamento.stubs(:valid?).returns(true)
+					pagamento2 = pagamento.dup
+					pagamento2.errors.add(:base, 'Erro do pagamento 2')
+					pagamento2.stubs(:valid?).returns(false)
+					pagamento3 = pagamento.dup
+					pagamento3.errors.add(:base, 'Erro do pagamento 3')
+					pagamento3.stubs(:valid?).returns(false)
+					subject.pagamentos = [pagamento, pagamento2, pagamento3]
+
+					must_be_message_error :base, :invalid_pagamento, {index: 2, error_message: 'Erro do pagamento 2'}
+					must_be_message_error :base, :invalid_pagamento, {index: 3, error_message: 'Erro do pagamento 3'}, false
+				end
+			end
+			context 'Não deve aplicar a validação dos pagamentos se for uma NF-e' do
+				before { subject.modelo_nf = '55' }
+				it 'Não deve validar o máximo de 100 pagamentos' do 
+					wont validate_length_of(:pagamentos).is_at_most(100)
+				end
+
+				it "Não deve verificar se os pagametos estão válidos" do
+					pagamento.stubs(:valid?).returns(true)
+					pagamento2 = pagamento.dup
+					pagamento2.errors.add(:base, 'Erro do pagamento 2')
+					pagamento2.stubs(:valid?).returns(false)
+					pagamento3 = pagamento.dup
+					pagamento3.errors.add(:base, 'Erro do pagamento 3')
+					pagamento3.stubs(:valid?).returns(false)
+					subject.pagamentos = [pagamento, pagamento2, pagamento3]
+
+					wont_be_message_error :base, :invalid_pagamento, {index: 2, error_message: 'Erro do pagamento 2'}
+					wont_be_message_error :base, :invalid_pagamento, {index: 3, error_message: 'Erro do pagamento 3'}, false
+				end
+			end
 		end
 	end
 
@@ -441,7 +493,6 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#transporte' do
-		let(:alias_msg_erro) { 'Veículo: ' } 
 		let(:msg_erro_1) { 'Erro 1' } 
 		let(:msg_erro_2) { 'Erro 2' } 
 		it "deve ignorar valores que não são da class de transporte" do
@@ -489,6 +540,88 @@ describe BrNfe::Product::NotaFiscal do
 			
 			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_1})
 			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
+		end
+	end
+
+	describe '#fatura' do
+		let(:msg_erro_1) { 'Erro 1' } 
+		let(:msg_erro_2) { 'Erro 2' } 
+		it "deve ignorar valores que não são da class de fatura" do
+			subject.fatura = nil
+			subject.fatura = 123
+			subject.fatura.must_be_nil
+			subject.fatura = 'aaaa'
+			subject.fatura.must_be_nil
+			subject.fatura = BrNfe.fatura_product_class.new
+			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
+		end
+		it "deve instanciar uma fatura com os atributos se setar um Hash " do
+			subject.fatura = nil
+			subject.fatura = {numero_fatura: 'LOG', valor_original: 50.55}
+			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
+
+			subject.fatura.numero_fatura.must_equal 'LOG'
+			subject.fatura.valor_original.must_equal  50.55
+		end
+		it "deve instanciar uma fatura setar os atributos em forma de Block " do
+			subject.fatura = nil
+			subject.fatura do |e| 
+				e.numero_fatura = 'FAT453536'
+				e.valor_original  = 47.74
+			end
+
+			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
+			subject.fatura.numero_fatura.must_equal 'FAT453536'
+			subject.fatura.valor_original.must_equal  47.74
+		end
+		it "deve ser possível limpar o atributo" do
+			subject.fatura = {valor_original: 132}
+			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
+
+			subject.fatura = nil
+			subject.fatura.must_be_nil
+		end
+			
+		it "deve validar o fatura se for preenchida" do
+			fatura = BrNfe.fatura_product_class.new
+			fatura.errors.add :base, msg_erro_1
+			fatura.errors.add :base, msg_erro_2
+			fatura.expects(:invalid?).returns(true)
+			subject.fatura = fatura
+			
+			must_be_message_error(:base, :invalid_fatura, {error_message: msg_erro_1})
+			must_be_message_error(:base, :invalid_fatura, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
+		end
+	end
+
+	describe '#pagamentos' do
+		it "deve inicializar o objeto com um Array" do
+			subject.class.new.pagamentos.must_be_kind_of Array
+		end
+		it "deve aceitar apenas objetos da class Hash ou Veiculo" do
+			nf_hash = {forma_pagamento: '1', total: 1146}
+			subject.pagamentos = [pagamento, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
+			subject.pagamentos.size.must_equal 2
+			subject.pagamentos[0].must_equal pagamento
+
+			subject.pagamentos[1].forma_pagamento.must_equal '1'
+			subject.pagamentos[1].total.must_equal 1146
+		end
+		it "posso adicionar notas fiscais  com <<" do
+			new_object = subject.class.new
+			new_object.pagamentos << pagamento
+			new_object.pagamentos << 1
+			new_object.pagamentos << nil
+			new_object.pagamentos << {forma_pagamento: '2', total: 223}
+			new_object.pagamentos << {forma_pagamento: '3', total: 800}
+
+			new_object.pagamentos.size.must_equal 3
+			new_object.pagamentos[0].must_equal pagamento
+
+			new_object.pagamentos[1].forma_pagamento.must_equal '2'
+			new_object.pagamentos[1].total.must_equal 223
+			new_object.pagamentos[2].forma_pagamento.must_equal '3'
+			new_object.pagamentos[2].total.must_equal 800
 		end
 	end
 end

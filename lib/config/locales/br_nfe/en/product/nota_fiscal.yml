@@ -8,6 +8,8 @@ en:
       models:
         br_nfe/product/nota_fiscal:
           invalid_transporte: 'Transport: %{error_message}'
+          invalid_fatura: 'Billing Invoice: %{error_message}'
+          invalid_pagamento: 'Payment %{index}: %{error_message}'
           attributes:
             autorizados_download_xml:
               too_long:  "exceeded the maximum limit of %{count} CPF/CNPJ's"

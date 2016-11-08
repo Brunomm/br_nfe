@@ -1,0 +1,6 @@
+en:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/cobranca/fatura:
+          invalid_duplicata: 'Duplicata %{index}: %{error_message}'

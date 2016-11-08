@@ -240,6 +240,37 @@ describe BrNfe::Product::Transporte::Base do
 		end
 	end
 
+	describe '#volumes' do
+		it "deve inicializar o objeto com um Array" do
+			subject.class.new.volumes.must_be_kind_of Array
+		end
+		it "deve aceitar apenas objetos da class Hash ou Veiculo" do
+			nf_hash = {marca: 'COCA', quantidade: 1146}
+			subject.volumes = [volume, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
+			subject.volumes.size.must_equal 2
+			subject.volumes[0].must_equal volume
+
+			subject.volumes[1].marca.must_equal 'COCA'
+			subject.volumes[1].quantidade.must_equal 1146
+		end
+		it "posso adicionar notas fiscais  com <<" do
+			new_object = subject.class.new
+			new_object.volumes << volume
+			new_object.volumes << 1
+			new_object.volumes << nil
+			new_object.volumes << {marca: 'QUIPO', quantidade: 223}
+			new_object.volumes << {marca: 'XIRÚ',  quantidade: 800}
+
+			new_object.volumes.size.must_equal 3
+			new_object.volumes[0].must_equal volume
+
+			new_object.volumes[1].marca.must_equal 'QUIPO'
+			new_object.volumes[1].quantidade.must_equal 223
+			new_object.volumes[2].marca.must_equal 'XIRÚ'
+			new_object.volumes[2].quantidade.must_equal 800
+		end
+	end
+
 	describe '#CÁLCULOS AUTOMÁTICOS' do
 		describe '#retencao_valor_icms' do
 			it "deve calcular o valor a partir dos atributos 'retencao_base_calculo_icms' e 'retencao_aliquota' se estiver nil " do

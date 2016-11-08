@@ -59,5 +59,7 @@ module BrNfe
 			'TO', # Tocantins
 			'EX'  # Exterior
 		]
+
+		FORMAS_PAGAMENTO = [1, 2, 3, 4, 5, 10, 11, 12, 13, 99, '1', '2', '3', '4', '5', '01', '02', '03', '04', '05', '10', '11', '12', '13', '99']
 	end
 end

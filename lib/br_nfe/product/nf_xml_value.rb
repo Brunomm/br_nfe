@@ -167,6 +167,11 @@ module BrNfe
 			def nf_xml_value_RNTC rntc, xml_version=:v3_10
 				nf_xml_value_text rntc, 20
 			end
+
+			def nf_xml_fixed_code code, options={}, xml_version=:v3_10
+				options = {size: 2}.merge(options)
+				"#{code.to_i}".rjust(options[:size], '0')
+			end
 		private
 
 			def only_numbers value, options={}

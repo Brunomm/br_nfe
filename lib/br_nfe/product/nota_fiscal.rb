@@ -318,6 +318,66 @@ module BrNfe
 				end
 			end
 
+			# Dados da cobrança da NF-e
+			# Fatura e Duplicatas da Nota Fiscal
+			# Utilizado para especificar os dados da fatura e das duplicatas.
+			# No caso desta GEM, a fatura contém o Array de duplicatas.
+			# Ex:
+			#    self.fatura.duplicatas
+			#    => [#<::Cobranca::Duplicata:0x00000006302b80 ...>, #<::Cobranca::Duplicata:0x00000046465bw4 ...>] 
+			#
+			# <b>Type: </b> _BrNfe.fatura_product_class_
+			# <b>Required: </b> _No_
+			# <b>Default: </b> _nil_
+			# <b>Exemplo: </b> _BrNfe::Product::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
+			#
+			def fatura
+				yield(fatura_force_instance) if block_given?
+				@fatura.is_a?(BrNfe.fatura_product_class) ? @fatura : nil
+			end
+			def fatura=(value)
+				if value.is_a?(BrNfe.fatura_product_class) 
+					@fatura = value
+				elsif value.is_a?(Hash)
+					fatura_force_instance.assign_attributes(value)
+				elsif value.blank?
+					@fatura = nil
+				end
+			end
+
+			# Array com as informações dos pagamentos
+			# IMPORTANTE: Utilizado apenas para NFC-e
+			#
+			# Pode ser adicionado os dados dos pagamentos em forma de `Hash` 
+			# ou o próprio objeto da classe BrNfe.pagamento_product_class.
+			#
+			# Exemplo com Hash:
+			#    self.pagamentos = [{forma_pagamento: '1', total: 100.00, ...},{forma_pagamento: '2', total: 200.00, ...}]
+			#    self.pagamentos << {forma_pagamento: '3', total: 300.00, ...}
+			#    self.pagamentos << {forma_pagamento: '4', total: 400.00, ...}
+			#
+			# Exemplo com Objetos:
+			#    self.pagamentos = [BrNfe::Product::Cobranca::Pagamento.new({forma_pagamento: '5', total: 500.00, ...}),{forma_pagamento: '11', total: 600.00, ...}]
+			#    self.pagamentos << BrNfe::Product::Cobranca::Pagamento.new({forma_pagamento: '10', total: 700.00, ...})
+			#    self.pagamentos << {forma_pagamento: '12', total: 800.00, ...}
+			#
+			# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.pagamento_product_class`
+			#
+			# <b>Tipo: </b> _BrNfe.pagamento_product_class (BrNfe::Product::Cobranca::Pagamento)_
+			# <b>Min: </b> _0_
+			# <b>Max: </b> _100_
+			# <b>Default: </b> _[]_
+			#
+			attr_accessor :pagamentos
+			def pagamentos
+				arry = [@pagamentos].flatten.reject(&:blank?)
+				arry_ok = arry.select{|v| v.is_a?(BrNfe.pagamento_product_class) }
+				arry.select!{|v| v.is_a?(Hash) }
+				arry.map{ |hash| arry_ok.push(BrNfe.pagamento_product_class.new(hash)) }
+				@pagamentos = arry_ok
+				@pagamentos
+			end
+
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -376,8 +436,14 @@ module BrNfe
 
 			validates :autorizados_download_xml, length: { maximum: 10 }
 
-			validate :transporte_validation, if: :transporte
+			validate :transporte_validation,  if: :transporte
+			validate :fatura_validation,      if: :fatura
 			
+			with_options if: :nfce? do |record|
+				record.validates :pagamentos, length: {maximum: 100}
+				record.validate :pagamentos_validations
+			end
+
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
 				record.validates :endereco_retirada_cpf_cnpj, length: {maximum: 14}
@@ -458,6 +524,37 @@ module BrNfe
 				def transporte_force_instance
 					@transporte = BrNfe.transporte_product_class.new unless @transporte.is_a?(BrNfe.transporte_product_class)
 					@transporte
+				end
+
+			##############################  FATURA  ##############################
+				# Utilizado para validar se a fatura está valido.
+				# Só irá validar caso a fatura da entrega seja preenchido.
+				#
+				def fatura_validation
+					if fatura.invalid?
+						fatura.errors.full_messages.each { |msg| errors.add(:base, :invalid_fatura, {error_message: msg}) }
+					end
+				end
+				# Instancía uma fatura e seta na variavel  @fatura.
+				# É utilizado quando setar a fatura em forma da Hash ou Block
+				# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
+				#
+				def fatura_force_instance
+					@fatura = BrNfe.fatura_product_class.new unless @fatura.is_a?(BrNfe.fatura_product_class)
+					@fatura
+				end
+			############################  PAGAMENTOS  ############################
+				# Adiciona os erros dos pagamentos no objeto
+				#
+				def pagamentos_validations
+					pagamentos.select(&:invalid?).each_with_index do |pagamento, i|
+						add_pagamento_errors(pagamento, i+1)
+					end
+				end
+				def add_pagamento_errors(pagamento, index)
+					pagamento.errors.full_messages.each do |message|
+						errors.add(:base, :invalid_pagamento, {index: index, error_message: message})
+					end
 				end
 
 			###############################################################################################
