@@ -163,18 +163,22 @@ module BrNfe
 
 	module Product
 		extend ActiveSupport::Autoload
-		module Cobranca
+
+		module Nfe
 			extend ActiveSupport::Autoload
-			autoload :Fatura
-			autoload :Duplicata
-			autoload :Pagamento
-		end
-		module Transporte
-			extend ActiveSupport::Autoload
-			autoload :Base
-			autoload :Veiculo
-			autoload :Volume
-			autoload :Transportador
+			module Cobranca
+				extend ActiveSupport::Autoload
+				autoload :Fatura
+				autoload :Duplicata
+				autoload :Pagamento
+			end
+			module Transporte
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :Veiculo
+				autoload :Volume
+				autoload :Transportador
+			end
 		end
 		module Gateway
 			extend ActiveSupport::Autoload
@@ -249,24 +253,24 @@ module BrNfe
 
 		############################# COBRANÇA #############################
 		mattr_accessor :duplicata_product_class
-		@@duplicata_product_class = BrNfe::Product::Cobranca::Duplicata
+		@@duplicata_product_class = BrNfe::Product::Nfe::Cobranca::Duplicata
 		mattr_accessor :fatura_product_class
-		@@fatura_product_class = BrNfe::Product::Cobranca::Fatura
+		@@fatura_product_class = BrNfe::Product::Nfe::Cobranca::Fatura
 		mattr_accessor :pagamento_product_class
-		@@pagamento_product_class = BrNfe::Product::Cobranca::Pagamento
+		@@pagamento_product_class = BrNfe::Product::Nfe::Cobranca::Pagamento
 
 		############################ TRANSPORTE ############################
 		mattr_accessor :transporte_product_class
-		@@transporte_product_class = BrNfe::Product::Transporte::Base
+		@@transporte_product_class = BrNfe::Product::Nfe::Transporte::Base
 
 		mattr_accessor :veiculo_product_class
-		@@veiculo_product_class = BrNfe::Product::Transporte::Veiculo
+		@@veiculo_product_class = BrNfe::Product::Nfe::Transporte::Veiculo
 
 		mattr_accessor :volume_transporte_product_class
-		@@volume_transporte_product_class = BrNfe::Product::Transporte::Volume
+		@@volume_transporte_product_class = BrNfe::Product::Nfe::Transporte::Volume
 		
 		mattr_accessor :transportador_product_class
-		@@transportador_product_class = BrNfe::Product::Transporte::Transportador
+		@@transportador_product_class = BrNfe::Product::Nfe::Transporte::Transportador
 		
 	
 	def self.setup

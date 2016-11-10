@@ -60,7 +60,7 @@ module BrNfe
 			attr_accessor :serie
 
 			# Número do Documento Fiscal.
-			# Número da nota fiscal -< De fato
+			# Número da nota fiscal De fato
 			#
 			# <b>Type: </b> _Number_
 			# <b>Max: </b> _9_
@@ -329,7 +329,7 @@ module BrNfe
 			# <b>Type: </b> _BrNfe.fatura_product_class_
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
-			# <b>Exemplo: </b> _BrNfe::Product::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
+			# <b>Exemplo: </b> _BrNfe::Product::Nfe::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
 			#
 			def fatura
 				yield(fatura_force_instance) if block_given?
@@ -357,13 +357,13 @@ module BrNfe
 			#    self.pagamentos << {forma_pagamento: '4', total: 400.00, ...}
 			#
 			# Exemplo com Objetos:
-			#    self.pagamentos = [BrNfe::Product::Cobranca::Pagamento.new({forma_pagamento: '5', total: 500.00, ...}),{forma_pagamento: '11', total: 600.00, ...}]
-			#    self.pagamentos << BrNfe::Product::Cobranca::Pagamento.new({forma_pagamento: '10', total: 700.00, ...})
+			#    self.pagamentos = [BrNfe::Product::Nfe::Cobranca::Pagamento.new({forma_pagamento: '5', total: 500.00, ...}),{forma_pagamento: '11', total: 600.00, ...}]
+			#    self.pagamentos << BrNfe::Product::Nfe::Cobranca::Pagamento.new({forma_pagamento: '10', total: 700.00, ...})
 			#    self.pagamentos << {forma_pagamento: '12', total: 800.00, ...}
 			#
 			# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.pagamento_product_class`
 			#
-			# <b>Tipo: </b> _BrNfe.pagamento_product_class (BrNfe::Product::Cobranca::Pagamento)_
+			# <b>Tipo: </b> _BrNfe.pagamento_product_class (BrNfe::Product::Nfe::Cobranca::Pagamento)_
 			# <b>Min: </b> _0_
 			# <b>Max: </b> _100_
 			# <b>Default: </b> _[]_
