@@ -154,6 +154,10 @@ module BrNfe
 				value.to_f.round(3)
 			end
 
+			def nf_xml_value_float value, precision, xml_version=:v3_10
+				value.to_f.round(precision)
+			end
+
 			def nf_xml_value_CFOP value, xml_version=:v3_10
 				only_numbers value, {min_size: 4, max_size: 4}
 			end
@@ -171,6 +175,41 @@ module BrNfe
 			def nf_xml_fixed_code code, options={}, xml_version=:v3_10
 				options = {size: 2}.merge(options)
 				"#{code.to_i}".rjust(options[:size], '0')
+			end
+
+			def nf_xml_value_CEST cest, xml_version=:v3_10
+				"#{cest.to_i}".rjust(7, '0') if cest.present?
+			end
+
+			def nf_xml_value_EAN ean, xml_version=:v3_10
+				if ean.to_i > 0
+					if "#{ean}".strip.size > 8
+						"#{ean}".strip.rjust(12, '0') 
+					else
+						"#{ean}".strip.rjust(8, '0') 
+					end
+				end
+			end
+
+			def nf_xml_value_NCM ncm, xml_version=:v3_10
+				ncm = ncm.to_i
+				if ncm > 0
+					"#{ncm}".rjust(8, '0') 
+				else
+					"#{ncm}".rjust(2, '0') 
+				end
+			end
+
+			def nf_xml_value_EXTIPI value, xml_version=:v3_10
+				"#{value}".rjust(2, '0')
+			end
+
+			def nf_xml_value_boolean value, xml_version=:v3_10
+				value ? '1' : '0'
+			end
+
+			def nf_xml_value_NVE value, xml_version=:v3_10
+				"#{value}".max_size(6)
 			end
 		private
 

@@ -94,6 +94,45 @@ class MiniTest::Spec
 		subject.send(attribute).must_equal test_value
 	end
 
+	def must_accept_only_numbers attribute, opts={}
+		options = {size: 5, set: '1'}
+		options.merge!(opts)
+
+		set_numbers = ''.rjust(options[:size], options[:set])
+
+		subject.send("#{attribute}=", "AB$#{set_numbers}-CD".insert(5, '.'))
+		subject.send(attribute).must_equal set_numbers
+	end
+
+	def must_returns_an_array attribute, opts={}
+		options = {set1: '1', set2: '2', init_how_array: true}
+		options.merge!(opts)
+		set1 = options[:set1]
+		set2 = options[:set2]
+
+		if options[:init_how_array]
+			# deve  inicializar com um array vazio
+			subject.class.new.send(attribute).must_be_kind_of Array
+			subject.class.new.send(attribute).must_be_empty
+		end
+		
+		# mesmo que setar um valor qualquer deve sempre retornar um array
+		subject.send("#{attribute}=", set1)
+		subject.send(attribute).must_equal([set1])
+		subject.send("#{attribute}=", set2)
+		subject.send(attribute).must_equal([set2])
+		subject.send("#{attribute}=", [set2,set1])
+		subject.send(attribute).must_equal([set2,set1])
+		
+		# deve desconsiderar os valores nil
+		subject.send("#{attribute}=", [nil,set1,nil,set2,nil])
+		subject.send(attribute).must_equal([set1,set2])
+		subject.send("#{attribute}=", nil)
+		subject.send(attribute).must_equal([])
+		subject.send("#{attribute}=", [nil])
+		subject.send(attribute).must_equal([])
+	end
+
 private
 
 	def get_message(msg, msg_params, column=:base)

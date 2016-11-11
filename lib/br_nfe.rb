@@ -166,6 +166,7 @@ module BrNfe
 
 		module Nfe
 			extend ActiveSupport::Autoload
+			autoload :Item
 			module Cobranca
 				extend ActiveSupport::Autoload
 				autoload :Fatura
