@@ -1,0 +1,10 @@
+en:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/nfe/item:
+          invalid_declaracao_importacao: 'Import declaration %{index}: %{error_message}'
+          attributes:
+            declaracoes_importacao:
+              too_long:  'exceeded the maximum limit of %{count} declarations'
+              too_short: 'must have at least %{count}'

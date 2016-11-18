@@ -1,6 +1,8 @@
 module BrNfe
 	class ActiveModelBase
-		include ActiveModel::Model
+		include ::ActiveModel::Model
+		include BrNfe::ActiveModel::Associations
+		
 
 		def initialize(attributes = {})
 			attributes = default_values.merge!(attributes)

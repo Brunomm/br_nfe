@@ -20,20 +20,10 @@ describe BrNfe::Product::Nfe::Item do
 		it { must validate_length_of(:codigo_cest).is_at_most(7) }
 
 		before do 
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				# Sobrescrevo o metodo para que quando vai executar os testes
-				# de tamanho, sempre vai setar um valor numérico
-				def string_of_length(length)
-					'1' * length
-				end
-			end
+			MiniTest::Spec.string_for_validation_length = '1'
 		end
 		after do 
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				def string_of_length(length)
-					'x' * length
-				end
-			end
+			MiniTest::Spec.string_for_validation_length = 'x'
 		end
 		describe "tipo_produto" do
 			it { must validate_presence_of(:tipo_produto) }
@@ -62,14 +52,9 @@ describe BrNfe::Product::Nfe::Item do
 		end
 		describe "codigos_nve" do
 			it "Deve ter no máximo 8 códigos" do
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					# Sobrescrevo o metodo para que quando vai executar os testes
-					# de tamanho, sempre vai setar um valor numérico
-					def string_of_length(length)
-						['AA1324'] * length
-					end
-				end
+				MiniTest::Spec.string_for_validation_length = ['AA1324']
 				must validate_length_of(:codigos_nve).is_at_most(8)
+				MiniTest::Spec.string_for_validation_length = 'x'
 			end
 		end
 
@@ -255,5 +240,11 @@ describe BrNfe::Product::Nfe::Item do
 			subject.quantidade_tributavel = 1
 			subject.valor_unitario_tributavel.wont_be_nil
 		end
+	end
+
+	describe '#declaracoes_importacao' do
+		it { must_validate_length_has_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, {maximum: 100})  }
+		it { must_validates_has_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, :invalid_declaracao_importacao) }
+		it { must_have_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, {numero_documento: 'XXL9999', local_desembaraco: '223'})  }
 	end
 end

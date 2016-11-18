@@ -12,23 +12,9 @@ describe BrNfe::Product::NfeAutorizacao do
 	context 'validations' do
 		describe '#notas_fiscais' do
 			it 'Deve ter no mínimo 1 e no máximo 50 notas fiscais' do 
-				# Como só aceita objetos de NotaFiscal então sobrescrevo o método
-				# para setar os valores em `notas_fiscais`
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						[BrNfe::Product::NotaFiscal.new] * length
-					end
-				end
-				
+				MiniTest::Spec.string_for_validation_length = [BrNfe::Product::NotaFiscal.new]
 				must validate_length_of(:notas_fiscais).is_at_most(50).is_at_least(1) 
-				
-				# Volto a alteração que fiz no método para outros testes
-				# Funcionarem adequadamente
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						'x' * length
-					end
-				end
+				MiniTest::Spec.string_for_validation_length = ''
 			end
 
 			it "Se tiver mais que 1 NF-e e pelo menos 1 delas não for válida deve adiiconar o erro da NF no objeto" do
@@ -40,9 +26,7 @@ describe BrNfe::Product::NfeAutorizacao do
 
 				must_be_message_error :base, :invalid_invoice, {number: 356, nf_message: 'Erro da Nota fiscal'}
 			end
-
 		end
-
 	end
 	
 	it 'o método #url_xmlns deve pegar o valor do método url_xmlns_autorizacao do gateway ' do

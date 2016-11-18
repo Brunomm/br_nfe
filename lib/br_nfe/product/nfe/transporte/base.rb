@@ -152,16 +152,10 @@ module BrNfe
 					# <b>Max: </b> _5_
 					# <b>Default: </b> _[]_
 					#
-					attr_accessor :reboques
-					def reboques
-						arry = [@reboques].flatten.reject(&:blank?)
-						arry_ok = arry.select{|v| v.is_a?(BrNfe.veiculo_product_class) }
-						arry.select!{|v| v.is_a?(Hash) }
-						arry.map{ |hash| arry_ok.push(BrNfe.veiculo_product_class.new(hash)) }
-						@reboques = arry_ok
-						@reboques
-					end
-
+					has_many :reboques, 'BrNfe.veiculo_product_class', 
+					         validations: :invalid_reboque, 
+					         length: {maximum: 5}
+					
 					# Array com os volumes utilizados para transportar a carga
 					# Pode ser adicionado os dados dos volumes em forma de `Hash` ou
 					# O próprio objeto da classe Volume.
@@ -179,26 +173,12 @@ module BrNfe
 					# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.volume_transporte_product_class`
 					#
 					# <b>Tipo: </b> _BrNfe.volume_transporte_product_class (BrNfe::Product::Nfe::Transporte::Volume)_
-					# <b>Min: </b> _0_
-					# <b>Max: </b> _5_
 					# <b>Default: </b> _[]_
 					#
-					attr_accessor :volumes
-					def volumes
-						arry = [@volumes].flatten.reject(&:blank?)
-						arry_ok = arry.select{|v| v.is_a?(BrNfe.volume_transporte_product_class) }
-						arry.select!{|v| v.is_a?(Hash) }
-						arry.map{ |hash| arry_ok.push(BrNfe.volume_transporte_product_class.new(hash)) }
-						@volumes = arry_ok
-						@volumes
-					end
+					has_many :volumes, 'BrNfe.volume_transporte_product_class', 
+					         validations: :invalid_volume, 
+					         length: {maximum: 5}
 
-					def default_values
-						{
-							modalidade_frete: 9,        # 9 = Sem frete
-							forma_transporte: :veiculo, # Define qualer tipo de veículo terrestre (Caminhão, van, etc..)
-						}
-					end
 
 					# Transportador da mercadoria
 					# Dados da transportadora que irá `transportar` a mercadoria.
@@ -220,13 +200,17 @@ module BrNfe
 							@transportador = nil
 						end
 					end
+					
+					def default_values
+						{
+							modalidade_frete: 9,        # 9 = Sem frete
+							forma_transporte: :veiculo, # Define qualer tipo de veículo terrestre (Caminhão, van, etc..)
+						}
+					end
 
 					validates :modalidade_frete, inclusion: [0, '0', 1, '1', 2, '2', 9, '9']
 					validates :forma_transporte, presence: true
 					validates :forma_transporte, inclusion: [:veiculo, :balsa, :vagao]
-					validates :reboques, length: {maximum: 5}
-					validate  :reboques_validations
-					validate  :volumes_validations
 					validate  :transportador_validation, if: :transportador
 
 					with_options if: :forma_transporte_veiculo? do |record|
@@ -284,32 +268,6 @@ module BrNfe
 					def veiculo_force_instance
 						@veiculo = BrNfe.veiculo_product_class.new unless @veiculo.is_a?(BrNfe.veiculo_product_class)
 						@veiculo
-					end
-					############################  REBOQUES DE TRANSPORTE  ############################
-					# Adiciona os erros dos reboques no objeto
-					#
-					def reboques_validations
-						reboques.select(&:invalid?).each_with_index do |reboque, i|
-							add_reboque_errors(reboque, i+1)
-						end
-					end
-					def add_reboque_errors(reboque, index)
-						reboque.errors.full_messages.each do |message|
-							errors.add(:base, :invalid_reboque, {index: index, error_message: message})
-						end
-					end
-					############################  VOLUMES DE TRANSPORTE  ############################
-					# Adiciona os erros dos volumes no objeto
-					#
-					def volumes_validations
-						volumes.select(&:invalid?).each_with_index do |volume, i|
-							add_volume_errors(volume, i+1)
-						end
-					end
-					def add_volume_errors(volume, index)
-						volume.errors.full_messages.each do |message|
-							errors.add(:base, :invalid_volume, {index: index, error_message: message})
-						end
 					end
 					##############################  TRANSPORTADOR  ##############################
 					# Utilizado para validar se o transportador está valido.

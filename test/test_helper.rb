@@ -42,10 +42,24 @@ class Object
   alias context describe
 end
 
+
+class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
+	def string_of_length(length)
+		MiniTest::Spec.string_for_validation_length * length
+	end
+end
+
 class MiniTest::Spec
 	include Savon::SpecHelper
 	include Shoulda::Matchers::ActiveModel
 	include FactoryGirl::Syntax::Methods
+
+	# Utilizado para que seja possível cusotmizar o valor utilizado
+	# na validação de length 
+	mattr_accessor :string_for_validation_length
+	@@string_for_validation_length = 'x'
+	
+
 	let(:sequence_1) { sequence('sequence_1') }
 
 	def open_fixture(path)
@@ -131,6 +145,76 @@ class MiniTest::Spec
 		subject.send(attribute).must_equal([])
 		subject.send("#{attribute}=", [nil])
 		subject.send(attribute).must_equal([])
+	end
+
+	def must_validate_length_has_many attribute, class_name, *args
+		options = {
+			condition: false
+		}.merge(args.extract_options!)
+
+		MiniTest::Spec.string_for_validation_length = [class_name.new]
+		if options[:condition]
+			subject.stubs(options[:condition]).returns(true)
+		end
+		
+		must(validate_length_of(attribute).is_at_most(options[:maximum])) if options[:maximum]
+		must(validate_length_of(attribute).is_at_least(options[:minimum])) if options[:minimum]
+		must(validate_length_of(attribute).is_at_least(options[:in].min).is_at_most(options[:in].max)) if options[:in]
+		
+		if options[:condition]
+			subject.stubs(options[:condition]).returns(false)
+			wont(validate_length_of(attribute).is_at_most(options[:maximum])) if options[:maximum]
+			wont(validate_length_of(attribute).is_at_least(options[:minimum])) if options[:minimum]
+			wont(validate_length_of(attribute).is_at_least(options[:in].min).is_at_most(options[:in].max)) if options[:in]
+		end
+		MiniTest::Spec.string_for_validation_length = 'x'
+	end
+
+	def must_validates_has_many attribute, class_name, translation
+		object1 =  class_name.new
+		object2 =  class_name.new
+		object3 =  class_name.new
+		object1.stubs(:valid?).returns(true)
+		
+		object2.errors.add(:base, 'Erro do object 2')
+		object2.stubs(:valid?).returns(false)
+		
+		object3.errors.add(:base, 'Erro do object 3')
+		object3.stubs(:valid?).returns(false)
+
+		subject.send("#{attribute}=", [object1, object2, object3])
+
+		must_be_message_error :base, translation, {index: 2, error_message: 'Erro do object 2'}
+		must_be_message_error :base, translation, {index: 3, error_message: 'Erro do object 3'}, false
+	end
+
+	def must_have_many attribute, class_name, attrs={}
+		subject.class.new.send(attribute).must_be_kind_of Array, 'deve inicializar o objeto com um Array'
+		
+		new_object = class_name.new
+		
+		subject.send("#{attribute}=", [new_object, 1, 'string', nil, {}, [], :symbol, attrs, true])
+		subject.send(attribute).size.must_equal 2
+		subject.send(attribute)[0].must_equal new_object
+
+		attrs.each do |attr_key, value|
+			subject.send(attribute)[1].send(attr_key).must_equal value, 'Deveria setar o attributo se passar um hash'
+		end
+
+		subject.send("#{attribute}=", [])
+		# posso adicionar valores com << 
+		new_subject = subject.class.new
+		new_subject.send(attribute) << new_object
+		new_subject.send(attribute) << 1
+		new_subject.send(attribute) << nil
+		new_subject.send(attribute) << attrs
+
+		new_subject.send(attribute).size.must_equal 2
+		new_subject.send(attribute)[0].must_equal new_object
+
+		attrs.each do |attr_key, value|
+			new_subject.send(attribute)[1].send(attr_key).must_equal value, 'Deveria setar o attributo se passar um hash'
+		end
 	end
 
 private

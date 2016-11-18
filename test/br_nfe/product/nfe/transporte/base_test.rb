@@ -55,57 +55,6 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 			it { wont validate_presence_of(:identificacao_balsa) }
 			it { must validate_presence_of(:identificacao_vagao) }
 		end
-		describe '#reboques' do
-			it 'Deve ter no máximo 5 reboques' do 
-				# Como só aceita objetos de Veiculo então sobrescrevo o método
-				# para setar os valores em `reboques`
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						[BrNfe.veiculo_product_class.new] * length
-					end
-				end
-				
-				must validate_length_of(:reboques).is_at_most(5) 
-				
-				# Volto a alteração que fiz no método para outros testes
-				# Funcionarem adequadamente
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						'x' * length
-					end
-				end
-			end
-
-			it "Se tiver mais que 1 reboque e pelo menos 1 deles não for válido deve adiiconar o erro do reboque no objeto" do
-				veiculo.stubs(:valid?).returns(true)
-				veiculo2 = veiculo.dup
-				veiculo2.errors.add(:base, 'Erro do reboque 2')
-				veiculo2.stubs(:valid?).returns(false)
-				veiculo3 = veiculo.dup
-				veiculo3.errors.add(:base, 'Erro do reboque 3')
-				veiculo3.stubs(:valid?).returns(false)
-				subject.reboques = [veiculo, veiculo2, veiculo3]
-
-				must_be_message_error :base, :invalid_reboque, {index: 2, error_message: 'Erro do reboque 2'}
-				must_be_message_error :base, :invalid_reboque, {index: 3, error_message: 'Erro do reboque 3'}, false
-			end
-
-		end
-		describe '#volumes' do
-			it "Se tiver mais que 1 volume e pelo menos 1 deles não for válido deve adiiconar o erro do volume no objeto" do
-				volume.stubs(:valid?).returns(true)
-				volume2 = volume.dup
-				volume2.errors.add(:base, 'Erro do volume 2')
-				volume2.stubs(:valid?).returns(false)
-				volume3 = volume.dup
-				volume3.errors.add(:base, 'Erro do volume 3')
-				volume3.stubs(:valid?).returns(false)
-				subject.volumes = [volume, volume2, volume3]
-
-				must_be_message_error :base, :invalid_volume, {index: 2, error_message: 'Erro do volume 2'}
-				must_be_message_error :base, :invalid_volume, {index: 3, error_message: 'Erro do volume 3'}, false
-			end
-		end
 	end
 
 	describe '#retencao_icms? method' do
@@ -210,65 +159,14 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 	end
 
 	describe '#reboques' do
-		it "deve inicializar o objeto com um Array" do
-			subject.class.new.reboques.must_be_kind_of Array
-		end
-		it "deve aceitar apenas objetos da class Hash ou Veiculo" do
-			nf_hash = {placa: 'XXL-9877', rntc: '1146'}
-			subject.reboques = [veiculo, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
-			subject.reboques.size.must_equal 2
-			subject.reboques[0].must_equal veiculo
-
-			subject.reboques[1].placa.must_equal 'XXL9877'
-			subject.reboques[1].rntc.must_equal '1146'
-		end
-		it "posso adicionar notas fiscais  com <<" do
-			new_object = subject.class.new
-			new_object.reboques << veiculo
-			new_object.reboques << 1
-			new_object.reboques << nil
-			new_object.reboques << {placa: 'XXL-9999', rntc: '223'}
-			new_object.reboques << {placa: 'XXL1111', rntc: '800'}
-
-			new_object.reboques.size.must_equal 3
-			new_object.reboques[0].must_equal veiculo
-
-			new_object.reboques[1].placa.must_equal 'XXL9999'
-			new_object.reboques[1].rntc.must_equal '223'
-			new_object.reboques[2].placa.must_equal 'XXL1111'
-			new_object.reboques[2].rntc.must_equal '800'
-		end
+		it { must_validate_length_has_many(:reboques, BrNfe.veiculo_product_class, {maximum: 5})  }
+		it { must_validates_has_many(:reboques, BrNfe.veiculo_product_class, :invalid_reboque) }
+		it { must_have_many(:reboques, BrNfe.veiculo_product_class, {placa: 'XXL9999', rntc: '223'})  }
 	end
 
 	describe '#volumes' do
-		it "deve inicializar o objeto com um Array" do
-			subject.class.new.volumes.must_be_kind_of Array
-		end
-		it "deve aceitar apenas objetos da class Hash ou Veiculo" do
-			nf_hash = {marca: 'COCA', quantidade: 1146}
-			subject.volumes = [volume, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
-			subject.volumes.size.must_equal 2
-			subject.volumes[0].must_equal volume
-
-			subject.volumes[1].marca.must_equal 'COCA'
-			subject.volumes[1].quantidade.must_equal 1146
-		end
-		it "posso adicionar notas fiscais  com <<" do
-			new_object = subject.class.new
-			new_object.volumes << volume
-			new_object.volumes << 1
-			new_object.volumes << nil
-			new_object.volumes << {marca: 'QUIPO', quantidade: 223}
-			new_object.volumes << {marca: 'XIRÚ',  quantidade: 800}
-
-			new_object.volumes.size.must_equal 3
-			new_object.volumes[0].must_equal volume
-
-			new_object.volumes[1].marca.must_equal 'QUIPO'
-			new_object.volumes[1].quantidade.must_equal 223
-			new_object.volumes[2].marca.must_equal 'XIRÚ'
-			new_object.volumes[2].quantidade.must_equal 800
-		end
+		it { must_validates_has_many(:volumes, BrNfe.volume_transporte_product_class, :invalid_volume) }
+		it { must_have_many(:volumes, BrNfe.volume_transporte_product_class, {marca: 'QUIPO', quantidade: 223})  }
 	end
 
 	describe '#CÁLCULOS AUTOMÁTICOS' do

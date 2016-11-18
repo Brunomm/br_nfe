@@ -5,6 +5,9 @@ require 'active_support/core_ext/class'
 require 'active_support/core_ext/enumerable'
 require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/module'
+
+require "br_nfe/active_model/associations"
 
 require "br_nfe/helper/string_methods"
 
@@ -166,6 +169,8 @@ module BrNfe
 
 		module Nfe
 			extend ActiveSupport::Autoload
+			autoload :DeclaracaoImportacao
+			autoload :AdicaoImportacao
 			autoload :Item
 			module Cobranca
 				extend ActiveSupport::Autoload
@@ -251,6 +256,10 @@ module BrNfe
 		@@emitente_product_class = BrNfe::Product::Emitente
 		mattr_accessor :nota_fiscal_product_class
 		@@nota_fiscal_product_class = BrNfe::Product::NotaFiscal
+		mattr_accessor :declaracao_importacao_product_class
+		@@declaracao_importacao_product_class = BrNfe::Product::Nfe::DeclaracaoImportacao
+		mattr_accessor :adicao_importacao_product_class
+		@@adicao_importacao_product_class = BrNfe::Product::Nfe::AdicaoImportacao
 
 		############################# COBRANÇA #############################
 		mattr_accessor :duplicata_product_class

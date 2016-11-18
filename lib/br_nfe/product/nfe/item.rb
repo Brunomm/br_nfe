@@ -315,6 +315,19 @@ module BrNfe
 					#
 					attr_accessor :codigo_cest
 
+					# Declaração de Importação
+					# Informar dados da importação
+					#
+					# <b>Type:     </b> _BrNfe.declaracao_importacao_product_class_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _[BrNfe.declaracao_importacao_product_class.new]_
+					# <b>Length:   </b> _max: 100_
+					# <b>tag:      </b> DI
+					#
+					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class', 
+					         validations: :invalid_declaracao_importacao, 
+					         length: {maximum: 100}
+
 
 				def default_values
 					{
@@ -333,11 +346,11 @@ module BrNfe
 				validates :codigo_ncm, presence: true
 				validates :codigo_ncm, length: {maximum: 8}, allow_blank: true, if:     :is_product?
 				validates :codigo_ncm, length: {maximum: 2}, allow_blank: true, unless: :is_product?
-				
+
 				validates :codigos_nve, length: {maximum: 8}
-				
+
 				validates :codigo_extipi, length: {in: 2..3}, allow_blank: true
-				
+
 				validates :unidade_comercial, presence: true
 				validates :unidade_comercial, length: {maximum: 6}, allow_blank: true
 				validates :quantidade_comercial,     presence:     true
@@ -375,7 +388,6 @@ module BrNfe
 					def valor_unitario_tributavel_calculation
 						(valor_total_produto.to_f/quantidade_tributavel.to_f).round(10) if quantidade_tributavel.to_f > 0
 					end
-
 			end
 		end
 	end

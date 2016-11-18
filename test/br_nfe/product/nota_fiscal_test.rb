@@ -48,20 +48,10 @@ describe BrNfe::Product::NotaFiscal do
 
 	describe "Validations" do
 		before do 
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				# Sobrescrevo o metodo para que quando vai executar os testes
-				# de tamanho, sempre vai setar um valor numérico
-				def string_of_length(length)
-					'1' * length
-				end
-			end
+			MiniTest::Spec.string_for_validation_length = '1'
 		end
 		after do 
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				def string_of_length(length)
-					'x' * length
-				end
-			end
+			MiniTest::Spec.string_for_validation_length = 'x'
 		end
 
 		context '#codigo_nf' do
@@ -149,25 +139,19 @@ describe BrNfe::Product::NotaFiscal do
 			end
 		end
 		describe '#autorizados_download_xml' do
-			before do 
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					# Sobrescrevo o metodo para que quando vai executar os testes
-					# de tamanho, sempre vai setar um valor numérico
-					def string_of_length(length)
-						['1'] * length
-					end
-				end
+			it 'deve no maximo 10' do
+				MiniTest::Spec.string_for_validation_length = ['1']
+				must validate_length_of(:autorizados_download_xml).is_at_most(10)
+				MiniTest::Spec.string_for_validation_length = 'x'
 			end
-			it { must validate_length_of(:autorizados_download_xml).is_at_most(10) }
 		end
 
 		describe '#pagamentos' do
 			before do
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						[BrNfe.pagamento_product_class.new] * length
-					end
-				end
+				MiniTest::Spec.string_for_validation_length = [BrNfe.pagamento_product_class.new]
+			end
+			after do
+				MiniTest::Spec.string_for_validation_length = 'x'
 			end
 			context 'Deve aplicar a validação dos pagamentos se for uma NFC-e' do
 				before { subject.modelo_nf = '65' }

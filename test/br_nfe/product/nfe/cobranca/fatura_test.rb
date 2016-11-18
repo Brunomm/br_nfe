@@ -7,23 +7,9 @@ describe BrNfe::Product::Nfe::Cobranca::Fatura do
 	describe "Validations" do
 		describe '#duplicatas' do
 			it 'Deve ter no máximo 5 duplicatas' do 
-				# Como só aceita objetos de Veiculo então sobrescrevo o método
-				# para setar os valores em `duplicatas`
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						[BrNfe.duplicata_product_class.new] * length
-					end
-				end
-				
+				MiniTest::Spec.string_for_validation_length = [BrNfe.duplicata_product_class.new]
 				must validate_length_of(:duplicatas).is_at_most(120) 
-				
-				# Volto a alteração que fiz no método para outros testes
-				# Funcionarem adequadamente
-				class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-					def string_of_length(length)
-						'x' * length
-					end
-				end
+				MiniTest::Spec.string_for_validation_length = 'x'
 			end
 
 			it "Se tiver mais que 1 duplicata e pelo menos 1 deles não for válido deve adiiconar o erro do duplicata no objeto" do

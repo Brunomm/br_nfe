@@ -5,21 +5,9 @@ describe BrNfe::Product::Nfe::Transporte::Volume do
 
 	describe "#validations" do
 		it "Pode haver no máximi 5000 lacres" do
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				def string_of_length(length)
-					['x'] * length
-				end
-			end
-			
-			must validate_length_of(:lacres).is_at_most(5_000) 
-			
-			# Volto a alteração que fiz no método para outros testes
-			# Funcionarem adequadamente
-			class Shoulda::Matchers::ActiveModel::ValidateLengthOfMatcher
-				def string_of_length(length)
-					'x' * length
-				end
-			end
+			MiniTest::Spec.string_for_validation_length = ['x']			
+			must validate_length_of(:lacres).is_at_most(5_000)
+			MiniTest::Spec.string_for_validation_length = 'x'
 		end
 		it { must validate_length_of(:especie).is_at_most(60) }
 		it { must validate_length_of(:marca).is_at_most(60) }
