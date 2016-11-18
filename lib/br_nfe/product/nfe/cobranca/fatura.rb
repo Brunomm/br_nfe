@@ -40,37 +40,14 @@ module BrNfe
 						@valor_liquido || calculate_valor_liquido
 					end
 
-					attr_accessor :duplicatas
-					def duplicatas
-						arry = [@duplicatas].flatten.reject(&:blank?)
-						arry_ok = arry.select{|v| v.is_a?(BrNfe.duplicata_product_class) }
-						arry.select!{|v| v.is_a?(Hash) }
-						arry.map{ |hash| arry_ok.push(BrNfe.duplicata_product_class.new(hash)) }
-						@duplicatas = arry_ok
-						@duplicatas
-					end
-
-					validate :duplicatas_validations
-					validates :duplicatas, length: {maximum: 120}
+					has_many :duplicatas, 'BrNfe.duplicata_product_class', 
+					         validations: :invalid_duplicata, 
+					         length: {maximum: 120}
 
 				private
 					def calculate_valor_liquido
 						valor_original.to_f - valor_desconto.to_f
 					end
-
-					############################  DUPLICATAS  ############################
-						# Adiciona os erros das duplicatas no objeto
-						#
-						def duplicatas_validations
-							duplicatas.select(&:invalid?).each_with_index do |duplicata, i|
-								add_duplicata_errors(duplicata, i+1)
-							end
-						end
-						def add_duplicata_errors(duplicata, index)
-							duplicata.errors.full_messages.each do |message|
-								errors.add(:base, :invalid_duplicata, {index: index, error_message: message})
-							end
-						end
 				end
 			end
 		end

@@ -368,15 +368,11 @@ module BrNfe
 			# <b>Max: </b> _100_
 			# <b>Default: </b> _[]_
 			#
-			attr_accessor :pagamentos
-			def pagamentos
-				arry = [@pagamentos].flatten.reject(&:blank?)
-				arry_ok = arry.select{|v| v.is_a?(BrNfe.pagamento_product_class) }
-				arry.select!{|v| v.is_a?(Hash) }
-				arry.map{ |hash| arry_ok.push(BrNfe.pagamento_product_class.new(hash)) }
-				@pagamentos = arry_ok
-				@pagamentos
-			end
+			has_many :pagamentos, 'BrNfe.pagamento_product_class',
+			         validations:            :invalid_pagamento,
+			         length:                 {maximum: 100},
+			         validations_condition: :nfce?,
+			         length_condition:       :nfce?
 
 			def default_values
 				{
@@ -439,10 +435,10 @@ module BrNfe
 			validate :transporte_validation,  if: :transporte
 			validate :fatura_validation,      if: :fatura
 			
-			with_options if: :nfce? do |record|
-				record.validates :pagamentos, length: {maximum: 100}
-				record.validate :pagamentos_validations
-			end
+			# with_options if: :nfce? do |record|
+			# 	record.validates :pagamentos, length: {maximum: 100}
+			# 	record.validate :pagamentos_validations
+			# end
 
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
@@ -542,19 +538,6 @@ module BrNfe
 				def fatura_force_instance
 					@fatura = BrNfe.fatura_product_class.new unless @fatura.is_a?(BrNfe.fatura_product_class)
 					@fatura
-				end
-			############################  PAGAMENTOS  ############################
-				# Adiciona os erros dos pagamentos no objeto
-				#
-				def pagamentos_validations
-					pagamentos.select(&:invalid?).each_with_index do |pagamento, i|
-						add_pagamento_errors(pagamento, i+1)
-					end
-				end
-				def add_pagamento_errors(pagamento, index)
-					pagamento.errors.full_messages.each do |message|
-						errors.add(:base, :invalid_pagamento, {index: index, error_message: message})
-					end
 				end
 
 			###############################################################################################

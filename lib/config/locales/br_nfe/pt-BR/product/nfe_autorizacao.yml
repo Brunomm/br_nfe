@@ -3,7 +3,7 @@ pt-BR:
     errors:
       models:
         br_nfe/product/nfe_autorizacao:
-          invalid_invoice: 'Nota fiscal %{number}: %{nf_message}'
+          invalid_invoice: 'Nota fiscal %{index}: %{error_message}'
           attributes:
             notas_fiscais:
               too_long:  'excedeu o limite máximo de %{count} notas fiscais'

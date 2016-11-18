@@ -147,32 +147,19 @@ describe BrNfe::Product::NotaFiscal do
 		end
 
 		describe '#pagamentos' do
-			before do
-				MiniTest::Spec.string_for_validation_length = [BrNfe.pagamento_product_class.new]
-			end
-			after do
-				MiniTest::Spec.string_for_validation_length = 'x'
-			end
-			context 'Deve aplicar a validação dos pagamentos se for uma NFC-e' do
-				before { subject.modelo_nf = '65' }
-				it 'Deve ter no máximo 100 pagamentos' do 
-					must validate_length_of(:pagamentos).is_at_most(100)
-				end
+			it { must_validate_length_has_many(:pagamentos, 
+					BrNfe.pagamento_product_class, 
+					maximum: 100,
+					condition: :nfce?
+			)}
+			
+			it { must_validates_has_many(:pagamentos, 
+				BrNfe.pagamento_product_class, 
+				:invalid_pagamento,
+				condition: :nfce?
+			)}
 
-				it "Se tiver mais que 1 pagamento e pelo menos 1 deles não for válido deve adiiconar o erro do pagamento no objeto" do
-					pagamento.stubs(:valid?).returns(true)
-					pagamento2 = pagamento.dup
-					pagamento2.errors.add(:base, 'Erro do pagamento 2')
-					pagamento2.stubs(:valid?).returns(false)
-					pagamento3 = pagamento.dup
-					pagamento3.errors.add(:base, 'Erro do pagamento 3')
-					pagamento3.stubs(:valid?).returns(false)
-					subject.pagamentos = [pagamento, pagamento2, pagamento3]
-
-					must_be_message_error :base, :invalid_pagamento, {index: 2, error_message: 'Erro do pagamento 2'}
-					must_be_message_error :base, :invalid_pagamento, {index: 3, error_message: 'Erro do pagamento 3'}, false
-				end
-			end
+			it { must_have_many(:pagamentos, BrNfe.pagamento_product_class, {forma_pagamento: '1', total: 350.00})  }
 			context 'Não deve aplicar a validação dos pagamentos se for uma NF-e' do
 				before { subject.modelo_nf = '55' }
 				it 'Não deve validar o máximo de 100 pagamentos' do 

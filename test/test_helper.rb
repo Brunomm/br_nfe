@@ -170,7 +170,11 @@ class MiniTest::Spec
 		MiniTest::Spec.string_for_validation_length = 'x'
 	end
 
-	def must_validates_has_many attribute, class_name, translation
+	def must_validates_has_many attribute, class_name, translation, *args
+		options = {
+			condition: false
+		}.merge(args.extract_options!)
+
 		object1 =  class_name.new
 		object2 =  class_name.new
 		object3 =  class_name.new
@@ -184,8 +188,18 @@ class MiniTest::Spec
 
 		subject.send("#{attribute}=", [object1, object2, object3])
 
+		if options[:condition]
+			subject.stubs(options[:condition]).returns(true)
+		end
+
 		must_be_message_error :base, translation, {index: 2, error_message: 'Erro do object 2'}
 		must_be_message_error :base, translation, {index: 3, error_message: 'Erro do object 3'}, false
+
+		if options[:condition]
+			subject.stubs(options[:condition]).returns(false)
+			wont_be_message_error :base, translation, {index: 2, error_message: 'Erro do object 2'}
+			wont_be_message_error :base, translation, {index: 3, error_message: 'Erro do object 3'}, false
+		end
 	end
 
 	def must_have_many attribute, class_name, attrs={}

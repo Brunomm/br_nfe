@@ -3,7 +3,7 @@ en:
     errors:
       models:
         br_nfe/product/nfe_autorizacao:
-          invalid_invoice: 'Invoice %{number}: %{nf_message}'
+          invalid_invoice: 'Invoice %{index}: %{error_message}'
           attributes:
             notas_fiscais:
               too_long:  'exceeded the maximum limit of %{count} invoices'

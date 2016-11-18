@@ -9,24 +9,10 @@ describe BrNfe::Product::NfeAutorizacao do
 		subject.stubs(:gateway).returns(gateway)
 	end
 
-	context 'validations' do
-		describe '#notas_fiscais' do
-			it 'Deve ter no mínimo 1 e no máximo 50 notas fiscais' do 
-				MiniTest::Spec.string_for_validation_length = [BrNfe::Product::NotaFiscal.new]
-				must validate_length_of(:notas_fiscais).is_at_most(50).is_at_least(1) 
-				MiniTest::Spec.string_for_validation_length = ''
-			end
-
-			it "Se tiver mais que 1 NF-e e pelo menos 1 delas não for válida deve adiiconar o erro da NF no objeto" do
-				nota_fiscal.stubs(:valid?).returns(true)
-				nf2 = FactoryGirl.build(:product_nota_fiscal, numero_nf: 356)
-				nf2.errors.add(:base, 'Erro da Nota fiscal')
-				nf2.stubs(:valid?).returns(false)
-				subject.notas_fiscais = [nota_fiscal, nf2]
-
-				must_be_message_error :base, :invalid_invoice, {number: 356, nf_message: 'Erro da Nota fiscal'}
-			end
-		end
+	describe '#notas_fiscais' do
+		it { must_validate_length_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, {minimum: 1, maximum: 50})  }
+		it { must_validates_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, :invalid_invoice) }
+		it { must_have_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, {codigo_nf: '1233', serie: '1'})  }
 	end
 	
 	it 'o método #url_xmlns deve pegar o valor do método url_xmlns_autorizacao do gateway ' do
@@ -47,37 +33,6 @@ describe BrNfe::Product::NfeAutorizacao do
 	it 'o método #gateway_xml_version deve pegar o valor do método version_xml_autorizacao do gateway ' do
 		gateway.expects(:version_xml_autorizacao).returns(:v3_20)
 		subject.gateway_xml_version.must_equal :v3_20
-	end
-
-	describe '#notas_fiscais' do
-		it "deve inicializar o objeto com um Array" do
-			subject.class.new.instance_variable_get(:@notas_fiscais).must_be_kind_of Array
-		end
-		it "deve aceitar apenas objetos da class Hash ou NotaFiscal" do
-			nf_hash = {serie: 1, numero_nf: 1146}
-			subject.notas_fiscais = [nota_fiscal, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
-			subject.notas_fiscais.size.must_equal 2
-			subject.notas_fiscais[0].must_equal nota_fiscal
-
-			subject.notas_fiscais[1].serie.must_equal 1
-			subject.notas_fiscais[1].numero_nf.must_equal 1146
-		end
-		it "posso adicionar notas fiscais  com <<" do
-			new_object = subject.class.new
-			new_object.notas_fiscais << nota_fiscal
-			new_object.notas_fiscais << 1
-			new_object.notas_fiscais << nil
-			new_object.notas_fiscais << {serie: 500, numero_nf: 223}
-			new_object.notas_fiscais << {serie: 700, numero_nf: 800}
-
-			new_object.notas_fiscais.size.must_equal 3
-			new_object.notas_fiscais[0].must_equal nota_fiscal
-
-			new_object.notas_fiscais[1].serie.must_equal 500
-			new_object.notas_fiscais[1].numero_nf.must_equal 223
-			new_object.notas_fiscais[2].serie.must_equal 700
-			new_object.notas_fiscais[2].numero_nf.must_equal 800
-		end
 	end
 
 	# describe '#xml_builder' do

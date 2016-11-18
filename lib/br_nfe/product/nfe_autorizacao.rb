@@ -23,23 +23,9 @@ module BrNfe
 			# <b>Max: </b> _50_
 			# <b>Default: </b> _[]_
 			#
-			attr_accessor :notas_fiscais
-			def notas_fiscais
-				arry = [@notas_fiscais].flatten.compact.reject(&:blank?)
-				arry_ok = arry.select{|v| v.is_a?(BrNfe.nota_fiscal_product_class) }
-				arry.select!{|v| v.is_a?(Hash) }
-				arry.map{ |hash| arry_ok.push(BrNfe.nota_fiscal_product_class.new(hash)) }
-				@notas_fiscais = arry_ok
-				@notas_fiscais
-			end
-
-			def initialize(attributes = {})
-				self.notas_fiscais = []
-				super
-			end
-
-			validates :notas_fiscais, length: {minimum: 1, maximum: 50}
-			validate :notas_fiscais_valdiations
+			has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class', 
+					         validations: :invalid_invoice, 
+					         length: {minimum: 1, maximum: 50}
 
 			# URL que será setada no atribto xmlns do XML;
 			# Ex:
@@ -74,21 +60,6 @@ module BrNfe
 			# específicas de cada operação.
 			def xml_builder
 				render_xml 'nfe_autorizacao'
-			end
-
-		private
-
-			# Adiciona os erros das notas fiscais no objeto
-			#
-			def notas_fiscais_valdiations
-				notas_fiscais.select(&:invalid?).each_with_index do |nf, i|
-					add_nf_errors(nf)
-				end
-			end
-			def add_nf_errors(nf)
-				nf.errors.full_messages.each do |message|
-					errors.add(:base, :invalid_invoice, {number: nf.numero_nf, nf_message: message})
-				end
 			end
 		end
 	end
