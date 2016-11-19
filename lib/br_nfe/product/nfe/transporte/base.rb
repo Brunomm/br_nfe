@@ -140,10 +140,8 @@ module BrNfe
 					# <b>Max: </b> _5_
 					# <b>Default: </b> _[]_
 					#
-					has_many :reboques, 'BrNfe.veiculo_product_class', 
-					         validations: :invalid_reboque, 
-					         length: {maximum: 5}
-					
+					has_many :reboques, 'BrNfe.veiculo_product_class'
+
 					# Array com os volumes utilizados para transportar a carga
 					# Pode ser adicionado os dados dos volumes em forma de `Hash` ou
 					# O próprio objeto da classe Volume.
@@ -163,10 +161,7 @@ module BrNfe
 					# <b>Tipo: </b> _BrNfe.volume_transporte_product_class (BrNfe::Product::Nfe::Transporte::Volume)_
 					# <b>Default: </b> _[]_
 					#
-					has_many :volumes, 'BrNfe.volume_transporte_product_class', 
-					         validations: :invalid_volume, 
-					         length: {maximum: 5}
-
+					has_many :volumes, 'BrNfe.volume_transporte_product_class'
 
 					# Transportador da mercadoria
 					# Dados da transportadora que irá `transportar` a mercadoria.
@@ -189,6 +184,10 @@ module BrNfe
 					validates :forma_transporte, presence: true
 					validates :forma_transporte, inclusion: [:veiculo, :balsa, :vagao]
 					validate_belongs_to :transportador
+					
+					validate_has_many :volumes, message: :invalid_volume
+					validate_has_many :reboques, message: :invalid_reboque
+					validates :reboques,         length: {maximum: 5}
 
 					with_options if: :forma_transporte_veiculo? do |record|
 						record.validates :veiculo, presence: true

@@ -171,9 +171,8 @@ module BrNfe
 				# <b>Length:   </b> _min: 1, max: 100_
 				# <b>tag:      </b> nAdicao
 				#
-				has_many :adicoes, 'BrNfe.adicao_importacao_product_class', 
-				         validations: :invalid_adicao, 
-				         length: {in: 1..100}
+				has_many :adicoes, 'BrNfe.adicao_importacao_product_class'
+				
 
 				def default_values
 					{
@@ -200,6 +199,8 @@ module BrNfe
 				validates :uf_terceiro,        inclusion: { in: BrNfe::Constants::SIGLAS_UF-['EX']}, allow_blank: true
 				validates :codigo_exportador,  presence: true
 				validates :codigo_exportador,  length: {maximum: 60}
+				validate_has_many :adicoes,    message: :invalid_adicao
+				validates :adicoes,            length: {in: 1..100}
 
 			end
 		end

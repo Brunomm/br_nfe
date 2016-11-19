@@ -320,11 +320,7 @@ module BrNfe
 			# <b>Max: </b> _100_
 			# <b>Default: </b> _[]_
 			#
-			has_many :pagamentos, 'BrNfe.pagamento_product_class',
-			         validations:            :invalid_pagamento,
-			         length:                 {maximum: 100},
-			         validations_condition: :nfce?,
-			         length_condition:       :nfce?
+			has_many :pagamentos, 'BrNfe.pagamento_product_class'
 
 			def default_values
 				{
@@ -383,6 +379,11 @@ module BrNfe
 			validates :processo_emissao, inclusion: [0, 1, 2, 3, '0', '1', '2', '3']
 
 			validates :autorizados_download_xml, length: { maximum: 10 }
+			
+			with_options if: :nfce? do |record|
+				record.validate_has_many :pagamentos
+				record.validates :pagamentos, length: {maximum: 100}
+			end
 
 			validate_belongs_to  :transporte
 			validate_belongs_to  :fatura

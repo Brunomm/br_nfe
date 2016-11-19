@@ -23,9 +23,11 @@ module BrNfe
 			# <b>Max: </b> _50_
 			# <b>Default: </b> _[]_
 			#
-			has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class', 
-					         validations: :invalid_invoice, 
-					         length: {minimum: 1, maximum: 50}
+			has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class'
+
+			
+			validate_has_many :notas_fiscais, message: :invalid_invoice
+			validates :notas_fiscais, length: {in: 1..50}
 
 			# URL que será setada no atribto xmlns do XML;
 			# Ex:

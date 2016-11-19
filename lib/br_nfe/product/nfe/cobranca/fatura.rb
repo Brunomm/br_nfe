@@ -40,9 +40,10 @@ module BrNfe
 						@valor_liquido || calculate_valor_liquido
 					end
 
-					has_many :duplicatas, 'BrNfe.duplicata_product_class', 
-					         validations: :invalid_duplicata, 
-					         length: {maximum: 120}
+					has_many :duplicatas, 'BrNfe.duplicata_product_class'
+
+					validate_has_many :duplicatas, message: :invalid_duplicata
+					validates :duplicatas,         length: {maximum: 120}
 
 				private
 					def calculate_valor_liquido

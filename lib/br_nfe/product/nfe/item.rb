@@ -324,9 +324,8 @@ module BrNfe
 					# <b>Length:   </b> _max: 100_
 					# <b>tag:      </b> DI
 					#
-					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class', 
-					         validations: :invalid_declaracao_importacao, 
-					         length: {maximum: 100}
+					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class'
+					
 
 
 				def default_values
@@ -374,6 +373,9 @@ module BrNfe
 				validates :total_outros,   numericality: true, allow_blank: true
 				
 				validates :codigo_cest,    length: {maximum: 7}
+				
+				validate_has_many :declaracoes_importacao, message: :invalid_declaracao_importacao
+				validates :declaracoes_importacao,         length: {maximum: 100}
 
 				def is_product?
 					tipo_produto == :product
