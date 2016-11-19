@@ -103,7 +103,7 @@ module BrNfe
 					# <b>Required: </b> _No_ (Yes if forma_transporte == :veiculo)
 					# <b>Default: </b> _nil_
 					#
-					belongs_to :veiculo, 'BrNfe.veiculo_product_class'
+					has_one :veiculo, 'BrNfe.veiculo_product_class'
 
 					# Identificação da balsa (v2.0)
 					#
@@ -170,7 +170,7 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Default: </b> _nil_
 					#
-					belongs_to :transportador, 'BrNfe.transportador_product_class'
+					has_one :transportador, 'BrNfe.transportador_product_class'
 					
 					
 					def default_values
@@ -183,7 +183,7 @@ module BrNfe
 					validates :modalidade_frete, inclusion: [0, '0', 1, '1', 2, '2', 9, '9']
 					validates :forma_transporte, presence: true
 					validates :forma_transporte, inclusion: [:veiculo, :balsa, :vagao]
-					validate_belongs_to :transportador
+					validate_has_one :transportador
 					
 					validate_has_many :volumes, message: :invalid_volume
 					validate_has_many :reboques, message: :invalid_reboque
@@ -191,7 +191,7 @@ module BrNfe
 
 					with_options if: :forma_transporte_veiculo? do |record|
 						record.validates :veiculo, presence: true
-						record.validate_belongs_to :veiculo
+						record.validate_has_one :veiculo
 					end
 					validates :identificacao_balsa, presence: true, if: :forma_transporte_balsa?
 					validates :identificacao_vagao, presence: true, if: :forma_transporte_vagao?

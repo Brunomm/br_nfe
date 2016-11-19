@@ -197,10 +197,10 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 	end
 
 	describe '#transportador' do
-		it { must_belong_to(:transportador, 
+		it { must_have_one(:transportador, 
 				BrNfe.transportador_product_class,  
 				{nome_fantasia: 'LOG', razao_social: 'NR', endereco_uf: "SP"}
 		)}
-		it { must_validate_belong_to(:transportador, BrNfe.transportador_product_class, :invalid_transportador) }
+		it { must_validate_have_one(:transportador, BrNfe.transportador_product_class, :invalid_transportador) }
 	end
 end

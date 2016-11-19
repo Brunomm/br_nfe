@@ -1,9 +1,9 @@
 module BrNfe
 	module ActiveModel
-		module BelongsTo
+		module HasOne
 			extend ActiveSupport::Concern
 			module ClassMethods
-				def belongs_to attr_name, class_name, *args
+				def has_one attr_name, class_name, *args
 					options = {null: true}.merge(args.extract_options!)
 
 					define_method attr_name do |&block|
@@ -31,7 +31,7 @@ module BrNfe
 					end
 				end
 
-				def validate_belongs_to attr_name, *args
+				def validate_has_one attr_name, *args
 					options = {message: "invalid_#{attr_name}".to_sym}
 					options.merge!(args.extract_options!)
 					if options[:if]

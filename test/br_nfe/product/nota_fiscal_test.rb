@@ -305,19 +305,19 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_retirada' do
-		it { must_belong_to(:endereco_retirada, 
+		it { must_have_one(:endereco_retirada, 
 				BrNfe.endereco_class,  
 				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
 		)}
-		it { must_validate_belong_to(:endereco_retirada, BrNfe.endereco_class, :invalid_endereco_retirada) }
+		it { must_validate_have_one(:endereco_retirada, BrNfe.endereco_class, :invalid_endereco_retirada) }
 	end
 
 	describe '#endereco_entrega' do
-		it { must_belong_to(:endereco_entrega, 
+		it { must_have_one(:endereco_entrega, 
 				BrNfe.endereco_class,  
 				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
 		)}
-		it { must_validate_belong_to(:endereco_entrega, BrNfe.endereco_class, :invalid_endereco_entrega) }
+		it { must_validate_have_one(:endereco_entrega, BrNfe.endereco_class, :invalid_endereco_entrega) }
 	end
 
 	describe '#autorizados_download_xml' do
@@ -344,19 +344,19 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#transporte' do
-		it { must_belong_to(:transporte, 
+		it { must_have_one(:transporte, 
 				BrNfe.transporte_product_class,  
 				{retencao_cfop: 'LOG', retencao_valor_sevico: 50.55}
 		)}
-		it { must_validate_belong_to(:transporte, BrNfe.transporte_product_class, :invalid_transporte) }
+		it { must_validate_have_one(:transporte, BrNfe.transporte_product_class, :invalid_transporte) }
 	end
 
 	describe '#fatura' do
-		it { must_belong_to(:fatura, 
+		it { must_have_one(:fatura, 
 				BrNfe.fatura_product_class,  
 				{numero_fatura: 'LOG', valor_original: 50.55}
 		)}
-		it { must_validate_belong_to(:fatura, BrNfe.fatura_product_class, :invalid_fatura) }
+		it { must_validate_have_one(:fatura, BrNfe.fatura_product_class, :invalid_fatura) }
 	end
 
 	describe '#pagamentos' do

@@ -221,7 +221,7 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			belongs_to :endereco_retirada, 'BrNfe.endereco_class'
+			has_one :endereco_retirada, 'BrNfe.endereco_class'
 			
 			# CPF ou CNPJ do local de retirada da mercadoria.
 			# Só é obrigatório se o endereco_retirada for preenchido
@@ -244,7 +244,7 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			belongs_to :endereco_entrega, 'BrNfe.endereco_class'
+			has_one :endereco_entrega, 'BrNfe.endereco_class'
 			
 			# CPF ou CNPJ do local de entrega da mercadoria.
 			# Só é obrigatório se o endereco_entrega for preenchido
@@ -280,7 +280,7 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			belongs_to :transporte, 'BrNfe.transporte_product_class'
+			has_one :transporte, 'BrNfe.transporte_product_class'
 
 			# Dados da cobrança da NF-e
 			# Fatura e Duplicatas da Nota Fiscal
@@ -295,7 +295,7 @@ module BrNfe
 			# <b>Default: </b> _nil_
 			# <b>Exemplo: </b> _BrNfe::Product::Nfe::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
 			#
-			belongs_to :fatura, 'BrNfe.fatura_product_class'
+			has_one :fatura, 'BrNfe.fatura_product_class'
 			
 			# Array com as informações dos pagamentos
 			# IMPORTANTE: Utilizado apenas para NFC-e
@@ -385,16 +385,16 @@ module BrNfe
 				record.validates :pagamentos, length: {maximum: 100}
 			end
 
-			validate_belongs_to  :transporte
-			validate_belongs_to  :fatura
+			validate_has_one  :transporte
+			validate_has_one  :fatura
 			
-			validate_belongs_to  :endereco_retirada
+			validate_has_one  :endereco_retirada
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
 				record.validates :endereco_retirada_cpf_cnpj, length: {maximum: 14}
 			end
 
-			validate_belongs_to  :endereco_entrega
+			validate_has_one  :endereco_entrega
 			with_options if: :endereco_entrega do |record|
 				record.validates :endereco_entrega_cpf_cnpj, presence: true
 				record.validates :endereco_entrega_cpf_cnpj, length: {maximum: 14}

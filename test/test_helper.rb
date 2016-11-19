@@ -231,11 +231,11 @@ class MiniTest::Spec
 		end
 	end
 
-	def must_belong_to attribute, klass, hash_attributes, *args
+	def must_have_one attribute, klass, hash_attributes, *args
 		options = {null: true}.merge(args.extract_options!)
-		validate_belong_to_accept_only_object_of_class(attribute, klass, options)
-		validate_belong_to_set_hash_values(attribute, klass, hash_attributes, options)
-		validate_belong_to_set_block_values(attribute, klass, hash_attributes, options)
+		validate_have_one_accept_only_object_of_class(attribute, klass, options)
+		validate_have_one_set_hash_values(attribute, klass, hash_attributes, options)
+		validate_have_one_set_block_values(attribute, klass, hash_attributes, options)
 		
 		if options[:null]
 			subject.send("#{attribute}=", hash_attributes)
@@ -246,7 +246,7 @@ class MiniTest::Spec
 		end
 	end
 
-	def must_validate_belong_to attribute, klass, i18n_message
+	def must_validate_have_one attribute, klass, i18n_message
 		msg_erro_1 = "Mensagem 1"
 		msg_erro_2 = "Mensagem 2"
 		object = klass.new
@@ -263,25 +263,25 @@ private
 	
 	################################################################################
 	######################  VALIDAÇÕES PARA BELONGS_TO  ############################
-		def validate_belong_to_accept_only_object_of_class attribute, klass, options
+		def validate_have_one_accept_only_object_of_class attribute, klass, options
 			subject.send("#{attribute}=", nil)
 			subject.send("#{attribute}=", 123456)
-			validate_belong_to_different_object_class(attribute, klass, options)
+			validate_have_one_different_object_class(attribute, klass, options)
 			subject.send("#{attribute}=", 'aaaa')
-			validate_belong_to_different_object_class(attribute, klass, options)
+			validate_have_one_different_object_class(attribute, klass, options)
 			
 			new_obj = klass.new
 			subject.send("#{attribute}=", new_obj)
 			subject.send(attribute).must_equal new_obj
 		end
-		def validate_belong_to_different_object_class attribute, klass, options
+		def validate_have_one_different_object_class attribute, klass, options
 			if options[:null]
 				subject.send(attribute).must_be_nil
 			else
 				subject.send(attribute).must_be_kind_of klass
 			end
 		end
-		def validate_belong_to_set_hash_values(attribute, klass, hash_attributes, options)
+		def validate_have_one_set_hash_values(attribute, klass, hash_attributes, options)
 			subject.send("#{attribute}=", nil)
 			subject.send("#{attribute}=", hash_attributes)
 			subject.send(attribute).must_be_kind_of klass
@@ -290,7 +290,7 @@ private
 				subject.send(attribute).send("#{key}").must_equal value
 			end
 		end
-		def validate_belong_to_set_block_values(attribute, klass, hash_attributes, options)
+		def validate_have_one_set_block_values(attribute, klass, hash_attributes, options)
 			subject.send("#{attribute}=", nil)
 			subject.send(attribute) do |e| 
 				hash_attributes.each do |key, value|
