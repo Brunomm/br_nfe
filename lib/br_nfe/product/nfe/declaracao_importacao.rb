@@ -29,7 +29,7 @@ module BrNfe
 				# 
 				# <b>Type:     </b> _String_
 				# <b>Required: </b> _Yes_
-				# <b>Example:  </b> _Date.current_
+				# <b>Example:  </b> _Pier 12_
 				# <b>Length:   </b> _max: 60_
 				# <b>tag:      </b> xLocDesemb
 				#

@@ -5,10 +5,10 @@ module BrNfe
 				value == :production ? '1' : '2'
 			end
 			def nf_xml_value_cpf value, xml_version=:v3_10
-				"#{value}".max_size(11)
+				only_numbers value, {min_size: 11, max_size: 11}
 			end
 			def nf_xml_value_cnpj value, xml_version=:v3_10
-				"#{value}".max_size(14)
+				only_numbers value, {min_size: 14, max_size: 14}
 			end
 
 			def nf_xml_value_id_estrangeiro value, xml_version=:v3_10
@@ -150,6 +150,10 @@ module BrNfe
 				value.to_f.round(4)
 			end
 
+			def nf_xml_value_quantidade value, xml_version=:v3_10
+				value.to_f.round(4)
+			end
+
 			def nf_xml_value_peso value, xml_version=:v3_10
 				value.to_f.round(3)
 			end
@@ -210,6 +214,26 @@ module BrNfe
 
 			def nf_xml_value_NVE value, xml_version=:v3_10
 				"#{value}".max_size(6)
+			end
+
+			def nf_xml_value_number value, max_size, xml_version=:v3_10
+				only_numbers value, {max_size: max_size}
+			end
+
+			def nf_xml_value_drawback value, xml_version=:v3_10
+				if "#{value}".strip.size <= 9 
+					only_numbers value, min_size: 9, max_size: 9
+				else
+					only_numbers value, min_size: 11, max_size: 11
+				end
+			end
+
+			def nf_xml_value_chave_nfe value, xml_version=:v3_10
+				only_numbers value, {min_size: 44, max_size: 44}
+			end
+
+			def nf_xml_value_number_fixed_size value, size, xml_version=:v3_10
+				only_numbers value, {min_size: size, max_size: size}
 			end
 		private
 

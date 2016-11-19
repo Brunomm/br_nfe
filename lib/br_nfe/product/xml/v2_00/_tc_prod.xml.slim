@@ -23,3 +23,15 @@ vUnTrib  = nf_xml_value_float(   item.valor_unitario_tributavel, 10)
 - if item.total_outros.to_f > 0
 	vOutro = nf_xml_value_monetary(item.total_outros)
 indTot = nf_xml_value_boolean( item.soma_total_nfe )
+- item.declaracoes_importacao.each do |declaracao|
+	DI
+		= render_xml('_tc_di', declaracao: declaracao)
+
+- if item.numero_pedido_compra.present?
+	xPed = nf_xml_value_number item.numero_pedido_compra, 15
+
+- if item.item_pedido_compra.present?
+	nItemPed = nf_xml_value_number_fixed_size item.item_pedido_compra, 6
+
+- if item.numero_fci.present?
+	nFCI = "#{item.numero_fci}".upcase

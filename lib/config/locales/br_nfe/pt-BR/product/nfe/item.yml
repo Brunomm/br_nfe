@@ -4,6 +4,7 @@ pt-BR:
       models:
         br_nfe/product/nfe/item:
           invalid_declaracao_importacao: 'Declaração importação %{index}: %{error_message}'
+          invalid_detalhe_exportacao: 'Detalhe de exportação %{index}: %{error_message}'
           attributes:
             declaracoes_importacao:
               too_long:  'excedeu o limite máximo de %{count} declarações'

@@ -169,6 +169,7 @@ module BrNfe
 
 		module Nfe
 			extend ActiveSupport::Autoload
+			autoload :DetalheExportacao
 			autoload :DeclaracaoImportacao
 			autoload :AdicaoImportacao
 			autoload :Item
@@ -260,6 +261,8 @@ module BrNfe
 		@@declaracao_importacao_product_class = BrNfe::Product::Nfe::DeclaracaoImportacao
 		mattr_accessor :adicao_importacao_product_class
 		@@adicao_importacao_product_class = BrNfe::Product::Nfe::AdicaoImportacao
+		mattr_accessor :detalhe_exportacao_product_class
+		@@detalhe_exportacao_product_class = BrNfe::Product::Nfe::DetalheExportacao
 
 		############################# COBRANÇA #############################
 		mattr_accessor :duplicata_product_class

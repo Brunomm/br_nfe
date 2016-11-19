@@ -13,18 +13,41 @@ describe BrNfe::Product::Nfe::Item do
 	end
 
 	describe 'Validations' do
-		it { must validate_numericality_of(:total_frete).allow_nil }
-		it { must validate_numericality_of(:total_seguro).allow_nil }
-		it { must validate_numericality_of(:total_desconto).allow_nil }
-		it { must validate_numericality_of(:total_outros).allow_nil }
-		it { must validate_length_of(:codigo_cest).is_at_most(7) }
-
 		before do 
 			MiniTest::Spec.string_for_validation_length = '1'
 		end
 		after do 
 			MiniTest::Spec.string_for_validation_length = 'x'
 		end
+		it { must validate_numericality_of(:total_frete).allow_nil }
+		it { must validate_numericality_of(:total_seguro).allow_nil }
+		it { must validate_numericality_of(:total_desconto).allow_nil }
+		it { must validate_numericality_of(:total_outros).allow_nil }
+		it { must validate_length_of(:codigo_cest).is_at_most(7) }
+		
+		it { must validate_length_of(:numero_pedido_compra).is_at_most(15) }
+		it { must allow_value('').for(:numero_pedido_compra) }
+
+		it { must validate_length_of(:item_pedido_compra).is_at_most(6) }
+		it { must allow_value('').for(:item_pedido_compra) }
+		
+		describe "numero_fci" do
+			it { must validate_length_of(:numero_fci).is_equal_to(36) }
+			it { must allow_value('').for(:numero_fci) }
+			it { must allow_value('B01F70AF-10BF-4B1F-848C-65FF57F616FE').for(:numero_fci) }
+			it { must allow_value('11111111-1111-1111-1111-999999999999').for(:numero_fci) }
+			it { must allow_value('ABCDEFAA-AAAA-AAAA-AAAA-FFFFFFFFFFFF').for(:numero_fci) }
+			it { must allow_value('ABCDEFAA1AAAA2AAAA0AAAA9FFFFFFFFFFFF').for(:numero_fci) }
+			# NÃO DEVE ACEITAR LETRAS A CIMA DE F
+			it { wont allow_value('ABCDEFGGGGAAA2AAAA0AAAA9FFFFFFFFFFFF').for(:numero_fci) }
+			it { wont allow_value('ABCDEFZZZZAAA2AAAA0AAAA9FFFFFFFFFFFF').for(:numero_fci) }
+			# NÃO DEVE ACEITAR LETRAS minúsculas
+			it { wont allow_value('abcdefaaaaaaa2aaaa0aaaa9ffffffffffff').for(:numero_fci) }
+			# NÃO DEVE ACEITAR caracteres especiais a não ser hífen
+			it { wont allow_value('ABCDEFAA@AAAA#AAAA$AAAA_FFFFFF,FFFFF').for(:numero_fci) }
+			
+		end
+
 		describe "tipo_produto" do
 			it { must validate_presence_of(:tipo_produto) }
 			it { must validate_inclusion_of(:tipo_produto).in_array([:product, :service, :other]) }
@@ -246,5 +269,9 @@ describe BrNfe::Product::Nfe::Item do
 		it { must_validate_length_has_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, {maximum: 100})  }
 		it { must_validates_has_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, :invalid_declaracao_importacao) }
 		it { must_have_many(:declaracoes_importacao, BrNfe.declaracao_importacao_product_class, {numero_documento: 'XXL9999', local_desembaraco: '223'})  }
+	end
+	describe '#detalhes_exportacao' do
+		it { must_have_many(:detalhes_exportacao, BrNfe.detalhe_exportacao_product_class, {numero_drawback: '46464', numero_registro: '223'})  }
+		it { must_validates_has_many(:detalhes_exportacao, BrNfe.detalhe_exportacao_product_class, :invalid_detalhe_exportacao) }
 	end
 end

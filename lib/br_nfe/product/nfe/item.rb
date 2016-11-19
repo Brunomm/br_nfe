@@ -326,6 +326,53 @@ module BrNfe
 					#
 					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class'
 					
+					# GRUPO DE INFORMAÇÕES DE EXPORTAÇÃO PARA O ITEM
+					# Informar apenas no Drawback e nas exportações
+					#
+					# <b>Type:     </b> _BrNfe.detalhe_exportacao_product_class
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _[BrNfe.detalhe_exportacao_product_class.new]_
+					# <b>Length:   </b> _max: 500_
+					# <b>tag:      </b> detExport
+					#
+					has_many :detalhes_exportacao, 'BrNfe.detalhe_exportacao_product_class'
+
+					# NÚMERO DO PEDIDO DE COMPRA
+					# Informação de interesse do emissor para controle do B2B. (v2.0)
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _1234567_
+					# <b>Length:   </b> _max: 15_
+					# <b>tag:      </b> xPed
+					#
+					attr_accessor :numero_pedido_compra
+
+					# ITEM DO PEDIDO DE COMPRA
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _1234567_
+					# <b>Length:   </b> _max: 15_
+					# <b>tag:      </b> xPed
+					#
+					attr_accessor :item_pedido_compra
+					def item_pedido_compra
+						"#{@item_pedido_compra}".gsub(/[^\d]/,'')
+					end
+
+					# NÚMERO DE CONTROLE DA FCI - FICHA DE CONTEÚDO DE IMPORTAÇÃO
+					# Informação relacionada com a Resolução 13/2012 do Senado
+					# Federal. Formato: Algarismos, letras maiúsculas de "A" a "F" e o
+					# caractere hífen. Exemplo: B01F70AF-10BF-4B1F-848C-65FF57F616FE
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _B01F70AF-10BF-4B1F-848C-65FF57F616FE_
+					# <b>Length:   </b> _36_
+					# <b>tag:      </b> nFCI
+					#
+					attr_accessor :numero_fci
 
 
 				def default_values
@@ -376,6 +423,13 @@ module BrNfe
 				
 				validate_has_many :declaracoes_importacao, message: :invalid_declaracao_importacao
 				validates :declaracoes_importacao,         length: {maximum: 100}
+				validate_has_many :detalhes_exportacao, message: :invalid_detalhe_exportacao
+				
+				validates :numero_pedido_compra, length: {maximum: 15}
+				validates :item_pedido_compra,   length: {maximum: 6}
+
+				validates :numero_fci, format: { with: /\A[A-F\d\-]+\z/ }, allow_blank: true
+				validates :numero_fci, length: {is: 36}, allow_blank: true
 
 				def is_product?
 					tipo_produto == :product
