@@ -103,19 +103,7 @@ module BrNfe
 					# <b>Required: </b> _No_ (Yes if forma_transporte == :veiculo)
 					# <b>Default: </b> _nil_
 					#
-					def veiculo
-						yield(veiculo_force_instance) if block_given?
-						@veiculo.is_a?(BrNfe.veiculo_product_class) ? @veiculo : nil
-					end
-					def veiculo=(value)
-						if value.is_a?(BrNfe.veiculo_product_class) 
-							@veiculo = value
-						elsif value.is_a?(Hash)
-							veiculo_force_instance.assign_attributes(value)
-						elsif value.blank?
-							@veiculo = nil
-						end
-					end
+					belongs_to :veiculo, 'BrNfe.veiculo_product_class'
 
 					# Identificação da balsa (v2.0)
 					#
@@ -187,19 +175,8 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Default: </b> _nil_
 					#
-					def transportador
-						yield(transportador_force_instance) if block_given?
-						@transportador.is_a?(BrNfe.transportador_product_class) ? @transportador : nil
-					end
-					def transportador=(value)
-						if value.is_a?(BrNfe.transportador_product_class) 
-							@transportador = value
-						elsif value.is_a?(Hash)
-							transportador_force_instance.assign_attributes(value)
-						elsif value.blank?
-							@transportador = nil
-						end
-					end
+					belongs_to :transportador, 'BrNfe.transportador_product_class'
+					
 					
 					def default_values
 						{
@@ -211,11 +188,11 @@ module BrNfe
 					validates :modalidade_frete, inclusion: [0, '0', 1, '1', 2, '2', 9, '9']
 					validates :forma_transporte, presence: true
 					validates :forma_transporte, inclusion: [:veiculo, :balsa, :vagao]
-					validate  :transportador_validation, if: :transportador
+					validate_belongs_to :transportador
 
 					with_options if: :forma_transporte_veiculo? do |record|
 						record.validates :veiculo, presence: true
-						record.validate  :veiculo_validation
+						record.validate_belongs_to :veiculo
 					end
 					validates :identificacao_balsa, presence: true, if: :forma_transporte_balsa?
 					validates :identificacao_vagao, presence: true, if: :forma_transporte_vagao?
@@ -250,41 +227,6 @@ module BrNfe
 					#
 					def calculate_retencao_valor_icms
 						((retencao_aliquota.to_f/100.0)*retencao_base_calculo_icms.to_f).round(2)
-					end
-
-					############################  VEÍCULO DE TRANSPORTE  ############################
-					# Utilizado para validar se o veículo está valido.
-					# Só irá validar caso o veículo de entrega seja preenchido.
-					#
-					def veiculo_validation
-						if veiculo.try(:invalid?)
-							veiculo.errors.full_messages.each { |msg| errors.add(:base, "Veículo: #{msg}") }
-						end
-					end
-					# Instancía um veículo e seta na variavel  @veiculo.
-					# É utilizado quando setar o veículo em forma da Hash ou Block
-					# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
-					#
-					def veiculo_force_instance
-						@veiculo = BrNfe.veiculo_product_class.new unless @veiculo.is_a?(BrNfe.veiculo_product_class)
-						@veiculo
-					end
-					##############################  TRANSPORTADOR  ##############################
-					# Utilizado para validar se o transportador está valido.
-					# Só irá validar caso o transportador da entrega seja preenchido.
-					#
-					def transportador_validation
-						if transportador.invalid?
-							transportador.errors.full_messages.each { |msg| errors.add(:base, :invalid_transportador, {error_message: msg}) }
-						end
-					end
-					# Instancía um transportador e seta na variavel  @transportador.
-					# É utilizado quando setar o transportador em forma da Hash ou Block
-					# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
-					#
-					def transportador_force_instance
-						@transportador = BrNfe.transportador_product_class.new unless @transportador.is_a?(BrNfe.transportador_product_class)
-						@transportador
 					end
 				end
 			end

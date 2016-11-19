@@ -6,3 +6,4 @@ pt-BR:
           invalid_reboque: 'Reboque %{index}: %{error_message}'
           invalid_volume: 'Volume %{index}: %{error_message}'
           invalid_transportador: 'Transportadora: %{error_message}'
+          invalid_veiculo: 'Veículo: %{error_message}'

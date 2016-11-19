@@ -146,41 +146,7 @@ describe BrNfe::Product::NotaFiscal do
 			end
 		end
 
-		describe '#pagamentos' do
-			it { must_validate_length_has_many(:pagamentos, 
-					BrNfe.pagamento_product_class, 
-					maximum: 100,
-					condition: :nfce?
-			)}
-			
-			it { must_validates_has_many(:pagamentos, 
-				BrNfe.pagamento_product_class, 
-				:invalid_pagamento,
-				condition: :nfce?
-			)}
-
-			it { must_have_many(:pagamentos, BrNfe.pagamento_product_class, {forma_pagamento: '1', total: 350.00})  }
-			context 'Não deve aplicar a validação dos pagamentos se for uma NF-e' do
-				before { subject.modelo_nf = '55' }
-				it 'Não deve validar o máximo de 100 pagamentos' do 
-					wont validate_length_of(:pagamentos).is_at_most(100)
-				end
-
-				it "Não deve verificar se os pagametos estão válidos" do
-					pagamento.stubs(:valid?).returns(true)
-					pagamento2 = pagamento.dup
-					pagamento2.errors.add(:base, 'Erro do pagamento 2')
-					pagamento2.stubs(:valid?).returns(false)
-					pagamento3 = pagamento.dup
-					pagamento3.errors.add(:base, 'Erro do pagamento 3')
-					pagamento3.stubs(:valid?).returns(false)
-					subject.pagamentos = [pagamento, pagamento2, pagamento3]
-
-					wont_be_message_error :base, :invalid_pagamento, {index: 2, error_message: 'Erro do pagamento 2'}
-					wont_be_message_error :base, :invalid_pagamento, {index: 3, error_message: 'Erro do pagamento 3'}, false
-				end
-			end
-		end
+		
 	end
 
 	describe '#nfe?' do
@@ -339,105 +305,19 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_retirada' do
-		it "deve ignorar valores que não são da class de endereço" do
-			subject.endereco_retirada = 123
-			subject.endereco_retirada.must_be_nil
-			subject.endereco_retirada = 'aaaa'
-			subject.endereco_retirada.must_be_nil
-			subject.endereco_retirada = BrNfe.endereco_class.new
-			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
-		end
-		it "deve instanciar um endereço com os atributos se setar um Hash " do
-			subject.endereco_retirada = nil
-			subject.endereco_retirada = {logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
-			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
-
-			subject.endereco_retirada.logradouro.must_equal 'LOG'
-			subject.endereco_retirada.numero.must_equal 'NR'
-			subject.endereco_retirada.bairro.must_equal 'BRR'
-		end
-		it "deve instanciar um endereço setar os atributos em forma de Block " do
-			subject.endereco_retirada = nil
-			subject.endereco_retirada do |e| 
-				e.logradouro = 'LOGBLK'
-				e.numero     = 'NR'
-				e.bairro     = 'BRR'
-			end
-			
-			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
-			subject.endereco_retirada.logradouro.must_equal 'LOGBLK'
-			subject.endereco_retirada.numero.must_equal 'NR'
-			subject.endereco_retirada.bairro.must_equal 'BRR'
-		end
-		it "deve ser possível limpar o atributo" do
-			subject.endereco_retirada = {logradouro: 'LOG'}
-			subject.endereco_retirada.must_be_kind_of BrNfe.endereco_class
-
-			subject.endereco_retirada = nil
-			subject.endereco_retirada.must_be_nil
-		end
-			
-		it "deve validar o endereço de retirada se tiver for preenchido" do
-			endereco = BrNfe.endereco_class.new
-			endereco.errors.add :base, 'Erro 1'
-			endereco.errors.add :base, 'Erro 2'
-			endereco.expects(:invalid?).returns(true)
-			subject.endereco_retirada = endereco
-			
-			must_be_message_error :base, 'Endereço de retirada: Erro 1'
-			must_be_message_error :base, 'Endereço de retirada: Erro 2', {}, false # Para não executar mais o valid?
-		end
+		it { must_belong_to(:endereco_retirada, 
+				BrNfe.endereco_class,  
+				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
+		)}
+		it { must_validate_belong_to(:endereco_retirada, BrNfe.endereco_class, :invalid_endereco_retirada) }
 	end
 
 	describe '#endereco_entrega' do
-		it "deve ignorar valores que não são da class de endereço" do
-			subject.endereco_entrega = 123
-			subject.endereco_entrega.must_be_nil
-			subject.endereco_entrega = 'aaaa'
-			subject.endereco_entrega.must_be_nil
-			subject.endereco_entrega = BrNfe.endereco_class.new
-			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
-		end
-		it "deve instanciar um endereço com os atributos se setar um Hash " do
-			subject.endereco_entrega = nil
-			subject.endereco_entrega = {logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
-			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
-
-			subject.endereco_entrega.logradouro.must_equal 'LOG'
-			subject.endereco_entrega.numero.must_equal 'NR'
-			subject.endereco_entrega.bairro.must_equal 'BRR'
-		end
-		it "deve instanciar um endereço setar os atributos em forma de Block " do
-			subject.endereco_entrega = nil
-			subject.endereco_entrega do |e| 
-				e.logradouro = 'LOGBLK'
-				e.numero     = 'NR'
-				e.bairro     = 'BRR'
-			end
-			
-			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
-			subject.endereco_entrega.logradouro.must_equal 'LOGBLK'
-			subject.endereco_entrega.numero.must_equal 'NR'
-			subject.endereco_entrega.bairro.must_equal 'BRR'
-		end
-		it "deve ser possível limpar o atributo" do
-			subject.endereco_entrega = {logradouro: 'LOG'}
-			subject.endereco_entrega.must_be_kind_of BrNfe.endereco_class
-
-			subject.endereco_entrega = nil
-			subject.endereco_entrega.must_be_nil
-		end
-			
-		it "deve validar o endereço de entrega se tiver for preenchido" do
-			endereco = BrNfe.endereco_class.new
-			endereco.errors.add :base, 'Erro 1'
-			endereco.errors.add :base, 'Erro 2'
-			endereco.expects(:invalid?).returns(true)
-			subject.endereco_entrega = endereco
-			
-			must_be_message_error :base, 'Endereço de entrega: Erro 1'
-			must_be_message_error :base, 'Endereço de entrega: Erro 2', {}, false # Para não executar mais o valid?
-		end
+		it { must_belong_to(:endereco_entrega, 
+				BrNfe.endereco_class,  
+				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
+		)}
+		it { must_validate_belong_to(:endereco_entrega, BrNfe.endereco_class, :invalid_endereco_entrega) }
 	end
 
 	describe '#autorizados_download_xml' do
@@ -464,135 +344,33 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#transporte' do
-		let(:msg_erro_1) { 'Erro 1' } 
-		let(:msg_erro_2) { 'Erro 2' } 
-		it "deve ignorar valores que não são da class de transporte" do
-			subject.transporte = nil
-			subject.transporte = 123
-			subject.transporte.must_be_nil
-			subject.transporte = 'aaaa'
-			subject.transporte.must_be_nil
-			subject.transporte = BrNfe.transporte_product_class.new
-			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
-		end
-		it "deve instanciar um transporte com os atributos se setar um Hash " do
-			subject.transporte = nil
-			subject.transporte = {retencao_cfop: 'LOG', retencao_valor_sevico: 50.55}
-			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
-
-			subject.transporte.retencao_cfop.must_equal 'LOG'
-			subject.transporte.retencao_valor_sevico.must_equal  50.55
-		end
-		it "deve instanciar um transporte setar os atributos em forma de Block " do
-			subject.transporte = nil
-			subject.transporte do |e| 
-				e.retencao_cfop = 'PLACA'
-				e.retencao_valor_sevico  = 47.74
-			end
-
-			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
-			subject.transporte.retencao_cfop.must_equal 'PLACA'
-			subject.transporte.retencao_valor_sevico.must_equal  47.74
-		end
-		it "deve ser possível limpar o atributo" do
-			subject.transporte = {retencao_valor_sevico: 132}
-			subject.transporte.must_be_kind_of BrNfe.transporte_product_class
-
-			subject.transporte = nil
-			subject.transporte.must_be_nil
-		end
-			
-		it "deve validar o transporte se for preenchido" do
-			transporte = BrNfe.transporte_product_class.new
-			transporte.errors.add :base, msg_erro_1
-			transporte.errors.add :base, msg_erro_2
-			transporte.expects(:invalid?).returns(true)
-			subject.transporte = transporte
-			
-			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_1})
-			must_be_message_error(:base, :invalid_transporte, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
-		end
+		it { must_belong_to(:transporte, 
+				BrNfe.transporte_product_class,  
+				{retencao_cfop: 'LOG', retencao_valor_sevico: 50.55}
+		)}
+		it { must_validate_belong_to(:transporte, BrNfe.transporte_product_class, :invalid_transporte) }
 	end
 
 	describe '#fatura' do
-		let(:msg_erro_1) { 'Erro 1' } 
-		let(:msg_erro_2) { 'Erro 2' } 
-		it "deve ignorar valores que não são da class de fatura" do
-			subject.fatura = nil
-			subject.fatura = 123
-			subject.fatura.must_be_nil
-			subject.fatura = 'aaaa'
-			subject.fatura.must_be_nil
-			subject.fatura = BrNfe.fatura_product_class.new
-			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
-		end
-		it "deve instanciar uma fatura com os atributos se setar um Hash " do
-			subject.fatura = nil
-			subject.fatura = {numero_fatura: 'LOG', valor_original: 50.55}
-			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
-
-			subject.fatura.numero_fatura.must_equal 'LOG'
-			subject.fatura.valor_original.must_equal  50.55
-		end
-		it "deve instanciar uma fatura setar os atributos em forma de Block " do
-			subject.fatura = nil
-			subject.fatura do |e| 
-				e.numero_fatura = 'FAT453536'
-				e.valor_original  = 47.74
-			end
-
-			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
-			subject.fatura.numero_fatura.must_equal 'FAT453536'
-			subject.fatura.valor_original.must_equal  47.74
-		end
-		it "deve ser possível limpar o atributo" do
-			subject.fatura = {valor_original: 132}
-			subject.fatura.must_be_kind_of BrNfe.fatura_product_class
-
-			subject.fatura = nil
-			subject.fatura.must_be_nil
-		end
-			
-		it "deve validar o fatura se for preenchida" do
-			fatura = BrNfe.fatura_product_class.new
-			fatura.errors.add :base, msg_erro_1
-			fatura.errors.add :base, msg_erro_2
-			fatura.expects(:invalid?).returns(true)
-			subject.fatura = fatura
-			
-			must_be_message_error(:base, :invalid_fatura, {error_message: msg_erro_1})
-			must_be_message_error(:base, :invalid_fatura, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
-		end
+		it { must_belong_to(:fatura, 
+				BrNfe.fatura_product_class,  
+				{numero_fatura: 'LOG', valor_original: 50.55}
+		)}
+		it { must_validate_belong_to(:fatura, BrNfe.fatura_product_class, :invalid_fatura) }
 	end
 
 	describe '#pagamentos' do
-		it "deve inicializar o objeto com um Array" do
-			subject.class.new.pagamentos.must_be_kind_of Array
-		end
-		it "deve aceitar apenas objetos da class Hash ou Veiculo" do
-			nf_hash = {forma_pagamento: '1', total: 1146}
-			subject.pagamentos = [pagamento, 1, 'string', nil, {}, [], :symbol, nf_hash, true]
-			subject.pagamentos.size.must_equal 2
-			subject.pagamentos[0].must_equal pagamento
-
-			subject.pagamentos[1].forma_pagamento.must_equal '1'
-			subject.pagamentos[1].total.must_equal 1146
-		end
-		it "posso adicionar notas fiscais  com <<" do
-			new_object = subject.class.new
-			new_object.pagamentos << pagamento
-			new_object.pagamentos << 1
-			new_object.pagamentos << nil
-			new_object.pagamentos << {forma_pagamento: '2', total: 223}
-			new_object.pagamentos << {forma_pagamento: '3', total: 800}
-
-			new_object.pagamentos.size.must_equal 3
-			new_object.pagamentos[0].must_equal pagamento
-
-			new_object.pagamentos[1].forma_pagamento.must_equal '2'
-			new_object.pagamentos[1].total.must_equal 223
-			new_object.pagamentos[2].forma_pagamento.must_equal '3'
-			new_object.pagamentos[2].total.must_equal 800
-		end
+		it { must_have_many(:pagamentos, BrNfe.pagamento_product_class, {forma_pagamento: '1', total: 350.00})  }
+		it { must_validate_length_has_many(:pagamentos, 
+				BrNfe.pagamento_product_class, 
+				maximum: 100,
+				condition: :nfce?
+		)}
+		
+		it { must_validates_has_many(:pagamentos, 
+			BrNfe.pagamento_product_class, 
+			:invalid_pagamento,
+			condition: :nfce?
+		)}
 	end
 end

@@ -221,20 +221,8 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			def endereco_retirada
-				yield(endereco_retirada_force_instance) if block_given?
-				@endereco_retirada.is_a?(BrNfe.endereco_class) ? @endereco_retirada : nil
-			end
-			def endereco_retirada=(value)
-				if value.is_a?(BrNfe.endereco_class) 
-					@endereco_retirada = value
-				elsif value.is_a?(Hash)
-					endereco_retirada_force_instance.assign_attributes(value)
-				elsif value.blank?
-					@endereco_retirada = nil
-				end
-			end
-
+			belongs_to :endereco_retirada, 'BrNfe.endereco_class'
+			
 			# CPF ou CNPJ do local de retirada da mercadoria.
 			# Só é obrigatório se o endereco_retirada for preenchido
 			#
@@ -256,20 +244,8 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			def endereco_entrega
-				yield(endereco_entrega_force_instance) if block_given?
-				@endereco_entrega.is_a?(BrNfe.endereco_class) ? @endereco_entrega : nil
-			end
-			def endereco_entrega=(value)
-				if value.is_a?(BrNfe.endereco_class) 
-					@endereco_entrega = value
-				elsif value.is_a?(Hash)
-					endereco_entrega_force_instance.assign_attributes(value)
-				elsif value.blank?
-					@endereco_entrega = nil
-				end
-			end
-
+			belongs_to :endereco_entrega, 'BrNfe.endereco_class'
+			
 			# CPF ou CNPJ do local de entrega da mercadoria.
 			# Só é obrigatório se o endereco_entrega for preenchido
 			#
@@ -304,19 +280,7 @@ module BrNfe
 			# <b>Required: </b> _No_
 			# <b>Default: </b> _nil_
 			#
-			def transporte
-				yield(transporte_force_instance) if block_given?
-				@transporte.is_a?(BrNfe.transporte_product_class) ? @transporte : nil
-			end
-			def transporte=(value)
-				if value.is_a?(BrNfe.transporte_product_class) 
-					@transporte = value
-				elsif value.is_a?(Hash)
-					transporte_force_instance.assign_attributes(value)
-				elsif value.blank?
-					@transporte = nil
-				end
-			end
+			belongs_to :transporte, 'BrNfe.transporte_product_class'
 
 			# Dados da cobrança da NF-e
 			# Fatura e Duplicatas da Nota Fiscal
@@ -331,20 +295,8 @@ module BrNfe
 			# <b>Default: </b> _nil_
 			# <b>Exemplo: </b> _BrNfe::Product::Nfe::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
 			#
-			def fatura
-				yield(fatura_force_instance) if block_given?
-				@fatura.is_a?(BrNfe.fatura_product_class) ? @fatura : nil
-			end
-			def fatura=(value)
-				if value.is_a?(BrNfe.fatura_product_class) 
-					@fatura = value
-				elsif value.is_a?(Hash)
-					fatura_force_instance.assign_attributes(value)
-				elsif value.blank?
-					@fatura = nil
-				end
-			end
-
+			belongs_to :fatura, 'BrNfe.fatura_product_class'
+			
 			# Array com as informações dos pagamentos
 			# IMPORTANTE: Utilizado apenas para NFC-e
 			#
@@ -432,24 +384,19 @@ module BrNfe
 
 			validates :autorizados_download_xml, length: { maximum: 10 }
 
-			validate :transporte_validation,  if: :transporte
-			validate :fatura_validation,      if: :fatura
+			validate_belongs_to  :transporte
+			validate_belongs_to  :fatura
 			
-			# with_options if: :nfce? do |record|
-			# 	record.validates :pagamentos, length: {maximum: 100}
-			# 	record.validate :pagamentos_validations
-			# end
-
+			validate_belongs_to  :endereco_retirada
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
 				record.validates :endereco_retirada_cpf_cnpj, length: {maximum: 14}
-				record.validate  :endereco_retirada_validation
 			end
 
+			validate_belongs_to  :endereco_entrega
 			with_options if: :endereco_entrega do |record|
 				record.validates :endereco_entrega_cpf_cnpj, presence: true
 				record.validates :endereco_entrega_cpf_cnpj, length: {maximum: 14}
-				record.validate  :endereco_entrega_validation
 			end
 			
 
@@ -469,76 +416,6 @@ module BrNfe
 			def emitente_class
 				BrNfe.emitente_product_class
 			end
-
-			################################  ENDEREÇO DE RETIRADA  ################################
-				# Utilizado para validar se o endereço de retirada está valido.
-				# Só irá validar caso o endereço de retirada seja preenchidp.
-				#
-				def endereco_retirada_validation
-					if endereco_retirada.invalid?
-						endereco_retirada.errors.full_messages.each { |msg| errors.add(:base, "Endereço de retirada: #{msg}") }
-					end
-				end
-				# Instancía um endereço de retirada e seta na variavé  @endereco_retirada.
-				# É utilizado quando setar o endereço em forma da Hash ou Block
-				#
-				def endereco_retirada_force_instance
-					@endereco_retirada = BrNfe.endereco_class.new unless @endereco_retirada.is_a?(BrNfe.endereco_class)
-					@endereco_retirada
-				end
-
-			################################  ENDEREÇO DE ENTREGA  ################################
-				# Utilizado para validar se o endereço de entrega está valido.
-				# Só irá validar caso o endereço de entrega seja preenchidp.
-				#
-				def endereco_entrega_validation
-					if endereco_entrega.invalid?
-						endereco_entrega.errors.full_messages.each { |msg| errors.add(:base, "Endereço de entrega: #{msg}") }
-					end
-				end
-				# Instancía um endereço de entrega e seta na variavé  @endereco_entrega.
-				# É utilizado quando setar o endereço em forma da Hash ou Block
-				#
-				def endereco_entrega_force_instance
-					@endereco_entrega = BrNfe.endereco_class.new unless @endereco_entrega.is_a?(BrNfe.endereco_class)
-					@endereco_entrega
-				end
-
-			##############################  TRANSPORTE  ##############################
-				# Utilizado para validar se o transporte está valido.
-				# Só irá validar caso o transporte da entrega seja preenchido.
-				#
-				def transporte_validation
-					if transporte.invalid?
-						transporte.errors.full_messages.each { |msg| errors.add(:base, :invalid_transporte, {error_message: msg}) }
-					end
-				end
-				# Instancía um transporte e seta na variavel  @transporte.
-				# É utilizado quando setar o transporte em forma da Hash ou Block
-				# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
-				#
-				def transporte_force_instance
-					@transporte = BrNfe.transporte_product_class.new unless @transporte.is_a?(BrNfe.transporte_product_class)
-					@transporte
-				end
-
-			##############################  FATURA  ##############################
-				# Utilizado para validar se a fatura está valido.
-				# Só irá validar caso a fatura da entrega seja preenchido.
-				#
-				def fatura_validation
-					if fatura.invalid?
-						fatura.errors.full_messages.each { |msg| errors.add(:base, :invalid_fatura, {error_message: msg}) }
-					end
-				end
-				# Instancía uma fatura e seta na variavel  @fatura.
-				# É utilizado quando setar a fatura em forma da Hash ou Block
-				# Pois nesse caso deve sempre ter um objeto instanciado para setar os valores.
-				#
-				def fatura_force_instance
-					@fatura = BrNfe.fatura_product_class.new unless @fatura.is_a?(BrNfe.fatura_product_class)
-					@fatura
-				end
 
 			###############################################################################################
 			#       | Código | AAMM da | CNPJ do  | Modelo | Série | Número  | Cód. tipo | Código   | DV  |

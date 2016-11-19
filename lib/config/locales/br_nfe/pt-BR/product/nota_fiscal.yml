@@ -10,6 +10,8 @@ pt-BR:
           invalid_transporte: 'Transporte: %{error_message}'
           invalid_fatura: 'Fatura: %{error_message}'
           invalid_pagamento: 'Pagamento %{index}: %{error_message}'
+          invalid_endereco_retirada: 'Endereço de retirada: %{error_message}'
+          invalid_endereco_entrega: 'Endereço de entrega: %{error_message}'
           attributes:
             autorizados_download_xml:
               too_long:  'excedeu o limite máximo de %{count} CPF/CNPJ'

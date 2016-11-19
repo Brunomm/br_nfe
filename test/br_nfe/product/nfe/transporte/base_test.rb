@@ -107,7 +107,7 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 				e.rntc  = 'RNTC'
 				e.uf    = 'MG'
 			end
-			
+
 			subject.veiculo.must_be_kind_of BrNfe.veiculo_product_class
 			subject.veiculo.placa.must_equal 'PLACA'
 			subject.veiculo.rntc.must_equal  'RNTC'
@@ -129,8 +129,8 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 			veiculo.expects(:invalid?).returns(true)
 			subject.veiculo = veiculo
 			
-			must_be_message_error :base, "#{alias_msg_erro}#{msg_erro_1}"
-			must_be_message_error :base, "#{alias_msg_erro}#{msg_erro_2}", {}, false # Para não executar mais o valid?
+			must_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
+			must_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
 		end
 
 		it "não deve validar o veiculo se a forma_transporte for balsa" do
@@ -141,8 +141,8 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 			veiculo.stubs(:invalid?).returns(true)
 			subject.veiculo = veiculo
 			
-			wont_be_message_error :base, "#{alias_msg_erro}#{msg_erro_1}"
-			wont_be_message_error :base, "#{alias_msg_erro}#{msg_erro_2}", {}, false # Para não executar mais o valid?
+			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
+			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
 		end
 
 		it "não deve validar o veiculo se a forma_transporte for vagao" do
@@ -153,8 +153,8 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 			veiculo.stubs(:invalid?).returns(true)
 			subject.veiculo = veiculo
 			
-			wont_be_message_error :base, "#{alias_msg_erro}#{msg_erro_1}"
-			wont_be_message_error :base, "#{alias_msg_erro}#{msg_erro_2}", {}, false # Para não executar mais o valid?
+			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
+			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
 		end
 	end
 
@@ -197,57 +197,10 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 	end
 
 	describe '#transportador' do
-		let(:alias_msg_erro) { 'Veículo: ' } 
-		let(:msg_erro_1) { 'Erro 1' } 
-		let(:msg_erro_2) { 'Erro 2' } 
-		it "deve ignorar valores que não são da class de transportador" do
-			subject.transportador = nil
-			subject.transportador = 123
-			subject.transportador.must_be_nil
-			subject.transportador = 'aaaa'
-			subject.transportador.must_be_nil
-			subject.transportador = BrNfe.transportador_product_class.new
-			subject.transportador.must_be_kind_of BrNfe.transportador_product_class
-		end
-		it "deve instanciar um transportador com os atributos se setar um Hash " do
-			subject.transportador = nil
-			subject.transportador = {nome_fantasia: 'LOG', razao_social: 'NR', endereco_uf: "SP"}
-			subject.transportador.must_be_kind_of BrNfe.transportador_product_class
-
-			subject.transportador.nome_fantasia.must_equal 'LOG'
-			subject.transportador.razao_social.must_equal  'NR'
-			subject.transportador.endereco_uf.must_equal   'SP'
-		end
-		it "deve instanciar um transportador setar os atributos em forma de Block " do
-			subject.transportador = nil
-			subject.transportador do |e| 
-				e.nome_fantasia = 'PLACA'
-				e.razao_social  = 'RNTC'
-				e.endereco_uf   = 'MG'
-			end
-
-			subject.transportador.must_be_kind_of BrNfe.transportador_product_class
-			subject.transportador.nome_fantasia.must_equal 'PLACA'
-			subject.transportador.razao_social.must_equal  'RNTC'
-			subject.transportador.endereco_uf.must_equal   'MG'
-		end
-		it "deve ser possível limpar o atributo" do
-			subject.transportador = {razao_social: 'LOG'}
-			subject.transportador.must_be_kind_of BrNfe.transportador_product_class
-
-			subject.transportador = nil
-			subject.transportador.must_be_nil
-		end
-			
-		it "deve validar o transportador se for preenchido" do
-			transportador = BrNfe.transportador_product_class.new
-			transportador.errors.add :base, msg_erro_1
-			transportador.errors.add :base, msg_erro_2
-			transportador.expects(:invalid?).returns(true)
-			subject.transportador = transportador
-			
-			must_be_message_error(:base, :invalid_transportador, {error_message: msg_erro_1})
-			must_be_message_error(:base, :invalid_transportador, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
-		end
+		it { must_belong_to(:transportador, 
+				BrNfe.transportador_product_class,  
+				{nome_fantasia: 'LOG', razao_social: 'NR', endereco_uf: "SP"}
+		)}
+		it { must_validate_belong_to(:transportador, BrNfe.transportador_product_class, :invalid_transportador) }
 	end
 end

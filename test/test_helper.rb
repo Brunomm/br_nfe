@@ -147,12 +147,12 @@ class MiniTest::Spec
 		subject.send(attribute).must_equal([])
 	end
 
-	def must_validate_length_has_many attribute, class_name, *args
+	def must_validate_length_has_many attribute, klass, *args
 		options = {
 			condition: false
 		}.merge(args.extract_options!)
 
-		MiniTest::Spec.string_for_validation_length = [class_name.new]
+		MiniTest::Spec.string_for_validation_length = [klass.new]
 		if options[:condition]
 			subject.stubs(options[:condition]).returns(true)
 		end
@@ -170,14 +170,14 @@ class MiniTest::Spec
 		MiniTest::Spec.string_for_validation_length = 'x'
 	end
 
-	def must_validates_has_many attribute, class_name, translation, *args
+	def must_validates_has_many attribute, klass, translation, *args
 		options = {
 			condition: false
 		}.merge(args.extract_options!)
 
-		object1 =  class_name.new
-		object2 =  class_name.new
-		object3 =  class_name.new
+		object1 =  klass.new
+		object2 =  klass.new
+		object3 =  klass.new
 		object1.stubs(:valid?).returns(true)
 		
 		object2.errors.add(:base, 'Erro do object 2')
@@ -202,10 +202,10 @@ class MiniTest::Spec
 		end
 	end
 
-	def must_have_many attribute, class_name, attrs={}
+	def must_have_many attribute, klass, attrs={}
 		subject.class.new.send(attribute).must_be_kind_of Array, 'deve inicializar o objeto com um Array'
 		
-		new_object = class_name.new
+		new_object = klass.new
 		
 		subject.send("#{attribute}=", [new_object, 1, 'string', nil, {}, [], :symbol, attrs, true])
 		subject.send(attribute).size.must_equal 2
@@ -231,7 +231,78 @@ class MiniTest::Spec
 		end
 	end
 
+	def must_belong_to attribute, klass, hash_attributes, *args
+		options = {null: true}.merge(args.extract_options!)
+		validate_belong_to_accept_only_object_of_class(attribute, klass, options)
+		validate_belong_to_set_hash_values(attribute, klass, hash_attributes, options)
+		validate_belong_to_set_block_values(attribute, klass, hash_attributes, options)
+		
+		if options[:null]
+			subject.send("#{attribute}=", hash_attributes)
+			subject.send(attribute).must_be_kind_of klass
+
+			subject.send("#{attribute}=", nil)
+			subject.send(attribute).must_be_nil "Deveria aceitar setar nil no atributo #{attribute}"
+		end
+	end
+
+	def must_validate_belong_to attribute, klass, i18n_message
+		msg_erro_1 = "Mensagem 1"
+		msg_erro_2 = "Mensagem 2"
+		object = klass.new
+		object.errors.add :base, msg_erro_1
+		object.errors.add :base, msg_erro_2
+		object.expects(:invalid?).returns(true)
+		subject.send("#{attribute}=", object)
+		
+		must_be_message_error(:base, i18n_message, {error_message: msg_erro_1})
+		must_be_message_error(:base, i18n_message, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
+	end
+
 private
+	
+	################################################################################
+	######################  VALIDAÇÕES PARA BELONGS_TO  ############################
+		def validate_belong_to_accept_only_object_of_class attribute, klass, options
+			subject.send("#{attribute}=", nil)
+			subject.send("#{attribute}=", 123456)
+			validate_belong_to_different_object_class(attribute, klass, options)
+			subject.send("#{attribute}=", 'aaaa')
+			validate_belong_to_different_object_class(attribute, klass, options)
+			
+			new_obj = klass.new
+			subject.send("#{attribute}=", new_obj)
+			subject.send(attribute).must_equal new_obj
+		end
+		def validate_belong_to_different_object_class attribute, klass, options
+			if options[:null]
+				subject.send(attribute).must_be_nil
+			else
+				subject.send(attribute).must_be_kind_of klass
+			end
+		end
+		def validate_belong_to_set_hash_values(attribute, klass, hash_attributes, options)
+			subject.send("#{attribute}=", nil)
+			subject.send("#{attribute}=", hash_attributes)
+			subject.send(attribute).must_be_kind_of klass
+
+			hash_attributes.each do |key, value|
+				subject.send(attribute).send("#{key}").must_equal value
+			end
+		end
+		def validate_belong_to_set_block_values(attribute, klass, hash_attributes, options)
+			subject.send("#{attribute}=", nil)
+			subject.send(attribute) do |e| 
+				hash_attributes.each do |key, value|
+					e.send("#{key}=", value)
+				end
+			end
+
+			subject.send(attribute).must_be_kind_of klass
+			hash_attributes.each do |key, value|
+				subject.send(attribute).send("#{key}").must_equal value
+			end
+		end
 
 	def get_message(msg, msg_params, column=:base)
 		if !msg.is_a?(Symbol)
