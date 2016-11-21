@@ -4,11 +4,12 @@ module BrNfe
 			extend ActiveSupport::Concern
 			module ClassMethods
 				def has_one attr_name, class_name, *args
-					options = {null: true}.merge(args.extract_options!)
+					options = {null: true, inverse_of: :reference}.merge(args.extract_options!)
 
 					define_method attr_name do |&block|
 						block.call(send("#{attr_name}_force_instance")) if block
 						if instance_variable_get("@#{attr_name}").is_a?(eval(class_name)) 
+							instance_variable_get("@#{attr_name}").instance_variable_set("@#{options[:inverse_of]}", self) if instance_variable_get("@#{attr_name}").send(options[:inverse_of]).blank?
 							instance_variable_get("@#{attr_name}")
 						else
 							if options[:null] then nil else send("#{attr_name}_force_instance") end
@@ -27,6 +28,7 @@ module BrNfe
 
 					define_method "#{attr_name}_force_instance" do
 						instance_variable_set("@#{attr_name}", eval(class_name).new) unless instance_variable_get("@#{attr_name}").is_a?(eval(class_name))
+						instance_variable_get("@#{attr_name}").instance_variable_set("@#{options[:inverse_of]}", self) if instance_variable_get("@#{attr_name}").send(options[:inverse_of]).blank?
 						instance_variable_get("@#{attr_name}")
 					end
 				end

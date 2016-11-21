@@ -149,7 +149,7 @@ class MiniTest::Spec
 
 	def must_validate_length_has_many attribute, klass, *args
 		options = {
-			condition: false
+			condition: false, inverse_of: :reference
 		}.merge(args.extract_options!)
 
 		MiniTest::Spec.string_for_validation_length = [klass.new]
@@ -161,6 +161,8 @@ class MiniTest::Spec
 		must(validate_length_of(attribute).is_at_least(options[:minimum])) if options[:minimum]
 		must(validate_length_of(attribute).is_at_least(options[:in].min).is_at_most(options[:in].max)) if options[:in]
 		
+		validate_have_many_inverse_of(attribute, klass, options)
+
 		if options[:condition]
 			subject.stubs(options[:condition]).returns(false)
 			wont(validate_length_of(attribute).is_at_most(options[:maximum])) if options[:maximum]
@@ -232,10 +234,11 @@ class MiniTest::Spec
 	end
 
 	def must_have_one attribute, klass, hash_attributes, *args
-		options = {null: true}.merge(args.extract_options!)
+		options = {null: true, inverse_of: :reference}.merge(args.extract_options!)
 		validate_have_one_accept_only_object_of_class(attribute, klass, options)
 		validate_have_one_set_hash_values(attribute, klass, hash_attributes, options)
 		validate_have_one_set_block_values(attribute, klass, hash_attributes, options)
+		validate_have_one_inverse_of(attribute, klass, options)
 		
 		if options[:null]
 			subject.send("#{attribute}=", hash_attributes)
@@ -262,7 +265,7 @@ class MiniTest::Spec
 private
 	
 	################################################################################
-	######################  VALIDAÇÕES PARA BELONGS_TO  ############################
+	#######################  VALIDAÇÕES PARA HAVE_ONE  #############################
 		def validate_have_one_accept_only_object_of_class attribute, klass, options
 			subject.send("#{attribute}=", nil)
 			subject.send("#{attribute}=", 123456)
@@ -302,6 +305,23 @@ private
 			hash_attributes.each do |key, value|
 				subject.send(attribute).send("#{key}").must_equal value
 			end
+		end
+		def validate_have_one_inverse_of(attribute, klass, options)
+			new_object = klass.new
+			subject.instance_variable_set("@#{attribute}", new_object)
+			new_object.send(options[:inverse_of]).must_be_nil
+			subject.send(attribute).send(options[:inverse_of]).must_equal subject, "Deve setar o atributo #{options[:inverse_of]} do objeto #{attribute} no método get"
+			new_object.send(options[:inverse_of]).must_equal subject
+		end
+	################################################################################
+	#######################  VALIDAÇÕES PARA HAVE_ONE  #############################
+		def validate_have_many_inverse_of(attribute, klass, options)
+			subject.send("#{attribute}=",[])
+			new_object = klass.new
+			new_object.send(options[:inverse_of]).must_be_nil
+			subject.send(attribute) << new_object
+			subject.send(attribute)[0].send(options[:inverse_of]).must_equal subject, "Deve setar o atributo #{options[:inverse_of]} para o registro da associação #{attribute} no método get"
+			new_object.send(options[:inverse_of]).must_equal subject
 		end
 
 	def get_message(msg, msg_params, column=:base)

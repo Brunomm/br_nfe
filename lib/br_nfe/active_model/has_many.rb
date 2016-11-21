@@ -16,15 +16,21 @@ module BrNfe
 				#      has_many :books, 'Book'
 				#    end
 				#
-				def has_many attr_name, class_name_str
+				def has_many attr_name, class_name_str, *args
+					options = {inverse_of: :reference}.merge(args.extract_options!)
 					attr_accessor attr_name
-					define_method attr_name do					
+					define_method attr_name do
 						arry = [instance_variable_get("@#{attr_name}")].flatten.reject(&:blank?)
 						arry_ok = arry.select{|v| v.is_a?(eval(class_name_str)) }
 						arry.select!{|v| v.is_a?(Hash) }
 						arry.map{ |hash| arry_ok.push(eval(class_name_str).new(hash)) }
+						add_reference_to_has_many(arry_ok, options[:inverse_of]) if options[:inverse_of]
 						instance_variable_set("@#{attr_name}", arry_ok)
 						instance_variable_get("@#{attr_name}")
+					end
+
+					define_method :add_reference_to_has_many do |collection, inverse_of|
+						collection.map{|obj| obj.send("#{inverse_of}=", self)}
 					end
 				end
 

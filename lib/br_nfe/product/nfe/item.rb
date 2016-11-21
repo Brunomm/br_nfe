@@ -350,7 +350,7 @@ module BrNfe
 
 					# ITEM DO PEDIDO DE COMPRA
 					#
-					# <b>Type:     </b> _String_
+					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _1234567_
 					# <b>Length:   </b> _max: 15_
@@ -373,6 +373,17 @@ module BrNfe
 					# <b>tag:      </b> nFCI
 					#
 					attr_accessor :numero_fci
+
+					# VALOR TOTAL DE TRIBUTOS FEDERAIS, ESTADUAIS E MUNICIPAIS
+					# NT 2013/003
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _178.46_
+					# <b>Length:   </b> _13v2_
+					# <b>tag:      </b> vTotTrib
+					#
+					attr_accessor :total_tributos
 
 
 				def default_values

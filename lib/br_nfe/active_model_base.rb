@@ -2,6 +2,16 @@ module BrNfe
 	class ActiveModelBase
 		include ::ActiveModel::Model
 		include BrNfe::ActiveModel::Associations
+
+		# Utilizado para referenciar o objeto que utiliza a informação.
+		# Setado automaticamnete no has_one e has_many;
+		# Exemplo:
+		#    ~$ endereco = Endereco.new
+		#    ~$ pessoa = Pessoa.new(endereco: endereco)
+		#    ~$ endereco.reference
+		#    ~$ => pessoa
+		#
+		attr_accessor :reference
 		
 
 		def initialize(attributes = {})

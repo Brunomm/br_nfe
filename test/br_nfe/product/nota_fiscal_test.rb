@@ -313,10 +313,12 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_entrega' do
-		it { must_have_one(:endereco_entrega, 
+		it '316' do 
+			must_have_one(:endereco_entrega, 
 				BrNfe.endereco_class,  
 				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
-		)}
+			)
+		end
 		it { must_validate_have_one(:endereco_entrega, BrNfe.endereco_class, :invalid_endereco_entrega) }
 	end
 
