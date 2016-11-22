@@ -72,8 +72,10 @@ module BrNfe
 					#  2=Preço Tabelado Máx. (valor);
 					#  3=Valor da operação.
 					#
+					# Utilizado nos CSTs: [00 10 20 51 70 90 900]
+					#
 					# <b>Type:     </b> _Number_
-					# <b>Required: </b> _CST: [00 10 20 51 70 90 900]_
+					# <b>Required: </b> _CST: [00 10 20]_
 					# <b>Example:  </b> _0_
 					# <b>Length:   </b> _1_
 					# <b>tag:      </b> modBC
@@ -84,6 +86,7 @@ module BrNfe
 					end
 
 					# PERCENTUAL REDUÇÃO DE BASE DE CÁLCULO DO ICMS
+					# Utilizado nos CSTs: [20 51]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [20]_
@@ -95,6 +98,7 @@ module BrNfe
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS
 					# Valor base utilizado para calcular o valor d ICMS
+					# Utilizado nos CSTs: [00 10 20 51]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [00 10 20]_
@@ -106,6 +110,7 @@ module BrNfe
 
 					# ALÍQUOTA DO ICMS 
 					# Percentual do imposto do ICMS
+					# Utilizado nos CSTs: [00 10 20 51]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [00 10 20]_
@@ -117,6 +122,7 @@ module BrNfe
 
 					# VALOR DO ICMS
 					# Valor total do ICMS
+					# Utilizado nos CSTs: [00 10 20 51]
 					# O calculo se dá através da base de cálculo x alíquota
 					# EX: 
 					#  total_base_calculo = 200.00
@@ -135,6 +141,7 @@ module BrNfe
 					end
 
 					# Modalidade de determinação da BC do ICMS ST
+					# Utilizado nos CSTs: [10 30]
 					#  0=Preço tabelado ou máximo sugerido;
 					#  1=Lista Negativa (valor);
 					#  2=Lista Positiva (valor);
@@ -143,7 +150,7 @@ module BrNfe
 					#  5=Pauta (valor)
 					#
 					# <b>Type:     </b> _Number_
-					# <b>Required: </b> _CST: [10]_
+					# <b>Required: </b> _CST: [10 30]_
 					# <b>Example:  </b> _2_
 					# <b>Length:   </b> _1_
 					# <b>tag:      </b> modBCST
@@ -177,9 +184,10 @@ module BrNfe
 					attr_accessor :reducao_base_calculo_st	
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS ST
+					# Utilizado nos CSTs: [10 30]
 					# 
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10]_
+					# <b>Required: </b> _CST: [10 30]_
 					# <b>Example:  </b> _1450.00_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vBCST
@@ -187,10 +195,11 @@ module BrNfe
 					attr_accessor :total_base_calculo_st
 
 					# ALÍQUOTA DO ICMS ST
+					# Utilizado nos CSTs: [10 30]
 					# Percentual do imposto do ICMS
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10]_
+					# <b>Required: </b> _CST: [10 30]_
 					# <b>Example:  </b> _17.00_
 					# <b>Length:   </b> _13v2-4_
 					# <b>tag:      </b> pICMSST
@@ -198,9 +207,10 @@ module BrNfe
 					attr_accessor :aliquota_st
 
 					# VALOR DO ICMS ST
+					# Utilizado nos CSTs: [10 30]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10]_
+					# <b>Required: </b> _CST: [10 30]_
 					# <b>Example:  </b> _120.00_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vICMS
@@ -208,6 +218,7 @@ module BrNfe
 					attr_accessor :total_st
 
 					# VALOR DO ICMS DESONERADO
+					# Utilizado nos CSTs: [20 30 40 41 50]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _No_
@@ -220,14 +231,30 @@ module BrNfe
 					# MOTIVO DA DESONERAÇÃO DO ICMS
 					#   Campo será preenchido quando o campo anterior estiver
 					#   preenchido. Informar o motivo da desoneração:
+					#
+					# Utilizado nos CSTs: [20 30]
 					#   3=Uso na agropecuária;
 					#   9=Outros;
 					#   12=Órgão de fomento e desenvolvimento agropecuário.
 					#
+					# Utilizado nos CSTs: [40 41 50]
+					#    1=Táxi;
+					#    2=Deficiente Físico <- Revogada a partir da versão 3.01
+					#    3=Produtor Agropecuário;
+					#    4=Frotista/Locadora;
+					#    5=Diplomático/Consular;
+					#    6=Utilitários e Motocicletas da Amazônia Ocidental e Áreas de
+					#      Livre Comércio (Resolução 714/88 e 790/94 – CONTRAN e suas alterações);
+					#    7=SUFRAMA;
+					#    8=Venda a Órgão Público;
+					#    9=Outros. (NT 2011/004);
+					#    10=Deficiente Condutor (Convênio ICMS 38/12);
+					#    11=Deficiente Não Condutor (Convênio ICMS 38/12).
+					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_ (yes if total_desoneracao)
 					# <b>Example:  </b> _9_
-					# <b>Length:   </b> _1_
+					# <b>Length:   </b> _1 OR 2_
 					# <b>tag:      </b> motDesICMS
 					# 
 					attr_accessor :motivo_desoneracao
@@ -235,6 +262,42 @@ module BrNfe
 						@motivo_desoneracao.to_i if @motivo_desoneracao.present?
 					end
 
+					# VALOR DO ICMS DA OPERAÇÃO
+					# Informar o valor do ICMS como se não tivesse diferimento
+					#
+					# Utilizado nos CSTs: [51]
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _75.5_
+					# <b>Length:   </b> _13v2_
+					# <b>tag:      </b> vICMSOp
+					# 
+					attr_accessor :total_icms_operacao
+
+					# PERCENTUAL DO DIFERIMENTO
+					# No caso de diferimento total, informar o percentual de difereimento = 100
+					# Utilizado nos CSTs: [51]
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _75.5_
+					# <b>Length:   </b> _13v2-4_
+					# <b>tag:      </b> pDif
+					# 
+					attr_accessor :percentual_diferimento
+
+					# VALOR DO ICMS DIFERIDO
+					# 
+					# Utilizado nos CSTs: [51]
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _75.5_
+					# <b>Length:   </b> _13v2_
+					# <b>tag:      </b> vICMSDif
+					# 
+					attr_accessor :total_icms_diferido
 
 
 
@@ -246,38 +309,68 @@ module BrNfe
 					validates :reducao_base_calculo, :reducao_base_calculo_st, numericality: {
 						greater_than_or_equal_to: 0.0,  less_than_or_equal_to: 100.0
 					}, allow_blank: true
-					
-					with_options if: lambda{|r| r.codigo_cst.in?(%w[20]) } do |record|
-						record.validates :total_desoneracao, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
-						record.validates :motivo_desoneracao, inclusion: {in: [3,9,12]}, allow_blank: true
-						validates :motivo_desoneracao, presence: true, if: lambda{|r| r.codigo_cst.in?(%w[20]) && r.total_desoneracao.present? }
-					end
 
-					with_options if: lambda{|r| r.codigo_cst.in?(%w[20]) } do |record|
-						record.validates :reducao_base_calculo, presence: true
-					end
-					
-					with_options if: lambda{|r| r.codigo_cst.in?(%w[00 10 20]) } do |record|
+					with_options if: lambda{|r| r.codigo_cst == '00' } do |record|
+						record.validates :aliquota,                numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota,                presence: true
+						record.validates :total_base_calculo,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo,      presence: true
 						record.validates :modalidade_base_calculo, inclusion: {in: 0..3}
 						record.validates :modalidade_base_calculo, presence: true
 					end
-
-					with_options if: lambda{|r| r.codigo_cst.in?(%w[00 10 20]) } do |record|
-						record.validates :total_base_calculo, numericality: {greater_than_or_equal_to: 0.0}
-						record.validates :total_base_calculo, presence: true
-						record.validates :aliquota, numericality: {greater_than_or_equal_to: 0.0}
-						record.validates :aliquota, presence: true
-					end
-					with_options if: lambda{|r| r.codigo_cst.in?(%w[10]) } do |record|
+					with_options if: lambda{|r| r.codigo_cst == '10' } do |record|
+						record.validates :mva_st,                     numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_st,                   presence: true
+						record.validates :aliquota,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota,                   presence: true
+						record.validates :aliquota_st,                numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota_st,                presence: true
+						record.validates :total_base_calculo,         numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo,         presence: true
+						record.validates :total_base_calculo_st,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo_st,      presence: true
+						record.validates :modalidade_base_calculo,    inclusion: {in: 0..3}
+						record.validates :modalidade_base_calculo,    presence: true
 						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
 						record.validates :modalidade_base_calculo_st, presence: true
-						record.validates :mva_st, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
-						record.validates :total_base_calculo_st, numericality: {greater_than_or_equal_to: 0.0}
-						record.validates :total_base_calculo_st, presence: true
-						record.validates :aliquota_st, numericality: {greater_than_or_equal_to: 0.0}
-						record.validates :aliquota_st, presence: true
-						record.validates :total_st, numericality: {greater_than_or_equal_to: 0.0}
-						record.validates :total_st, presence: true
+					end
+					with_options if: lambda{|r| r.codigo_cst == '20' } do |record|
+						record.validates :aliquota,                numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota,                presence: true
+						record.validates :total_desoneracao,       numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :motivo_desoneracao,      inclusion: {in: [3,9,12]}, allow_blank: true
+						validates        :motivo_desoneracao,      presence: true, if: lambda{|r| r.codigo_cst == '20' && r.total_desoneracao.present? }
+						record.validates :total_base_calculo,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo,      presence: true
+						record.validates :reducao_base_calculo,    presence: true
+						record.validates :modalidade_base_calculo, inclusion: {in: 0..3}
+						record.validates :modalidade_base_calculo, presence: true
+					end
+					with_options if: lambda{|r| r.codigo_cst == '30' } do |record|
+						record.validates :mva_st,                     numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_st,                   presence: true
+						record.validates :aliquota_st,                numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota_st,                presence: true
+						record.validates :total_desoneracao,          numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :motivo_desoneracao,         inclusion: {in: [3,9,12]}, allow_blank: true
+						validates        :motivo_desoneracao,         presence: true, if: lambda{|r| r.codigo_cst == '30' && r.total_desoneracao.present? }
+						record.validates :total_base_calculo_st,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo_st,      presence: true
+						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
+						record.validates :modalidade_base_calculo_st, presence: true
+					end
+					with_options if: lambda{|r| r.codigo_cst.in?(%w[40 41 50]) } do |record|
+						record.validates :total_desoneracao,  numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :motivo_desoneracao, inclusion: {in: 1..11}, allow_blank: true
+						validates        :motivo_desoneracao, presence: true, if: lambda{|r| r.codigo_cst.in?(%w[40 41 50]) && r.total_desoneracao.present? }
+					end
+					with_options if: lambda{|r| r.codigo_cst == '51' } do |record|
+						record.validates :modalidade_base_calculo, inclusion: {in: 0..3}, allow_blank: true
+						record.validates :total_icms_operacao,    numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_icms_diferido,    numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :percentual_diferimento, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0}, allow_blank: true
 					end
 
 				private
