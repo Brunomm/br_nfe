@@ -186,6 +186,10 @@ module BrNfe
 				autoload :Volume
 				autoload :Transportador
 			end
+			module ItemTax
+				extend ActiveSupport::Autoload
+				autoload :Icms
+			end
 		end
 		module Gateway
 			extend ActiveSupport::Autoload
