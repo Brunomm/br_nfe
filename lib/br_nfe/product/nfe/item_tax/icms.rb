@@ -160,7 +160,7 @@ module BrNfe
 					end
 
 					# Modalidade de determinação da BC do ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					#  0=Preço tabelado ou máximo sugerido;
 					#  1=Lista Negativa (valor);
 					#  2=Lista Positiva (valor);
@@ -169,7 +169,7 @@ module BrNfe
 					#  5=Pauta (valor)
 					#
 					# <b>Type:     </b> _Number_
-					# <b>Required: </b> _CST: [10 30 70 201]_
+					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
 					# <b>Example:  </b> _2_
 					# <b>Length:   </b> _1_
 					# <b>tag:      </b> modBCST
@@ -180,7 +180,7 @@ module BrNfe
 					end
 
 					# PERCENTUAL DA MARGEM DE VALOR ADICIONADO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					#  MVA ST original – é a margem de valor agregado prevista 
 					#  na legislação do Estado do destinatário para suas operações 
 					#  internas com produto sujeito ao regime de substituição tributária;
@@ -194,7 +194,7 @@ module BrNfe
 					attr_accessor :mva_st
 
 					# PERCENTUAL REDUÇÃO DE BASE DE CÁLCULO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _No_
@@ -205,10 +205,10 @@ module BrNfe
 					attr_accessor :reducao_base_calculo_st	
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					# 
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10 30 70 201]_
+					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
 					# <b>Example:  </b> _1450.00_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vBCST
@@ -216,11 +216,11 @@ module BrNfe
 					attr_accessor :total_base_calculo_st
 
 					# ALÍQUOTA DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					# Percentual do imposto do ICMS
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10 30 70 201]_
+					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
 					# <b>Example:  </b> _17.00_
 					# <b>Length:   </b> _13v2-4_
 					# <b>tag:      </b> pICMSST
@@ -228,10 +228,10 @@ module BrNfe
 					attr_accessor :aliquota_st
 
 					# VALOR DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201]
+					# Utilizado nos CSTs: [10 30 70 201 202 203]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [10 30 70 201]_
+					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
 					# <b>Example:  </b> _120.00_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vICMS
@@ -511,6 +511,17 @@ module BrNfe
 						record.validates :total_credito_sn,           numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
 						record.validates :aliquota_credito_sn,        presence: true
 						record.validates :aliquota_credito_sn,        numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0}, allow_blank: true
+					end
+					with_options if: lambda{|r| r.codigo_cst.in?(%w[202 203]) } do |record|
+						record.validates :modalidade_base_calculo_st, presence: true
+						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
+						record.validates :mva_st,                     numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_base_calculo_st,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo_st,      presence: true
+						record.validates :aliquota_st,                numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota_st,                presence: true
+						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_st,                   presence: true
 					end
 
 				private
