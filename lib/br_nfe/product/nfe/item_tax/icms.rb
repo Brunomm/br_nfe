@@ -72,10 +72,10 @@ module BrNfe
 					#  2=Preço Tabelado Máx. (valor);
 					#  3=Valor da operação.
 					#
-					# Utilizado nos CSTs: [00 10 20 51  90 900]
+					# Utilizado nos CSTs: [00 10 20 51 90 900]
 					#
 					# <b>Type:     </b> _Number_
-					# <b>Required: </b> _CST: [00 10 20]_
+					# <b>Required: </b> _CST: [00 10 20 90]_
 					# <b>Example:  </b> _0_
 					# <b>Length:   </b> _1_
 					# <b>tag:      </b> modBC
@@ -86,7 +86,7 @@ module BrNfe
 					end
 
 					# PERCENTUAL REDUÇÃO DE BASE DE CÁLCULO DO ICMS
-					# Utilizado nos CSTs: [20 51 70]
+					# Utilizado nos CSTs: [20 51 70 90]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [20 70]_
@@ -98,10 +98,10 @@ module BrNfe
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS
 					# Valor base utilizado para calcular o valor d ICMS
-					# Utilizado nos CSTs: [00 10 20 51 70]
+					# Utilizado nos CSTs: [00 10 20 51 70 90]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [00 10 20 70]_
+					# <b>Required: </b> _CST: [00 10 20 70 90]_
 					# <b>Example:  </b> _350.00_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vBC
@@ -110,10 +110,10 @@ module BrNfe
 
 					# ALÍQUOTA DO ICMS 
 					# Percentual do imposto do ICMS
-					# Utilizado nos CSTs: [00 10 20 51 70]
+					# Utilizado nos CSTs: [00 10 20 51 70 90]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [00 10 20 70]_
+					# <b>Required: </b> _CST: [00 10 20 70 90]_
 					# <b>Example:  </b> _17.00_
 					# <b>Length:   </b> _13v2-4_
 					# <b>tag:      </b> pICMS
@@ -423,6 +423,28 @@ module BrNfe
 						record.validates :modalidade_base_calculo,    presence: true
 						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
 						record.validates :modalidade_base_calculo_st, presence: true
+					end
+
+					with_options if: lambda{|r| r.codigo_cst == '90' } do |record|
+						record.validates :aliquota,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :aliquota,                   presence: true
+						record.validates :total_desoneracao,          numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :motivo_desoneracao,         inclusion: {in: [3,9,12]}, allow_blank: true
+						validates        :motivo_desoneracao,         presence: true, if: lambda{|r| r.codigo_cst == '90' && r.total_desoneracao.present? }
+						record.validates :total_base_calculo,         numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo,         presence: true
+						record.validates :modalidade_base_calculo,    inclusion: {in: 0..3}
+						record.validates :modalidade_base_calculo,    presence: true
+						record.validates :aliquota_st,                numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+					end
+					with_options if: lambda{|r| r.codigo_cst == '90' && r.aliquota_st.present? } do |record|
+						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_st,                   presence: true
+						record.validates :mva_st, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
+						record.validates :modalidade_base_calculo_st, presence: true
+						record.validates :total_base_calculo_st,      numericality: {greater_than_or_equal_to: 0.0}
+						record.validates :total_base_calculo_st,      presence: true
 					end
 
 				private
