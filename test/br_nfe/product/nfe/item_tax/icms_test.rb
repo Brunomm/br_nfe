@@ -45,17 +45,8 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
 			context 'Não deve aplicar as regras para desoneracao' do
 				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
-				it "motivo_desoneracao não deve ser obrigatório se não tiver total_desoneracao" do
-					subject.total_desoneracao = nil
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it "motivo_desoneracao não deve ser obrigatório mesmo se tiver total_desoneracao" do
-					subject.total_desoneracao = 50.0
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it 'motivo_desoneracao não deve validar os valores permitidos' do
-					wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12])
-				end
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
 			end
 		end
 		context "CST 10" do
@@ -91,17 +82,8 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
 			context 'Não deve aplicar as regras para desoneracao' do
 				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
-				it "motivo_desoneracao não deve ser obrigatório se não tiver total_desoneracao" do
-					subject.total_desoneracao = nil
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it "motivo_desoneracao não deve ser obrigatório mesmo se tiver total_desoneracao" do
-					subject.total_desoneracao = 50.0
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it 'motivo_desoneracao não deve validar os valores permitidos' do
-					wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12])
-				end
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
 			end
 		end
 		context "CST 20" do
@@ -377,21 +359,10 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 			it { must validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
 			it { must validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
 			it { must validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
-
-			context 'Deve aplicar as regras para desoneracao' do
+			context 'Não deve aplicar as regras para desoneracao' do
 				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
-				it "motivo_desoneracao não deve ser obrigatório se não tiver total_desoneracao" do
-					subject.total_desoneracao = nil
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it "motivo_desoneracao deve ser obrigatório mesmo se tiver total_desoneracao" do
-					subject.total_desoneracao = 50.0
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it 'motivo_desoneracao deve validar os valores permitidos' do
-					subject.total_desoneracao = nil
-					wont validate_inclusion_of(:motivo_desoneracao).in_array([1,2,3,4,5,6,7,8,9,10,11])
-				end
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
 			end
 		end
 		context "CST 60" do
@@ -426,21 +397,10 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
 			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
 			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
-
-			context 'Deve aplicar as regras para desoneracao' do
+			context 'Não deve aplicar as regras para desoneracao' do
 				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
-				it "motivo_desoneracao não deve ser obrigatório se não tiver total_desoneracao" do
-					subject.total_desoneracao = nil
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it "motivo_desoneracao deve ser obrigatório mesmo se tiver total_desoneracao" do
-					subject.total_desoneracao = 50.0
-					wont validate_presence_of(:motivo_desoneracao)
-				end
-				it 'motivo_desoneracao deve validar os valores permitidos' do
-					subject.total_desoneracao = nil
-					wont validate_inclusion_of(:motivo_desoneracao).in_array([1,2,3,4,5,6,7,8,9,10,11])
-				end
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
 			end
 		end
 		context "CST 70" do
@@ -493,7 +453,6 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 				end
 			end
 		end
-
 		context "CST 90" do
 			before { subject.codigo_cst = '90' }
 			it { must validate_presence_of(:modalidade_base_calculo) }
@@ -530,13 +489,6 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 				it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
 				it { wont validate_presence_of(    :total_st) }
 			end
-			
-
-			# it { wont validate_presence_of(:reducao_base_calculo) }
-			# it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
-			# it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
-			# it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
-
 			context 'Deve aplicar as regras para desoneracao' do
 				it { must validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
 				it "motivo_desoneracao não deve ser obrigatório se não tiver total_desoneracao" do
@@ -551,6 +503,195 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 					subject.total_desoneracao = nil
 					must validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12])
 				end
+			end
+		end
+		context "CST 101 - CSOSN" do
+			before { subject.codigo_cst = '101' }
+			it { must validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { must validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { must validate_presence_of(:aliquota_credito_sn) }
+			it { must validate_presence_of(:total_credito_sn) }
+
+			it { wont validate_presence_of(:modalidade_base_calculo) }
+			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 102 - CSOSN" do
+			before { subject.codigo_cst = '102' }
+			it { wont validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_presence_of(:aliquota_credito_sn) }
+			it { wont validate_presence_of(:total_credito_sn) }
+			it { wont validate_presence_of(:modalidade_base_calculo) }
+			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 103 - CSOSN" do
+			before { subject.codigo_cst = '103' }
+			it { wont validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_presence_of(:aliquota_credito_sn) }
+			it { wont validate_presence_of(:total_credito_sn) }
+			it { wont validate_presence_of(:modalidade_base_calculo) }
+			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 300 - CSOSN" do
+			before { subject.codigo_cst = '300' }
+			it { wont validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_presence_of(:aliquota_credito_sn) }
+			it { wont validate_presence_of(:total_credito_sn) }
+			it { wont validate_presence_of(:modalidade_base_calculo) }
+			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 400 - CSOSN" do
+			before { subject.codigo_cst = '400' }
+			it { wont validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_presence_of(:aliquota_credito_sn) }
+			it { wont validate_presence_of(:total_credito_sn) }
+			it { wont validate_presence_of(:modalidade_base_calculo) }
+			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 201 - CSOSN" do
+			before { subject.codigo_cst = '201' }
+			it { must validate_presence_of(    :modalidade_base_calculo_st) }
+			it { must validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { must validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { must validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { must validate_presence_of(    :total_base_calculo_st) }
+			it { must validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { must validate_presence_of(    :total_st) }
+			it { must validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { must validate_presence_of(    :aliquota_credito_sn) }
+			it { must validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { must validate_presence_of(:total_credito_sn) }
+			it { must validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { must validate_presence_of(    :aliquota_st) }
+			
+			
+			it { wont validate_presence_of(    :modalidade_base_calculo) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
 			end
 		end
 	end
