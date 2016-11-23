@@ -367,6 +367,23 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 		end
 		context "CST 60" do
 			before { subject.codigo_cst = '60' }
+			describe "ICMS ST Retido" do
+				context "Deve validar o total_st_retido se total_base_calculo_st_retido for > que zero" do
+					before { subject.total_base_calculo_st_retido = 0.1 }
+					it { must validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(:total_st_retido) }
+				end
+				context "Não deve validar o total_st_retido se total_base_calculo_st_retido for zero" do
+					before { subject.total_base_calculo_st_retido = 0.0 }
+					it { wont validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_st_retido) }
+				end
+				context "Não deve validar o total_st_retido se total_base_calculo_st_retido for nil" do
+					before { subject.total_base_calculo_st_retido = nil }
+					it { wont validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_st_retido) }
+				end
+			end
 			it { wont validate_presence_of(:modalidade_base_calculo) }
 			it { wont validate_inclusion_of(:modalidade_base_calculo).in_array([0,1,2,3]) }
 			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
@@ -750,6 +767,150 @@ describe BrNfe::Product::Nfe::ItemTax::Icms do
 			it { wont validate_presence_of(    :total_base_calculo) }
 			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
 			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 500 - CSOSN" do
+			before { subject.codigo_cst = '500' }
+			describe "ICMS ST Retido" do
+				context "Deve validar o total_st_retido se total_base_calculo_st_retido for > que zero" do
+					before { subject.total_base_calculo_st_retido = 0.1 }
+					it { must validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(:total_st_retido) }
+				end
+				context "Não deve validar o total_st_retido se total_base_calculo_st_retido for zero" do
+					before { subject.total_base_calculo_st_retido = 0.0 }
+					it { wont validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_st_retido) }
+				end
+				context "Não deve validar o total_st_retido se total_base_calculo_st_retido for nil" do
+					before { subject.total_base_calculo_st_retido = nil }
+					it { wont validate_numericality_of(:total_st_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_st_retido) }
+				end
+			end
+			it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+			it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo_st) }
+			it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_st) }
+			it { wont validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota_st) }
+			it { wont validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			it { wont validate_presence_of(    :aliquota_credito_sn) }
+			it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_presence_of(:total_credito_sn) }
+			it { wont validate_presence_of(    :modalidade_base_calculo) }
+			it { wont validate_inclusion_of(   :modalidade_base_calculo).in_array([0,1,2,3]) }
+			it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :total_base_calculo) }
+			it { wont validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0) }
+			it { wont validate_presence_of(    :aliquota) }
+			it { wont validate_presence_of(:reducao_base_calculo) }
+			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }
+			it { wont validate_numericality_of(:percentual_diferimento).is_greater_than_or_equal_to(0.0).is_less_than_or_equal_to(100.0).allow_nil }
+			context 'Não deve aplicar as regras para desoneracao' do
+				it { wont validate_numericality_of(:total_desoneracao).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_inclusion_of(:motivo_desoneracao).in_array([3,9,12]) }
+				it { wont validate_presence_of(:motivo_desoneracao) }
+			end
+		end
+		context "CST 900 - CSOSN" do
+			before { subject.codigo_cst = '900' }
+			describe "ICMS Normal" do
+				it { must validate_numericality_of(:aliquota).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_presence_of(:aliquota) }
+				context "Deve validar os dados do ICMS normal se aliquota for > que zero" do
+					before { subject.aliquota = 0.1 }
+					it { must validate_presence_of(    :modalidade_base_calculo) }
+					it { must validate_inclusion_of(   :modalidade_base_calculo).in_array([0,1,2,3]) }
+					it { must validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(    :total_base_calculo) }
+					it { must validate_numericality_of(:total).is_greater_than_or_equal_to(0.0).allow_nil }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota for zero" do
+					before { subject.aliquota = 0.0 }
+					it { wont validate_presence_of(    :modalidade_base_calculo) }
+					it { wont validate_inclusion_of(   :modalidade_base_calculo).in_array([0,1,2,3]) }
+					it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_base_calculo) }
+					it { wont validate_numericality_of(:total).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total) }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota for nil" do
+					before { subject.aliquota = nil }
+					it { wont validate_presence_of(    :modalidade_base_calculo) }
+					it { wont validate_inclusion_of(   :modalidade_base_calculo).in_array([0,1,2,3]) }
+					it { wont validate_numericality_of(:total_base_calculo).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_base_calculo) }
+					it { wont validate_numericality_of(:total).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total) }
+				end
+			end
+			describe "ICMS ST" do
+				it { must validate_numericality_of(:aliquota_st).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_presence_of(:aliquota_st) }
+				context "Deve validar os dados do ICMS normal se aliquota_st for > que zero" do
+					before { subject.aliquota_st = 0.1 }
+					it { must validate_presence_of(    :modalidade_base_calculo_st) }
+					it { must validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+					it { must validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(    :total_base_calculo_st) }
+					it { must validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(    :total_st) }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota_st for zero" do
+					before { subject.aliquota_st = 0.0 }
+					it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+					it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+					it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_base_calculo_st) }
+					it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_st) }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota_st for nil" do
+					before { subject.aliquota_st = nil }
+					it { wont validate_presence_of(    :modalidade_base_calculo_st) }
+					it { wont validate_inclusion_of(   :modalidade_base_calculo_st).in_array([0,1,2,3,4,5]) }
+					it { wont validate_numericality_of(:mva_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_numericality_of(:total_base_calculo_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_base_calculo_st) }
+					it { wont validate_numericality_of(:total_st).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(    :total_st) }
+				end
+			end
+
+			describe "Aliquota de crédito" do
+				it { must validate_numericality_of(:aliquota_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+				it { wont validate_presence_of(:aliquota_credito_sn) }
+				context "Deve validar os dados do ICMS normal se aliquota_credito_sn for > que zero" do
+					before { subject.aliquota_credito_sn = 0.1 }
+					it { must validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { must validate_presence_of(:total_credito_sn) }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota_credito_sn for zero" do
+					before { subject.aliquota_credito_sn = 0.0 }
+					it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_credito_sn) }
+				end
+				context "Deve validar os dados do ICMS normal se aliquota_credito_sn for nil" do
+					before { subject.aliquota_credito_sn = nil }
+					it { wont validate_numericality_of(:total_credito_sn).is_greater_than_or_equal_to(0.0).allow_nil }
+					it { wont validate_presence_of(:total_credito_sn) }
+				end
+			end
 			it { wont validate_presence_of(:reducao_base_calculo) }
 			it { wont validate_numericality_of(:total_icms_operacao).is_greater_than_or_equal_to(0.0).allow_nil }
 			it { wont validate_numericality_of(:total_icms_diferido).is_greater_than_or_equal_to(0.0).allow_nil }

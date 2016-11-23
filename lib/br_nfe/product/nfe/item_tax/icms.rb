@@ -325,7 +325,7 @@ module BrNfe
 					# O valor pode ser omitido quando a legislação não exigir a sua
 					# informação. (NT 2011/004)
 					# 
-					# Utilizado nos CSTs: [60]
+					# Utilizado nos CSTs: [60 500]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _No_
@@ -340,10 +340,10 @@ module BrNfe
 					# pode ser omitido quando a legislação não exigir a sua
 					# informação. (NT 2011/004)
 					# 
-					# Utilizado nos CSTs: [60]
+					# Utilizado nos CSTs: [60 500]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _No_
+					# <b>Required: </b> _No_ (Yes if total_base_calculo_st_retido > 0)
 					# <b>Example:  </b> _75.5_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vICMSSTRet
@@ -522,6 +522,37 @@ module BrNfe
 						record.validates :aliquota_st,                presence: true
 						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}
 						record.validates :total_st,                   presence: true
+					end
+
+					with_options if: lambda{|r| r.codigo_cst.in?(['60','500']) && r.total_base_calculo_st_retido.to_f > 0.0 } do |record|
+						record.validates :total_st_retido, presence: true
+						record.validates :total_st_retido, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+					end
+					
+					with_options if: lambda{|r| r.codigo_cst == '900'} do |record|
+						record.validates :aliquota,            numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :aliquota_st,         numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :aliquota_credito_sn, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+					end					
+					with_options if: lambda{|r| r.codigo_cst == '900' && r.aliquota.to_f > 0.0 } do |record|
+						record.validates :total_base_calculo,         numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_base_calculo,         presence: true
+						record.validates :total,                      numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :modalidade_base_calculo,    inclusion: {in: 0..3}
+						record.validates :modalidade_base_calculo,    presence: true
+					end
+					with_options if: lambda{|r| r.codigo_cst == '900' && r.aliquota_st.to_f > 0.0 } do |record|
+						record.validates :mva_st,                     numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_base_calculo_st,      numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_base_calculo_st,      presence: true
+						record.validates :total_st,                   numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_st,                   presence: true
+						record.validates :modalidade_base_calculo_st, inclusion: {in: 0..5}
+						record.validates :modalidade_base_calculo_st, presence: true
+					end
+					with_options if: lambda{|r| r.codigo_cst == '900' && r.aliquota_credito_sn.to_f > 0.0 } do |record|
+						record.validates :total_credito_sn, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+						record.validates :total_credito_sn, presence: true
 					end
 
 				private
