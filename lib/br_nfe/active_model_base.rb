@@ -12,7 +12,6 @@ module BrNfe
 		#    ~$ => pessoa
 		#
 		attr_accessor :reference
-		
 
 		def initialize(attributes = {})
 			attributes = default_values.merge!(attributes)

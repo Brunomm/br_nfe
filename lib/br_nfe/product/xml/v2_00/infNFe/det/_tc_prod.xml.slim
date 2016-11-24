@@ -25,7 +25,7 @@ vUnTrib  = nf_xml_value_float(   item.valor_unitario_tributavel, 10)
 indTot = nf_xml_value_boolean( item.soma_total_nfe )
 - item.declaracoes_importacao.each do |declaracao|
 	DI
-		= render_xml('_tc_di', declaracao: declaracao)
+		= render_xml('infNFe/det/prod/_tc_di', declaracao: declaracao)
 
 - if item.numero_pedido_compra.present?
 	xPed = nf_xml_value_number item.numero_pedido_compra, 15

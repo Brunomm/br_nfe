@@ -3,11 +3,11 @@ modFrete = transporte.modalidade_frete
 
 - if transporte.transportador
 	transporta
-		= render_xml '_tc_transporta', transporte: transporte
+		= render_xml 'infNFe/transp/_tc_transporta', transporte: transporte
 
 - if transporte.retencao_icms?
 	retTransp
-		= render_xml '_tc_ret_transp', transporte: transporte
+		= render_xml 'infNFe/transp/_tc_retTransp', transporte: transporte
 
 - if transporte.forma_transporte_veiculo? && transporte.veiculo
 	veicTransp
@@ -29,4 +29,4 @@ modFrete = transporte.modalidade_frete
 
 - volumes.each do |volume|
 	vol
-		= render_xml '_tc_volume', volume: volume
+		= render_xml 'infNFe/transp/_tc_vol', volume: volume
