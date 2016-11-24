@@ -5,6 +5,21 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 	let(:veiculo) { FactoryGirl.build(:product_transporte_veiculo) } 
 	let(:volume)  { FactoryGirl.build(:product_transporte_volume) } 
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :modFrete,   :modalidade_frete }
+		it { must_have_alias_attribute :vServ,      :retencao_valor_sevico }
+		it { must_have_alias_attribute :vBCRet,     :retencao_base_calculo_icms }
+		it { must_have_alias_attribute :pICMSRet,   :retencao_aliquota }
+		it { must_have_alias_attribute :vICMSRet,   :retencao_valor_icms }
+		it { must_have_alias_attribute :CFOP,       :retencao_cfop }
+		it { must_have_alias_attribute :cMunFG,     :retencao_codigo_municipio }
+		it { must_have_alias_attribute :veicTransp, :veiculo, BrNfe.veiculo_product_class.new }
+		it { must_have_alias_attribute :balsa,      :identificacao_balsa }
+		it { must_have_alias_attribute :vagao,      :identificacao_vagao }
+		it { must_have_alias_attribute :vol,        :volumes, [BrNfe.volume_transporte_product_class.new] }
+		it { must_have_alias_attribute :transporta, :transportador, BrNfe.transportador_product_class.new }
+	end
+
 	describe "#default_values" do
 		it '#modalidade_frete deve ter o padrão 9' do
 			subject.class.new.modalidade_frete.must_equal 9

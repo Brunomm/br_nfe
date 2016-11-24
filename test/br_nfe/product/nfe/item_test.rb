@@ -2,6 +2,38 @@ require 'test_helper'
 
 describe BrNfe::Product::Nfe::Item do
 	subject { FactoryGirl.build(:product_item) }
+
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :cProd,       :codigo_produto ,'1' }
+		it { must_have_alias_attribute :codigo_gtin, :codigo_ean ,'1' }
+		it { must_have_alias_attribute :cEAN,        :codigo_ean ,'1' }
+		it { must_have_alias_attribute :xProd,       :descricao_produto }
+		it { must_have_alias_attribute :NCM,         :codigo_ncm, '1' }
+		it { must_have_alias_attribute :NVE,         :codigos_nve, ['1'] }
+		it { must_have_alias_attribute :EXTIPI,      :codigo_extipi }
+		it { must_have_alias_attribute :CFOP,        :cfop, '' }
+		it { must_have_alias_attribute :uCom,        :unidade_comercial }
+		it { must_have_alias_attribute :qCom,        :quantidade_comercial }
+		it { must_have_alias_attribute :vUnCom,      :valor_unitario_comercial }
+		it { must_have_alias_attribute :vProd,       :valor_total_produto }
+		it { must_have_alias_attribute :codigo_gtin_tributavel, :codigo_ean_tributavel, '' }
+		it { must_have_alias_attribute :cEANTrib,    :codigo_ean_tributavel, '1' }
+		it { must_have_alias_attribute :uTrib,       :unidade_tributavel }
+		it { must_have_alias_attribute :qTrib,       :quantidade_tributavel }
+		it { must_have_alias_attribute :vUnTrib,     :valor_unitario_tributavel }
+		it { must_have_alias_attribute :vFrete,      :total_frete }
+		it { must_have_alias_attribute :vSeg,        :total_seguro }
+		it { must_have_alias_attribute :vDesc,       :total_desconto }
+		it { must_have_alias_attribute :vOutro,      :total_outros }
+		it { must_have_alias_attribute :indTot,      :soma_total_nfe }
+		it { must_have_alias_attribute :CEST,        :codigo_cest }
+		it { must_have_alias_attribute :DI,          :declaracoes_importacao, [BrNfe.declaracao_importacao_product_class.new] }
+		it { must_have_alias_attribute :detExport,   :detalhes_exportacao,    [BrNfe.detalhe_exportacao_product_class.new] }
+		it { must_have_alias_attribute :xPed,        :numero_pedido_compra }
+		it { must_have_alias_attribute :nItemPed,    :item_pedido_compra, '1' }
+		it { must_have_alias_attribute :nFCI,        :numero_fci }
+		it { must_have_alias_attribute :vTotTrib,    :total_tributos }
+	end
 	
 	describe 'Default values' do
 		it "for tipo_produto" do
@@ -136,9 +168,6 @@ describe BrNfe::Product::Nfe::Item do
 		it "Só aceita números" do
 			must_accept_only_numbers :codigo_ean
 		end
-		it "deve ter alias para codigo_gtin" do
-			must_have_alias_attribute :codigo_gtin, :codigo_ean, '1234'
-		end
 	end
 
 	describe '#codigo_produto' do
@@ -185,9 +214,6 @@ describe BrNfe::Product::Nfe::Item do
 	describe 'codigo_ean_tributavel' do
 		it "Só aceita números" do
 			must_accept_only_numbers :codigo_ean_tributavel
-		end
-		it "deve ter alias para codigo_gtin" do
-			must_have_alias_attribute :codigo_gtin_tributavel, :codigo_ean_tributavel, '1234'
 		end
 	end
 

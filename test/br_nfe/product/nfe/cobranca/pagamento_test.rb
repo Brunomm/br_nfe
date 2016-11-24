@@ -3,6 +3,14 @@ require 'test_helper'
 describe BrNfe::Product::Nfe::Cobranca::Pagamento do
 	subject { FactoryGirl.build(:product_cobranca_pagamento) }
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :tPag, :forma_pagamento }
+		it { must_have_alias_attribute :vPag, :total }
+		it { must_have_alias_attribute :CNPJ, :cartao_cnpj, '01234567890' }
+		it { must_have_alias_attribute :tBand, :cartao_bandeira }
+		it { must_have_alias_attribute :cAut, :cartao_autorizacao }
+	end
+
 	describe 'Validations' do
 		it { must validate_presence_of(:forma_pagamento) }
 		it { must validate_presence_of(:total) }

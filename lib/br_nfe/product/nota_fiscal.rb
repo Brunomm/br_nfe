@@ -13,12 +13,15 @@ module BrNfe
 			#      também para a NFC-e).
 			#  Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
 			# 
-			# <b>Type: </b> _Number_
-			# <b>Max: </b> _1_
+			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _1_
+			# <b>Default:  </b> _1_
+			# <b>Length:   </b> _1_
+			# <b>tag:      </b> tpEmis
 			#
 			attr_accessor :codigo_tipo_emissao
+			alias_attribute :tpEmis, :codigo_tipo_emissao
+
 
 			attr_accessor :chave_de_acesso
 
@@ -38,12 +41,15 @@ module BrNfe
 			# Resumo: É um código controlado pelo sistema. Pode por exemplo ser
 			#        utilizado o ID da tabela da nota fiscal.
 			# 
-			# <b>Type: </b> _Number_
-			# <b>Max: </b> _8_
+			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>Length:  </b> _max: 8_
+			# <b>tag:      </b> cNF
 			#
 			attr_accessor :codigo_nf
+			alias_attribute :cNF, :codigo_nf
+
 			
 			# Série do Documento Fiscal, preencher com zeros na hipótese
 			# de a NF-e não possuir série. (v2.0) 
@@ -52,22 +58,25 @@ module BrNfe
 			#    (procEmi=2). (v2.0)
 			# Serie 900-999: uso exclusivo de NF-e emitidas no SCAN. (v2.0)
 			#
-			# <b>Type: </b> _Number_
-			# <b>Max: </b> _3_
+			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>Length:   </b> _max: 3_
+			# <b>tag:      </b> serie
 			#
 			attr_accessor :serie
 
 			# Número do Documento Fiscal.
 			# Número da nota fiscal De fato
 			#
-			# <b>Type: </b> _Number_
-			# <b>Max: </b> _9_
+			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>Length:   </b> _max: 9_
+			# <b>tag:      </b> nNF
 			#
 			attr_accessor :numero_nf
+			alias_attribute :nNF, :numero_nf
 
 			# Descrição da Natureza da Operação
 			# Informar a natureza da operação de que decorrer a saída ou a
@@ -77,68 +86,80 @@ module BrNfe
 			# inciso I, art. 19 do CONVÊNIO S/No, de 15 de dezembro de
 			# 1970.
 			#
-			# <b>Type: </b> _String_
+			# <b>Type:     </b> _String_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _'Venda'_
+			# <b>Default:  </b> _'Venda'_
+			# <b>tag:      </b> natOp
 			#
 			attr_accessor :natureza_operacao
+			alias_attribute :natOp, :natureza_operacao
 
 			# Indicador da forma de pagamento
 			# 0=Pagamento à vista; (Default)
 			# 1=Pagamento a prazo;
 			# 2=Outros.
 			#
-			# <b>Type: </b> _Number_ OR _String_
-			# <b>Max: </b> _1_
+			# <b>Type:     </b> _Number_ OR _String_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _0_
+			# <b>Default:  </b> _0_
+			# <b>Length:   </b> _1_
+			# <b>tag:      </b> indPag
 			#
 			attr_accessor :forma_pagamento
+			alias_attribute :indPag, :forma_pagamento
 
 			# Código do Modelo do Documento Fiscal
 			# 55=NF-e emitida em substituição ao modelo 1 ou 1A; (Default)
 			# 65=NFC-e, utilizada nas operações de venda no varejo (a critério da UF aceitar este modelo de documento).
 			#
-			# <b>Type: </b> _Number_ OR _String_
-			# <b>Max: </b> _2_
+			# <b>Type:     </b> _Number_ OR _String_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _55_
+			# <b>Default:  </b> _55_
+			# <b>Length:   </b> _2_
+			# <b>tag:      </b> mod
 			#
 			attr_accessor :modelo_nf
+			alias_attribute :mod, :modelo_nf
 
 			# Data e hora de emissão do Documento Fiscal
 			#
-			# <b>Type: </b> _Time_
+			# <b>Type:     </b> _Time_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _Time.current_
+			# <b>Default:  </b> _Time.current_
+			# <b>tag:      </b> dhEmi
 			#
 			attr_accessor :data_hora_emissao
 			def data_hora_emissao
 				convert_to_time(@data_hora_emissao)
 			end
+			alias_attribute :dhEmi, :data_hora_emissao
 
 			# Data e hora de Saída ou da Entrada da Mercadoria/Produto
 			# Campo não considerado para a NFC-e.
 			#
-			# <b>Type: </b> _Time_
+			# <b>Type:     </b> _Time_
 			# <b>Required: </b> _Yes_ (apenas para modelo 55)
-			# <b>Default: </b> _Time.current_
+			# <b>Default:  </b> _Time.current_
+			# <b>tag:      </b> dhSaiEnt
 			#
 			attr_accessor :data_hora_expedicao
 			def data_hora_expedicao
 				convert_to_time(@data_hora_expedicao)
 			end
+			alias_attribute :dhSaiEnt, :data_hora_expedicao
 
 			# Tipo de Operação
 			# 0=Entrada;
 			# 1=Saída (Default)
 			#
-			# <b>Type: </b> _Number_ OR _String_
-			# <b>Max: </b> _1_
+			# <b>Type:     </b> _Number_ OR _String_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _1_
+			# <b>Default:  </b> _1_
+			# <b>Length:   </b> _1_
+			# <b>tag:      </b> tpNF
 			#
 			attr_accessor :tipo_operacao
+			alias_attribute :tpNF, :tipo_operacao
 
 			# Formato de Impressão do DANFE
 			# 0=Sem geração de DANFE;
@@ -151,9 +172,11 @@ module BrNfe
 			#   quando esta for a única forma de disponibilização do DANFE).
 			#
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _1_
+			# <b>Default:  </b> _1_
+			# <b>tag:      </b> tpEmis
 			#
 			attr_accessor :tipo_impressao
+			alias_attribute :tpEmis, :tipo_impressao
 
 			# Finalidade de emissão da NF-e
 			# 1=NF-e normal; (Default)
@@ -162,9 +185,11 @@ module BrNfe
 			# 4=Devolução de mercadoria.
 			#
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _1_
+			# <b>Default:  </b> _1_
+			# <b>tag:      </b> finNFe
 			#
 			attr_accessor :finalidade_emissao
+			alias_attribute :finNFe, :finalidade_emissao
 
 
 			# Indica operação com Consumidor final
@@ -173,14 +198,16 @@ module BrNfe
 			#
 			# Preencher esse campo com true ou false
 			#
-			# <b>Type: </b> _Boolean_
+			# <b>Type:     </b> _Boolean_
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _false_
+			# <b>Default:  </b> _false_
+			# <b>tag:      </b> indFinal
 			#
 			attr_accessor :consumidor_final
 			def consumidor_final
 				convert_to_boolean(@consumidor_final)
 			end
+			alias_attribute :indFinal, :consumidor_final
 
 			# Indicador de presença do comprador no estabelecimento comercial no 
 			# momento da operação:
@@ -192,9 +219,11 @@ module BrNfe
 			#   9=Operação não presencial, outros. (Default)
 			#
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _9_
+			# <b>Default:  </b> _9_
+			# <b>tag:      </b> indPres
 			#
 			attr_accessor :presenca_comprador
+			alias_attribute :indPres, :presenca_comprador
 
 			# Processo de emissão da NF-e
 			# 0=Emissão de NF-e com aplicativo do contribuinte; (Default)
@@ -203,32 +232,39 @@ module BrNfe
 			# 3=Emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco.
 			#
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _0_
+			# <b>Default:  </b> _0_
+			# <b>tag:      </b> procEmi
 			#
 			attr_accessor :processo_emissao
+			alias_attribute :procEmi, :processo_emissao
 
 			# Versão do Processo de emissão da NF-e
 			# Informar a versão do aplicativo emissor de NF-e.
 			#
 			# <b>Required: </b> _Yes_
-			# <b>Default: </b> _0_
+			# <b>Default:  </b> _0_
+			# <b>tag:      </b> verProc
 			#
 			attr_accessor :versao_aplicativo
+			alias_attribute :verProc, :versao_aplicativo
 
 			# Endereço da retirada da mercadoria
 			#
-			# <b>Type: </b> _BrNfe.endereco_class_
+			# <b>Type:     </b> _BrNfe.endereco_class_
 			# <b>Required: </b> _No_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>tag:      </b> retirada
 			#
 			has_one :endereco_retirada, 'BrNfe.endereco_class'
+			alias_attribute :retirada, :endereco_retirada
 			
 			# CPF ou CNPJ do local de retirada da mercadoria.
 			# Só é obrigatório se o endereco_retirada for preenchido
 			#
-			# <b>Type: </b> _String_
+			# <b>Type:     </b> _String_
 			# <b>Required: </b> _No_ (_Yes_ if endereco_retirada is present)
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>tag:      </b> retirada/CPF ou retirada/CNPJ
 			#
 			attr_accessor :endereco_retirada_cpf_cnpj
 			def endereco_retirada_cpf_cnpj
@@ -240,18 +276,21 @@ module BrNfe
 			# Endereço da entrega da mercadoria
 			# Informar apenas quando for diferente do endereço do destinatário
 			#
-			# <b>Type: </b> _BrNfe.endereco_class_
+			# <b>Type:     </b> _BrNfe.endereco_class_
 			# <b>Required: </b> _No_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>tag:      </b> entrega
 			#
 			has_one :endereco_entrega, 'BrNfe.endereco_class'
+			alias_attribute :entrega, :endereco_entrega
 			
 			# CPF ou CNPJ do local de entrega da mercadoria.
 			# Só é obrigatório se o endereco_entrega for preenchido
 			#
-			# <b>Type: </b> _String_
+			# <b>Type:     </b> _String_
 			# <b>Required: </b> _No_ (_Yes_ if endereco_entrega is present)
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>tag:      </b> entrega/CPF ou entrega/CNPJ
 			#
 			attr_accessor :endereco_entrega_cpf_cnpj
 			def endereco_entrega_cpf_cnpj
@@ -262,9 +301,10 @@ module BrNfe
 			# CPF ou CNPJ das pessoas que estão autorizadas a fazer o download do XML da NF-e.
 			# Deve ser um Array com os CPF's e CNPJ's válidos.
 			#
-			# <b>Type: </b> _Array_
+			# <b>Type:     </b> _Array_
 			# <b>Required: </b> _No_
-			# <b>Default: </b> _[]_
+			# <b>Default:  </b> _[]_
+			# <b>tag:      </b> autXML
 			#
 			attr_accessor :autorizados_download_xml
 			def autorizados_download_xml
@@ -272,15 +312,18 @@ module BrNfe
 				@autorizados_download_xml.compact!
 				@autorizados_download_xml
 			end
+			alias_attribute :autXML, :autorizados_download_xml
 
 			# Transporte da mercadoria
 			# Informações referentes ao transporte da mercadoria.
 			#
-			# <b>Type: </b> _BrNfe.transporte_product_class_
+			# <b>Type:     </b> _BrNfe.transporte_product_class_
 			# <b>Required: </b> _No_
-			# <b>Default: </b> _nil_
+			# <b>Default:  </b> _nil_
+			# <b>tag:      </b> transp
 			#
 			has_one :transporte, 'BrNfe.transporte_product_class'
+			alias_attribute :transp, :transporte
 
 			# Dados da cobrança da NF-e
 			# Fatura e Duplicatas da Nota Fiscal
@@ -290,12 +333,15 @@ module BrNfe
 			#    self.fatura.duplicatas
 			#    => [#<::Cobranca::Duplicata:0x00000006302b80 ...>, #<::Cobranca::Duplicata:0x00000046465bw4 ...>] 
 			#
-			# <b>Type: </b> _BrNfe.fatura_product_class_
+			# <b>Type:     </b> _BrNfe.fatura_product_class_
 			# <b>Required: </b> _No_
-			# <b>Default: </b> _nil_
-			# <b>Exemplo: </b> _BrNfe::Product::Nfe::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
+			# <b>Default:  </b> _nil_
+			# <b>Exemplo:  </b> _BrNfe::Product::Nfe::Cobranca::Fatura.new(numero_fatura: 'FAT646498'...)_
+			# <b>tag:      </b> cobr
 			#
 			has_one :fatura, 'BrNfe.fatura_product_class'
+			alias_attribute :cobranca, :fatura
+			alias_attribute :cobr, :fatura
 			
 			# Array com as informações dos pagamentos
 			# IMPORTANTE: Utilizado apenas para NFC-e
@@ -315,12 +361,14 @@ module BrNfe
 			#
 			# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.pagamento_product_class`
 			#
-			# <b>Tipo: </b> _BrNfe.pagamento_product_class (BrNfe::Product::Nfe::Cobranca::Pagamento)_
-			# <b>Min: </b> _0_
-			# <b>Max: </b> _100_
+			# <b>Tipo:    </b> _BrNfe.pagamento_product_class (BrNfe::Product::Nfe::Cobranca::Pagamento)_
+			# <b>Min:     </b> _0_
+			# <b>Max:     </b> _100_
 			# <b>Default: </b> _[]_
+			# <b>tag:     </b> pag
 			#
 			has_many :pagamentos, 'BrNfe.pagamento_product_class'
+			alias_attribute :pag, :pagamentos
 
 			def default_values
 				{

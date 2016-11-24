@@ -3,6 +3,13 @@ require 'test_helper'
 describe BrNfe::Product::Nfe::DetalheExportacao do
 	subject { FactoryGirl.build(:product_detalhe_exportacao) }
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :nDraw,    :numero_drawback, '1' }
+		it { must_have_alias_attribute :nRE,      :numero_registro, '1' }
+		it { must_have_alias_attribute :chNFe,    :chave_nfe_recebida, '1' }
+		it { must_have_alias_attribute :qExport,  :quantidade }
+	end
+
 	describe 'Validações' do
 		before { MiniTest::Spec.string_for_validation_length = '1' }
 		after  { MiniTest::Spec.string_for_validation_length = 'x' }

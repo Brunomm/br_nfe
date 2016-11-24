@@ -15,33 +15,39 @@ module BrNfe
 					# 13=Vale Combustível
 					# 99=Outros
 					# 
-					# <b>Type: </b> _Number_
-					# <b>Size: </b> _2_
+					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
-					# <b>Exemplo: </b> _1_ ou _'01'_
+					# <b>Exemplo:  </b> _1_ ou _'01'_
+					# <b>Length:   </b> _2_
+					# <b>tag:      </b> tPag
 					#
 					attr_accessor :forma_pagamento
+					alias_attribute :tPag, :forma_pagamento
 
 					# Valor do pagamento
 					# 
-					# <b>Type: </b> _Float_
+					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _Yes_
-					# <b>Exemplo: </b> _1500.50_
+					# <b>Exemplo:  </b> _1500.50_
+					# <b>tag:      </b> vPag
 					#
 					attr_accessor :total
+					alias_attribute :vPag, :total
 
 					# CNPJ da Credenciadora de cartão de crédito e/ou débito
 					# Informar o CNPJ da Credenciadora de cartão de crédito / débito
 					# 
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_ (if forma_pagamento IN [3, 4] )
-					# <b>Exemplo: </b> _12.123.456/0001-88_ ou _12345678901234_
+					# <b>Exemplo:  </b> _12.123.456/0001-88_ ou _12345678901234_
+					# <b>tag:      </b> CNPJ
 					#
 					attr_accessor :cartao_cnpj
 					def cartao_cnpj
 						return unless @cartao_cnpj.present?
 						BrNfe::Helper::CpfCnpj.new(@cartao_cnpj).sem_formatacao
 					end
+					alias_attribute :CNPJ, :cartao_cnpj
 
 					# Bandeira da operadora de cartão de crédito e/ou débito
 					# 01=Visa
@@ -50,21 +56,25 @@ module BrNfe
 					# 04=Sorocred
 					# 99=Outros
 					# 
-					# <b>Type: </b> _Number_
+					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_ (if forma_pagamento IN [3, 4] )
-					# <b>Exemplo: </b> _1_ ou _'02'_
+					# <b>Exemplo:  </b> _1_ ou _'02'_
+					# <b>tag:      </b> tBand
 					#
 					attr_accessor :cartao_bandeira
+					alias_attribute :tBand, :cartao_bandeira
 
 					# Número de autorização da operação cartão de crédito e/ou débito.
 					# Identifica o número da autorização da transação da operação com 
 					# cartão de crédito e/ou débito
 					#
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_ (if forma_pagamento IN [3, 4] )
-					# <b>Exemplo: </b> _'9799844646'_
+					# <b>Exemplo:  </b> _'9799844646'_
+					# <b>tag:      </b> cAut
 					#
 					attr_accessor :cartao_autorizacao
+					alias_attribute :cAut, :cartao_autorizacao
 
 					validates :forma_pagamento, :total, presence: true
 					validates :forma_pagamento, inclusion: {in: BrNfe::Constants::FORMAS_PAGAMENTO}

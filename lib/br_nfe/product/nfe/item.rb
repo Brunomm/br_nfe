@@ -7,10 +7,10 @@ module BrNfe
 					# Utilizado apenas para fins de validação.
 					# informa se o item da NF-e é um produto ou um serviço.
 					# 
-					# <b>Type: </b> _Symbol_
-					# <b>Required: </b> _Yes_
-					# <b>Default: </b> _:product_
-					# <b>Example: </b> _:service_
+					# <b>Type:      </b> _Symbol_
+					# <b>Required:  </b> _Yes_
+					# <b>Default:   </b> _:product_
+					# <b>Example:   </b> _:service_
 					# <b>Avaliable: </b> _one of [:product, :service, :other]_
 					#
 					attr_accessor :tipo_produto
@@ -28,12 +28,14 @@ module BrNfe
 					# <b>Default:  </b> _CFOP#{cfop}_
 					# <b>Example:  </b> _COD65452_
 					# <b>Length:   </b> _max: 60_
+					# <b>tag:      </b> cProd
 					#
 					attr_accessor :codigo_produto
 					def codigo_produto
 						@codigo_produto = "CFOP#{cfop}" if @codigo_produto.blank? && cfop.present?
 						"#{@codigo_produto}"
 					end
+					alias_attribute :cProd, :codigo_produto
 
 					# GTIN (Global Trade Item Number) do produto, antigo código EAN ou código de barras
 					# Preencher com o código GTIN-8, GTIN-12, GTIN-13 ou GTIN-14 
@@ -46,9 +48,11 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _12345678_
 					# <b>Length:   </b> _max: 14_
+					# <b>tag:      </b> cEAN
 					#
 					attr_accessor :codigo_ean
 					alias_attribute :codigo_gtin, :codigo_ean
+					alias_attribute :cEAN, :codigo_ean
 					def codigo_ean
 						"#{@codigo_ean}".gsub(/[^\d]/,'')
 					end
@@ -59,8 +63,10 @@ module BrNfe
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _COPO DE PLÁSTICO 700 ML PARATA_
 					# <b>Length:   </b> _max: 120_
+					# <b>tag:      </b> xProd
 					#
 					attr_accessor :descricao_produto
+					alias_attribute :xProd, :descricao_produto
 
 					# Código NCM com 8 dígitos 
 					# Obrigatória informação do NCM completo (8 dígitos).
@@ -75,6 +81,7 @@ module BrNfe
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _'12345678'_ OR _123454_
 					# <b>Length:   </b> _max: 8(:product) OR max: 2(not :product)_
+					# <b>tag:      </b> NCM
 					#
 					attr_accessor :codigo_ncm
 					def codigo_ncm
@@ -83,6 +90,7 @@ module BrNfe
 						end
 						"#{@codigo_ncm}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :NCM, :codigo_ncm
 
 					# Codificação NVE - Nomenclatura de Valor Aduaneiro e Estatística.
 					# Codificação opcional que detalha alguns NCM.
@@ -95,6 +103,7 @@ module BrNfe
 					# <b>Example:  </b> _['AB12324','AB5678'] OU 'AB4567'_
 					# <b>Length:   </b> _max: 8_
 					#
+					# <b>tag:      </b> NVE
 					attr_accessor :codigos_nve
 					def codigos_nve
 						@codigos_nve = [@codigos_nve] unless @codigos_nve.is_a?(Array)
@@ -102,6 +111,7 @@ module BrNfe
 						@codigos_nve.compact!
 						@codigos_nve
 					end
+					alias_attribute :NVE, :codigos_nve
 
 					# Código da Tabela de Incidência do IPI - TIPI
 					# Preencher de acordo com o código EX da TIPI. Em caso de
@@ -111,9 +121,11 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _123_
 					# <b>Length:   </b> _min: 2, max: 3_
+					# <b>tag:      </b> EXTIPI
 					#
 					attr_accessor :codigo_extipi
-					
+					alias_attribute :EXTIPI, :codigo_extipi
+
 					# Código Fiscal de Operações e Prestações
 					# Utilizar a Tabela de CFOPs para preencher essa informação.
 					#
@@ -124,11 +136,13 @@ module BrNfe
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _'5.102'_ OR _5102_
 					# <b>Length:   </b> _4_
+					# <b>tag:      </b> CFOP
 					#
 					attr_accessor :cfop
 					def cfop
 						"#{@cfop}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :CFOP, :cfop
 
 					# Unidade Comercial
 					# informar a unidade de comercialização do produto 
@@ -138,8 +152,10 @@ module BrNfe
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _KG_
 					# <b>Length:   </b> _max: 6_
+					# <b>tag:      </b> uCom
 					#
 					attr_accessor :unidade_comercial
+					alias_attribute :uCom, :unidade_comercial
 
 					# Quantidade Comercial
 					# Informar a quantidade de comercialização do produto (v2.0).
@@ -147,8 +163,10 @@ module BrNfe
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _2.5_
+					# <b>tag:      </b> qCom
 					#
 					attr_accessor :quantidade_comercial
+					alias_attribute :qCom, :quantidade_comercial
 
 					# Valor Unitário de Comercialização
 					# Informar o valor unitário de comercialização do produto, campo
@@ -160,20 +178,24 @@ module BrNfe
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vUnCom
 					#
 					attr_accessor :valor_unitario_comercial
 					def valor_unitario_comercial
 						@valor_unitario_comercial ||= valor_unitario_comercial_calculation
 						@valor_unitario_comercial
 					end
+					alias_attribute :vUnCom, :valor_unitario_comercial
 
 					# Valor Total Bruto dos Produtos ou Serviços
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _3122.55_ OU _100_
+					# <b>tag:      </b> vProd
 					#
 					attr_accessor :valor_total_produto
+					alias_attribute :vProd, :valor_total_produto
 
 					# GTIN (Global Trade Item Number) da unidade tributável, 
 					# antigo código EAN ou código de barras
@@ -188,12 +210,30 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _12345678_
 					# <b>Length:   </b> _max: 14_
+					# <b>tag:      </b> cEANTrib
 					#
 					attr_accessor :codigo_ean_tributavel
 					alias_attribute :codigo_gtin_tributavel, :codigo_ean_tributavel
 					def codigo_ean_tributavel
 						"#{@codigo_ean_tributavel}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :cEANTrib, :codigo_ean_tributavel
+
+					# Unidade Tributável
+					# Informar a unidade de tributação do produto 
+					# (Ex. pc, und, dz, kg, etc.).
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _Yes_
+					# <b>Example:  </b> _KG_
+					# <b>Length:   </b> _max: 6_
+					# <b>tag:      </b> uTrib
+					#
+					attr_accessor :unidade_tributavel
+					def unidade_tributavel
+						@unidade_tributavel ||= unidade_comercial
+					end
+					alias_attribute :uTrib, :unidade_tributavel
 
 					# Quantidade Tributável
 					# Informar a quantidade de tributação do produto (v2.0).
@@ -218,24 +258,14 @@ module BrNfe
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _2.5_
+					# <b>tag:      </b> qTrib
 					#
 					attr_accessor :quantidade_tributavel
 					def quantidade_tributavel
 						@quantidade_tributavel ||= quantidade_comercial
 					end
-					# Unidade Tributável
-					# Informar a unidade de tributação do produto 
-					# (Ex. pc, und, dz, kg, etc.).
-					#
-					# <b>Type:     </b> _String_
-					# <b>Required: </b> _Yes_
-					# <b>Example:  </b> _KG_
-					# <b>Length:   </b> _max: 6_
-					#
-					attr_accessor :unidade_tributavel
-					def unidade_tributavel
-						@unidade_tributavel ||= unidade_comercial
-					end
+					alias_attribute :qTrib, :quantidade_tributavel
+
 					# Valor Unitário de tributação
 					# Informar o valor unitário de tributação do produto, campo
 					# meramente informativo, o contribuinte pode utilizar a precisão
@@ -246,44 +276,54 @@ module BrNfe
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vUnTrib
 					#
 					attr_accessor :valor_unitario_tributavel
 					def valor_unitario_tributavel
 						@valor_unitario_tributavel ||= valor_unitario_tributavel_calculation
 						@valor_unitario_tributavel
 					end
+					alias_attribute :vUnTrib, :valor_unitario_tributavel
 
 					# Valor Total do Frete
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vFrete
 					#
 					attr_accessor :total_frete
+					alias_attribute :vFrete, :total_frete
 
 					# Valor Total do Seguro
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vSeg
 					#
 					attr_accessor :total_seguro
+					alias_attribute :vSeg, :total_seguro
 
 					# Valor do Desconto
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vDesc
 					#
 					attr_accessor :total_desconto
+					alias_attribute :vDesc, :total_desconto
 
 					# Outras despesas acessórias
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _22.5_ OU _2_
+					# <b>tag:      </b> vOutro
 					#
 					attr_accessor :total_outros
+					alias_attribute :vOutro, :total_outros
 
 					# Indica se valor do Item (vProd) entra no valor total da NF-e (vProd)
 					#   0=Valor do item (vProd) não compõe o valor total da NF-e
@@ -298,8 +338,10 @@ module BrNfe
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _true_
 					# <b>Default:  </b> _true_
+					# <b>tag:      </b> indTot
 					#
 					attr_accessor :soma_total_nfe
+					alias_attribute :indTot, :soma_total_nfe
 
 					# Código CEST
 					# Código Especificador da Substituição Tributária – CEST, que
@@ -312,8 +354,10 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _1234567_
 					# <b>Length:   </b> _7_
+					# <b>tag:      </b> CEST
 					#
 					attr_accessor :codigo_cest
+					alias_attribute :CEST, :codigo_cest
 
 					# Declaração de Importação
 					# Informar dados da importação
@@ -325,6 +369,7 @@ module BrNfe
 					# <b>tag:      </b> DI
 					#
 					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class'
+					alias_attribute :DI, :declaracoes_importacao
 					
 					# GRUPO DE INFORMAÇÕES DE EXPORTAÇÃO PARA O ITEM
 					# Informar apenas no Drawback e nas exportações
@@ -336,6 +381,7 @@ module BrNfe
 					# <b>tag:      </b> detExport
 					#
 					has_many :detalhes_exportacao, 'BrNfe.detalhe_exportacao_product_class'
+					alias_attribute :detExport, :detalhes_exportacao
 
 					# NÚMERO DO PEDIDO DE COMPRA
 					# Informação de interesse do emissor para controle do B2B. (v2.0)
@@ -347,6 +393,7 @@ module BrNfe
 					# <b>tag:      </b> xPed
 					#
 					attr_accessor :numero_pedido_compra
+					alias_attribute :xPed, :numero_pedido_compra
 
 					# ITEM DO PEDIDO DE COMPRA
 					#
@@ -354,12 +401,13 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _1234567_
 					# <b>Length:   </b> _max: 15_
-					# <b>tag:      </b> xPed
+					# <b>tag:      </b> nItemPed
 					#
 					attr_accessor :item_pedido_compra
 					def item_pedido_compra
 						"#{@item_pedido_compra}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :nItemPed, :item_pedido_compra
 
 					# NÚMERO DE CONTROLE DA FCI - FICHA DE CONTEÚDO DE IMPORTAÇÃO
 					# Informação relacionada com a Resolução 13/2012 do Senado
@@ -373,6 +421,7 @@ module BrNfe
 					# <b>tag:      </b> nFCI
 					#
 					attr_accessor :numero_fci
+					alias_attribute :nFCI, :numero_fci
 
 					# VALOR TOTAL DE TRIBUTOS FEDERAIS, ESTADUAIS E MUNICIPAIS
 					# NT 2013/003
@@ -384,7 +433,7 @@ module BrNfe
 					# <b>tag:      </b> vTotTrib
 					#
 					attr_accessor :total_tributos
-
+					alias_attribute :vTotTrib, :total_tributos
 
 				def default_values
 					{

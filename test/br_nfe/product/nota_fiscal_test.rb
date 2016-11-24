@@ -5,8 +5,32 @@ describe BrNfe::Product::NotaFiscal do
 	let(:endereco) { FactoryGirl.build(:endereco) } 
 	let(:emitente) { FactoryGirl.build(:product_emitente, endereco: endereco) } 
 
-	let(:pagamento) { FactoryGirl.build(:product_cobranca_pagamento) } 
+	let(:pagamento) { FactoryGirl.build(:product_cobranca_pagamento) }
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :tpEmis,   :codigo_tipo_emissao }
+		it { must_have_alias_attribute :cNF,      :codigo_nf }
+		it { must_have_alias_attribute :nNF,      :numero_nf }
+		it { must_have_alias_attribute :natOp,    :natureza_operacao }
+		it { must_have_alias_attribute :indPag,   :forma_pagamento }
+		it { must_have_alias_attribute :mod,      :modelo_nf }
+		it { must_have_alias_attribute :dhEmi,    :data_hora_emissao,   Time.current }
+		it { must_have_alias_attribute :dhSaiEnt, :data_hora_expedicao, Time.current }
+		it { must_have_alias_attribute :tpNF,     :tipo_operacao }
+		it { must_have_alias_attribute :tpEmis,   :tipo_impressao }
+		it { must_have_alias_attribute :finNFe,   :finalidade_emissao }
+		it { must_have_alias_attribute :indFinal, :consumidor_final, true }
+		it { must_have_alias_attribute :indPres,  :presenca_comprador }
+		it { must_have_alias_attribute :procEmi,  :processo_emissao }
+		it { must_have_alias_attribute :verProc,  :versao_aplicativo, '0' }
+		it { must_have_alias_attribute :retirada, :endereco_retirada, BrNfe.endereco_class.new }
+		it { must_have_alias_attribute :entrega,  :endereco_entrega,  BrNfe.endereco_class.new }
+		it { must_have_alias_attribute :autXML,   :autorizados_download_xml, ['12345678901'] }
+		it { must_have_alias_attribute :transp,   :transporte,BrNfe.transporte_product_class.new }
+		it { must_have_alias_attribute :cobranca, :fatura, BrNfe.fatura_product_class.new }
+		it { must_have_alias_attribute :cobr,     :fatura, BrNfe.fatura_product_class.new }
+		it { must_have_alias_attribute :pag,      :pagamentos, [BrNfe.pagamento_product_class.new] }
+	end
 	describe "#default_values" do
 		it '#versao_aplicativo deve ter o padrão 0' do
 			subject.class.new.versao_aplicativo.must_equal 0

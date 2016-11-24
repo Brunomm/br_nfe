@@ -13,8 +13,9 @@ module BrNfe
 					# Esse attr só irá considerar as letras e números, onde as letras sempre
 					# vai converter para maiúsculo
 					#
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
+					# <b>tag:      </b> placa
 					#
 					attr_accessor :placa
 					def placa
@@ -23,17 +24,19 @@ module BrNfe
 
 					# Sigla da UF
 					#
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
-					# <b>Size: </b> _2_
+					# <b>Length:   </b> _2_
+					# <b>tag:      </b> UF
 					#
 					attr_accessor :uf
 
 					# Registro Nacional de Transportador de Carga (ANTT)
 					#
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
-					# <b>Max Size: </b> _20_
+					# <b>Length:   </b> _max: 20_
+					# <b>tag:      </b> RNTC
 					#
 					attr_accessor :rntc
 

@@ -10,12 +10,15 @@ module BrNfe
 					# 2- Por conta de terceiros; 
 					# 9- Sem frete
 					# 
-					# <b>Type: </b> _Number_
-					# <b>Max: </b> _1_
+					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
-					# <b>Default: </b> _9_
+					# <b>Default:  </b> _9_
+					# <b>Length:   </b> _1_
+					# <b>tag:      </b> modFrete
 					#
 					attr_accessor :modalidade_frete
+					alias_attribute :modFrete, :modalidade_frete
+
 
 					##############################################################################
 					#################### Dados da retenção ICMS do Transporte ####################
@@ -24,6 +27,7 @@ module BrNfe
 						# aplica as validações e adiciona a tag no XML
 						#
 						# <b>Type: </b> _Boolean_
+						# <b>tag:  </b> retTransp
 						#
 						def retencao_icms?
 							retencao_valor_sevico.to_f > 0.0
@@ -31,93 +35,112 @@ module BrNfe
 
 						# Valor do serviço
 						#
-						# <b>Type: </b> _Float_
+						# <b>Type:     </b> _Float_
 						# <b>Required: </b> _No_
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> vServ
 						#
 						attr_accessor :retencao_valor_sevico
+						alias_attribute :vServ, :retencao_valor_sevico
 
 						# Base de Cálculo da Retenção do ICMS
 						#
-						# <b>Type: </b> _Float_
+						# <b>Type:     </b> _Float_
 						# <b>Required: </b> _No_
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> vBCRet
 						#
 						attr_accessor :retencao_base_calculo_icms
+						alias_attribute :vBCRet, :retencao_base_calculo_icms
 
 						# Percentual de aliquota da retenção do ICMS
 						# Exemplo: 
 						#  Se a aliquota for de 2,56% então deve setar o valor para
 						#  o atrubuto assim: self.retencao_aliquota = 2.56
 						#
-						# <b>Type: </b> _Float_
+						# <b>Type:     </b> _Float_
 						# <b>Required: </b> _No_
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> pICMSRet
 						#
 						attr_accessor :retencao_aliquota
+						alias_attribute :pICMSRet, :retencao_aliquota
 
 						# Valor do ICMS Retido
 						# Caso não seja setado nenhum valor, irá calcular automaticamente
 						# através dos atributos 'retencao_base_calculo_icms' e 'retencao_aliquota'
 						#
-						# <b>Type: </b> _Float_
+						# <b>Type:     </b> _Float_
 						# <b>Required: </b> _No_
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> vICMSRet
 						#
 						attr_accessor :retencao_valor_icms
 						def retencao_valor_icms
 							@retencao_valor_icms || calculate_retencao_valor_icms
 						end
+						alias_attribute :vICMSRet, :retencao_valor_icms
 
 						# CFOP de Serviço de Transporte
 						#
-						# <b>Type: </b> _Number_
+						# <b>Type:     </b> _Number_
 						# <b>Required: </b> _No_ (Yes if retencao_icms?)
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> CFOP
 						#
 						attr_accessor :retencao_cfop
+						alias_attribute :CFOP, :retencao_cfop
 
 						# Código do município de ocorrência do fato gerador 
 						# do ICMS do transporte
 						#
-						# <b>Type: </b> _Number_
+						# <b>Type:     </b> _Number_
 						# <b>Required: </b> _No_ (Yes if retencao_icms?)
-						# <b>Default: </b> _nil_
+						# <b>Default:  </b> _nil_
+						# <b>tag:      </b> cMunFG
 						#
 						attr_accessor :retencao_codigo_municipio
+						alias_attribute :cMunFG, :retencao_codigo_municipio
 
 					# Attr utilizado para saber como será validado os dados do 
 					# 'veiculo' utilizado para transportar a carga.
 					#
 					# <b>Type: </b> _Symbol_
-					# <b>Required: </b> _Yes_
-					# <b>Default: </b> _:veiculo_
-					# <b>Permited values: </b> _:veiculo, :balsa, :vagao_
+					# <b>Allowed:   </b> _:veiculo, :balsa, :vagao_
+					# <b>Required:  </b> _Yes_
+					# <b>Default:   </b> _:veiculo_
 					#
 					attr_accessor :forma_transporte
-
+					
 					# Veículo de transporte
 					# Utilizado quando a forma de transporte for com :veiculo
 					#
-					# <b>Type: </b> _BrNfe.veiculo_product_class_
+					# <b>Type:     </b> _BrNfe.veiculo_product_class_
 					# <b>Required: </b> _No_ (Yes if forma_transporte == :veiculo)
-					# <b>Default: </b> _nil_
+					# <b>Default:  </b> _nil_
+					# <b>tag:      </b> veicTransp
 					#
 					has_one :veiculo, 'BrNfe.veiculo_product_class'
+					alias_attribute :veicTransp, :veiculo
+
 
 					# Identificação da balsa (v2.0)
 					#
-					# <b>Type: </b> _String_
+					# <b>Type:     </b> _String_
 					# <b>Required: </b> _No_ (Yes if forma_transporte == :balsa)
+					# <b>tag:      </b> balsa
 					#
 					attr_accessor :identificacao_balsa
+					alias_attribute :balsa, :identificacao_balsa
 
 					# Identificação do vagao (v2.0)
 					#
 					# <b>Type: </b> _String_
 					# <b>Required: </b> _No_ (Yes if forma_transporte == :vagao)
+					# <b>tag:      </b> vagao
 					#
 					attr_accessor :identificacao_vagao
+					alias_attribute :vagao, :identificacao_vagao
 
 					# Array com os reboques utilizados para transportar a carga
 					# Pode ser adicionado os dados dos reboques em forma de `Hash` ou
@@ -135,10 +158,10 @@ module BrNfe
 					#
 					# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.veiculo_product_class`
 					#
-					# <b>Tipo: </b> _BrNfe.veiculo_product_class (BrNfe::Product::Nfe::Transporte::Veiculo)_
-					# <b>Min: </b> _0_
-					# <b>Max: </b> _5_
+					# <b>Tipo:    </b> _BrNfe.veiculo_product_class (BrNfe::Product::Nfe::Transporte::Veiculo)_
+					# <b>Length:  </b> _min: 0, max: 5_
 					# <b>Default: </b> _[]_
+					# <b>tag:     </b> reboque
 					#
 					has_many :reboques, 'BrNfe.veiculo_product_class'
 
@@ -158,19 +181,23 @@ module BrNfe
 					#
 					# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.volume_transporte_product_class`
 					#
-					# <b>Tipo: </b> _BrNfe.volume_transporte_product_class (BrNfe::Product::Nfe::Transporte::Volume)_
+					# <b>Tipo:    </b> _BrNfe.volume_transporte_product_class (BrNfe::Product::Nfe::Transporte::Volume)_
 					# <b>Default: </b> _[]_
+					# <b>tag:     </b> vol
 					#
 					has_many :volumes, 'BrNfe.volume_transporte_product_class'
+					alias_attribute :vol, :volumes
 
 					# Transportador da mercadoria
 					# Dados da transportadora que irá `transportar` a mercadoria.
 					#
-					# <b>Type: </b> _BrNfe.transportador_product_class_
+					# <b>Type:     </b> _BrNfe.transportador_product_class_
 					# <b>Required: </b> _No_
-					# <b>Default: </b> _nil_
+					# <b>Default:  </b> _nil_
+					# <b>tag:      </b> transporta
 					#
 					has_one :transportador, 'BrNfe.transportador_product_class'
+					alias_attribute :transporta, :transportador
 					
 					
 					def default_values

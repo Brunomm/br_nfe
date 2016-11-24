@@ -2,6 +2,14 @@ require 'test_helper'
 
 describe BrNfe::Product::Nfe::Transporte::Volume do
 	subject { FactoryGirl.build(:product_transporte_volume) }
+	
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :qVol,  :quantidade }
+		it { must_have_alias_attribute :esp,   :especie }
+		it { must_have_alias_attribute :nVol,  :numercao }
+		it { must_have_alias_attribute :pesoL, :peso_liquido }
+		it { must_have_alias_attribute :pesoB, :peso_bruto }
+	end
 
 	describe "#validations" do
 		it "Pode haver no máximi 5000 lacres" do

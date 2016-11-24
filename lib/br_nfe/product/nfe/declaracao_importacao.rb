@@ -12,6 +12,8 @@ module BrNfe
 				# <b>tag:      </b> nDI
 				#
 				attr_accessor :numero_documento
+				alias_attribute :nDI, :numero_documento
+
 
 				# Data de Registro do documento
 				# 
@@ -24,6 +26,7 @@ module BrNfe
 				def data_registro
 					convert_to_date(@data_registro)
 				end
+				alias_attribute :dDI, :data_registro
 				
 				# Local de desembaraço
 				# 
@@ -34,6 +37,7 @@ module BrNfe
 				# <b>tag:      </b> xLocDesemb
 				#
 				attr_accessor :local_desembaraco
+				alias_attribute :xLocDesemb, :local_desembaraco
 
 				# UF do desembaraço
 				# Sigla da UF onde ocorreu o Desembaraço Aduaneiro
@@ -45,6 +49,7 @@ module BrNfe
 				# <b>tag:      </b> UFDesemb
 				#
 				attr_accessor :uf_desembaraco
+				alias_attribute :UFDesemb, :uf_desembaraco
 
 				# Data do Desembaraço Aduaneiro
 				# 
@@ -57,6 +62,7 @@ module BrNfe
 				def data_desembaraco
 					convert_to_date(@data_desembaraco)
 				end
+				alias_attribute :dDesemb, :data_desembaraco
 
 				# Via de transporte internacional informada na 
 				# Declaração de Importação (DI)
@@ -79,6 +85,7 @@ module BrNfe
 				def via_transporte
 					@via_transporte.to_i if @via_transporte.present?
 				end
+				alias_attribute :tpViaTransp, :via_transporte
 
 				# Valor da AFRMM - Adicional ao Frete para Renovação da Marinha Mercante
 				# A tag deve ser informada no caso da via de transporte marítima
@@ -90,6 +97,7 @@ module BrNfe
 				# <b>tag:      </b> vAFRMM
 				#
 				attr_accessor :valor_afrmm
+				alias_attribute :vAFRMM, :valor_afrmm
 
 				# Forma de importação quanto a intermediação
 				#
@@ -108,6 +116,7 @@ module BrNfe
 				def tipo_intermediacao
 					@tipo_intermediacao.to_i if @tipo_intermediacao.present?
 				end
+				alias_attribute :tpIntermedio, :tipo_intermediacao
 
 				# CNPJ do adquirente ou do encomendante
 				# Obrigatória a informação no caso de importação por conta e
@@ -124,6 +133,7 @@ module BrNfe
 					return "" unless @cnpj_adquirente.present?
 					BrNfe::Helper::CpfCnpj.new(@cnpj_adquirente).sem_formatacao
 				end
+				alias_attribute :CNPJ, :cnpj_adquirente
 
 				# Sigla da UF do adquirente ou do encomendante
 				# Obrigatória a informação no caso de importação por conta e
@@ -136,6 +146,7 @@ module BrNfe
 				# <b>tag:      </b> UFTerceiro
 				#
 				attr_accessor :uf_terceiro
+				alias_attribute :UFTerceiro, :uf_terceiro
 
 				# Código do Exportador
 				# Código do Exportador, usado nos sistemas internos de
@@ -148,6 +159,7 @@ module BrNfe
 				# <b>tag:      </b> cExportador
 				#
 				attr_accessor :codigo_exportador
+				alias_attribute :cExportador, :codigo_exportador
 
 				# Array com as adicoes utilizadas
 				# Pode ser adicionado os dados das adicoes em forma de `Hash` ou
@@ -172,6 +184,7 @@ module BrNfe
 				# <b>tag:      </b> nAdicao
 				#
 				has_many :adicoes, 'BrNfe.adicao_importacao_product_class'
+				alias_attribute :nAdicao, :adicoes
 				
 
 				def default_values

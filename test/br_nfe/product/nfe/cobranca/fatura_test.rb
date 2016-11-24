@@ -4,6 +4,13 @@ describe BrNfe::Product::Nfe::Cobranca::Fatura do
 	subject { FactoryGirl.build(:product_cobranca_fatura) }
 	let(:duplicata) { FactoryGirl.build(:product_cobranca_duplicata) } 
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :nFat,  :numero_fatura }
+		it { must_have_alias_attribute :vOrig, :valor_original }
+		it { must_have_alias_attribute :vDesc, :valor_desconto }
+		it { must_have_alias_attribute :vLiq,  :valor_liquido }
+	end
+
 	describe '#duplicatas' do
 		it { must_validate_length_has_many(:duplicatas, BrNfe.duplicata_product_class, {maximum: 120})  }
 		it { must_validates_has_many(:duplicatas, BrNfe.duplicata_product_class, :invalid_duplicata) }

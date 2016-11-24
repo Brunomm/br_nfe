@@ -11,6 +11,7 @@ module BrNfe
 				# <b>tag:      </b> nAdicao
 				#
 				attr_accessor :numero_adicao
+				alias_attribute :nAdicao, :numero_adicao
 
 				# Numero sequencial do item dentro da Adição
 				# 
@@ -21,6 +22,7 @@ module BrNfe
 				# <b>tag:      </b> nSeqAdic
 				#
 				attr_accessor :sequencial
+				alias_attribute :nSeqAdic, :sequencial
 
 				# Código do fabricante estrangeiro
 				# Código do fabricante estrangeiro, usado nos sistemas internos
@@ -33,6 +35,7 @@ module BrNfe
 				# <b>tag:      </b> cFabricante
 				#
 				attr_accessor :codigo_fabricante
+				alias_attribute :cFabricante, :codigo_fabricante
 
 				# Valor do desconto do item da DI – Adição
 				# 
@@ -43,6 +46,7 @@ module BrNfe
 				# <b>tag:      </b> vDescDI
 				#
 				attr_accessor :valor_desconto
+				alias_attribute :vDescDI, :valor_desconto
 
 				# Número do ato concessório de Drawback
 				# O número do Ato Concessório de Suspensão deve ser
@@ -58,6 +62,7 @@ module BrNfe
 				# <b>tag:      </b> nDraw
 				#
 				attr_accessor :numero_drawback
+				alias_attribute :nDraw, :numero_drawback
 
 				validates :numero_adicao,     presence: true
 				validates :sequencial,        presence: true

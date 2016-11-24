@@ -3,6 +3,20 @@ require 'test_helper'
 describe BrNfe::Product::Nfe::DeclaracaoImportacao do
 	subject { FactoryGirl.build(:product_declaracao_importacao) }
 
+	describe "Alias attributes" do
+		it { must_have_alias_attribute :nDI,          :numero_documento }
+		it { must_have_alias_attribute :dDI,          :data_registro, Date.current }
+		it { must_have_alias_attribute :xLocDesemb,   :local_desembaraco }
+		it { must_have_alias_attribute :UFDesemb,     :uf_desembaraco }
+		it { must_have_alias_attribute :dDesemb,      :data_desembaraco, Date.current }
+		it { must_have_alias_attribute :tpViaTransp,  :via_transporte }
+		it { must_have_alias_attribute :vAFRMM,       :valor_afrmm }
+		it { must_have_alias_attribute :tpIntermedio, :tipo_intermediacao }
+		it { must_have_alias_attribute :CNPJ,         :cnpj_adquirente, '01234567890' }
+		it { must_have_alias_attribute :UFTerceiro,   :uf_terceiro }
+		it { must_have_alias_attribute :cExportador,  :codigo_exportador }
+		it { must_have_alias_attribute :nAdicao,      :adicoes, [BrNfe.adicao_importacao_product_class.new] }
+	end
 	describe "Default values" do
 		it "for via_transporte" do
 			subject.class.new.via_transporte.must_equal 1

@@ -3,6 +3,32 @@ require 'test_helper'
 describe BrNfe::Product::Nfe::ItemTax::Icms do
 	subject { FactoryGirl.build(:product_item_tax_icms) }
 
+	describe 'Alias attributes' do
+		it { must_have_alias_attribute :orig,        :origem }
+		it { must_have_alias_attribute :CST,         :codigo_cst, '01' }
+		it { must_have_alias_attribute :CSOSN,       :codigo_cst, '01' }
+		it { must_have_alias_attribute :modBC,       :modalidade_base_calculo }
+		it { must_have_alias_attribute :pRedBC,      :reducao_base_calculo }
+		it { must_have_alias_attribute :vBC,         :total_base_calculo }
+		it { must_have_alias_attribute :pICMS,       :aliquota }
+		it { must_have_alias_attribute :vICMS,       :total }
+		it { must_have_alias_attribute :modBCST,     :modalidade_base_calculo_st }
+		it { must_have_alias_attribute :pMVAST,      :mva_st }
+		it { must_have_alias_attribute :pRedBCST,    :reducao_base_calculo_st }
+		it { must_have_alias_attribute :vBCST,       :total_base_calculo_st }
+		it { must_have_alias_attribute :pICMSST,     :aliquota_st }
+		it { must_have_alias_attribute :vICMSST,     :total_st }
+		it { must_have_alias_attribute :vICMSDeson,  :total_desoneracao }
+		it { must_have_alias_attribute :motDesICMS,  :motivo_desoneracao }
+		it { must_have_alias_attribute :vICMSOp,     :total_icms_operacao }
+		it { must_have_alias_attribute :pDif,        :percentual_diferimento }
+		it { must_have_alias_attribute :vICMSDif,    :total_icms_diferido }
+		it { must_have_alias_attribute :vBCSTRet,    :total_base_calculo_st_retido }
+		it { must_have_alias_attribute :vICMSSTRet,  :total_st_retido }
+		it { must_have_alias_attribute :pCredSN,     :aliquota_credito_sn }
+		it { must_have_alias_attribute :vCredICMSSN, :total_credito_sn }
+	end
+
 	describe 'Validations' do
 		context '#origem' do
 			it { wont allow_value(9).for(:origem) }

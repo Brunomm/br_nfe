@@ -49,6 +49,7 @@ module BrNfe
 					def origem
 						@origem.to_i
 					end
+					alias_attribute :orig, :origem
 
 					# CÓDIGO DA SITUAÇÃO TRIBUTÁRIA (CST) OU
 					# CÓDIGO DE SITUAÇÃO DA OPERAÇÃO - SIMPLES NACIONAL (CSOSN)
@@ -84,6 +85,8 @@ module BrNfe
 					def codigo_cst
 						"#{@codigo_cst}".rjust(2, '0') if @codigo_cst.present?
 					end
+					alias_attribute :CST, :codigo_cst
+					alias_attribute :CSOSN, :codigo_cst
 
 					# Modalidade de determinação da BC do ICMS
 					#  0=Margem Valor Agregado (%);
@@ -103,9 +106,10 @@ module BrNfe
 					def modalidade_base_calculo
 						@modalidade_base_calculo.to_i if @modalidade_base_calculo.present?
 					end
+					alias_attribute :modBC, :modalidade_base_calculo
 
 					# PERCENTUAL REDUÇÃO DE BASE DE CÁLCULO DO ICMS
-					# Utilizado nos CSTs: [20 51 70 90]
+					# Utilizado nos CSTs: [20 51 70 90 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [20 70]_
@@ -114,10 +118,11 @@ module BrNfe
 					# <b>tag:      </b> pRedBC
 					# 
 					attr_accessor :reducao_base_calculo
+					alias_attribute :pRedBC, :reducao_base_calculo
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS
 					# Valor base utilizado para calcular o valor d ICMS
-					# Utilizado nos CSTs: [00 10 20 51 70 90]
+					# Utilizado nos CSTs: [00 10 20 51 70 90 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [00 10 20 70 90]_
@@ -126,10 +131,11 @@ module BrNfe
 					# <b>tag:      </b> vBC
 					# 
 					attr_accessor :total_base_calculo
+					alias_attribute :vBC, :total_base_calculo
 
 					# ALÍQUOTA DO ICMS 
 					# Percentual do imposto do ICMS
-					# Utilizado nos CSTs: [00 10 20 51 70 90]
+					# Utilizado nos CSTs: [00 10 20 51 70 90 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [00 10 20 70 90]_
@@ -138,10 +144,11 @@ module BrNfe
 					# <b>tag:      </b> pICMS
 					# 
 					attr_accessor :aliquota
+					alias_attribute :pICMS, :aliquota
 
 					# VALOR DO ICMS
 					# Valor total do ICMS
-					# Utilizado nos CSTs: [00 10 20 51 70]
+					# Utilizado nos CSTs: [00 10 20 51 70 900]
 					# O calculo se dá através da base de cálculo x alíquota
 					# EX: 
 					#  total_base_calculo = 200.00
@@ -158,9 +165,10 @@ module BrNfe
 					def total
 						@total ||= calculate_total
 					end
+					alias_attribute :vICMS, :total
 
 					# Modalidade de determinação da BC do ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					#  0=Preço tabelado ou máximo sugerido;
 					#  1=Lista Negativa (valor);
 					#  2=Lista Positiva (valor);
@@ -178,9 +186,10 @@ module BrNfe
 					def modalidade_base_calculo_st
 						@modalidade_base_calculo_st.to_i if @modalidade_base_calculo_st.present?
 					end
+					alias_attribute :modBCST, :modalidade_base_calculo_st
 
 					# PERCENTUAL DA MARGEM DE VALOR ADICIONADO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					#  MVA ST original – é a margem de valor agregado prevista 
 					#  na legislação do Estado do destinatário para suas operações 
 					#  internas com produto sujeito ao regime de substituição tributária;
@@ -192,9 +201,10 @@ module BrNfe
 					# <b>tag:      </b> pMVAST
 					# 
 					attr_accessor :mva_st
+					alias_attribute :pMVAST, :mva_st
 
 					# PERCENTUAL REDUÇÃO DE BASE DE CÁLCULO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _No_
@@ -203,9 +213,10 @@ module BrNfe
 					# <b>tag:      </b> pRedBCST
 					# 
 					attr_accessor :reducao_base_calculo_st	
+					alias_attribute :pRedBCST, :reducao_base_calculo_st
 
 					# VALOR DA BASE DE CÁLCULO DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					# 
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
@@ -214,9 +225,10 @@ module BrNfe
 					# <b>tag:      </b> vBCST
 					# 
 					attr_accessor :total_base_calculo_st
+					alias_attribute :vBCST, :total_base_calculo_st
 
 					# ALÍQUOTA DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					# Percentual do imposto do ICMS
 					#
 					# <b>Type:     </b> _Float_
@@ -226,17 +238,19 @@ module BrNfe
 					# <b>tag:      </b> pICMSST
 					# 
 					attr_accessor :aliquota_st
+					alias_attribute :pICMSST, :aliquota_st
 
 					# VALOR DO ICMS ST
-					# Utilizado nos CSTs: [10 30 70 201 202 203]
+					# Utilizado nos CSTs: [10 30 70 201 202 203 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [10 30 70 201 202 203]_
 					# <b>Example:  </b> _120.00_
 					# <b>Length:   </b> _13v2_
-					# <b>tag:      </b> vICMS
+					# <b>tag:      </b> vICMSST
 					# 
 					attr_accessor :total_st
+					alias_attribute :vICMSST, :total_st
 
 					# VALOR DO ICMS DESONERADO
 					# Utilizado nos CSTs: [20 30 40 41 50 70]
@@ -248,6 +262,7 @@ module BrNfe
 					# <b>tag:      </b> vICMSDeson
 					# 
 					attr_accessor :total_desoneracao
+					alias_attribute :vICMSDeson, :total_desoneracao
 
 					# MOTIVO DA DESONERAÇÃO DO ICMS
 					#   Campo será preenchido quando o campo anterior estiver
@@ -282,6 +297,7 @@ module BrNfe
 					def motivo_desoneracao
 						@motivo_desoneracao.to_i if @motivo_desoneracao.present?
 					end
+					alias_attribute :motDesICMS, :motivo_desoneracao
 
 					# VALOR DO ICMS DA OPERAÇÃO
 					# Informar o valor do ICMS como se não tivesse diferimento
@@ -295,6 +311,7 @@ module BrNfe
 					# <b>tag:      </b> vICMSOp
 					# 
 					attr_accessor :total_icms_operacao
+					alias_attribute :vICMSOp, :total_icms_operacao
 
 					# PERCENTUAL DO DIFERIMENTO
 					# No caso de diferimento total, informar o percentual de difereimento = 100
@@ -307,6 +324,7 @@ module BrNfe
 					# <b>tag:      </b> pDif
 					# 
 					attr_accessor :percentual_diferimento
+					alias_attribute :pDif, :percentual_diferimento
 
 					# VALOR DO ICMS DIFERIDO
 					# 
@@ -319,6 +337,7 @@ module BrNfe
 					# <b>tag:      </b> vICMSDif
 					# 
 					attr_accessor :total_icms_diferido
+					alias_attribute :vICMSDif, :total_icms_diferido
 
 					# VALOR DA BC DO ICMS ST RETIDO
 					# Valor da BC do ICMS ST cobrado anteriormente por ST (v2.0).
@@ -334,6 +353,7 @@ module BrNfe
 					# <b>tag:      </b> vBCSTRet
 					# 
 					attr_accessor :total_base_calculo_st_retido
+					alias_attribute :vBCSTRet, :total_base_calculo_st_retido
 
 					# VALOR DO ICMS ST RETIDO
 					# Valor do ICMS ST cobrado anteriormente por ST (v2.0). O valor
@@ -349,10 +369,11 @@ module BrNfe
 					# <b>tag:      </b> vICMSSTRet
 					# 
 					attr_accessor :total_st_retido
+					alias_attribute :vICMSSTRet, :total_st_retido
 
 					# ALÍQUOTA APLICÁVEL DE CÁLCULO DO CRÉDITO (SIMPLES NACIONAL).
 					#
-					# Utilizado nos CSTs: [101 201]
+					# Utilizado nos CSTs: [101 201 900]
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _CST: [101 201]_
@@ -361,6 +382,7 @@ module BrNfe
 					# <b>tag:      </b> pCredSN
 					# 
 					attr_accessor :aliquota_credito_sn
+					alias_attribute :pCredSN, :aliquota_credito_sn
 
 					# VALOR CRÉDITO DO ICMS QUE PODE SER APROVEITADO 
 					# nos termos do art. 23 da LC 123 (Simples Nacional)
@@ -368,12 +390,13 @@ module BrNfe
 					# Utilizado nos CSTs: [101 201]
 					#
 					# <b>Type:     </b> _Float_
-					# <b>Required: </b> _CST: [101 201]_
+					# <b>Required: </b> _CST: [101 201 900]_
 					# <b>Example:  </b> _75.5_
 					# <b>Length:   </b> _13v2_
 					# <b>tag:      </b> vCredICMSSN
 					# 
 					attr_accessor :total_credito_sn
+					alias_attribute :vCredICMSSN, :total_credito_sn
 
 
 					###################################################################

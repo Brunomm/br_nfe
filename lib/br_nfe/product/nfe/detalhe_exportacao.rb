@@ -19,6 +19,7 @@ module BrNfe
 				def numero_drawback
 					"#{@numero_drawback}".gsub(/[^\d]/,'')
 				end
+				alias_attribute :nDraw, :numero_drawback
 
 				######################################################################
 				################# GRUPO SOBRE EXPORTAÇÃO INDIRETA  ###################
@@ -34,6 +35,7 @@ module BrNfe
 					def numero_registro
 						"#{@numero_registro}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :nRE, :numero_registro
 
 					# CHAVE DE ACESSO DA NF-E RECEBIDA PARA EXPORTAÇÃO
 					# NF-e recebida com fim específico de exportação.
@@ -50,6 +52,7 @@ module BrNfe
 					def chave_nfe_recebida
 						"#{@chave_nfe_recebida}".gsub(/[^\d]/,'')
 					end
+					alias_attribute :chNFe, :chave_nfe_recebida
 
 					# QUANTIDADE DO ITEM REALMENTE EXPORTADO
 					# A unidade de medida desta quantidade é a unidade de
@@ -64,6 +67,7 @@ module BrNfe
 					# <b>tag:      </b> qExport
 					#
 					attr_accessor :quantidade
+					alias_attribute :qExport, :quantidade
 
 				validates :numero_drawback,    length: {in: 9..12}, allow_blank: true
 				validates :numero_registro,    length: {is: 12},    allow_blank: true
