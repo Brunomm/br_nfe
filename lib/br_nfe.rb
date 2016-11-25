@@ -189,6 +189,7 @@ module BrNfe
 			module ItemTax
 				extend ActiveSupport::Autoload
 				autoload :Icms
+				autoload :Ipi
 			end
 		end
 		module Gateway

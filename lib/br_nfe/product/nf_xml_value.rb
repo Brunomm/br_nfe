@@ -235,6 +235,14 @@ module BrNfe
 			def nf_xml_value_number_fixed_size value, size, xml_version=:v3_10
 				only_numbers value, {min_size: size, max_size: size}
 			end
+
+			def nf_xml_value_codigo_enquadramento_IPI value
+				if value.blank?
+					'999'
+				else
+					nf_xml_value_text value, 3
+				end
+			end
 		private
 
 			def only_numbers value, options={}
