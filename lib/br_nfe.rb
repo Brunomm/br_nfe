@@ -190,6 +190,7 @@ module BrNfe
 				extend ActiveSupport::Autoload
 				autoload :Icms
 				autoload :Ipi
+				autoload :Importacao
 			end
 		end
 		module Gateway
