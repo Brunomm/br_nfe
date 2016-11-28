@@ -243,6 +243,10 @@ module BrNfe
 					nf_xml_value_text value, 3
 				end
 			end
+
+			def nf_xml_value_ISSQN_incentivo_fiscal value
+				value ? 1 : 2
+			end
 		private
 
 			def only_numbers value, options={}

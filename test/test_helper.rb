@@ -262,6 +262,40 @@ class MiniTest::Spec
 		must_be_message_error(:base, i18n_message, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
 	end
 
+	def must_returns_a_integer_for attribute
+		subject.send("#{attribute}=", 1)
+		subject.send(attribute).must_equal 1
+		subject.send("#{attribute}=", '2')
+		subject.send(attribute).must_equal 2
+		subject.send("#{attribute}=", '')
+		subject.send(attribute).must_be_nil
+	end
+	def must_returns_a_boolean_for attribute
+		######### TRUE validations #########
+		subject.send("#{attribute}=", 1)
+		subject.send(attribute).must_equal true
+		subject.send("#{attribute}=", '1')
+		subject.send(attribute).must_equal true
+		subject.send("#{attribute}=", 't')
+		subject.send(attribute).must_equal true
+		subject.send("#{attribute}=", true)
+		subject.send(attribute).must_equal true
+		######### FALSE validations #########
+		subject.send("#{attribute}=", 0)
+		subject.send(attribute).must_equal false
+		subject.send("#{attribute}=", '0')
+		subject.send(attribute).must_equal false
+		subject.send("#{attribute}=", 'f')
+		subject.send(attribute).must_equal false
+		subject.send("#{attribute}=", false)
+		subject.send(attribute).must_equal false
+	end
+
+	def must_have_default_value_for attribute, default_value
+		msg = "O atributo #{attribute} deveria ter por padrão o valor #{default_value}."
+		subject.class.new.send(attribute).must_equal default_value, msg
+	end
+
 private
 	
 	################################################################################

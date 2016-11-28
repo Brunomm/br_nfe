@@ -195,6 +195,7 @@ module BrNfe
 				autoload :PisSt
 				autoload :Cofins
 				autoload :CofinsSt
+				autoload :Issqn
 			end
 		end
 		module Gateway
