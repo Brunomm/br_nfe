@@ -4,7 +4,12 @@ describe BrNfe::Product::Nfe::ItemTax::Pis do
 	subject { FactoryGirl.build(:product_item_tax_pis) }
 
 	describe 'Alias attributes' do
-		it { must_have_alias_attribute :CST,      :codigo_cst, '01' }
+		it { must_have_alias_attribute :CST,       :codigo_cst, '01' }
+		it { must_have_alias_attribute :vBC,       :total_base_calculo }
+		it { must_have_alias_attribute :pPIS,      :aliquota }
+		it { must_have_alias_attribute :vPIS,      :total }
+		it { must_have_alias_attribute :qBCProd,   :quantidade_vendida }
+		it { must_have_alias_attribute :vAliqProd, :total_aliquota }
 	end
 
 	describe 'Validations' do

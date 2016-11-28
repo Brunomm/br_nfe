@@ -192,6 +192,7 @@ module BrNfe
 				autoload :Ipi
 				autoload :Importacao
 				autoload :Pis
+				autoload :PisSt
 			end
 		end
 		module Gateway
