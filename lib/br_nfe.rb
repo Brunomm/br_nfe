@@ -193,6 +193,8 @@ module BrNfe
 				autoload :Importacao
 				autoload :Pis
 				autoload :PisSt
+				autoload :Cofins
+				autoload :CofinsSt
 			end
 		end
 		module Gateway

@@ -1,0 +1,7 @@
+- if cofins.quantidade_vendida.to_f > 0.0
+	qBCProd   = nf_xml_value_quantidade cofins.quantidade_vendida
+	vAliqProd = nf_xml_value_float      cofins.total_aliquota, 4
+- else
+	vBC  = nf_xml_value_monetary    cofins.total_base_calculo
+	pCOFINS = nf_xml_value_percent  cofins.aliquota
+vCOFINS    = nf_xml_value_monetary cofins.total
