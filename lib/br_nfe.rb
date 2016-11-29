@@ -276,6 +276,26 @@ module BrNfe
 		mattr_accessor :detalhe_exportacao_product_class
 		@@detalhe_exportacao_product_class = BrNfe::Product::Nfe::DetalheExportacao
 
+		######################### IMPOSTOS DO ITEM #########################
+		mattr_accessor :icms_item_tax_product_class
+		@@icms_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Icms
+		mattr_accessor :cofins_item_tax_product_class
+		@@cofins_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Cofins
+		mattr_accessor :cofins_st_item_tax_product_class
+		@@cofins_st_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::CofinsSt
+		mattr_accessor :icms_uf_destino_item_tax_product_class
+		@@icms_uf_destino_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::IcmsUfDestino
+		mattr_accessor :importacao_item_tax_product_class
+		@@importacao_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Importacao
+		mattr_accessor :ipi_item_tax_product_class
+		@@ipi_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Ipi
+		mattr_accessor :issqn_item_tax_product_class
+		@@issqn_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Issqn
+		mattr_accessor :pis_item_tax_product_class
+		@@pis_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::Pis
+		mattr_accessor :pis_st_item_tax_product_class
+		@@pis_st_item_tax_product_class = BrNfe::Product::Nfe::ItemTax::PisSt
+
 		############################# COBRANÇA #############################
 		mattr_accessor :duplicata_product_class
 		@@duplicata_product_class = BrNfe::Product::Nfe::Cobranca::Duplicata

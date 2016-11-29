@@ -1,0 +1,9 @@
+prod
+	= render_xml 'infNFe/det/_tc_prod',    item: item
+imposto
+	= render_xml 'infNFe/det/_tc_imposto', item: item
+
+/ impostoDevol
+
+- if item.informacoes_adicionais.present?
+	infAdProd = nf_xml_value_text item.informacoes_adicionais, 500

@@ -33,6 +33,16 @@ describe BrNfe::Product::Nfe::Item do
 		it { must_have_alias_attribute :nItemPed,    :item_pedido_compra, '1' }
 		it { must_have_alias_attribute :nFCI,        :numero_fci }
 		it { must_have_alias_attribute :vTotTrib,    :total_tributos }
+		it { must_have_alias_attribute :ICMS,        :icms, BrNfe.icms_item_tax_product_class.new }
+		it { must_have_alias_attribute :IPI,         :ipi, BrNfe.ipi_item_tax_product_class.new }
+		it { must_have_alias_attribute :II,          :importacao, BrNfe.importacao_item_tax_product_class.new }
+		it { must_have_alias_attribute :PIS,         :pis, BrNfe.pis_item_tax_product_class.new }
+		it { must_have_alias_attribute :PISST,       :pis_st, BrNfe.pis_st_item_tax_product_class.new }
+		it { must_have_alias_attribute :COFINS,      :cofins, BrNfe.cofins_item_tax_product_class.new }
+		it { must_have_alias_attribute :COFINSST,    :cofins_st, BrNfe.cofins_st_item_tax_product_class.new }
+		it { must_have_alias_attribute :ISSQN,       :issqn, BrNfe.issqn_item_tax_product_class.new }
+		it { must_have_alias_attribute :ICMSUFDest,  :icms_uf_destino, BrNfe.icms_uf_destino_item_tax_product_class.new }
+		it { must_have_alias_attribute :infAdProd,   :informacoes_adicionais }
 	end
 	
 	describe 'Default values' do
@@ -63,6 +73,8 @@ describe BrNfe::Product::Nfe::Item do
 		it { must validate_length_of(:item_pedido_compra).is_at_most(6) }
 		it { must allow_value('').for(:item_pedido_compra) }
 		
+		it { must validate_length_of(:informacoes_adicionais).is_at_most(500) }
+
 		describe "numero_fci" do
 			it { must validate_length_of(:numero_fci).is_equal_to(36) }
 			it { must allow_value('').for(:numero_fci) }
@@ -300,4 +312,65 @@ describe BrNfe::Product::Nfe::Item do
 		it { must_have_many(:detalhes_exportacao, BrNfe.detalhe_exportacao_product_class, {numero_drawback: '46464', numero_registro: '223'})  }
 		it { must_validates_has_many(:detalhes_exportacao, BrNfe.detalhe_exportacao_product_class, :invalid_detalhe_exportacao) }
 	end
+	describe '#icms' do
+		it { must_have_one :icms, BrNfe.icms_item_tax_product_class, {origem: 0, codigo_cst: '10'} }
+		it { must_validate_have_one :icms, BrNfe.icms_item_tax_product_class, :invalid_icms }
+		it "deve ser obrigatório se o tipo_produto for :product" do
+			subject.tipo_produto = :product
+			must validate_presence_of(:icms)
+		end
+		it "Não deve ser obrigatório se o tipo_produto não for :product" do
+			subject.tipo_produto = :service
+			wont validate_presence_of(:icms)
+		end
+	end
+
+	describe '#ipi' do
+		it { must_have_one :ipi, BrNfe.ipi_item_tax_product_class, {codigo_cst: '01', codigo_selo: 'X10'} }
+		it { must_validate_have_one :ipi, BrNfe.ipi_item_tax_product_class, :invalid_ipi }
+	end
+
+	describe '#importacao' do
+		it { must_have_one :importacao, BrNfe.importacao_item_tax_product_class, {total_imposto: 10.0, total_iof: 20.0} }
+		it { must_validate_have_one :importacao, BrNfe.importacao_item_tax_product_class, :invalid_importacao }
+	end
+
+	describe '#pis' do
+		it { must_have_one :pis, BrNfe.pis_item_tax_product_class, {codigo_cst: '01', aliquota: 2.5} }
+		it { must_validate_have_one :pis, BrNfe.pis_item_tax_product_class, :invalid_pis }
+	end
+
+	describe '#pis_st' do
+		it { must_have_one :pis_st, BrNfe.pis_st_item_tax_product_class, {aliquota: 1.4, total: 14.0} }
+		it { must_validate_have_one :pis_st, BrNfe.pis_st_item_tax_product_class, :invalid_pis_st }
+	end
+
+	describe '#cofins' do
+		it { must_have_one :cofins, BrNfe.cofins_item_tax_product_class, {codigo_cst: '01', aliquota: 4.56} }
+		it { must_validate_have_one :cofins, BrNfe.cofins_item_tax_product_class, :invalid_cofins }
+	end
+
+	describe '#cofins_st' do
+		it { must_have_one :cofins_st, BrNfe.cofins_st_item_tax_product_class, {aliquota: 4.1, total: 20.00} }
+		it { must_validate_have_one :cofins_st, BrNfe.cofins_st_item_tax_product_class, :invalid_cofins_st }
+	end
+
+	describe '#issqn' do
+		it { must_have_one :issqn, BrNfe.issqn_item_tax_product_class, {aliquota: 2.5,  total: 25.0} }
+		it { must_validate_have_one :issqn, BrNfe.issqn_item_tax_product_class, :invalid_issqn }
+		it "deve ser obrigatório se o tipo_produto for :service" do
+			subject.tipo_produto = :service
+			must validate_presence_of(:issqn)
+		end
+		it "Não deve ser obrigatório se o tipo_produto não for :service" do
+			subject.tipo_produto = :product
+			wont validate_presence_of(:issqn)
+		end
+	end
+
+	describe '#icms_uf_destino' do
+		it { must_have_one :icms_uf_destino, BrNfe.icms_uf_destino_item_tax_product_class, {total_destino: 15.0, total_origem: 14.0} }
+		it { must_validate_have_one :icms_uf_destino, BrNfe.icms_uf_destino_item_tax_product_class, :invalid_icms_uf_destino }
+	end
+
 end
