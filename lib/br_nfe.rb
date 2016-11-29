@@ -196,6 +196,7 @@ module BrNfe
 				autoload :Cofins
 				autoload :CofinsSt
 				autoload :Issqn
+				autoload :IcmsUfDestino
 			end
 		end
 		module Gateway
