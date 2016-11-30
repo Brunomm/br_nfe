@@ -17,7 +17,9 @@ dest = render_xml 'infNFe/_tc_dest', nfe: nfe
 	det
 		= render_xml 'infNFe/_tc_det', item: item
 
-/ total
+total
+	= render '_tc_total', nfe: nfe
+	
 transp
 	= render_xml('infNFe/_tc_transp', nfe: nfe)
 

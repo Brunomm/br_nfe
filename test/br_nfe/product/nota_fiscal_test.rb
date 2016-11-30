@@ -30,6 +30,45 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_alias_attribute :cobranca, :fatura, BrNfe.fatura_product_class.new }
 		it { must_have_alias_attribute :cobr,     :fatura, BrNfe.fatura_product_class.new }
 		it { must_have_alias_attribute :pag,      :pagamentos, [BrNfe.pagamento_product_class.new] }
+		
+		it { must_have_alias_attribute :ICMSTot_vBC,          :total_icms_base_calculo }
+		it { must_have_alias_attribute :ICMSTot_vICMS,        :total_icms }
+		it { must_have_alias_attribute :ICMSTot_vICMSDeson,   :total_icms_desonerado }
+		it { must_have_alias_attribute :ICMSTot_vFCPUFDest,   :total_icms_fcp_uf_destino }
+		it { must_have_alias_attribute :ICMSTot_vICMSUFDest,  :total_icms_uf_destino }
+		it { must_have_alias_attribute :ICMSTot_vICMSUFRemet, :total_icms_uf_origem }
+		it { must_have_alias_attribute :ICMSTot_vBCST,        :total_icms_base_calculo_st }
+		it { must_have_alias_attribute :ICMSTot_vST,          :total_icms_st }
+		it { must_have_alias_attribute :ICMSTot_vProd,        :total_produtos }
+		it { must_have_alias_attribute :ICMSTot_vFrete,       :total_frete }
+		it { must_have_alias_attribute :ICMSTot_vSeg,         :total_seguro }
+		it { must_have_alias_attribute :ICMSTot_vDesc,        :total_desconto }
+		it { must_have_alias_attribute :ICMSTot_vII,          :total_imposto_importacao }
+		it { must_have_alias_attribute :ICMSTot_vIPI,         :total_ipi }
+		it { must_have_alias_attribute :ICMSTot_vPIS,         :total_pis }
+		it { must_have_alias_attribute :ICMSTot_vCOFINS,      :total_cofins }
+		it { must_have_alias_attribute :ICMSTot_vOutro,       :total_outras_despesas }
+		it { must_have_alias_attribute :ICMSTot_vNF,          :total_nf }
+		it { must_have_alias_attribute :ICMSTot_vTotTrib,     :total_tributos }
+		it { must_have_alias_attribute :ISSQNtot_vServ,       :total_servicos }
+		it { must_have_alias_attribute :ISSQNtot_vBC,         :total_servicos_base_calculo }
+		it { must_have_alias_attribute :ISSQNtot_vISS,        :total_servicos_iss }
+		it { must_have_alias_attribute :ISSQNtot_vPIS,        :total_servicos_pis }
+		it { must_have_alias_attribute :ISSQNtot_vCOFINS,     :total_servicos_cofins }
+		it { must_have_alias_attribute :ISSQNtot_dCompet,     :servicos_data_prestacao, Date.yesterday }
+		it { must_have_alias_attribute :ISSQNtot_vDeducao,    :total_servicos_deducao }
+		it { must_have_alias_attribute :ISSQNtot_vOutro,      :total_servicos_outras_retencoes }
+		it { must_have_alias_attribute :ISSQNtot_vDescIncond, :total_servicos_desconto_incondicionado }
+		it { must_have_alias_attribute :ISSQNtot_vDescCond,   :total_servicos_desconto_condicionado }
+		it { must_have_alias_attribute :ISSQNtot_vISSRet,     :total_servicos_iss_retido }
+		it { must_have_alias_attribute :ISSQNtot_cRegTrib,    :regime_tributario_servico, 3 }
+		it { must_have_alias_attribute :retTrib_vRetPIS,      :total_retencao_pis }
+		it { must_have_alias_attribute :retTrib_vRetCOFINS,   :total_retencao_cofins }
+		it { must_have_alias_attribute :retTrib_vRetCSLL,     :total_retencao_csll }
+		it { must_have_alias_attribute :retTrib_vBCIRRF,      :total_retencao_base_calculo_irrf }
+		it { must_have_alias_attribute :retTrib_vIRRF,        :total_retencao_irrf }
+		it { must_have_alias_attribute :retTrib_vBCRetPrev,   :total_retencao_base_calculo_previdencia }
+		it { must_have_alias_attribute :retTrib_vRetPrev,     :total_retencao_previdencia }
 	end
 	describe "#default_values" do
 		it '#versao_aplicativo deve ter o padrão 0' do
@@ -170,7 +209,54 @@ describe BrNfe::Product::NotaFiscal do
 			end
 		end
 
-		
+		it { must validate_numericality_of(:total_icms_base_calculo).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_desonerado).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_fcp_uf_destino).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_uf_destino).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_uf_origem).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_base_calculo_st).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_icms_st).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_produtos).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_frete).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_seguro).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_desconto).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_imposto_importacao).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_ipi).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_pis).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_cofins).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_outras_despesas).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_nf).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_tributos).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_base_calculo).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_iss).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_pis).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_cofins).is_greater_than_or_equal_to(0.0).allow_nil }
+		describe '#servicos_data_prestacao' do
+			it "deve ser obrigatório se houver algum serviço" do
+				subject.stubs(:has_any_service?).returns(true)
+				must validate_presence_of(:servicos_data_prestacao)
+			end
+			it "não deve ser obrigatório se não houver serviços" do
+				subject.stubs(:has_any_service?).returns(false)
+				wont validate_presence_of(:servicos_data_prestacao)
+			end
+		end
+		it { must validate_numericality_of(:total_servicos_deducao).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_outras_retencoes).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_desconto_incondicionado).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_desconto_condicionado).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_servicos_iss_retido).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_inclusion_of(:regime_tributario_servico).in_array([1,2,3,4,5,6]) }
+
+		it { must validate_numericality_of(:total_retencao_pis).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_cofins).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_csll).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_base_calculo_irrf).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_irrf).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_base_calculo_previdencia).is_greater_than_or_equal_to(0.0).allow_nil }
+		it { must validate_numericality_of(:total_retencao_previdencia).is_greater_than_or_equal_to(0.0).allow_nil }
 	end
 
 	describe '#nfe?' do
@@ -407,5 +493,68 @@ describe BrNfe::Product::NotaFiscal do
 				minimum: 1
 		)}
 		it { must_validates_has_many(:itens, BrNfe.item_product_class, :invalid_item) }
+	end
+
+	describe '#has_any_service?' do
+		it "se tiver algum serviço entre os itens deve retornar true" do
+			subject.itens = [{tipo_produto: :product},{tipo_produto: :service},{tipo_produto: :product}]
+			subject.has_any_service?.must_equal true
+		end
+		it "se não tiver serviço entre os itens deve retornar false" do
+			subject.itens = [{tipo_produto: :product},{tipo_produto: :product}]
+			subject.has_any_service?.must_equal false
+		end
+	end
+	describe '#has_any_product?' do
+		it "se tiver algum serviço entre os itens deve retornar true" do
+			subject.itens = [{tipo_produto: :service},{tipo_produto: :product},{tipo_produto: :product}]
+			subject.has_any_product?.must_equal true
+		end
+		it "se não tiver serviço entre os itens deve retornar false" do
+			subject.itens = [{tipo_produto: :service},{tipo_produto: :service}]
+			subject.has_any_product?.must_equal false
+		end
+	end
+
+	describe '#has_taxes_retention?' do
+		before do
+			subject.assign_attributes(
+				total_retencao_pis:  nil, total_retencao_cofins: nil,
+				total_retencao_csll: nil, total_retencao_irrf: nil,
+				total_retencao_previdencia: nil
+			)
+		end
+		it "deve retornar false se todos os valores de retenção estiverem nil" do
+			subject.has_taxes_retention?.must_equal false
+		end
+		it "deve retornar false se todos os valores de retenção estiverem zerados" do
+			subject.assign_attributes(
+				total_retencao_pis:  0.0, total_retencao_cofins: 0.0,
+				total_retencao_csll: 0.0, total_retencao_irrf:   0.0,
+				total_retencao_previdencia: 0.0
+			)
+			subject.has_taxes_retention?.must_equal false
+		end
+
+		it "deve retornar true se total_retencao_pis for maior que zero" do
+			subject.total_retencao_pis = 1.0
+			subject.has_taxes_retention?.must_equal true
+		end
+		it "deve retornar true se total_retencao_cofins for maior que zero" do
+			subject.total_retencao_cofins = 1.0
+			subject.has_taxes_retention?.must_equal true
+		end
+		it "deve retornar true se total_retencao_csll for maior que zero" do
+			subject.total_retencao_csll = 1.0
+			subject.has_taxes_retention?.must_equal true
+		end
+		it "deve retornar true se total_retencao_irrf for maior que zero" do
+			subject.total_retencao_irrf = 1.0
+			subject.has_taxes_retention?.must_equal true
+		end
+		it "deve retornar true se total_retencao_previdencia for maior que zero" do
+			subject.total_retencao_previdencia = 1.0
+			subject.has_taxes_retention?.must_equal true
+		end
 	end
 end

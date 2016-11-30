@@ -657,9 +657,11 @@ module BrNfe
 				def is_product?
 					tipo_produto == :product
 				end
+
 				def is_service?
 					tipo_produto == :service
 				end
+
 			private
 
 				#####################################################################

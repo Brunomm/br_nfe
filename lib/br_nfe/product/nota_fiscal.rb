@@ -380,6 +380,490 @@ module BrNfe
 			has_many :itens, 'BrNfe.item_product_class'
 			alias_attribute :det, :itens
 
+			##########################################################################
+			#########################  TOTAIS PARA PRODUTOS  #########################
+				# BASE DE CÁLCULO DO ICMS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vBC
+				#
+				attr_accessor :total_icms_base_calculo
+				alias_attribute :ICMSTot_vBC, :total_icms_base_calculo
+				validates :total_icms_base_calculo, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vICMS
+				#
+				attr_accessor :total_icms
+				alias_attribute :ICMSTot_vICMS, :total_icms
+				validates :total_icms, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS DESONERADO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vICMSDeson
+				#
+				attr_accessor :total_icms_desonerado
+				alias_attribute :ICMSTot_vICMSDeson, :total_icms_desonerado
+				validates :total_icms_desonerado, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS RELATIVO FUNDO DE COMBATE À POBREZA(FCP)
+				# DA UF DE DESTINO
+				#   Valor total do ICMS relativo ao Fundo de Combate à Pobreza
+				#   (FCP) para a UF de destino.
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _108.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vFCPUFDest
+				#
+				attr_accessor :total_icms_fcp_uf_destino
+				alias_attribute :ICMSTot_vFCPUFDest, :total_icms_fcp_uf_destino
+				validates :total_icms_fcp_uf_destino, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS INTERESTADUAL PARA A UF DE DESTINO
+				#   Valor total do ICMS Interestadual para a UF de destino, já
+				#   considerando o valor do ICMS relativo ao Fundo de Combate à
+				#   Pobreza naquela UF
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _108.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vICMSUFDest
+				#
+				attr_accessor :total_icms_uf_destino
+				alias_attribute :ICMSTot_vICMSUFDest, :total_icms_uf_destino
+				validates :total_icms_uf_destino, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS INTERESTADUAL PARA A UF DO REMETENTE
+				#   Valor total do ICMS Interestadual para a UF do remetente.
+				#   Nota: A partir de 2019, este valor será zero.
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _108.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vICMSUFRemet
+				#
+				attr_accessor :total_icms_uf_origem
+				alias_attribute :ICMSTot_vICMSUFRemet, :total_icms_uf_origem
+				validates :total_icms_uf_origem, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# BASE DE CÁLCULO DO ICMS ST
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vBCST
+				#
+				attr_accessor :total_icms_base_calculo_st
+				alias_attribute :ICMSTot_vBCST, :total_icms_base_calculo_st
+				validates :total_icms_base_calculo_st, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ICMS ST
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vST
+				#
+				attr_accessor :total_icms_st
+				alias_attribute :ICMSTot_vST, :total_icms_st
+				validates :total_icms_st, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DOS PRODUTOS E SERVIÇOS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vProd
+				#
+				attr_accessor :total_produtos
+				alias_attribute :ICMSTot_vProd, :total_produtos
+				validates :total_produtos, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO FRETE
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vFrete
+				#
+				attr_accessor :total_frete
+				alias_attribute :ICMSTot_vFrete, :total_frete
+				validates :total_frete, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO SEGURO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vSeg
+				#
+				attr_accessor :total_seguro
+				alias_attribute :ICMSTot_vSeg, :total_seguro
+				validates :total_seguro, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO DESCONTO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vDesc
+				#
+				attr_accessor :total_desconto
+				alias_attribute :ICMSTot_vDesc, :total_desconto
+				validates :total_desconto, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO II
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vII
+				#
+				attr_accessor :total_imposto_importacao
+				alias_attribute :ICMSTot_vII, :total_imposto_importacao
+				validates :total_imposto_importacao, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO IPI
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vIPI
+				#
+				attr_accessor :total_ipi
+				alias_attribute :ICMSTot_vIPI, :total_ipi
+				validates :total_ipi, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO PIS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vPIS
+				#
+				attr_accessor :total_pis
+				alias_attribute :ICMSTot_vPIS, :total_pis
+				validates :total_pis, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO COFINS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vCOFINS
+				#
+				attr_accessor :total_cofins
+				alias_attribute :ICMSTot_vCOFINS, :total_cofins
+				validates :total_cofins, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# OUTRAS DESPESAS ACESSÓRIAS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vOutro
+				#
+				attr_accessor :total_outras_despesas
+				alias_attribute :ICMSTot_vOutro, :total_outras_despesas
+				validates :total_outras_despesas, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DA NF-E
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vNF
+				#
+				attr_accessor :total_nf
+				alias_attribute :ICMSTot_vNF, :total_nf
+				validates :total_nf, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR APROXIMADO TOTAL DE TRIBUTOS FEDERAIS, ESTADUAIS E MUNICIPAIS.
+				# (NT 2013/003)
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ICMSTot/vTotTrib
+				#
+				attr_accessor :total_tributos
+				alias_attribute :ICMSTot_vTotTrib, :total_tributos
+				validates :total_tributos, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+			##########################################################################
+			#########################  TOTAIS PARA SERVIÇOS  #########################
+				# VALOR TOTAL DOS SERVIÇOS SOB NÃO-INCIDÊNCIA OU NÃO TRIBUTADOS PELO ICMS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vServ
+				#
+				attr_accessor :total_servicos
+				alias_attribute :ISSQNtot_vServ, :total_servicos
+				validates :total_servicos, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL BASE DE CÁLCULO DO ISS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vBC
+				#
+				attr_accessor :total_servicos_base_calculo
+				alias_attribute :ISSQNtot_vBC, :total_servicos_base_calculo
+				validates :total_servicos_base_calculo, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO ISS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vISS
+				#
+				attr_accessor :total_servicos_iss
+				alias_attribute :ISSQNtot_vISS, :total_servicos_iss
+				validates :total_servicos_iss, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO PIS SOBRE SERVIÇOS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vPIS
+				#
+				attr_accessor :total_servicos_pis
+				alias_attribute :ISSQNtot_vPIS, :total_servicos_pis
+				validates :total_servicos_pis, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DA COFINS SOBRE SERVIÇOS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vCOFINS
+				#
+				attr_accessor :total_servicos_cofins
+				alias_attribute :ISSQNtot_vCOFINS, :total_servicos_cofins
+				validates :total_servicos_cofins, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# DATA DA PRESTAÇÃO DO SERVIÇO
+				# 
+				#
+				# <b>Type:     </b> _Date_
+				# <b>Required: </b> _Yes_ apenas se tiver algum serviço nos itens
+				# <b>Default:  </b> _Date.current_
+				# <b>Example:  </b> _Date.current_
+				# <b>Length:   </b> _8_ YYYYMMDD
+				# <b>tag:      </b> total/ISSQNtot/dCompet
+				#
+				attr_accessor :servicos_data_prestacao
+				def servicos_data_prestacao
+					convert_to_date(@servicos_data_prestacao)
+				end
+				alias_attribute :ISSQNtot_dCompet, :servicos_data_prestacao
+				validates :servicos_data_prestacao, presence: true, if: :has_any_service?
+
+				# VALOR TOTAL DEDUÇÃO PARA REDUÇÃO DA BASE DE CÁLCULO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vDeducao
+				#
+				attr_accessor :total_servicos_deducao
+				alias_attribute :ISSQNtot_vDeducao, :total_servicos_deducao
+				validates :total_servicos_deducao, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL OUTRAS RETENÇÕES DO ISSQN
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vOutro
+				#
+				attr_accessor :total_servicos_outras_retencoes
+				alias_attribute :ISSQNtot_vOutro, :total_servicos_outras_retencoes
+				validates :total_servicos_outras_retencoes, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DESCONTO INCONDICIONADO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vDescIncond
+				#
+				attr_accessor :total_servicos_desconto_incondicionado
+				alias_attribute :ISSQNtot_vDescIncond, :total_servicos_desconto_incondicionado
+				validates :total_servicos_desconto_incondicionado, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DESCONTO CONDICIONADO
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vDescCond
+				#
+				attr_accessor :total_servicos_desconto_condicionado
+				alias_attribute :ISSQNtot_vDescCond, :total_servicos_desconto_condicionado
+				validates :total_servicos_desconto_condicionado, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL RETENÇÃO ISS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/ISSQNtot/vISSRet
+				#
+				attr_accessor :total_servicos_iss_retido
+				alias_attribute :ISSQNtot_vISSRet, :total_servicos_iss_retido
+				validates :total_servicos_iss_retido, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# CÓDIGO DO REGIME ESPECIAL DE TRIBUTAÇÃO
+				#  1 = Microempresa Municipal; 
+				#  2 = Estimativa;
+				#  3 = Sociedade de Profissionais; 
+				#  4 = Cooperativa;
+				#  5 = Microempresário Individual (MEI);
+				#  6 = Microempresário e Empresa de Pequeno Porte (ME/EPP)
+				#
+				# <b>Type:     </b> _Number_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _2_
+				# <b>Default:  </b> _1_
+				# <b>Length:   </b> _1_
+				# <b>tag:      </b> total/ISSQNtot/cRegTrib
+				#
+				attr_accessor :regime_tributario_servico
+				def regime_tributario_servico
+					@regime_tributario_servico.to_i if @regime_tributario_servico.present?
+				end
+				alias_attribute :ISSQNtot_cRegTrib, :regime_tributario_servico
+				validates :regime_tributario_servico, inclusion: {in: [1,2,3,4,5,6]}
+			##########################################################################
+			#########################  TOTAIS DAS RETENÇÕES  #########################
+				# VALOR RETIDO DE PIS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vRetPIS
+				#
+				attr_accessor :total_retencao_pis
+				alias_attribute :retTrib_vRetPIS, :total_retencao_pis
+				validates :total_retencao_pis, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR RETIDO DE COFINS
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vRetCOFINS
+				#
+				attr_accessor :total_retencao_cofins
+				alias_attribute :retTrib_vRetCOFINS, :total_retencao_cofins
+				validates :total_retencao_cofins, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR RETIDO DE CSLL
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vRetCSLL
+				#
+				attr_accessor :total_retencao_csll
+				alias_attribute :retTrib_vRetCSLL, :total_retencao_csll
+				validates :total_retencao_csll, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# BASE DE CÁLCULO DO IRRF
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vBCIRRF
+				#
+				attr_accessor :total_retencao_base_calculo_irrf
+				alias_attribute :retTrib_vBCIRRF, :total_retencao_base_calculo_irrf
+				validates :total_retencao_base_calculo_irrf, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR RETIDO DO IRRF
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vIRRF
+				#
+				attr_accessor :total_retencao_irrf
+				alias_attribute :retTrib_vIRRF, :total_retencao_irrf
+				validates :total_retencao_irrf, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# BASE DE CÁLCULO DA RETENÇÃO DA PREVIDÊNCIA SOCIAL
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vBCRetPrev
+				#
+				attr_accessor :total_retencao_base_calculo_previdencia
+				alias_attribute :retTrib_vBCRetPrev, :total_retencao_base_calculo_previdencia
+				validates :total_retencao_base_calculo_previdencia, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR DA RETENÇÃO DA PREVIDÊNCIA SOCIAL
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _No_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> total/retTrib/vRetPrev
+				#
+				attr_accessor :total_retencao_previdencia
+				alias_attribute :retTrib_vRetPrev, :total_retencao_previdencia
+				validates :total_retencao_previdencia, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -394,6 +878,8 @@ module BrNfe
 					presenca_comprador:  9, # 9=Operação não presencial, outros.
 					processo_emissao:    0, # 0=Emissão de NF-e com aplicativo do contribuinte;
 					codigo_tipo_emissao: 1, # 1=Normal
+					servicos_data_prestacao:   Date.current,
+					regime_tributario_servico: 1, # 1=Microempresa Municipal;
 				}
 			end
 
@@ -460,13 +946,33 @@ module BrNfe
 				record.validates :endereco_entrega_cpf_cnpj, presence: true
 				record.validates :endereco_entrega_cpf_cnpj, length: {maximum: 14}
 			end
-			
 
 			def nfe?
 				modelo_nf.to_i == 55
 			end
+
 			def nfce?
 				modelo_nf.to_i == 65
+			end
+
+			def has_any_service?
+				itens.select(&:is_service?).any?
+			end
+
+			def has_any_product?
+				itens.select(&:is_product?).any?
+			end
+
+			# MÉTODO PARA SABER SE EXISTE ALGUM VALOR NO TOTALIZADOR DE RETENÇÃO DE IMPOSTOS.
+			# Utilizado para saber se deve ou não colocar a tag de totalizador de retenções 
+			# no XML.
+			#
+			# <b>Tipo: </b> _Boolean_
+			#
+			def has_taxes_retention?
+				total_retencao_pis.to_f  > 0.0 || total_retencao_cofins.to_f > 0.0 ||
+				total_retencao_csll.to_f > 0.0 || total_retencao_irrf.to_f > 0.0   ||
+				total_retencao_previdencia.to_f > 0.0
 			end
 
 		private
