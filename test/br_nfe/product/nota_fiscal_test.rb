@@ -69,6 +69,9 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_alias_attribute :retTrib_vIRRF,        :total_retencao_irrf }
 		it { must_have_alias_attribute :retTrib_vBCRetPrev,   :total_retencao_base_calculo_previdencia }
 		it { must_have_alias_attribute :retTrib_vRetPrev,     :total_retencao_previdencia }
+		it { must_have_alias_attribute :infAdFisco,           :informacoes_fisco }
+		it { must_have_alias_attribute :infCpl,               :informacoes_contribuinte }
+		it { must_have_alias_attribute :procRef,              :processos_referenciados, [BrNfe.processo_referencia_product_class.new] }
 	end
 	describe "#default_values" do
 		it '#versao_aplicativo deve ter o padrão 0' do
@@ -475,7 +478,6 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_many(:pagamentos, BrNfe.pagamento_product_class, {forma_pagamento: '1', total: 350.00})  }
 		it { must_validate_length_has_many(:pagamentos, 
 				BrNfe.pagamento_product_class, 
-				maximum: 100,
 				condition: :nfce?
 		)}
 		
@@ -556,5 +558,10 @@ describe BrNfe::Product::NotaFiscal do
 			subject.total_retencao_previdencia = 1.0
 			subject.has_taxes_retention?.must_equal true
 		end
+	end
+
+	describe '#processos_referenciados' do
+		it { must_have_many(:processos_referenciados, BrNfe.processo_referencia_product_class, {numero_processo: 'P123', indicador: 1})  }
+		it { must_validates_has_many(:processos_referenciados, BrNfe.processo_referencia_product_class, :invalid_processo) }
 	end
 end

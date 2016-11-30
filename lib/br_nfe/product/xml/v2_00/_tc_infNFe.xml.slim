@@ -18,7 +18,7 @@ dest = render_xml 'infNFe/_tc_dest', nfe: nfe
 		= render_xml 'infNFe/_tc_det', item: item
 
 total
-	= render '_tc_total', nfe: nfe
+	= render_xml 'infNFe/_tc_total', nfe: nfe
 	
 transp
 	= render_xml('infNFe/_tc_transp', nfe: nfe)
@@ -27,7 +27,10 @@ transp
 	cobr
 		= render_xml 'infNFe/_tc_cobr', nfe: nfe
 
-/ infAdic
+- if nfe.informacoes_fisco.present? || nfe.informacoes_contribuinte.present? || nfe.processos_referenciados.present?
+	infAdic
+		= render_xml 'infNFe/_tc_infAdic', nfe: nfe
+		
 / exporta
 / compra
 / cana

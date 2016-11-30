@@ -863,6 +863,40 @@ module BrNfe
 				attr_accessor :total_retencao_previdencia
 				alias_attribute :retTrib_vRetPrev, :total_retencao_previdencia
 				validates :total_retencao_previdencia, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+			##########################################################################
+			########################  INFORMAÇÕES ADICIONAIS  ########################
+				# INFORMAÇÕES ADICIONAIS DE INTERESSE DO FISCO
+				#
+				# <b>Type:     </b> _String_
+				# <b>Required: </b> _No_
+				# <b>Default:  </b> _nil_
+				# <b>Length:   </b> _max: 2000_
+				# <b>tag:      </b> infAdic/infAdFisco
+				#
+				attr_accessor :informacoes_fisco
+				alias_attribute :infAdFisco, :informacoes_fisco
+
+				# INFORMAÇÕES COMPLEMENTARES DE INTERESSE DO CONTRIBUINTE
+				#
+				# <b>Type:     </b> _String_
+				# <b>Required: </b> _No_
+				# <b>Default:  </b> _nil_
+				# <b>Length:   </b> _max: 5000_
+				# <b>tag:      </b> infAdic/infCpl
+				#
+				attr_accessor :informacoes_contribuinte
+				alias_attribute :infCpl, :informacoes_contribuinte
+
+				# GRUPO PROCESSO REFERENCIADO
+				# (NT 2012/003)
+				#
+				# <b>Type:    </b> _BrNfe.processo_referencia_product_class (BrNfe::Product::Nfe::ProcessoReferencia)_
+				# <b>Default: </b> _[]_
+				# <b>Length:  </b> _max: 100_
+				# <b>tag:     </b> procRef
+				#
+				has_many :processos_referenciados, 'BrNfe.processo_referencia_product_class'
+				alias_attribute :procRef, :processos_referenciados
 
 			def default_values
 				{
@@ -926,6 +960,8 @@ module BrNfe
 
 			validate_has_many :itens, message: :invalid_item
 			validates         :itens, length:  {minimum: 1, maximum: 990}
+			
+			validate_has_many :processos_referenciados, message: :invalid_processo
 
 			with_options if: :nfce? do |record|
 				record.validate_has_many :pagamentos

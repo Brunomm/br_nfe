@@ -173,6 +173,7 @@ module BrNfe
 			autoload :DeclaracaoImportacao
 			autoload :AdicaoImportacao
 			autoload :Item
+			autoload :ProcessoReferencia
 			module Cobranca
 				extend ActiveSupport::Autoload
 				autoload :Fatura
@@ -277,6 +278,8 @@ module BrNfe
 		@@detalhe_exportacao_product_class = BrNfe::Product::Nfe::DetalheExportacao
 		mattr_accessor :item_product_class
 		@@item_product_class = BrNfe::Product::Nfe::Item
+		mattr_accessor :processo_referencia_product_class
+		@@processo_referencia_product_class = BrNfe::Product::Nfe::ProcessoReferencia
 
 		######################### IMPOSTOS DO ITEM #########################
 		mattr_accessor :icms_item_tax_product_class
