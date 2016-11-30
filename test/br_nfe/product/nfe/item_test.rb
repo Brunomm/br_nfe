@@ -89,7 +89,6 @@ describe BrNfe::Product::Nfe::Item do
 			it { wont allow_value('abcdefaaaaaaa2aaaa0aaaa9ffffffffffff').for(:numero_fci) }
 			# NÃO DEVE ACEITAR caracteres especiais a não ser hífen
 			it { wont allow_value('ABCDEFAA@AAAA#AAAA$AAAA_FFFFFF,FFFFF').for(:numero_fci) }
-			
 		end
 
 		describe "tipo_produto" do
@@ -168,6 +167,12 @@ describe BrNfe::Product::Nfe::Item do
 			it { must validate_presence_of(:valor_unitario_tributavel) }
 			it { must validate_numericality_of(:valor_unitario_tributavel) }
 		end
+
+		it { must validate_numericality_of(:percentual_devolucao).
+			is_greater_than_or_equal_to(0.0).
+			is_less_than_or_equal_to(100.0).
+			allow_nil
+		}
 	end
 
 	describe "cfop" do

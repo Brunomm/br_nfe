@@ -435,124 +435,152 @@ module BrNfe
 					attr_accessor :total_tributos
 					alias_attribute :vTotTrib, :total_tributos
 
-				
-				# INFORMAÇÕES DO ICMS DA OPERAÇÃO PRÓPRIA E ST
-				#  Informar apenas um dos grupos de tributação do ICMS
-				#  (ICMS00, ICMS10, ...) (v2.0)
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_ (yes if tipo_produto == :product)
-				# <b>Example:  </b> _BrNfe.icms_item_tax_product_class.new_
-				# <b>tag:      </b> ICMS
-				#
-				has_one :icms, 'BrNfe.icms_item_tax_product_class'
-				alias_attribute :ICMS, :icms
-				
-				# IMPOSTO SOBRE PRODUTOS INDUSTRIALIZADOS - IPI
-				#  Informar apenas quando o item for sujeito ao IPI
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.ipi_item_tax_product_class.new_
-				# <b>tag:      </b> IPI
-				#
-				has_one :ipi, 'BrNfe.ipi_item_tax_product_class'
-				alias_attribute :IPI, :ipi
-				
-				# Imposto de Importação - II
-				#  Informar apenas quando o item for sujeito ao II
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.importacao_item_tax_product_class.new_
-				# <b>tag:      </b> II
-				#
-				has_one :importacao,      'BrNfe.importacao_item_tax_product_class'
-				alias_attribute :II, :importacao
+				#######################################################################
+				################################  DEVOLUÇÃO  ###########################
+					# PERCENTUAL DA MERCADORIA DEVOLVIDA
+					#  O valor máximo deste percentual é 100%, no caso de devolução
+					#  total da mercadoria.
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _30.0_
+					# <b>Length:   </b> _13v2 - max: 100.0_
+					# <b>tag:      </b> pDevol
+					#
+					attr_accessor :percentual_devolucao
+					alias_attribute :pDevol, :percentual_devolucao
 
-				# PIS
-				#  Informar apenas um dos grupos Q02, Q03, Q04 ou Q05 com
-				#  base valor atribuído ao campo Q06 – CST do PIS
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.pis_item_tax_product_class.new_
-				# <b>tag:      </b> PIS
-				#
-				has_one :pis,             'BrNfe.pis_item_tax_product_class'
-				alias_attribute :PIS, :pis
+					# VALOR DO IPI DEVOLVIDO
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _137.47_
+					# <b>Length:   </b> _13v2_
+					# <b>tag:      </b> vIPIDevol
+					#
+					attr_accessor :total_ipi_devolucao
+					alias_attribute :vIPIDevol, :total_ipi_devolucao
 
-				# GRUPO PIS SUBSTITUIÇÃO TRIBUTÁRIA
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.pis_st_item_tax_product_class.new_
-				# <b>tag:      </b> PISST
-				#
-				has_one :pis_st,          'BrNfe.pis_st_item_tax_product_class'
-				alias_attribute :PISST, :pis_st
-				
-				# GRUPO COFINS
-				#  Informar apenas um dos grupos S02, S03, S04 ou S04 com
-				#  base valor atribuído ao campo de CST da COFINS
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.cofins_item_tax_product_class.new_
-				# <b>tag:      </b> COFINS
-				#
-				has_one :cofins, 'BrNfe.cofins_item_tax_product_class'
-				alias_attribute :COFINS, :cofins
-				
-				# GRUPO COFINS SUBSTITUIÇÃO TRIBUTÁRIA -  COFINS ST
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.cofins_st_item_tax_product_class.new_
-				# <b>tag:      </b> COFINSST
-				#
-				has_one :cofins_st, 'BrNfe.cofins_st_item_tax_product_class'
-				alias_attribute :COFINSST, :cofins_st
-				
-				# GRUPO ISSQN
-				#  Campos para cálculo do ISSQN na NF-e conjugada, onde há a
-				#  prestação de serviços sujeitos ao ISSQN e fornecimento de
-				#  peças sujeitas ao ICMS.
-				#  Grupo ISSQN é mutuamente exclusivo com os grupos ICMS, IPI
-				#  e II, isto é se ISSQN for informado os grupos ICMS, IPI e II não
-				#  serão informados e vice-versa (v2.0).
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.issqn_item_tax_product_class.new_
-				# <b>tag:      </b> ISSQN
-				#
-				has_one :issqn, 'BrNfe.issqn_item_tax_product_class'
-				alias_attribute :ISSQN, :issqn
-				
-				# Grupo de Tributação do ICMS para a UF de destino
-				#  Grupo a ser informado nas vendas interestaduais para
-				#  consumidor final, não contribuinte do ICMS.
-				#
-				# <b>Type:     </b> _HasOne_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _BrNfe.icms_uf_destino_item_tax_product_class.new_
-				# <b>tag:      </b> ICMSUFDest
-				#
-				has_one :icms_uf_destino, 'BrNfe.icms_uf_destino_item_tax_product_class'
-				alias_attribute :ICMSUFDest, :icms_uf_destino
+				#######################################################################
+				################################  IMPOSTOS  ###########################
+					# INFORMAÇÕES DO ICMS DA OPERAÇÃO PRÓPRIA E ST
+					#  Informar apenas um dos grupos de tributação do ICMS
+					#  (ICMS00, ICMS10, ...) (v2.0)
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_ (yes if tipo_produto == :product)
+					# <b>Example:  </b> _BrNfe.icms_item_tax_product_class.new_
+					# <b>tag:      </b> ICMS
+					#
+					has_one :icms, 'BrNfe.icms_item_tax_product_class'
+					alias_attribute :ICMS, :icms
+					
+					# IMPOSTO SOBRE PRODUTOS INDUSTRIALIZADOS - IPI
+					#  Informar apenas quando o item for sujeito ao IPI
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.ipi_item_tax_product_class.new_
+					# <b>tag:      </b> IPI
+					#
+					has_one :ipi, 'BrNfe.ipi_item_tax_product_class'
+					alias_attribute :IPI, :ipi
+					
+					# Imposto de Importação - II
+					#  Informar apenas quando o item for sujeito ao II
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.importacao_item_tax_product_class.new_
+					# <b>tag:      </b> II
+					#
+					has_one :importacao,      'BrNfe.importacao_item_tax_product_class'
+					alias_attribute :II, :importacao
 
-				# INFORMAÇÕES ADICIONAIS DO PRODUTO (PARA O ITEM DA NF-e)
-				# Norma referenciada, informações complementares, etc.
-				#
-				# <b>Type:     </b> _String_
-				# <b>Required: </b> _No_
-				# <b>Example:  </b> _'DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONA'_
-				# <b>Length:   </b> _max: 500_
-				# <b>tag:      </b> infAdProd
-				#
-				attr_accessor :informacoes_adicionais
-				alias_attribute :infAdProd, :informacoes_adicionais
+					# PIS
+					#  Informar apenas um dos grupos Q02, Q03, Q04 ou Q05 com
+					#  base valor atribuído ao campo Q06 – CST do PIS
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.pis_item_tax_product_class.new_
+					# <b>tag:      </b> PIS
+					#
+					has_one :pis,             'BrNfe.pis_item_tax_product_class'
+					alias_attribute :PIS, :pis
+
+					# GRUPO PIS SUBSTITUIÇÃO TRIBUTÁRIA
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.pis_st_item_tax_product_class.new_
+					# <b>tag:      </b> PISST
+					#
+					has_one :pis_st,          'BrNfe.pis_st_item_tax_product_class'
+					alias_attribute :PISST, :pis_st
+					
+					# GRUPO COFINS
+					#  Informar apenas um dos grupos S02, S03, S04 ou S04 com
+					#  base valor atribuído ao campo de CST da COFINS
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.cofins_item_tax_product_class.new_
+					# <b>tag:      </b> COFINS
+					#
+					has_one :cofins, 'BrNfe.cofins_item_tax_product_class'
+					alias_attribute :COFINS, :cofins
+					
+					# GRUPO COFINS SUBSTITUIÇÃO TRIBUTÁRIA -  COFINS ST
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.cofins_st_item_tax_product_class.new_
+					# <b>tag:      </b> COFINSST
+					#
+					has_one :cofins_st, 'BrNfe.cofins_st_item_tax_product_class'
+					alias_attribute :COFINSST, :cofins_st
+					
+					# GRUPO ISSQN
+					#  Campos para cálculo do ISSQN na NF-e conjugada, onde há a
+					#  prestação de serviços sujeitos ao ISSQN e fornecimento de
+					#  peças sujeitas ao ICMS.
+					#  Grupo ISSQN é mutuamente exclusivo com os grupos ICMS, IPI
+					#  e II, isto é se ISSQN for informado os grupos ICMS, IPI e II não
+					#  serão informados e vice-versa (v2.0).
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.issqn_item_tax_product_class.new_
+					# <b>tag:      </b> ISSQN
+					#
+					has_one :issqn, 'BrNfe.issqn_item_tax_product_class'
+					alias_attribute :ISSQN, :issqn
+					
+					# Grupo de Tributação do ICMS para a UF de destino
+					#  Grupo a ser informado nas vendas interestaduais para
+					#  consumidor final, não contribuinte do ICMS.
+					#
+					# <b>Type:     </b> _HasOne_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _BrNfe.icms_uf_destino_item_tax_product_class.new_
+					# <b>tag:      </b> ICMSUFDest
+					#
+					has_one :icms_uf_destino, 'BrNfe.icms_uf_destino_item_tax_product_class'
+					alias_attribute :ICMSUFDest, :icms_uf_destino
+
+					# INFORMAÇÕES ADICIONAIS DO PRODUTO (PARA O ITEM DA NF-e)
+					# Norma referenciada, informações complementares, etc.
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _'DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONA'_
+					# <b>Length:   </b> _max: 500_
+					# <b>tag:      </b> infAdProd
+					#
+					attr_accessor :informacoes_adicionais
+					alias_attribute :infAdProd, :informacoes_adicionais
+
 
 				def default_values
 					{
@@ -624,6 +652,7 @@ module BrNfe
 				validates :issqn, presence: true, if: :is_service?
 
 				validates :informacoes_adicionais, length: {maximum: 500}
+				validates :percentual_devolucao, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0}, allow_blank: true
 
 				def is_product?
 					tipo_produto == :product
