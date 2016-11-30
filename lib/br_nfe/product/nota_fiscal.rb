@@ -897,6 +897,44 @@ module BrNfe
 				#
 				has_many :processos_referenciados, 'BrNfe.processo_referencia_product_class'
 				alias_attribute :procRef, :processos_referenciados
+			##########################################################################
+			######################  INFORMAÇÕES DE EXPORTAÇÃO  #######################
+				# SIGLA DA UF DE EMBARQUE OU DE TRANSPOSIÇÃO DE FRONTEIRA
+				# Não aceita o valor "EX"
+				#
+				# <b>Type:     </b> _String_
+				# <b>Required: </b> _No_
+				# <b>Default:  </b> _nil_
+				# <b>Length:   </b> _2_
+				# <b>tag:      </b> exporta/UFSaidaPais
+				#
+				attr_accessor :exportacao_uf_saida
+				alias_attribute :UFSaidaPais, :exportacao_uf_saida
+				validates :exportacao_uf_saida, inclusion: {in: BrNfe::Constants::CODIGO_IBGE_UF-['EX'] }, allow_blank: true
+
+				# DESCRIÇÃO DO LOCAL DE EMBARQUE OU DE TRANSPOSIÇÃO DE FRONTEIRA
+				#
+				# <b>Type:     </b> _String_
+				# <b>Required: </b> _No_
+				# <b>Default:  </b> _nil_
+				# <b>Length:   </b> _max: 60_
+				# <b>tag:      </b> exporta/xLocExporta
+				#
+				attr_accessor :exportacao_local_embarque
+				alias_attribute :xLocExporta, :exportacao_local_embarque
+
+				# DESCRIÇÃO DO LOCAL DE DESPACHO
+				# Informação do Recinto Alfandegado
+				#
+				# <b>Type:     </b> _String_
+				# <b>Required: </b> _No_
+				# <b>Default:  </b> _nil_
+				# <b>Length:   </b> _max: 60_
+				# <b>tag:      </b> exporta/xLocDespacho
+				#
+				attr_accessor :exportacao_local_despacho
+				alias_attribute :xLocDespacho, :exportacao_local_despacho
+
 
 			def default_values
 				{

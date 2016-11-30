@@ -36,7 +36,9 @@ transp
 	infAdic
 		= render_xml 'infNFe/_tc_infAdic', nfe: nfe
 
+- if 	nfe.exportacao_uf_saida.present? && nfe.exportacao_local_embarque.present?
+	exporta
+		= render_xml 'infNFe/_tc_exporta', nfe: nfe
 
-/ exporta
 / compra
 / cana

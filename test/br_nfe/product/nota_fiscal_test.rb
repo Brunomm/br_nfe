@@ -260,6 +260,8 @@ describe BrNfe::Product::NotaFiscal do
 		it { must validate_numericality_of(:total_retencao_irrf).is_greater_than_or_equal_to(0.0).allow_nil }
 		it { must validate_numericality_of(:total_retencao_base_calculo_previdencia).is_greater_than_or_equal_to(0.0).allow_nil }
 		it { must validate_numericality_of(:total_retencao_previdencia).is_greater_than_or_equal_to(0.0).allow_nil }
+
+		it { must validate_inclusion_of(:exportacao_uf_saida).in_array(BrNfe::Constants::CODIGO_IBGE_UF-['EX']) }
 	end
 
 	describe '#nfe?' do
