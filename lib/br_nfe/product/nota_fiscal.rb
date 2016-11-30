@@ -370,6 +370,16 @@ module BrNfe
 			has_many :pagamentos, 'BrNfe.pagamento_product_class'
 			alias_attribute :pag, :pagamentos
 
+			# DETALHAMENTO DE PRODUTOS E SERVIÇOS
+			#
+			# <b>Type:    </b> _BrNfe.item_product_class (BrNfe::Product::Nfe::Item)_
+			# <b>Default: </b> _[]_
+			# <b>Length:  </b> _min: 1, max: 990_
+			# <b>tag:     </b> det
+			#
+			has_many :itens, 'BrNfe.item_product_class'
+			alias_attribute :det, :itens
+
 			def default_values
 				{
 					versao_aplicativo:   0, 
@@ -404,30 +414,33 @@ module BrNfe
 			validates :numero_nf, length: { maximum: 9 }
 			
 			validates :natureza_operacao, presence: true
-			
+
 			validates :forma_pagamento, presence: true
 			validates :forma_pagamento, inclusion: [0, 1, 2, '0', '1', '2']
-			
+
 			validates :modelo_nf, presence: true
 			validates :modelo_nf, inclusion: [55, 65, '55', '65']
 
 			validates :data_hora_emissao, presence: true
 			validates :data_hora_expedicao, presence: true, if: :nfe?
-			
+
 			validates :tipo_operacao, presence: true
 			validates :tipo_operacao, inclusion: [0, 1, '0', '1']
 
 			validates :tipo_impressao, presence: true
 			validates :tipo_impressao, inclusion: [0, 1, 2, 3, 4, 5, '0', '1', '2', '3', '4', '5']
-			
+
 			validates :presenca_comprador, presence: true
 			validates :presenca_comprador, inclusion: [0, 1, 2, 3, 4, 9, '0', '1', '2', '3', '4', '9']
-			
+
 			validates :processo_emissao, presence: true
 			validates :processo_emissao, inclusion: [0, 1, 2, 3, '0', '1', '2', '3']
 
 			validates :autorizados_download_xml, length: { maximum: 10 }
-			
+
+			validate_has_many :itens, message: :invalid_item
+			validates         :itens, length:  {minimum: 1, maximum: 990}
+
 			with_options if: :nfce? do |record|
 				record.validate_has_many :pagamentos
 				record.validates :pagamentos, length: {maximum: 100}

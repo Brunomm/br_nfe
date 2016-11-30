@@ -13,7 +13,10 @@ dest = render_xml 'infNFe/_tc_dest', nfe: nfe
 	autXML
 		= render_xml('_tc_cpf_cnpj', cpf_cnpj: auth)
 
-/ det
+- nfe.itens.each do |item|
+	det
+		= render_xml 'infNFe/_tc_det', item: item
+
 / total
 transp
 	= render_xml('infNFe/_tc_transp', nfe: nfe)

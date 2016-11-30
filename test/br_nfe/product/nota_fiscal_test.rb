@@ -399,4 +399,13 @@ describe BrNfe::Product::NotaFiscal do
 			condition: :nfce?
 		)}
 	end
+
+	describe '#itens' do
+		it { must_have_many(:itens, BrNfe.item_product_class, {codigo_produto: 'P123', codigo_ean: '123456'})  }
+		it { must_validate_length_has_many(:itens, 
+				BrNfe.item_product_class, 
+				minimum: 1
+		)}
+		it { must_validates_has_many(:itens, BrNfe.item_product_class, :invalid_item) }
+	end
 end

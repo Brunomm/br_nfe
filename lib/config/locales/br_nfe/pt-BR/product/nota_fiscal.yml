@@ -12,6 +12,7 @@ pt-BR:
           invalid_pagamento: 'Pagamento %{index}: %{error_message}'
           invalid_endereco_retirada: 'Endereço de retirada: %{error_message}'
           invalid_endereco_entrega: 'Endereço de entrega: %{error_message}'
+          invalid_item: 'Item %{index} > %{error_message}'
           attributes:
             autorizados_download_xml:
               too_long:  'excedeu o limite máximo de %{count} CPF/CNPJ'

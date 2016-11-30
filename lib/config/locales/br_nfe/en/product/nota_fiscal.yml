@@ -10,6 +10,7 @@ en:
           invalid_transporte: 'Transport: %{error_message}'
           invalid_fatura: 'Billing Invoice: %{error_message}'
           invalid_pagamento: 'Payment %{index}: %{error_message}'
+          invalid_item: 'Item %{index} > %{error_message}'
           invalid_endereco_retirada: 'Withdrawal address: %{error_message}'
           invalid_endereco_entrega: 'Delivery address: %{error_message}'
           attributes:

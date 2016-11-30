@@ -275,6 +275,8 @@ module BrNfe
 		@@adicao_importacao_product_class = BrNfe::Product::Nfe::AdicaoImportacao
 		mattr_accessor :detalhe_exportacao_product_class
 		@@detalhe_exportacao_product_class = BrNfe::Product::Nfe::DetalheExportacao
+		mattr_accessor :item_product_class
+		@@item_product_class = BrNfe::Product::Nfe::Item
 
 		######################### IMPOSTOS DO ITEM #########################
 		mattr_accessor :icms_item_tax_product_class
