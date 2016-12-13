@@ -229,6 +229,7 @@ module BrNfe
 		autoload :NfeAutorizacao
 		autoload :NfeConsultaAutorizacao
 		autoload :NfeConsultaProtocolo
+		autoload :NfeInutilizacao
 	end
 
 

@@ -1,0 +1,12 @@
+|<infInut xmlns="http://www.portalfiscal.inf.br/nfe" Id="#{chave}">
+tpAmb  = nf_xml_value_tipo_ambiente( env )
+xServ  = 'INUTILIZAR'
+cUF    = ibge_code_of_issuer_uf
+ano    = ano
+CNPJ   = nf_xml_value_cnpj( emitente.cnpj )
+mod    = modelo_nf
+serie  = serie
+nNFIni = numero_nf_inicial
+nNFFin = numero_nf_final
+xJust  = nf_xml_value_text( justificativa, 255 )
+|</infInut>
