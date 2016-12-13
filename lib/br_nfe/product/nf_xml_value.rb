@@ -253,6 +253,10 @@ module BrNfe
 			def nf_xml_value_ISSQN_incentivo_fiscal value
 				value ? 1 : 2
 			end
+
+			def nf_xml_value_numero_recibo value
+				only_numbers "#{value}".strip, max_size: 15
+			end
 		private
 
 			def only_numbers value, options={}
