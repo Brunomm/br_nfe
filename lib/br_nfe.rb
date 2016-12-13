@@ -228,6 +228,7 @@ module BrNfe
 		autoload :NfeStatusServico
 		autoload :NfeAutorizacao
 		autoload :NfeConsultaAutorizacao
+		autoload :NfeConsultaProtocolo
 	end
 
 
