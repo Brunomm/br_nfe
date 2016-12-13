@@ -1,6 +1,6 @@
 vTotTrib = nf_xml_value_monetary item.total_tributos
 
-- if is_product?
+- if item.is_product?
 	- if item.icms
 		ICMS
 			= render_xml 'infNFe/det/imposto/_tc_ICMS', icms: item.icms
@@ -26,7 +26,7 @@ vTotTrib = nf_xml_value_monetary item.total_tributos
 		ICMSUFDest
 			= render_xml 'infNFe/det/imposto/_tc_ICMSUFDest', icms: item.icms_uf_destino
 
-- if is_service?
+- if item.is_service?
 	- if item.ipi
 		IPI
 			= render_xml 'infNFe/det/imposto/_tc_IPI', ipi: item.ipi

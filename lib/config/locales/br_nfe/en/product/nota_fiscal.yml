@@ -7,6 +7,8 @@ en:
     errors:
       models:
         br_nfe/product/nota_fiscal:
+          invalid_emitente: 'Issuer > %{error_message}'
+          invalid_destinatario: 'Addressee > %{error_message}'
           invalid_transporte: 'Transport: %{error_message}'
           invalid_fatura: 'Billing Invoice: %{error_message}'
           invalid_pagamento: 'Payment %{index}: %{error_message}'

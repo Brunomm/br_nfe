@@ -6,7 +6,9 @@ NCM   = nf_xml_value_NCM(  item.codigo_ncm )
 - item.codigos_nve.each do |nve|
 	NVE = nf_xml_value_NVE(nve)
 
-CEST = nf_xml_value_CEST( item.codigo_cest )
+- item.codigo_cest.present?
+	CEST = nf_xml_value_CEST( item.codigo_cest )
+	
 - if item.codigo_extipi.present?
 	EXTIPI = nf_xml_value_EXTIPI(  item.codigo_extipi )
 

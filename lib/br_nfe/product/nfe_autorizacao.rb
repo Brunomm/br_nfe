@@ -1,6 +1,21 @@
 module BrNfe
 	module Product
 		class NfeAutorizacao < BrNfe::Product::Base
+
+			# NÚMERO DO LOTE
+			# Identificador de controle do envio do lote.
+			# Número sequencial autoincremental, de controle
+			# correspondente ao identificador único do lote
+			# enviado. A responsabilidade de gerar e controlar
+			# esse número é exclusiva do contribuinte.
+			# 
+			# <b>Type:     </b> _Number_
+			# <b>Required: </b> _Yes_
+			# <b>Example:  </b> _20161230135547_
+			# <b>Length:   </b> _max: 15_
+			# <b>tag:      </b> idLote
+			#
+			attr_accessor :numero_lote
 			
 			# Array com as notas fiscais a serem emitidas
 			# Pode ser adicionado os dados das notas fiscais em forma de `Hash` ou
@@ -28,6 +43,9 @@ module BrNfe
 			
 			validate_has_many :notas_fiscais, message: :invalid_invoice
 			validates :notas_fiscais, length: {in: 1..50}
+			validates :numero_lote, presence: true
+			validates :numero_lote, numericality: {only_integer: true}, allow_blank: true
+			validates :numero_lote, length: {maximum: 15}, allow_blank: true
 
 			# URL que será setada no atribto xmlns do XML;
 			# Ex:

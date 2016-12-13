@@ -1,0 +1,9 @@
+- signing ||= false
+- if signing
+	|<infNFe xmlns="http://www.portalfiscal.inf.br/nfe" Id="NFe#{nfe.chave_de_acesso}" versao="3.10">
+	= render_xml( '_tc_infNFe', nfe: nfe )
+	|</infNFe>
+- else
+	|<infNFe  Id="NFe#{nfe.chave_de_acesso}" versao="3.10">
+	= render_xml( '_tc_infNFe', nfe: nfe )
+	|</infNFe>

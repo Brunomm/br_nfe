@@ -1,0 +1,7 @@
+enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
+	idLote  = numero_lote
+	indSinc = 0
+	- notas_fiscais.each do |nfe|
+		NFe xmlns="http://www.portalfiscal.inf.br/nfe"
+			= render_xml 'infNFe', nfe: nfe
+			= render_xml('signature_sh1', data_xml: (render_xml 'infNFe', nfe: nfe, signing: true), uri: "NFe#{nfe.chave_de_acesso}").html_safe

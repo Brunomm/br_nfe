@@ -506,7 +506,7 @@ module BrNfe
 					# <b>Example:  </b> _BrNfe.pis_item_tax_product_class.new_
 					# <b>tag:      </b> PIS
 					#
-					has_one :pis,             'BrNfe.pis_item_tax_product_class'
+					has_one :pis, 'BrNfe.pis_item_tax_product_class'
 					alias_attribute :PIS, :pis
 
 					# GRUPO PIS SUBSTITUIÇÃO TRIBUTÁRIA

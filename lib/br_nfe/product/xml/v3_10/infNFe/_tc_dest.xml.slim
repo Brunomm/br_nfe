@@ -1,5 +1,10 @@
+- destinatario = nfe.destinatario
 = render_xml('_tc_cpf_cnpj', cpf_cnpj: destinatario.cpf_cnpj)
-xNome = nf_xml_value_text( destinatario.razao_social,  60)
+
+- if env_test?
+	xNome = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL'
+- else
+	xNome = nf_xml_value_text( destinatario.razao_social,  60)
 
 enderDest
 	= render_xml('_tc_endereco', person: destinatario)

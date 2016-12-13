@@ -13,8 +13,8 @@ dest = render_xml 'infNFe/_tc_dest', nfe: nfe
 	autXML
 		= render_xml('_tc_cpf_cnpj', cpf_cnpj: auth)
 
-- nfe.itens.each do |item|
-	det
+- nfe.itens.each_with_index do |item, i|
+	det nItem="#{i+1}"
 		= render_xml 'infNFe/_tc_det', item: item
 
 total

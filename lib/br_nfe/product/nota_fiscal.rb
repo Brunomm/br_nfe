@@ -1,9 +1,26 @@
 module BrNfe
 	module Product
 		class NotaFiscal  < BrNfe::ActiveModelBase
-			include BrNfe::Association::HaveDestinatario
-			include BrNfe::Association::HaveEmitente
 			# include BrNfe::Association::HaveCondicaoPagamento
+
+			# Identificação do emitente da NF-e
+			# 
+			# <b>Type:     </b> _BrNfe.emitente_product_class
+			# <b>Required: </b> _Yes_
+			# <b>tag:      </b> emit
+			#
+			has_one :emitente, 'BrNfe.emitente_product_class', null: false
+			alias_attribute :emit, :emitente
+
+			# Identificação do Destinatário da NF-e
+			#  Grupo obrigatório para a NF-e (modelo 55)
+			# 
+			# <b>Type:     </b> _BrNfe.destinatario_product_class_
+			# <b>Required: </b> _Yes_ (No if modelo_nf == 65)
+			# <b>tag:      </b> dest
+			#
+			has_one :destinatario, 'BrNfe.destinatario_product_class', null: false
+			alias_attribute :dest, :destinatario
 			
 			# Código do Tipo de Emissão da NF-e
 			#  ✓ 1=Emissão normal (não em contingência);
@@ -1008,6 +1025,8 @@ module BrNfe
 
 			validate_has_one  :transporte
 			validate_has_one  :fatura
+			validate_has_one  :destinatario
+			validate_has_one  :emitente
 			
 			validate_has_one  :endereco_retirada
 			with_options if: :endereco_retirada do |record|
@@ -1050,14 +1069,6 @@ module BrNfe
 			end
 
 		private
-
-			def destinatario_class
-				BrNfe.destinatario_product_class
-			end
-
-			def emitente_class
-				BrNfe.emitente_product_class
-			end
 
 			###############################################################################################
 			#       | Código | AAMM da | CNPJ do  | Modelo | Série | Número  | Cód. tipo | Código   | DV  |

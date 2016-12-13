@@ -27,6 +27,6 @@ modFrete = transporte.modalidade_frete
 - if transporte.forma_transporte_balsa?
 	balsa = nf_xml_value_text(transporte.identificacao_balsa, 20)
 
-- volumes.each do |volume|
+- transporte.volumes.each do |volume|
 	vol
 		= render_xml 'infNFe/transp/_tc_vol', volume: volume

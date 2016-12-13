@@ -9,6 +9,13 @@ describe BrNfe::Product::NfeAutorizacao do
 		subject.stubs(:gateway).returns(gateway)
 	end
 
+	describe 'Validations' do
+		it { must validate_presence_of(:numero_lote) }
+		it { must validate_length_of(:numero_lote).is_at_most(15) }
+		it { must validate_numericality_of(:numero_lote).only_integer }
+		it { must allow_value('123456789012345').for(:numero_lote) }
+	end
+
 	describe '#notas_fiscais' do
 		it { must_validate_length_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, {minimum: 1, maximum: 50})  }
 		it { must_validates_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, :invalid_invoice) }

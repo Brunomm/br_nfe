@@ -1,30 +1,45 @@
 - if icms.codigo_cst == '00'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS00', icms: icms
+	ICMS00
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS00', icms: icms
 - elsif icms.codigo_cst == '10'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS10', icms: icms
+	ICMS10
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS10', icms: icms
 - elsif icms.codigo_cst == '20'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS20', icms: icms
+	ICMS20
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS20', icms: icms
 - elsif icms.codigo_cst == '30'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS30', icms: icms
+	ICMS30
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS30', icms: icms
 - elsif icms.codigo_cst.in?(%w[40 41 50])
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS40', icms: icms
+	ICMS40
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS40', icms: icms
 - elsif icms.codigo_cst == '51'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS51', icms: icms
+	ICMS51
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS51', icms: icms
 - elsif icms.codigo_cst == '60'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS60', icms: icms
+	ICMS60
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS60', icms: icms
 - elsif icms.codigo_cst == '70'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS70', icms: icms
+	ICMS70
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS70', icms: icms
 - elsif icms.codigo_cst == '90'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS90', icms: icms
+	ICMS90
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS90', icms: icms
 - elsif icms.codigo_cst == '101'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS101', icms: icms
+	ICMSSN101
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS101', icms: icms
 - elsif icms.codigo_cst.in?(%w[102 103 300 400])
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS102', icms: icms
+	ICMSSN102
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS102', icms: icms
 - elsif icms.codigo_cst == '201'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS201', icms: icms
+	ICMSSN201
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS201', icms: icms
 - elsif icms.codigo_cst.in?(%w[202 203])
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS202', icms: icms
+	ICMSSN202
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS202', icms: icms
 - elsif icms.codigo_cst == '500'
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS500', icms: icms
+	ICMSSN500
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS500', icms: icms
 - else # 900
-	= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS900', icms: icms
+	ICMSSN900
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS900', icms: icms

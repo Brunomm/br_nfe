@@ -508,9 +508,20 @@ describe BrNfe::Base do
 		end
 	end
 
-	
+	describe '#id_attribute?' do
+		it "deve ser true por padrao" do
+			subject.id_attribute?.must_equal true
+		end
+	end
 
-
-	
-
+	describe "#env_test?" do
+		it "deve ser true se o env for igual a :test" do
+			subject.env = :test
+			subject.env_test?.must_equal true
+		end
+		it "deve ser false se o env for deferente de :test" do
+			subject.env = :production
+			subject.env_test?.must_equal false
+		end
+	end
 end

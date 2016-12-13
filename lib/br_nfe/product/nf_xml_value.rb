@@ -1,6 +1,9 @@
 module BrNfe
 	module Product
 		module NfXmlValue
+			def nf_xml_value_codigo_nf value
+				only_numbers(value).rjust(8, '0')
+			end
 			def nf_xml_value_tipo_ambiente value, xml_version=:v3_10
 				value == :production ? '1' : '2'
 			end
@@ -134,32 +137,32 @@ module BrNfe
 				end
 			end
 
-			def nf_xml_value_date date, xml_version=:v3_10
-				if date.is_a?(Date)
-					date.to_s(:iso8601)
-				elsif time.is_a?(Time) || time.is_a?(DateTime)
-					date.to_date.to_s(:iso8601)
+			def nf_xml_value_date value, xml_version=:v3_10
+				if value.is_a?(Date)
+					value.to_s(:iso8601)
+				elsif value.is_a?(Time) || value.is_a?(DateTime)
+					value.to_date.to_s(:iso8601)
 				end
 			end
 
 			def nf_xml_value_monetary value, xml_version=:v3_10
-				value.to_f.round(2)
+				"%.2f" % value.to_f.round(2)
 			end
 
 			def nf_xml_value_percent value, xml_version=:v3_10
-				value.to_f.round(4)
+				"%.4f" % value.to_f.round(4)
 			end
 
 			def nf_xml_value_quantidade value, xml_version=:v3_10
-				value.to_f.round(4)
+				"%.4f" % value.to_f.round(4)
 			end
 
 			def nf_xml_value_peso value, xml_version=:v3_10
-				value.to_f.round(3)
+				"%.3f" % value.to_f.round(3)
 			end
 
 			def nf_xml_value_float value, precision, xml_version=:v3_10
-				value.to_f.round(precision)
+				"%.#{precision}f" % value.to_f.round(precision)
 			end
 
 			def nf_xml_value_CFOP value, xml_version=:v3_10

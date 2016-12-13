@@ -294,26 +294,6 @@ describe BrNfe::Product::NotaFiscal do
 		end
 	end
 
-	describe "#emitente" do
-		class OtherClassEmitente < BrNfe::ActiveModelBase
-		end
-		it "deve ter incluso o module HaveEmitente" do
-			subject.class.included_modules.must_include BrNfe::Association::HaveEmitente
-		end
-		it "o método #emitente_class deve ter por padrão a class BrNfe::Product::Emitente" do
-			subject.emitente.must_be_kind_of BrNfe::Product::Emitente
-			subject.send(:emitente_class).must_equal BrNfe::Product::Emitente
-		end
-		it "a class do emitente pode ser modificada através da configuração emitente_product_class" do
-			BrNfe.emitente_product_class = OtherClassEmitente
-			subject.emitente.must_be_kind_of OtherClassEmitente
-			subject.send(:emitente_class).must_equal OtherClassEmitente
-
-			# É necessário voltar a configuração original para não falhar outros testes
-			BrNfe.emitente_product_class = BrNfe::Product::Emitente
-		end
-	end
-
 	describe 'chave_de_acesso' do
 		it "se já tem chave de acesso setada na variavel @chave_de_acesso não deve calcular a chave novamente" do
 			subject.chave_de_acesso = '123'
@@ -458,6 +438,28 @@ describe BrNfe::Product::NotaFiscal do
 			subject.autorizados_download_xml = [nil]
 			subject.autorizados_download_xml.must_equal([])
 		end
+	end
+
+	describe '#emitente' do
+		it 'have one' do 
+			must_have_one(:emitente,
+				BrNfe.emitente_product_class,
+				{nome_fantasia: 'FANTASIA', razao_social: 'RAZAO'},
+				null: false
+			)
+		end
+		it { must_validate_have_one(:emitente, BrNfe.emitente_product_class, :invalid_emitente) }
+	end
+
+	describe '#destinatario' do
+		it 'have one' do 
+			must_have_one(:destinatario,
+				BrNfe.destinatario_product_class,
+				{nome_fantasia: 'FANTASIA', razao_social: 'RAZAO'},
+				null: false
+			)
+		end
+		it { must_validate_have_one(:destinatario, BrNfe.destinatario_product_class, :invalid_destinatario) }
 	end
 
 	describe '#transporte' do
