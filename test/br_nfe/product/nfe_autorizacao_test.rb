@@ -9,6 +9,11 @@ describe BrNfe::Product::NfeAutorizacao do
 		subject.stubs(:gateway).returns(gateway)
 	end
 
+	describe '#aliases' do
+		it { must_have_alias_attribute :idLote,  :numero_lote }
+		it { must_have_alias_attribute :indSinc, :sincrono, true }
+	end
+
 	describe 'Validations' do
 		it { must validate_presence_of(:numero_lote) }
 		it { must validate_length_of(:numero_lote).is_at_most(15) }
@@ -20,6 +25,10 @@ describe BrNfe::Product::NfeAutorizacao do
 		it { must_validate_length_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, {minimum: 1, maximum: 50})  }
 		it { must_validates_has_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, :invalid_invoice) }
 		it { must_have_many(:notas_fiscais, BrNfe.nota_fiscal_product_class, {codigo_nf: '1233', serie: '1'})  }
+	end
+
+	it "o attr sincrono deve sempre retornar um boolean" do
+		must_returns_a_boolean_for :sincrono
 	end
 	
 	it 'o método #url_xmlns deve pegar o valor do método url_xmlns_autorizacao do gateway ' do

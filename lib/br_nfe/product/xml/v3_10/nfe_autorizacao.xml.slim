@@ -1,6 +1,6 @@
 enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
 	idLote  = numero_lote
-	indSinc = 0
+	indSinc = nf_xml_value_indicador_sincrono( sincrono )
 	- notas_fiscais.each do |nfe|
 		NFe xmlns="http://www.portalfiscal.inf.br/nfe"
 			= render_xml 'infNFe', nfe: nfe

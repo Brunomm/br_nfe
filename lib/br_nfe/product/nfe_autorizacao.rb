@@ -16,6 +16,32 @@ module BrNfe
 			# <b>tag:      </b> idLote
 			#
 			attr_accessor :numero_lote
+			alias_attribute :idLote, :numero_lote
+
+			# INDICADOR DO PROCESSAMENTO SINCRONO OU ASINCRONO
+			# false = 0=Não. (Default)
+			# true  = 1=Empresa solicita processamento síncrono do
+			#         Lote de NF-e (sem a geração de Recibo para consulta futura);
+			#
+			# Nota: O processamento síncrono do Lote corresponde a entrega 
+			# da resposta do processamento das NF-e do Lote, sem a geração
+			# de um Recibo de Lote para consulta futura. A resposta de forma 
+			# síncrona pela SEFAZ Autorizadora só ocorrerá se:
+			# - a empresa solicitar e constar unicamente uma NF-e no Lote;
+			# - a SEFAZ Autorizadora implementar o processamento síncrono 
+			#   para a resposta do Lote de NF-e.
+			# 
+			# <b>Type:     </b> _Boolean_
+			# <b>Required: </b> _Yes_
+			# <b>Example:  </b> _true_
+			# <b>Default:  </b> _false_
+			# <b>tag:      </b> indSinc
+			#
+			attr_accessor :sincrono
+			def sincrono
+				convert_to_boolean(@sincrono)
+			end
+			alias_attribute :indSinc, :sincrono
 			
 			# Array com as notas fiscais a serem emitidas
 			# Pode ser adicionado os dados das notas fiscais em forma de `Hash` ou

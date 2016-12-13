@@ -13,6 +13,9 @@ module BrNfe
 			def nf_xml_value_cnpj value, xml_version=:v3_10
 				only_numbers value, {min_size: 14, max_size: 14}
 			end
+			def nf_xml_value_indicador_sincrono value
+				value ? '1' : '0'
+			end
 
 			def nf_xml_value_id_estrangeiro value, xml_version=:v3_10
 				"#{value}".max_size(20)
