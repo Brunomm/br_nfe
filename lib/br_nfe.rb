@@ -219,6 +219,12 @@ module BrNfe
 			autoload :WebServiceSvcRS
 			autoload :WebServiceSVRS
 		end
+
+		module Evento
+			extend ActiveSupport::Autoload
+			autoload :Base
+			autoload :Cancelamento
+		end
 		autoload :NfXmlValue
 		autoload :Emitente
 		autoload :Destinatario
@@ -230,6 +236,7 @@ module BrNfe
 		autoload :NfeConsultaAutorizacao
 		autoload :NfeConsultaProtocolo
 		autoload :NfeInutilizacao
+		autoload :NfeRecepcaoEvento
 	end
 
 
@@ -283,6 +290,10 @@ module BrNfe
 		@@item_product_class = BrNfe::Product::Nfe::Item
 		mattr_accessor :processo_referencia_product_class
 		@@processo_referencia_product_class = BrNfe::Product::Nfe::ProcessoReferencia
+
+		############################# EVENTOS ##############################
+		mattr_accessor :cancelamento_product_class
+		@@cancelamento_product_class = BrNfe::Product::Evento::Cancelamento
 
 		######################### IMPOSTOS DO ITEM #########################
 		mattr_accessor :icms_item_tax_product_class

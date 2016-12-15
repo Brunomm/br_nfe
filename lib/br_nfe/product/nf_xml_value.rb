@@ -257,6 +257,19 @@ module BrNfe
 			def nf_xml_value_numero_recibo value
 				only_numbers "#{value}".strip, max_size: 15
 			end
+
+			def nf_xml_value_orgao_emissor evento
+				if evento.codigo_orgao.present?
+					evento.codigo_orgao
+				else
+					if gateway.is_a?(BrNfe::Product::Gateway::WebServiceSVAN) && evento.is_a?(BrNfe.cancelamento_product_class)
+						91
+					else
+						"#{evento.chave_nfe}"[0..1]
+					end
+				end
+			end
+
 		private
 
 			def only_numbers value, options={}
