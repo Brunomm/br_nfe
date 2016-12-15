@@ -25,6 +25,9 @@ require 'pry'
 
 require "savon/mock/spec_helper"
 
+ENV['TZ'] = 'UTC'
+Time.zone = 'Brasilia'
+
 Minitest::Reporters.use!
 
 if ActiveSupport.version >= Gem::Version.new('4.2')
@@ -101,11 +104,20 @@ class MiniTest::Spec
 	end
 
 	def must_have_alias_attribute(alias_name, attribute, test_value=1)
-		subject.send("#{attribute}=", test_value)
-		subject.send(alias_name).must_equal test_value
+		if test_value.is_a?(Time)
+			test_value = Time.zone.parse('10/05/2017 03:58:47.000')
+			subject.send("#{attribute}=", test_value)
+			subject.send(alias_name).must_be_close_to test_value
 
-		subject.send("#{alias_name}=", test_value)
-		subject.send(attribute).must_equal test_value
+			subject.send("#{alias_name}=", test_value)
+			subject.send(attribute).must_be_close_to test_value
+		else
+			subject.send("#{attribute}=", test_value)
+			subject.send(alias_name).must_equal test_value
+
+			subject.send("#{alias_name}=", test_value)
+			subject.send(attribute).must_equal test_value
+		end
 	end
 
 	def must_accept_only_numbers attribute, opts={}

@@ -959,8 +959,8 @@ module BrNfe
 					natureza_operacao:   'Venda',
 					forma_pagamento:     0, # 0=À vista
 					modelo_nf:           55, #NF-e
-					data_hora_emissao:   Time.current,
-					data_hora_expedicao: Time.current,
+					data_hora_emissao:   Time.current.in_time_zone,
+					data_hora_expedicao: Time.current.in_time_zone,
 					tipo_operacao:       1, # 1=Saída
 					tipo_impressao:      1, # 1=DANFE normal, Retrato;
 					finalidade_emissao:  1, # 1=NF-e normal;

@@ -14,8 +14,8 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_alias_attribute :natOp,    :natureza_operacao }
 		it { must_have_alias_attribute :indPag,   :forma_pagamento }
 		it { must_have_alias_attribute :mod,      :modelo_nf }
-		it { must_have_alias_attribute :dhEmi,    :data_hora_emissao,   Time.current }
-		it { must_have_alias_attribute :dhSaiEnt, :data_hora_expedicao, Time.current }
+		it { must_have_alias_attribute :dhEmi,    :data_hora_emissao,   Time.current.in_time_zone }
+		it { must_have_alias_attribute :dhSaiEnt, :data_hora_expedicao, Time.current.in_time_zone }
 		it { must_have_alias_attribute :tpNF,     :tipo_operacao }
 		it { must_have_alias_attribute :tpEmis,   :tipo_impressao }
 		it { must_have_alias_attribute :finNFe,   :finalidade_emissao }
@@ -87,10 +87,10 @@ describe BrNfe::Product::NotaFiscal do
 			subject.class.new.modelo_nf.must_equal 55
 		end
 		it '#data_hora_emissao deve ter o padrão Time.current' do
-			subject.class.new.data_hora_emissao.must_be_within_delta Time.current
+			subject.class.new.data_hora_emissao.to_s.must_equal Time.current.in_time_zone.to_s
 		end
 		it '#data_hora_expedicao deve ter o padrão Time.current' do
-			subject.class.new.data_hora_expedicao.must_be_within_delta Time.current
+			subject.class.new.data_hora_expedicao.to_s.must_equal Time.current.in_time_zone.to_s
 		end
 		it '#tipo_operacao deve ter o padrão 1' do
 			subject.class.new.tipo_operacao.must_be_within_delta 1

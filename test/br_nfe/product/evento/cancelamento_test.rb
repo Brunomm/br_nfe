@@ -5,7 +5,7 @@ describe BrNfe::Product::Evento::Cancelamento do
 
 	describe '#default values' do
 		it 'for #data_hora' do
-			subject.class.new.data_hora.must_be_close_to Time.current
+			subject.class.new.data_hora.to_s.must_equal Time.current.in_time_zone.to_s
 		end
 		it 'for #numero_sequencial' do
 			subject.class.new.numero_sequencial.must_equal 1

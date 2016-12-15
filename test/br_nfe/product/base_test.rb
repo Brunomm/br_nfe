@@ -518,14 +518,14 @@ describe BrNfe::Product::Base do
 	describe '#inicio_contingencia' do
 		it "deve fazer parse para Time se passar qualquer valor" do
 			subject.inicio_contingencia = '05/06/2018 03:35'
-			subject.inicio_contingencia.must_equal Time.parse('05/06/2018 03:35')
+			subject.inicio_contingencia.must_be_close_to Time.zone.parse('05/06/2018 03:35')
 
 			subject.inicio_contingencia = now = DateTime.current
-			subject.inicio_contingencia.must_equal now.to_time
+			subject.inicio_contingencia.must_be_close_to now.to_time.in_time_zone
 		end
 		it "se passar um valor Time deve retornar o mesmo valor" do
 			subject.inicio_contingencia = now = Time.current
-			subject.inicio_contingencia.must_equal now
+			subject.inicio_contingencia.to_s.must_equal now.in_time_zone.to_s
 		end
 		it "deve retornar nil se passar um valor inválido" do
 			subject.inicio_contingencia = '77777777777'
