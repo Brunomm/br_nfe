@@ -134,6 +134,28 @@ module BrNfe
 					def ssl_version_recepcao_evento
 						:TLSv1
 					end
+
+				##########################################################################################
+				#################################  NFE DOWNLOAD NF  ######################################
+					def wsdl_download_nf
+						if env_production?
+							'https://www.sefazvirtual.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+						else
+							'https://hom.sefazvirtual.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+						end
+					end
+					def operation_download_nf
+						:nfe_download_nf
+					end
+					def version_xml_download_nf
+						:v3_10
+					end
+					def url_xmlns_download_nf
+						'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'
+					end
+					def ssl_version_download_nf
+						:TLSv1
+					end
 			end
 		end
 	end

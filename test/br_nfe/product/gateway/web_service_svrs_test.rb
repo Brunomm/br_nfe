@@ -180,6 +180,63 @@ describe BrNfe::Product::Gateway::WebServiceSVRS do
 			it { subject.ssl_version_recepcao_evento.must_equal :SSLv3 }
 		end
 	end
+
+		describe 'DOWNLOAD NF' do
+		describe '#wsdl_download_nf' do
+			it "para ambiente de produção" do
+				subject.env = :production
+				subject.wsdl_download_nf.must_equal 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+			end
+			it "para ambiente de homologação" do
+				subject.env = :test
+				subject.wsdl_download_nf.must_equal 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+			end
+		end
+
+		describe '#operation_download_nf' do
+			it "para ambiente de produção" do
+				subject.env = :production
+				subject.operation_download_nf.must_equal :nfe_download_nf
+			end
+			it "para ambiente de homologação" do
+				subject.env = :test
+				subject.operation_download_nf.must_equal :nfe_download_nf
+			end
+		end
+
+		describe '#version_xml_download_nf' do
+			it "para ambiente de produção" do
+				subject.env = :production
+				subject.version_xml_download_nf.must_equal :v3_10
+			end
+			it "para ambiente de homologação" do
+				subject.env = :test
+				subject.version_xml_download_nf.must_equal :v3_10
+			end
+		end
+
+		describe '#url_xmlns_download_nf' do
+			it "para ambiente de produção" do
+				subject.env = :production
+				subject.url_xmlns_download_nf.must_equal 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'
+			end
+			it "para ambiente de homologação" do
+				subject.env = :test
+				subject.url_xmlns_download_nf.must_equal 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'
+			end
+		end
+
+		describe '#ssl_version_download_nf' do
+			it "para ambiente de produção" do
+				subject.env = :production
+				subject.ssl_version_download_nf.must_equal :TLSv1
+			end
+			it "para ambiente de homologação" do
+				subject.env = :test
+				subject.ssl_version_download_nf.must_equal :TLSv1
+			end
+		end
+	end
 	
 	
 end
