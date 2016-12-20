@@ -274,6 +274,19 @@ class MiniTest::Spec
 		must_be_message_error(:base, i18n_message, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
 	end
 
+	def wont_validate_have_one attribute, klass, i18n_message
+		msg_erro_1 = "Mensagem 1"
+		msg_erro_2 = "Mensagem 2"
+		object = klass.new
+		object.errors.add :base, msg_erro_1
+		object.errors.add :base, msg_erro_2
+		object.stubs(:invalid?).returns(true)
+		subject.send("#{attribute}=", object)
+		
+		wont_be_message_error(:base, i18n_message, {error_message: msg_erro_1})
+		wont_be_message_error(:base, i18n_message, {error_message: msg_erro_2}, false) # Para não executar mais o valid?
+	end
+
 	def must_returns_a_integer_for attribute
 		subject.send("#{attribute}=", 1)
 		subject.send(attribute).must_equal 1

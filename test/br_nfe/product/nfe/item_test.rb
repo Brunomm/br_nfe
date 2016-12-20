@@ -318,15 +318,15 @@ describe BrNfe::Product::Nfe::Item do
 		it { must_validates_has_many(:detalhes_exportacao, BrNfe.detalhe_exportacao_product_class, :invalid_detalhe_exportacao) }
 	end
 	describe '#icms' do
-		it { must_have_one :icms, BrNfe.icms_item_tax_product_class, {origem: 0, codigo_cst: '10'} }
-		it { must_validate_have_one :icms, BrNfe.icms_item_tax_product_class, :invalid_icms }
-		it "deve ser obrigatório se o tipo_produto for :product" do
+		it { must_have_one :icms, BrNfe.icms_item_tax_product_class, {origem: 0, codigo_cst: '10'}, null: false }
+		
+		it 'Se o item for um produto deve validar o ICMS' do
 			subject.tipo_produto = :product
-			must validate_presence_of(:icms)
+			must_validate_have_one :icms, BrNfe.icms_item_tax_product_class, :invalid_icms
 		end
-		it "Não deve ser obrigatório se o tipo_produto não for :product" do
+		it 'Se o item for um serviço não deve validar o ICMS' do
 			subject.tipo_produto = :service
-			wont validate_presence_of(:icms)
+			wont_validate_have_one :icms, BrNfe.icms_item_tax_product_class, :invalid_icms
 		end
 	end
 
@@ -341,7 +341,7 @@ describe BrNfe::Product::Nfe::Item do
 	end
 
 	describe '#pis' do
-		it { must_have_one :pis, BrNfe.pis_item_tax_product_class, {codigo_cst: '01', aliquota: 2.5} }
+		it { must_have_one :pis, BrNfe.pis_item_tax_product_class, {codigo_cst: '01', aliquota: 2.5}, null: false }
 		it { must_validate_have_one :pis, BrNfe.pis_item_tax_product_class, :invalid_pis }
 	end
 
@@ -351,7 +351,7 @@ describe BrNfe::Product::Nfe::Item do
 	end
 
 	describe '#cofins' do
-		it { must_have_one :cofins, BrNfe.cofins_item_tax_product_class, {codigo_cst: '01', aliquota: 4.56} }
+		it { must_have_one :cofins, BrNfe.cofins_item_tax_product_class, {codigo_cst: '01', aliquota: 4.56}, null: false }
 		it { must_validate_have_one :cofins, BrNfe.cofins_item_tax_product_class, :invalid_cofins }
 	end
 

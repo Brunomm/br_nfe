@@ -10,15 +10,13 @@ vTotTrib = nf_xml_value_monetary item.total_tributos
 	- if item.importacao
 		II
 			= render_xml 'infNFe/det/imposto/_tc_II', imposto: item.importacao
-	- if item.pis
-		PIS
-			= render_xml 'infNFe/det/imposto/_tc_PIS', pis: item.pis
+	PIS
+		= render_xml 'infNFe/det/imposto/_tc_PIS', pis: item.pis
 	- if item.pis_st
 		PISST
 			= render_xml 'infNFe/det/imposto/_tc_PIS_ST', pis: item.pis_st
-	- if item.cofins
-		COFINS
-			= render_xml 'infNFe/det/imposto/_tc_COFINS', cofins: item.cofins
+	COFINS
+		= render_xml 'infNFe/det/imposto/_tc_COFINS', cofins: item.cofins
 	- if item.cofins_st
 		COFINSST
 			= render_xml 'infNFe/det/imposto/_tc_COFINS_ST', cofins: item.cofins_st
@@ -27,3 +25,7 @@ vTotTrib = nf_xml_value_monetary item.total_tributos
 	- if item.issqn
 		ISSQN
 			= render_xml 'infNFe/det/imposto/_tc_ISSQN', issqn: item.issqn
+	PIS
+		= render_xml 'infNFe/det/imposto/_tc_PIS', pis: item.pis
+	COFINS
+		= render_xml 'infNFe/det/imposto/_tc_COFINS', cofins: item.cofins

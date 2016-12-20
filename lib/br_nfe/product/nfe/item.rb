@@ -472,7 +472,7 @@ module BrNfe
 					# <b>Example:  </b> _BrNfe.icms_item_tax_product_class.new_
 					# <b>tag:      </b> ICMS
 					#
-					has_one :icms, 'BrNfe.icms_item_tax_product_class'
+					has_one :icms, 'BrNfe.icms_item_tax_product_class', null: false
 					alias_attribute :ICMS, :icms
 					
 					# IMPOSTO SOBRE PRODUTOS INDUSTRIALIZADOS - IPI
@@ -506,7 +506,7 @@ module BrNfe
 					# <b>Example:  </b> _BrNfe.pis_item_tax_product_class.new_
 					# <b>tag:      </b> PIS
 					#
-					has_one :pis, 'BrNfe.pis_item_tax_product_class'
+					has_one :pis, 'BrNfe.pis_item_tax_product_class', null: false
 					alias_attribute :PIS, :pis
 
 					# GRUPO PIS SUBSTITUIÇÃO TRIBUTÁRIA
@@ -528,7 +528,7 @@ module BrNfe
 					# <b>Example:  </b> _BrNfe.cofins_item_tax_product_class.new_
 					# <b>tag:      </b> COFINS
 					#
-					has_one :cofins, 'BrNfe.cofins_item_tax_product_class'
+					has_one :cofins, 'BrNfe.cofins_item_tax_product_class', null: false
 					alias_attribute :COFINS, :cofins
 					
 					# GRUPO COFINS SUBSTITUIÇÃO TRIBUTÁRIA -  COFINS ST
@@ -589,7 +589,7 @@ module BrNfe
 					}
 				end
 
-				validate_has_one :icms
+				validate_has_one :icms, if: :is_product?
 				validate_has_one :pis
 				validate_has_one :cofins
 				validate_has_one :ipi

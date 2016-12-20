@@ -12,6 +12,8 @@ describe BrNfe::Product::Nfe::ItemTax::Pis do
 		it { must_have_alias_attribute :vAliqProd, :total_aliquota }
 	end
 
+	it { must_have_default_value_for(:codigo_cst, '07') }
+
 	describe 'Validations' do
 		context '#codigo_cst' do
 			it { must validate_presence_of(:codigo_cst) }

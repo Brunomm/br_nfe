@@ -2,7 +2,7 @@ module BrNfe
 	module Product
 		module NfXmlValue
 			def nf_xml_value_codigo_nf value
-				only_numbers(value).rjust(8, '0')
+				only_numbers(value, {min_size: 8, max_size: 8})
 			end
 			def nf_xml_value_tipo_ambiente value, xml_version=:v3_10
 				value == :production ? '1' : '2'
