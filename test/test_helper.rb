@@ -321,6 +321,15 @@ class MiniTest::Spec
 		subject.class.new.send(attribute).must_equal default_value, msg
 	end
 
+	def nfe_must_be_valid_by_schema schema_name
+		Dir.chdir(BrNfe.root+'/test/fixtures/product/schemas') do
+			schema = Nokogiri::XML::Schema(IO.read(schema_name))
+			document = Nokogiri::XML(subject.xml_builder)
+			errors = schema.validate(document)
+			errors.must_be_empty
+		end
+	end
+
 private
 	
 	################################################################################
