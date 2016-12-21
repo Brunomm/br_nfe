@@ -68,24 +68,15 @@ describe BrNfe::Product::NfeDownloadNf do
 
 
 
-	# describe "Validação do XML através do XSD" do
-	# 	let(:schemas_dir) { BrNfe.root+'/lib/br_nfe/product/xml/v3_10/XSD' }
-	# 	def validate_schema
-	# 		Dir.chdir(schemas_dir) do
-	# 			schema = Nokogiri::XML::Schema(IO.read('inutNFe_v3.10.xsd'))
-	# 			document = Nokogiri::XML(subject.xml_builder)
-	# 			errors = schema.validate(document)
-	# 			errors.must_be_empty
-	# 		end
-	# 	end
-	# 	it "Deve ser válido em ambiente de produção" do
-	# 		subject.env = :production
-	# 		validate_schema
-	# 	end
-	# 	it "Deve ser válido em ambiente de homologação" do
-	# 		subject.env = :test
-	# 		validate_schema
-	# 	end
-	# end
+	describe "Validação do XML através do XSD" do
+		it "Deve ser válido em ambiente de produção" do
+			subject.env = :production
+			nfe_must_be_valid_by_schema 'downloadNFe_v1.00.xsd'
+		end
+		it "Deve ser válido em ambiente de homologação" do
+			subject.env = :test
+			nfe_must_be_valid_by_schema 'downloadNFe_v1.00.xsd'
+		end
+	end
 
 end

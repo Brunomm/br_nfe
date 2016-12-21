@@ -20,7 +20,7 @@ module BrNfe
 						:nfe_download_nf
 					end
 					def version_xml_download_nf
-						:v3_10
+						:v1_00
 					end
 					def url_xmlns_download_nf
 						'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'

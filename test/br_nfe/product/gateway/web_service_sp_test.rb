@@ -375,11 +375,11 @@ describe BrNfe::Product::Gateway::WebServiceSP do
 		describe '#version_xml_download_nf' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.version_xml_download_nf.must_equal :v3_10
+				subject.version_xml_download_nf.must_equal :v1_00
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.version_xml_download_nf.must_equal :v3_10
+				subject.version_xml_download_nf.must_equal :v1_00
 			end
 		end
 

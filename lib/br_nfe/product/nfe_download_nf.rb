@@ -77,7 +77,7 @@ module BrNfe
 			# XML que será enviado no body da requisição SOAP contendo as informações
 			# específicas de cada operação.
 			def xml_builder
-				# render_xml 'nfe_consulta_autorizacao'
+				render_xml 'nfeDownloadNF'
 			end
 		end
 	end
