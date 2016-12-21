@@ -23,8 +23,7 @@ module BrNfe
 			validates :tipo_emissao, inclusion: {in: [:normal, :svc]}
 			validates :inicio_contingencia, presence: true,                        if: :contingencia?
 			validates :motivo_contingencia, length: { minimum: 15, maximum: 256 }, if: :contingencia?
-			
-			
+
 			def default_values
 				{
 					tipo_emissao:   :normal,
@@ -48,7 +47,7 @@ module BrNfe
 			# <b>Tipo de retorno: </b> _Object (Gateway::Base ou derivados)_
 			#
 			def gateway
-				case tipo_emissao
+				@gateway ||= case tipo_emissao
 				when :normal
 					get_gateway_by_normal_operation
 				when :svc
