@@ -229,15 +229,19 @@ module BrNfe
 		autoload :Emitente
 		autoload :Destinatario
 		autoload :NotaFiscal
-		
-		autoload :Base
-		autoload :NfeStatusServico
-		autoload :NfeAutorizacao
-		autoload :NfeConsultaAutorizacao
-		autoload :NfeConsultaProtocolo
-		autoload :NfeDownloadNf
-		autoload :NfeInutilizacao
-		autoload :NfeRecepcaoEvento
+
+		module Operation
+			extend ActiveSupport::Autoload
+			autoload :Base
+			autoload :NfeAutorizacao
+			autoload :NfeRetAutorizacao
+			autoload :NfeConsultaProtocolo
+			autoload :NfeDownloadNf
+			autoload :NfeInutilizacao
+			autoload :NfeRecepcaoEvento
+			autoload :NfeStatusServico
+		end
+
 	end
 
 

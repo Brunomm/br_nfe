@@ -1,0 +1,10 @@
+pt-BR:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/operation/nfe_autorizacao:
+          invalid_invoice: 'Nota fiscal %{index}: %{error_message}'
+          attributes:
+            notas_fiscais:
+              too_long:  'excedeu o limite máximo de %{count} notas fiscais'
+              too_short: 'deve ter mínimo %{count}'

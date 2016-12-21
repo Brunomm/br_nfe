@@ -126,7 +126,7 @@ module BrNfe
 						:nfe_recepcao_evento
 					end
 					def version_xml_recepcao_evento
-						env_production? ? :v3_10 : :v2_00
+						:v1_00
 					end
 					def url_xmlns_recepcao_evento
 						'http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento'

@@ -169,7 +169,7 @@ describe BrNfe::Product::Gateway::WebServiceBA do
 		end
 
 		describe '#version_xml_recepcao_evento' do
-			it { subject.version_xml_recepcao_evento.must_equal :v3_10 }
+			it { subject.version_xml_recepcao_evento.must_equal :v1_00 }
 		end
 
 		describe '#url_xmlns_recepcao_evento' do

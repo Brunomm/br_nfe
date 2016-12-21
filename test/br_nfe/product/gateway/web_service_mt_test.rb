@@ -318,11 +318,11 @@ describe BrNfe::Product::Gateway::WebServiceMT do
 		describe '#version_xml_recepcao_evento' do
 			it "para ambiente de produção" do
 				subject.env = :production
-				subject.version_xml_recepcao_evento.must_equal :v3_10
+				subject.version_xml_recepcao_evento.must_equal :v1_00
 			end
 			it "para ambiente de homologação" do
 				subject.env = :test
-				subject.version_xml_recepcao_evento.must_equal :v2_00
+				subject.version_xml_recepcao_evento.must_equal :v1_00
 			end
 		end
 
