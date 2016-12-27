@@ -1,7 +1,5 @@
 enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
 	idLote  = numero_lote
 	- notas_fiscais.each do |nfe|
-		NFe xmlns="http://www.portalfiscal.inf.br/nfe"
-			- infNFe = render_xml 'infNFe', nfe: nfe
-			= infNFe.gsub('<infNFe xmlns="http://www.portalfiscal.inf.br/nfe"','<infNFe ').html_safe
-			= render_xml('signature_sh1', data_xml: infNFe, uri: "NFe#{nfe.chave_de_acesso}").html_safe
+		- nfe.xml = render_xml('infNFe/NFe', nfe: nfe)
+		= nfe.xml.html_safe

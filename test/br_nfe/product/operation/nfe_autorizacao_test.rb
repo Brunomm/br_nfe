@@ -65,6 +65,38 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 		end
 	end
 
+	context "Ao gerar o XML do lote deve setar o XML de cada nota no atributo xml da nf" do
+		let(:subject) { FactoryGirl.build(:product_operation_nfe_autorizacao, :for_signature_test) }
+		let(:nf1) { subject.notas_fiscais[0] }
+		let(:nf2) { subject.notas_fiscais[1] }
+		it "Para a versão 3.10 da NF" do
+			subject.stubs(:gateway_xml_version).returns(:v3_10)
+			nf1.xml.must_be_nil
+			nf2.xml.must_be_nil
+
+			subject.xml_builder
+
+			nf1.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000021201601015"'
+			nf2.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000501201601012"'
+
+			nf1.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+			nf2.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+		end
+		it "Para a versão 2.00 da NF" do
+			subject.stubs(:gateway_xml_version).returns(:v2_00)
+			nf1.xml.must_be_nil
+			nf2.xml.must_be_nil
+
+			subject.xml_builder
+
+			nf1.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000021201601015"'
+			nf2.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000501201601012"'
+
+			nf1.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+			nf2.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+		end
+	end
+
 	describe "Validação do XML através do XSD" do
 		subject { FactoryGirl.build(:product_operation_nfe_autorizacao, :complete) }
 		
