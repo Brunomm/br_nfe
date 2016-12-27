@@ -139,6 +139,7 @@ module BrNfe
 					validates :aliquota_interna_uf_destino, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
 					validates :aliquota_interestadual, presence: true
 					validates :aliquota_interestadual, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 99.99}, allow_blank: true
+					validates :aliquota_interestadual, inclusion: {in: [4.0, 7.0, 12.0]}, allow_blank: true
 					validates :percentual_partilha_destino, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0}, allow_blank: true
 					validates :percentual_fcp,    numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 2.0}, allow_blank: true
 					validates :total_fcp_destino, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true

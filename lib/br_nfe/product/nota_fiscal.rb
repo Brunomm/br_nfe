@@ -927,7 +927,7 @@ module BrNfe
 				#
 				attr_accessor :exportacao_uf_saida
 				alias_attribute :UFSaidaPais, :exportacao_uf_saida
-				validates :exportacao_uf_saida, inclusion: {in: BrNfe::Constants::CODIGO_IBGE_UF-['EX'] }, allow_blank: true
+				validates :exportacao_uf_saida, inclusion: {in: BrNfe::Constants::SIGLAS_UF-['EX'] }, allow_blank: true
 
 				# DESCRIÇÃO DO LOCAL DE EMBARQUE OU DE TRANSPOSIÇÃO DE FRONTEIRA
 				#

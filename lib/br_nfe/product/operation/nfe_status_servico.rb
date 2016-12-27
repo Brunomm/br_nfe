@@ -34,7 +34,7 @@ module BrNfe
 				# XML que será enviado no body da requisição SOAP contendo as informações
 				# específicas de cada operação.
 				def xml_builder
-					render_xml 'root/NfeStatusServico'
+					@xml_builder ||= render_xml 'root/NfeStatusServico'
 				end
 			end
 		end

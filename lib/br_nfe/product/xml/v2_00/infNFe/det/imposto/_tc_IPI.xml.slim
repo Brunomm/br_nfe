@@ -20,7 +20,7 @@ cEnq = nf_xml_value_codigo_enquadramento_IPI( ipi.codigo_enquadramento )
 			vBC  = nf_xml_value_monetary( ipi.base_calculo )
 			pIPI = nf_xml_value_percent(  ipi.aliquota )
 
-		- if ipi.quantidade_unidade.to_f > 0.0
+		- elsif ipi.quantidade_unidade.to_f > 0.0
 			qUnid = nf_xml_value_quantidade( ipi.quantidade_unidade )
 			vUnid = nf_xml_value_quantidade( ipi.total_unidade )
 

@@ -51,32 +51,53 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 		subject.gateway_xml_version.must_equal :v3_20
 	end
 
-	# describe '#xml_builder' do
-	# 	it "deve renderizar para o xml nfe_autorizacao" do
-	# 		subject.expects(:render_xml).with('nfe_autorizacao').returns('<ok>1</ok>')
-	# 		subject.xml_builder.must_equal '<ok>1</ok>'
-	# 	end
-	# end
+	describe '#xml_builder' do
+		it "Deve renderizar o XML e setar o valor na variavel @xml_builder" do
+			subject.expects(:render_xml).returns('<xml>OK</xml>')
+			
+			subject.xml_builder.must_equal '<xml>OK</xml>'
+			subject.instance_variable_get(:@xml_builder).must_equal '<xml>OK</xml>'
+		end
+		it "Se já houver valor setado na variavel @xml_builder não deve renderizar o xml novamente" do
+			subject.instance_variable_set(:@xml_builder, '<xml>OK</xml>')
+			subject.expects(:render_xml).never
+			subject.xml_builder.must_equal '<xml>OK</xml>'
+		end
+	end
 
-	# describe "Validação do XML através do XSD" do		
-	# 	let(:schemas_dir) { BrNfe.root+'/lib/br_nfe/product/xml/v3_10/XSD' }		
-	# 	def validate_schema
-	# 		subject.stubs(:certificate).returns(nil)			
-	# 		Dir.chdir(schemas_dir) do
-	# 			schema = Nokogiri::XML::Schema(IO.read('consStatServ_v3.10.xsd'))
-	# 			document = Nokogiri::XML(subject.xml_builder)
-	# 			errors = schema.validate(document)
-	# 			errors.must_be_empty
-	# 		end
-	# 	end
-	# 	it "Deve ser válido em ambiente de produção" do
-	# 		subject.env = :production
-	# 		validate_schema
-	# 	end
-	# 	it "Deve ser válido em ambiente de homologação" do
-	# 		subject.env = :test
-	# 		validate_schema
-	# 	end
-	# end
+	describe "Validação do XML através do XSD" do
+		subject { FactoryGirl.build(:product_operation_nfe_autorizacao, :complete) }
+		
+		context "Para a versão 3.10" do
+			before do
+				gateway.stubs(:version_xml_autorizacao).returns(:v3_10)
+			end
+			it "Deve ser válido em ambiente de produção" do
+				subject.env = :production
+				subject.valid?.must_equal true, "#{subject.errors.full_messages}"
+				nfe_must_be_valid_by_schema 'enviNFe_v3.10.xsd'
+			end
+			it "Deve ser válido em ambiente de homologação" do
+				subject.env = :test
+				subject.valid?.must_equal true, "#{subject.errors.full_messages}"
+				nfe_must_be_valid_by_schema 'enviNFe_v3.10.xsd'
+			end
+			it "Deve ser válido com mais de uma nota" do
+				nf2 = subject.notas_fiscais[0].dup
+				nf2.numero_nf = nf2.numero_nf.to_i+1
+				subject.notas_fiscais << nf2
+				subject.valid?.must_equal true, "#{subject.errors.full_messages}"
+				nfe_must_be_valid_by_schema 'enviNFe_v3.10.xsd'
+			end
+		end
+	end
 
+	describe "Validação da assinatura da NF-e" do
+		it "deve assinar a NF-e corretamente de acordo com uma NF-e já testada e homologada" do
+			# Esse teste serve para validar que a estrutura para assinar a NF-e não foi modificada
+			# e corrompida.
+			aut = FactoryGirl.build(:product_operation_nfe_autorizacao, :for_signature_test)
+			aut.content_xml.must_equal read_fixture('product/operation/nfe_autorizacao/nfe_signed.xml')
+		end
+	end
 end

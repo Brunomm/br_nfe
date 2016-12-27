@@ -43,6 +43,20 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 		subject.ssl_version.must_equal :SSLv1
 	end
 
+	describe '#xml_builder' do
+		it "Deve renderizar o XML e setar o valor na variavel @xml_builder" do
+			subject.expects(:render_xml).returns('<xml>OK</xml>')
+			
+			subject.xml_builder.must_equal '<xml>OK</xml>'
+			subject.instance_variable_get(:@xml_builder).must_equal '<xml>OK</xml>'
+		end
+		it "Se já houver valor setado na variavel @xml_builder não deve renderizar o xml novamente" do
+			subject.instance_variable_set(:@xml_builder, '<xml>OK</xml>')
+			subject.expects(:render_xml).never
+			subject.xml_builder.must_equal '<xml>OK</xml>'
+		end
+	end
+
 	describe "Validação do XML através do XSD" do
 		context "for XML Version 2.01" do
 			before { subject.stubs(:gateway_xml_version).returns(:v2_01) }

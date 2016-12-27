@@ -8,7 +8,7 @@ tpViaTransp  = nf_xml_value_number declaracao.via_transporte, 2
 - if declaracao.via_transporte.to_i == 1 && declaracao.valor_afrmm.present?
 	vAFRMM       = nf_xml_value_monetary declaracao.valor_afrmm
 
-tpIntermedio = nf_xml_fixed_code declaracao.tipo_intermediacao 
+tpIntermedio = nf_xml_fixed_code declaracao.tipo_intermediacao, {size: 1}
 
 - if declaracao.tipo_intermediacao.to_i.in?([2,3])
 	/ Obrigatória a informação no caso de importação por conta e
@@ -22,7 +22,7 @@ cExportador  = nf_xml_value_text declaracao.codigo_exportador, 60
 		nAdicao     = nf_xml_value_number   adicao.numero_adicao, 3
 		nSeqAdic    = nf_xml_value_number   adicao.sequencial,    3
 		cFabricante = nf_xml_value_text     adicao.codigo_fabricante, 60
-		- if adicao.valor_desconto.present?
+		- if adicao.valor_desconto.to_f > 0.0
 			vDescDI     = nf_xml_value_monetary adicao.valor_desconto
 		- if adicao.numero_drawback.present?
 			nDraw       = nf_xml_value_drawback adicao.numero_drawback

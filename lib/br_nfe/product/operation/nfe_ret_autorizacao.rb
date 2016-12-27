@@ -15,7 +15,6 @@ module BrNfe
 				attr_accessor :numero_recibo
 				alias_attribute :nRec, :numero_recibo
 
-
 				validates :numero_recibo, presence: true
 				validates :numero_recibo, numericality: {only_integer: true}, allow_blank: true
 				validates :numero_recibo, length: {maximum: 15}, allow_blank: true
@@ -52,7 +51,7 @@ module BrNfe
 				# XML que será enviado no body da requisição SOAP contendo as informações
 				# específicas de cada operação.
 				def xml_builder
-					render_xml 'root/NfeRetAutorizacao'
+					@xml_builder ||= render_xml 'root/NfeRetAutorizacao'
 				end
 
 				def response_class_builder
