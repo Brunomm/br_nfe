@@ -20,6 +20,19 @@ module BrNfe
 				def inicio_contingencia
 					convert_to_time(@inicio_contingencia)
 				end
+
+				# String XML que será aplicado o resultado da resposta do serviço
+				# de acordo com a operação.
+				# Por exemplo, quando vai consultar o protocolo da emissão de uma nfe,
+				# deve ser passado por parâmetro o XML da NF-e para que seja possível obter
+				# o XML da nota fiscal junto com o protocolo de autorização.
+				# Também quando for cancelar uma nota fiscal deve passar o XML da nota para
+				# que seja adicionado o protocolo de confirmação de cancelamento junto a nota.
+				#
+				# <b>Required: </b> _No_
+				# <b>Type:     </b> _String_ XML
+				# 
+				attr_accessor :original_xml
 				
 				validates :tipo_emissao, inclusion: {in: [:normal, :svc]}
 				validates :inicio_contingencia, presence: true,                        if: :contingencia?
@@ -201,13 +214,30 @@ module BrNfe
 					end
 				end
 
-
 				def request
-					client_wsdl.call(method_wsdl, xml: soap_xml)
+					@savon_response = client_wsdl.call(method_wsdl, xml: soap_xml)
+				rescue Savon::SOAPFault => error
+					return @response = response_class_builder.new.response_class.new(request_status: :soap_error,    request_message_error: error.message)
+				rescue Savon::HTTPError => error
+					return @response = response_class_builder.new.response_class.new(request_status: :http_error,    request_message_error: error.message)
+				rescue Exception => error
+					return @response = response_class_builder.new.response_class.new(request_status: :unknown_error, request_message_error: error.message)
 				end
+
+				def response
+					@response ||= response_class_builder.new do |builder|
+						builder.savon_response = @savon_response
+						builder.original_xml   = original_xml
+					end.response
+				end
+
 			private
 				def emitente_class
 					BrNfe.emitente_product_class
+				end
+
+				def response_class_builder
+					raise NotImplementedError.new("Not implemented #response_class_builder in #{self}.")
 				end
 			end
 		end

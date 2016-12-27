@@ -54,6 +54,10 @@ module BrNfe
 				def xml_builder
 					render_xml 'root/NfeRetAutorizacao'
 				end
+
+				def response_class_builder
+					BrNfe::Product::Response::Build::NfeRetAutorizacao
+				end
 			end
 		end
 	end

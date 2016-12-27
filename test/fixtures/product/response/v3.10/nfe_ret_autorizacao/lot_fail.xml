@@ -11,22 +11,11 @@
       <retConsReciNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
         <tpAmb>2</tpAmb>
         <verAplic>SVRS201611281548</verAplic>
-        <nRec>423002169476281</nRec>
-        <cStat>104</cStat>
-        <xMotivo>Lote processado</xMotivo>
+        <nRec>423002169484138</nRec>
+        <cStat>106</cStat>
+        <xMotivo>Lote não localizado</xMotivo>
         <cUF>42</cUF>
-        <dhRecbto>2016-12-20T14:29:28-02:00</dhRecbto>
-        <protNFe versao="3.10">
-          <infProt>
-            <tpAmb>2</tpAmb>
-            <verAplic>SVRS201611281548</verAplic>
-            <chNFe>42161223020443000140550010000000011201601011</chNFe>
-            <dhRecbto>2016-12-20T14:29:28-02:00</dhRecbto>
-            <digVal>hBKuDGD3gRtlFDO5bT9VH/UWKBQ=</digVal>
-            <cStat>209</cStat>
-            <xMotivo>Rejeicao: IE do emitente invalida</xMotivo>
-          </infProt>
-        </protNFe>
+        <dhRecbto>2016-12-20T16:11:28-02:00</dhRecbto>
       </retConsReciNFe>
     </nfeRetAutorizacaoLoteResult>
   </soap:Body>

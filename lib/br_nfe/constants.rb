@@ -61,5 +61,12 @@ module BrNfe
 		]
 
 		FORMAS_PAGAMENTO = [1, 2, 3, 4, 5, 10, 11, 12, 13, 99, '1', '2', '3', '4', '5', '01', '02', '03', '04', '05', '10', '11', '12', '13', '99']
+
+		NFE_STATUS_SUCCESS    = %w[100 101 102 103 104 107 111 112 124 128 135 138 139 140 150 151]
+		NFE_STATUS_PROCESSING = %w[105]
+		NFE_STATUS_OFFLINE    = %w[108 109]
+		NFE_STATUS_DENIED     = %w[110 301 302 303 999]
+
+
 	end
 end

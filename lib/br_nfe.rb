@@ -242,6 +242,18 @@ module BrNfe
 			autoload :NfeStatusServico
 		end
 
+		module Response
+			extend ActiveSupport::Autoload
+			autoload :Invoice
+			autoload :Base
+			autoload :NfeRetAutorizacao
+			module Build
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :NfeRetAutorizacao
+			end
+		end
+
 	end
 
 

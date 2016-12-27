@@ -952,6 +952,52 @@ module BrNfe
 				attr_accessor :exportacao_local_despacho
 				alias_attribute :xLocDespacho, :exportacao_local_despacho
 
+			############################################################################
+			#########################  DADOS SETADOS NO RETORNO #######################
+				# Utilizado para setar o XML da nfe na resposta
+				attr_accessor :xml
+
+				# PROTOCOLO / NÚMERO DO RECIBO
+				#  Número do Recibo gerado pelo Portal da
+				#  Secretaria de Fazenda Estadual
+				#
+				attr_accessor :protocol
+				alias_attribute :nProt, :protocol
+
+				# VALOR DIGEST DO RETORNO
+				#  Digest Value da NF-e processada
+				#  Utilizado para conferir a integridade da NFe
+				#  original.
+				#
+				attr_accessor :digest_value
+				alias_attribute :digVal, :digest_value
+
+				# DATA E HORA DO PROCESSAMENTO DA REQUISIÇÃO
+				# 
+				attr_accessor :processed_at
+				def processed_at
+					convert_to_time(@processed_at)
+				end
+				alias_attribute :dhRecbto, :processed_at
+
+				# STATUS DA OPERAÇÃO
+				# Esse é o status final de toda a operação.
+				#
+				attr_accessor :status_code
+				attr_accessor :status_motive
+				def status
+					if "#{status_code}   ".strip.in?( BrNfe::Constants::NFE_STATUS_SUCCESS )
+						:success
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_STATUS_PROCESSING )
+						:processing
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_STATUS_OFFLINE )
+						:offline
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_STATUS_DENIED )
+						:denied
+					else
+						:error
+					end
+				end
 
 			def default_values
 				{
@@ -978,12 +1024,12 @@ module BrNfe
 			validates :codigo_nf, presence: true
 			validates :codigo_nf, numericality: { only_integer: true }
 			validates :codigo_nf, length: { maximum: 8 }
-			
+
 			validates :serie, presence: true
 			validates :serie, numericality: { only_integer: true }
 			validates :serie, length: { maximum: 3 }
 			validates :serie, exclusion: [890, 899, 990, 999, '890', '899', '990', '999']
-			
+
 			validates :numero_nf, presence: true
 			validates :numero_nf, numericality: { only_integer: true }
 			validates :numero_nf, length: { maximum: 9 }

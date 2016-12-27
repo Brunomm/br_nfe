@@ -103,20 +103,21 @@ class MiniTest::Spec
 		end
 	end
 
-	def must_have_alias_attribute(alias_name, attribute, test_value=1)
+	def must_have_alias_attribute(alias_name, attribute, test_value=1, expect_value=nil)
+		expect_value ||= test_value
 		if test_value.is_a?(Time)
-			test_value = Time.zone.parse('10/05/2017 03:58:47.000')
+			expect_value = test_value = Time.zone.parse('10/05/2017 03:58:47.000')
 			subject.send("#{attribute}=", test_value)
-			subject.send(alias_name).must_be_close_to test_value
+			subject.send(alias_name).must_be_close_to expect_value
 
 			subject.send("#{alias_name}=", test_value)
-			subject.send(attribute).must_be_close_to test_value
+			subject.send(attribute).must_be_close_to expect_value
 		else
 			subject.send("#{attribute}=", test_value)
-			subject.send(alias_name).must_equal test_value
+			subject.send(alias_name).must_equal expect_value
 
 			subject.send("#{alias_name}=", test_value)
-			subject.send(attribute).must_equal test_value
+			subject.send(attribute).must_equal expect_value
 		end
 	end
 
