@@ -114,7 +114,7 @@ module BrNfe
 					# # <b>Type: </b> _Nokogiri::XML::Document_
 					#
 					def response_xml
-						@response_xml ||= parse_nokogiri_xml(savon_response&.xml)
+						@response_xml ||= parse_nokogiri_xml(savon_response.try(:xml))
 					end
 
 				private
