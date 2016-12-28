@@ -994,7 +994,7 @@ module BrNfe
 						:offline
 					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_STATUS_DENIED )
 						:denied
-					else
+					elsif status_code.present?
 						:error
 					end
 				end

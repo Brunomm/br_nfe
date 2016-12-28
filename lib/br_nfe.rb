@@ -244,16 +244,16 @@ module BrNfe
 
 		module Response
 			extend ActiveSupport::Autoload
-			autoload :Invoice
 			autoload :Base
+			autoload :NfeAutorizacao
 			autoload :NfeRetAutorizacao
 			module Build
 				extend ActiveSupport::Autoload
 				autoload :Base
+				autoload :NfeAutorizacao
 				autoload :NfeRetAutorizacao
 			end
 		end
-
 	end
 
 

@@ -225,10 +225,7 @@ module BrNfe
 				end
 
 				def response
-					@response ||= response_class_builder.new do |builder|
-						builder.savon_response = @savon_response
-						builder.original_xml   = original_xml
-					end.response
+					@response ||= get_response
 				end
 
 			private
@@ -238,6 +235,19 @@ module BrNfe
 
 				def response_class_builder
 					raise NotImplementedError.new("Not implemented #response_class_builder in #{self}.")
+				end
+
+				def builder_response_params
+					{}
+				end
+
+				def get_response
+					builder = response_class_builder.new do |builder|
+						builder.savon_response = @savon_response
+						builder.original_xml   = original_xml
+					end
+					builder.assign_attributes(builder_response_params)
+					builder.response
 				end
 			end
 		end

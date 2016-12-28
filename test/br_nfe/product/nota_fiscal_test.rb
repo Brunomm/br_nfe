@@ -568,4 +568,43 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_many(:processos_referenciados, BrNfe.processo_referencia_product_class, {numero_processo: 'P123', indicador: 1})  }
 		it { must_validates_has_many(:processos_referenciados, BrNfe.processo_referencia_product_class, :invalid_processo) }
 	end
+
+	describe '#status' do
+		it 'Deve retornar :success se o status_code estiver entre os valores da constante NFE_STATUS_SUCCESS' do
+			BrNfe::Constants::NFE_STATUS_SUCCESS.each do |code|
+				subject.status_code = code
+				subject.status.must_equal :success
+			end
+		end
+		it 'Deve retornar :processing se o status_code estiver entre os valores da constante NFE_STATUS_PROCESSING' do
+			BrNfe::Constants::NFE_STATUS_PROCESSING.each do |code|
+				subject.status_code = code
+				subject.status.must_equal :processing
+			end
+		end
+		it 'Deve retornar :offline se o status_code estiver entre os valores da constante NFE_STATUS_OFFLINE' do
+			BrNfe::Constants::NFE_STATUS_OFFLINE.each do |code|
+				subject.status_code = code
+				subject.status.must_equal :offline
+			end
+		end
+		it 'Deve retornar :denied se o status_code estiver entre os valores da constante NFE_STATUS_DENIED' do
+			BrNfe::Constants::NFE_STATUS_DENIED.each do |code|
+				subject.status_code = code
+				subject.status.must_equal :denied
+			end
+		end
+		it "deve retornar o status :error para qualquer outro código que não esteja entre os códigos testados anteriormente" do
+			subject.status_code = '000'
+			subject.status.must_equal :error
+			subject.status_code = '1000'
+			subject.status.must_equal :error
+		end
+		it "se status_code não tiver valor deve retornar nil" do
+			subject.status_code = ''
+			subject.status.must_be_nil
+			subject.status_code = nil
+			subject.status.must_be_nil
+		end
+	end
 end

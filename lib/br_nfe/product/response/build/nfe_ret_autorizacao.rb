@@ -144,8 +144,8 @@ module BrNfe
 					#
 					# <b>Type: </b> _Nokogiri::XML::Document_
 					# 
-					def find_invoice_xml_by_access_key access_key
-						if node = parse_nokogiri_xml(original_xml).search("NFe/infNFe[@Id*=\"#{access_key}\"]").first
+					def find_invoice_xml_by_access_key invoice
+						if node = parse_nokogiri_xml(original_xml).search("NFe/infNFe[@Id*=\"#{invoice.chave_de_acesso}\"]").first
 							if doc_original_xml.xpath('/*').first.try(:name) == 'nfeProc'
 								doc_original_xml
 							else
@@ -159,7 +159,7 @@ module BrNfe
 					# Também irá setar o XMl atualizado no attr :xml da nota fiscal
 					#
 					def set_invoice_xml_with_prot_nfe!(invoice, prot_nfe)
-						if nfeProc = find_invoice_xml_by_access_key( invoice.chave_de_acesso )
+						if nfeProc = find_invoice_xml_by_access_key( invoice )
 							if invoice.status == :success
 								nfeProc.xpath('//nf:nfeProc', nf: "http://www.portalfiscal.inf.br/nfe").
 								        children.last.try(:add_next_sibling, prot_nfe.root.to_xml )

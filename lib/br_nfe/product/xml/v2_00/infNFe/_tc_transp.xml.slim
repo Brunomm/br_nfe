@@ -1,32 +1,33 @@
 - transporte = nfe.transporte
-modFrete = transporte.modalidade_frete
+- if transporte
+	modFrete = transporte.modalidade_frete
 
-- if transporte.transportador
-	transporta
-		= render_xml 'infNFe/transp/_tc_transporta', transporte: transporte
+	- if transporte.transportador
+		transporta
+			= render_xml 'infNFe/transp/_tc_transporta', transporte: transporte
 
-- if transporte.retencao_icms?
-	retTransp
-		= render_xml 'infNFe/transp/_tc_retTransp', transporte: transporte
+	- if transporte.retencao_icms?
+		retTransp
+			= render_xml 'infNFe/transp/_tc_retTransp', transporte: transporte
 
-- if transporte.forma_transporte_veiculo? && transporte.veiculo
-	veicTransp
-		placa = nf_xml_value_placa transporte.veiculo.placa
-		UF    = nf_xml_value_UF    transporte.veiculo.uf
-		RNTC  = nf_xml_value_RNTC  transporte.veiculo.rntc
+	- if transporte.forma_transporte_veiculo? && transporte.veiculo
+		veicTransp
+			placa = nf_xml_value_placa transporte.veiculo.placa
+			UF    = nf_xml_value_UF    transporte.veiculo.uf
+			RNTC  = nf_xml_value_RNTC  transporte.veiculo.rntc
 
-- transporte.reboques.each do |reboque|
-	reboque
-		placa = nf_xml_value_placa reboque.placa
-		UF    = nf_xml_value_UF    reboque.uf
-		RNTC  = nf_xml_value_RNTC  reboque.rntc
+	- transporte.reboques.each do |reboque|
+		reboque
+			placa = nf_xml_value_placa reboque.placa
+			UF    = nf_xml_value_UF    reboque.uf
+			RNTC  = nf_xml_value_RNTC  reboque.rntc
 
-- if transporte.forma_transporte_vagao?
-	vagao = nf_xml_value_text(transporte.identificacao_vagao, 20)
+	- if transporte.forma_transporte_vagao?
+		vagao = nf_xml_value_text(transporte.identificacao_vagao, 20)
 
-- if transporte.forma_transporte_balsa?
-	balsa = nf_xml_value_text(transporte.identificacao_balsa, 20)
+	- if transporte.forma_transporte_balsa?
+		balsa = nf_xml_value_text(transporte.identificacao_balsa, 20)
 
-- transporte.volumes.each do |volume|
-	vol
-		= render_xml 'infNFe/transp/_tc_vol', volume: volume
+	- transporte.volumes.each do |volume|
+		vol
+			= render_xml 'infNFe/transp/_tc_vol', volume: volume
