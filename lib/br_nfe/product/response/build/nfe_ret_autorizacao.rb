@@ -130,7 +130,7 @@ module BrNfe
 					# <b>Type: </b> _String_
 					#
 					def create_proc_tag nfe_xml
-						xml = '<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">'
+						xml = "<nfeProc xmlns=\"http://www.portalfiscal.inf.br/nfe\" versao=\"#{xml_version_str}\">"
 						xml << nfe_xml
 						xml << '</nfeProc>'
 						xml

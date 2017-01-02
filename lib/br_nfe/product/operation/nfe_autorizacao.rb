@@ -112,13 +112,6 @@ module BrNfe
 				def response_class_builder
 					BrNfe::Product::Response::Build::NfeAutorizacao
 				end
-
-				def builder_response_params
-					{
-						notas_fiscais: notas_fiscais,
-						original_xml:  xml_builder
-					}
-				end
 			end
 		end
 	end

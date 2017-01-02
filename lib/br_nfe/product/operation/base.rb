@@ -244,7 +244,7 @@ module BrNfe
 				def get_response
 					builder = response_class_builder.new do |builder|
 						builder.savon_response = @savon_response
-						builder.original_xml   = original_xml
+						builder.operation      = self
 					end
 					builder.assign_attributes(builder_response_params)
 					builder.response

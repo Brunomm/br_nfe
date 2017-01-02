@@ -3,7 +3,10 @@ module BrNfe
 		module Response
 			module Build
 				class NfeAutorizacao < NfeRetAutorizacao
-					has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class'
+					
+					def notas_fiscais
+						operation.notas_fiscais
+					end
 
 					# Responsável por definir qual classe será instânciada para
 					# setar os valores de retorno referentes a cada operação.

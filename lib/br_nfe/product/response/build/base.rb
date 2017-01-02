@@ -4,7 +4,11 @@ module BrNfe
 			module Build
 				class Base < BrNfe::ActiveModelBase
 					attr_accessor :savon_response
-					attr_accessor :original_xml
+					attr_accessor :operation
+
+					def original_xml
+						@original_xml ||= operation.original_xml || operation.xml_builder
+					end
 					
 					# Responsável por instanciar o objeto de resposta contendo os valores
 					# pertinentes a cada operação.
@@ -72,6 +76,12 @@ module BrNfe
 						return @xml_version if @xml_version
 						version = header_xml.xpath('//nf:nfeCabecMsg/nf:versaoDados', nf: url_xmlns_retorno).text
 						@xml_version = "v#{version.gsub('.','_')}".to_sym
+					end
+					# Versão do XML em forma de String
+					# ex: '3.10'
+					def xml_version_str
+						return @xml_version_str if @xml_version_str
+						@xml_version_str = header_xml.xpath('//nf:nfeCabecMsg/nf:versaoDados', nf: url_xmlns_retorno).text
 					end
 
 					# Responsável por pegar o conteúdo presente dentro da tag
