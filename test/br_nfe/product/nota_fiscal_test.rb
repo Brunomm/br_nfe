@@ -607,4 +607,56 @@ describe BrNfe::Product::NotaFiscal do
 			subject.status.must_be_nil
 		end
 	end
+
+	describe '#situation' do
+		it "Se setar a situação manualmente, deve manter o valor" do
+			subject.situation = :manual
+			subject.situation.must_equal :manual
+		end
+		it "se não tiver uma situação setada manualmente deve buscar através do código do status" do
+			subject.expects(:get_situation_by_status_code).returns(:by_status)
+			subject.situation = nil
+			subject.situation.must_equal :by_status
+		end
+	end
+	describe '#get_situation_by_status_code' do
+		it "se o código do status estiver na constante NFE_SITUATION_AUTORIZED, deve retornar :autorized" do
+			BrNfe::Constants::NFE_SITUATION_AUTORIZED.each do |code|
+				subject.status_code = code
+				subject.get_situation_by_status_code.must_equal :autorized
+			end
+		end
+		it "se o código do status estiver na constante NFE_SITUATION_ADJUSTED, deve retornar :adjusted" do
+			BrNfe::Constants::NFE_SITUATION_ADJUSTED.each do |code|
+				subject.status_code = code
+				subject.get_situation_by_status_code.must_equal :adjusted
+			end
+		end
+		it "se o código do status estiver na constante NFE_SITUATION_CANCELED, deve retornar :canceled" do
+			BrNfe::Constants::NFE_SITUATION_CANCELED.each do |code|
+				subject.status_code = code
+				subject.get_situation_by_status_code.must_equal :canceled
+			end
+		end
+		it "se o código do status estiver na constante NFE_SITUATION_DENIED, deve retornar :denied" do
+			BrNfe::Constants::NFE_SITUATION_DENIED.each do |code|
+				subject.status_code = code
+				subject.get_situation_by_status_code.must_equal :denied
+			end
+		end
+		it "se o código do status estiver na constante NFE_SITUATION_DRAFT, deve retornar :draft" do
+			BrNfe::Constants::NFE_SITUATION_DRAFT.each do |code|
+				subject.status_code = code
+				subject.get_situation_by_status_code.must_equal :draft
+			end
+		end
+		it "Se o código do status estiver em branco deve retornar :draft" do
+			subject.status_code = ''
+			subject.get_situation_by_status_code.must_equal :draft
+		end
+		it "Se retornar qualquer outro código não mencionando deve retornar :rejected" do
+			subject.status_code = '354'
+			subject.get_situation_by_status_code.must_equal :rejected
+		end
+	end
 end

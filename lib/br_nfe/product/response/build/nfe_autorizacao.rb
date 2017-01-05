@@ -2,7 +2,7 @@ module BrNfe
 	module Product
 		module Response
 			module Build
-				class NfeAutorizacao < NfeRetAutorizacao
+				class NfeAutorizacao < Base
 					
 					def notas_fiscais
 						operation.notas_fiscais
@@ -24,8 +24,8 @@ module BrNfe
 					#
 					def specific_attributes
 						attrs = {
-							environment:              body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:tpAmb',    nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text,
-							app_version:              body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:verAplic', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text,
+							environment:              body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:tpAmb',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
+							app_version:              body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:verAplic', nf: nf_xmlns, ret: url_xmlns_retorno).text,
 							processed_at:             request_processed_at,
 
 							processing_status_code:   get_processing_status_code,
@@ -35,9 +35,9 @@ module BrNfe
 						if async_protocol.present?
 							# Se entrar aqui é porque o lote é assíncrono e tem um protocolo
 							attrs[:protocol]    = async_protocol
-							attrs[:tempo_medio] = body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:tMed', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
+							attrs[:tempo_medio] = body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:tMed', nf: nf_xmlns, ret: url_xmlns_retorno).text
 						else
-							attrs[:protocol] = body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:protNFe/nf:infProt/nf:nProt', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
+							attrs[:protocol] = body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:protNFe/nf:infProt/nf:nProt', nf: nf_xmlns, ret: url_xmlns_retorno).text
 						end
 
 						manage_invoices!
@@ -47,11 +47,11 @@ module BrNfe
 					end
 
 					def async_protocol
-						@async_protocol ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:nRec', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
+						@async_protocol ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:nRec', nf: nf_xmlns, ret: url_xmlns_retorno).text
 					end
 
 					def node_prot_nfe
-						body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:protNFe', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno)
+						body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:protNFe', nf: nf_xmlns, ret: url_xmlns_retorno)
 					end
 
 					def manage_invoices!
@@ -86,37 +86,14 @@ module BrNfe
 				private
 
 					def request_processed_at
-						@request_processed_at ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:dhRecbto', nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
+						@request_processed_at ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:dhRecbto', nf: nf_xmlns, ret: url_xmlns_retorno).text
 					end
 
 					def get_processing_status_code
-						@get_processing_status_code ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:cStat',    nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
+						@get_processing_status_code ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:cStat',    nf: nf_xmlns, ret: url_xmlns_retorno).text
 					end
 					def get_processing_status_motive
-						@get_processing_status_motive ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:xMotivo',  nf: "http://www.portalfiscal.inf.br/nfe", ret: url_xmlns_retorno).text
-					end
-
-					# Responsável montar o XML da tag <nfeProc>, aplicar o XMl da nfe
-					# dentro e adicionar o protocolo.
-					#
-					# Primeiro irá verificar se existe algum XML setado na própria NF-e
-					# e se tiver, irá utilizar esse XML para criar a estrutura da <nfeProc>.
-					# Caso a NF-e não tenha o XML, irá buscar o XML da nfe através do atributo
-					# :original_xml.
-					#
-					# <b>Type: </b> _Nokogiri::XML::Document_
-					# 
-					def find_invoice_xml_by_access_key invoice
-						doc_nf = parse_nokogiri_xml("#{invoice.xml}")
-						if node = doc_nf.search("NFe/infNFe[@Id*=\"#{invoice.chave_de_acesso}\"]").first
-							if doc_nf.xpath('/*').first.try(:name) == 'nfeProc'
-								doc_nf
-							else
-								parse_nokogiri_xml( create_proc_tag( node.parent.to_s ) )
-							end
-						else
-							super
-						end
+						@get_processing_status_motive ||= body_xml.xpath('//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:xMotivo',  nf: nf_xmlns, ret: url_xmlns_retorno).text
 					end
 				end
 			end

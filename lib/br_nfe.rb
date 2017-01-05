@@ -247,11 +247,14 @@ module BrNfe
 			autoload :Base
 			autoload :NfeAutorizacao
 			autoload :NfeRetAutorizacao
+			autoload :NfeConsultaProtocolo
+			autoload :Event
 			module Build
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :NfeAutorizacao
 				autoload :NfeRetAutorizacao
+				autoload :NfeConsultaProtocolo
 			end
 		end
 	end

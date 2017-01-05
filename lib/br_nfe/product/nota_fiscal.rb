@@ -981,7 +981,9 @@ module BrNfe
 				alias_attribute :dhRecbto, :processed_at
 
 				# STATUS DA OPERAÇÃO
-				# Esse é o status final de toda a operação.
+				# Esse é o status final da operação com anota fiscal.
+				# A partir do status é possível identificar se obteve sucesso
+				# no processamento da nota (para qualquer operação)
 				#
 				attr_accessor :status_code
 				attr_accessor :status_motive
@@ -996,6 +998,38 @@ module BrNfe
 						:denied
 					elsif status_code.present?
 						:error
+					end
+				end
+
+				# SITUAÇÃO DA NOTA FISCAL
+				# Informa o status atual da nota fiscal.
+				# Retorna se a nota fiscal está autorizada, cancelada, denegada, rejeitada, ajustada.
+				# Exemplo:
+				# - :autorized - Quando a nota fiscal está autorizada para uso
+				# - :adjusted - Quando a nota fiscal está autorizada para o uso e foi realizado algum
+				#               evento posterior que a mesma foi ajustada
+				# - :draft    - Quando a nota fiscal ainda não tem validade fiscal.
+				# - :canceled - Quando a nota fiscal foi cancelada.
+				# - :denied   - Quando a nota fiscal foi denegada e o XML deve ser guardado.
+				# - :rejected - Quando a nota fiscal foi rejeitada e pode ser enviada novamente com as correções.
+				# 
+				attr_accessor :situation
+				def situation
+					@situation ||= get_situation_by_status_code
+				end
+				def get_situation_by_status_code
+					if "#{status_code}".strip.in?(    BrNfe::Constants::NFE_SITUATION_AUTORIZED )
+						:autorized
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_ADJUSTED )
+						:adjusted
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_CANCELED )
+						:canceled
+					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_DENIED )
+						:denied
+					elsif status_code.blank? || "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_DRAFT )
+						:draft
+					else
+						:rejected
 					end
 				end
 

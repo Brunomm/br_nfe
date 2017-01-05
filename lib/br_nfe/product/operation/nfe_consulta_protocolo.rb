@@ -51,6 +51,10 @@ module BrNfe
 				def xml_builder
 					@xml_builder ||= render_xml 'root/NfeConsultaProtocolo'
 				end
+
+				def response_class_builder
+					BrNfe::Product::Response::Build::NfeConsultaProtocolo
+				end
 			end
 		end
 	end

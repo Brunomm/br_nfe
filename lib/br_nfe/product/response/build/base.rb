@@ -127,6 +127,12 @@ module BrNfe
 						@response_xml ||= parse_nokogiri_xml(savon_response.try(:xml))
 					end
 
+					# XMLNS PADRÃO DA NOTA FISCAL
+					#
+					def nf_xmlns
+						'http://www.portalfiscal.inf.br/nfe'
+					end
+
 				private
 
 					# Reponsável por converter uma string(XML) em um elemento 
@@ -138,6 +144,141 @@ module BrNfe
 						else
 							Nokogiri::XML('<?xml version="1.0" encoding="UTF-8"?>'+str_xml)
 						end
+					end
+
+					# Rsponsável por instânciar uma nota fiscal a partir da tag protNFe.
+					# Também vai setar o atributo xml específico da nota fiscal a partir
+					# do valor setado em :original_xml
+					#
+					# Deve ser passado por parâmetro um objeto da class Nokogiri::XML::Document
+					# com a estrutura do protocolo da NFE. EX:
+					#   <protNFe versao="3.10">
+					#     <infProt>
+					#       <tpAmb>2</tpAmb>
+					#       <verAplic>SVRS201611281548</verAplic>
+					#       <chNFe>42161208897094000155550010000000031201601010</chNFe>
+					#       <dhRecbto>2016-12-23T15:02:01-02:00</dhRecbto>
+					#       <nProt>342160000820227</nProt>
+					#       <digVal>eoBzPod21zF9/46jjOS2kLRyTPM=</digVal>
+					#       <cStat>100</cStat>
+					#       <xMotivo>Autorizado o uso da NF-e</xMotivo>
+					#     </infProt>
+					#   </protNFe>
+					# 
+					# <b>Type: </b> _BrNfe.nota_fiscal_product_class_
+					#
+					def build_invoice_by_prot_nfe prot_nfe
+						invoice = BrNfe.nota_fiscal_product_class.new do |nfe|
+							nfe.processed_at    = get_processed_at_from_prot_nfe(  prot_nfe )
+							nfe.protocol        = get_protocol_from_prot_nfe(      prot_nfe )
+							nfe.digest_value    = get_digest_value_from_prot_nfe(  prot_nfe )
+							nfe.status_code     = get_status_code_from_prot_nfe(   prot_nfe )
+							nfe.status_motive   = get_status_motive_from_prot_nfe( prot_nfe )
+							nfe.chave_de_acesso = get_access_key_from_prot_nfe(    prot_nfe )
+						end
+						# 1° - Seta os valores possíveis encontrados na chave de acesso da NF-e
+						set_invoice_values_by_access_key!( invoice )
+
+						# 2° - Seta o XML da respectiva NF-e no objeto já com a tag <nfeProc>
+						#      e a tag do protocolo(<protNFe>)
+						set_invoice_xml_with_prot_nfe!( invoice, prot_nfe )
+						invoice
+					end
+
+					def get_processed_at_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/dhRecbto').text
+					end
+					def get_protocol_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/nProt').text
+					end
+					def get_digest_value_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/digVal').text
+					end
+					def get_status_code_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/cStat').text
+					end
+					def get_status_motive_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/xMotivo').text
+					end
+					def get_access_key_from_prot_nfe prot_nfe
+						prot_nfe.xpath('//protNFe/infProt/chNFe').text
+					end
+
+					# Seta os valores que estão concatenados na chave da NF-e
+					# como o número da nota fiscal, cnpj do emitente, entre outros 
+					# valores.
+					#
+					def set_invoice_values_by_access_key!(invoice)
+						if invoice.chave_de_acesso.present?
+							invoice.emitente.cnpj = invoice.chave_de_acesso[6..19]
+							invoice.modelo_nf = invoice.chave_de_acesso[20..21]
+							invoice.serie     = invoice.chave_de_acesso[22..24]
+							invoice.numero_nf = invoice.chave_de_acesso[25..33].to_i
+							invoice.codigo_nf = invoice.chave_de_acesso[35..42].to_i
+						end
+					end
+
+					# Responsável por adicionar a tag <protNFe> dentro da tag <nfeProc>.
+					# Também irá setar o XMl atualizado no attr :xml da nota fiscal
+					#
+					def set_invoice_xml_with_prot_nfe!(invoice, prot_nfe)
+						if nfeProc = find_or_create_nfeProc_of_invoice_xml_by_access_key( invoice )
+							# Só adiciona o protocolo se a nota foi emitida com sucesso
+							if invoice.status == :success 
+								add_prot_nfe_into_nfe_proc( nfeProc, prot_nfe )
+							end
+
+							invoice.xml = '<?xml version="1.0" encoding="UTF-8"?>'+canonicalize( nfeProc.to_xml )
+						end
+					end
+
+					# Responsável por adicionar o protocolo da NFe dentro da tag nfeProc
+					# a baixo da tag NFe.
+					# Caso já exista a tag protNFe não irá adiciona-lo novamente.
+					#
+					def add_prot_nfe_into_nfe_proc nfe_proc, prot_nfe
+						if nfe_proc.xpath('//nf:nfeProc/nf:protNFe', nf: nf_xmlns).blank?
+							nfe_proc.xpath('//nf:nfeProc', nf: nf_xmlns).
+							        children.last.try(:add_next_sibling, prot_nfe.root.to_xml )
+						end
+					end
+
+					# Responsável por Encontrar ou Criar a estrutura nfeProc de uma
+					# Determinada nota fiscal.
+					# 1° Verifica se existe algum XML setado no objeto da nota, e se existir,
+					#    irá montar a nfeProc da nota e retornar o documento XML
+					# 2° Caso não encontre o xml direto na NF, irá procurar o xml através
+					#    do método original_xml.
+					# 
+					# Estrutura de retorno:
+					#   <nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
+					#     <NFe>...</NFe>
+					#   </nfeProc>
+					# 
+					# <b>Type: </b> _Nokogiri::XML::Document_
+					#
+					def find_or_create_nfeProc_of_invoice_xml_by_access_key invoice
+						doc_nf = "#{invoice.xml}".strip.present? ? parse_nokogiri_xml("#{invoice.xml}") : parse_nokogiri_xml(original_xml)
+						if node = doc_nf.search("NFe/infNFe[@Id*=\"#{invoice.chave_de_acesso}\"]").first
+							if doc_nf.xpath('/*').first.try(:name) == 'nfeProc'
+								doc_nf
+							else
+								parse_nokogiri_xml( create_proc_tag( node.parent.to_s ) )
+							end
+						end
+					end
+
+					# Responsável por criar a tag <nfeProc> e adicionar o conteúdo 
+					# passado por parâmetro dentro da tag.
+					# Deve ser passado o xml em forma de String.
+					#
+					# <b>Type: </b> _String_
+					#
+					def create_proc_tag nfe_xml
+						xml = "<nfeProc xmlns=\"#{nf_xmlns}\" versao=\"#{xml_version_str}\">"
+						xml << nfe_xml
+						xml << '</nfeProc>'
+						xml
 					end
 				end
 			end
