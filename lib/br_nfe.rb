@@ -248,6 +248,7 @@ module BrNfe
 			autoload :NfeAutorizacao
 			autoload :NfeRetAutorizacao
 			autoload :NfeConsultaProtocolo
+			autoload :NfeStatusServico
 			autoload :Event
 			module Build
 				extend ActiveSupport::Autoload
@@ -255,6 +256,7 @@ module BrNfe
 				autoload :NfeAutorizacao
 				autoload :NfeRetAutorizacao
 				autoload :NfeConsultaProtocolo
+				autoload :NfeStatusServico
 			end
 		end
 	end

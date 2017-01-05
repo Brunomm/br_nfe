@@ -67,4 +67,56 @@ describe BrNfe::Product::Operation::NfeStatusServico do
 		end
 	end
 
+	describe 'REQUEST MUST BE SET RESPONSE CORRECTLY' do
+		let(:xml_success) { read_fixture('product/response/v3.10/nfe_status_servico/success.xml') } 
+		let(:xml_fail)    { read_fixture('product/response/v3.10/nfe_status_servico/fail.xml') } 
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('product/wsdl/NfeStatusServico2.xml') )
+		end
+		after  { savon.unmock! }
+
+		it "Quando serviço estiver ONLINE" do
+			savon.expects(subject.method_wsdl).returns(xml_success)
+			subject.request
+			response = subject.response
+
+			response.environment.must_equal :production
+			response.app_version.must_equal 'SVRS201610061549'
+			response.processed_at.must_equal Time.parse('2017-01-05T17:26:03-02:00')
+			response.protocol.must_be_nil
+			response.request_status.must_equal :success
+			response.processing_status_code.must_equal '107'
+			response.processing_status_motive.must_equal 'Servico em Operacao'
+			response.processing_status.must_equal :success
+
+			response.uf.must_equal '42'
+			response.average_time.must_equal 1
+			response.observation.must_equal ''
+			response.return_prevision.must_be_nil
+			response.status.must_equal :online
+		end
+
+		it "Quando serviço estiver OFFLINE" do
+			savon.expects(subject.method_wsdl).returns(xml_fail)
+			subject.request
+			response = subject.response
+
+			response.environment.must_equal :test
+			response.app_version.must_equal 'SVRS201610061549'
+			response.processed_at.must_equal Time.parse('2017-01-05T17:26:03-02:00')
+			response.protocol.must_be_nil
+			response.request_status.must_equal :success
+			response.processing_status_code.must_equal '108'
+			response.processing_status_motive.must_equal 'Serviço Paralisado Temporariamente'
+			response.processing_status.must_equal :offline
+
+			response.uf.must_equal '42'
+			response.average_time.must_equal 0
+			response.observation.must_equal 'NOSSO WEBSERVEICE É UMA BOSTA'
+			response.return_prevision.must_equal Time.parse('2017-01-05T17:30:03-02:00')
+			response.status.must_equal :offline
+		end
+	end
+
 end
