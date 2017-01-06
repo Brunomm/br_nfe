@@ -34,6 +34,18 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 				subject.env = :test
 				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
 			end			
+		end
+		
+		describe 'Para a cidade 4316808 - Santa Cruz do Sul-RS' do
+			before { subject.ibge_code_of_issuer_city = '4316808' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.santacruz.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://grphml.santacruz.rs.gov.br/thema-nfse-hml/services/NFSEcancelamento?wsdl'
+			end			
 		end	 	
 	end
 

@@ -3,14 +3,26 @@ module BrNfe
 		module Thema
 			module V1
 				class Base < BrNfe::Service::Base
-
-					def get_wsdl_by_city
-						if ibge_code_of_issuer_city == '4205902' # Gaspar-SC
-							{
+					
+					def gateway
+						{
+							'4205902' => { # Gaspar-SC
 								send:    "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl",
 								consult: "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl",
 								cancel:  "http://nfse#{'hml' if env == :test}.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl"
-							}
+							},
+
+							'4316808' => { # Santa Cruz do Sul-RS
+								send:    "http://#{env == :test ? 'grphml' : 'nfse'}.santacruz.rs.gov.br/thema-nfse#{'-hml' if env == :test}/services/NFSEremessa?wsdl",
+								consult: "http://#{env == :test ? 'grphml' : 'nfse'}.santacruz.rs.gov.br/thema-nfse#{'-hml' if env == :test}/services/NFSEconsulta?wsdl",
+								cancel:  "http://#{env == :test ? 'grphml' : 'nfse'}.santacruz.rs.gov.br/thema-nfse#{'-hml' if env == :test}/services/NFSEcancelamento?wsdl"
+							},
+						}
+					end
+
+					def get_wsdl_by_city
+						if gtw = gateway[ibge_code_of_issuer_city]
+							gtw
 						else # Default for tdd
 							{
 								send:    "http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl",
