@@ -145,6 +145,13 @@ module BrNfe
 				autoload :ConsultaLoteRps
 			end
 		end
+		module Webiss
+			module V1
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :ConsultaSituacaoLoteRps
+			end
+		end
 		module SC
 			module Florianopolis
 				extend ActiveSupport::Autoload
