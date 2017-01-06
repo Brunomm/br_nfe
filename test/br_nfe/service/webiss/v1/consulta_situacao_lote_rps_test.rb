@@ -28,81 +28,81 @@ describe BrNfe::Service::Webiss::V1::ConsultaSituacaoLoteRps do
 		end
 	end
 
-	# describe "#request and set response" do
-	# 	before do 
-	# 		savon.mock!
-	# 		stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/webiss/v1/nfseservice.xml') )
-	# 	end
-	# 	after  { savon.unmock! }
+	describe "#request and set response" do
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/webiss/v1/NfseServices.svc.xml') )
+		end
+		after  { savon.unmock! }
 
-	# 	it "Quando processou o RPS com sucesso deve setar a situation com :success" do
-	# 		fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/success.xml')
-	# 		savon.expects(:consultar_situacao_lote_rps).returns(fixture)
-	# 		subject.request
-	# 		response = subject.response
+		it "Quando processou o RPS com sucesso deve setar a situation com :success" do
+			fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/success.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
 
-	# 		response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
-	# 		response.situation.must_equal :success
-	# 		response.numero_lote.must_equal '10'
-	# 		response.status.must_equal :success
-	# 		response.successful_request?.must_equal true
-	# 	end
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.situation.must_equal :success
+			response.numero_lote.must_equal '2'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
 
-	# 	it "Quando processou o RPS com erros deve setar a situation com :error" do
-	# 		fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/error.xml')
-	# 		savon.expects(:consultar_situacao_lote_rps).returns(fixture)
-	# 		subject.request
-	# 		response = subject.response
+		it "Quando processou o RPS com erros deve setar a situation com :error" do
+			fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/error.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
 
-	# 		response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
-	# 		response.situation.must_equal :error
-	# 		response.numero_lote.must_equal '13'
-	# 		response.status.must_equal :success
-	# 		response.successful_request?.must_equal true
-	# 	end
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.situation.must_equal :error
+			response.numero_lote.must_equal '1'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
 
-	# 	it "Quando não processou o RPS deve setar a situation com :unprocessed" do
-	# 		fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/unprocessed.xml')
-	# 		savon.expects(:consultar_situacao_lote_rps).returns(fixture)
-	# 		subject.request
-	# 		response = subject.response
+		it "Quando não processou o RPS deve setar a situation com :unprocessed" do
+			fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/unprocessed.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
 
-	# 		response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
-	# 		response.situation.must_equal :unprocessed
-	# 		response.numero_lote.must_equal '11'
-	# 		response.status.must_equal :success
-	# 		response.successful_request?.must_equal true
-	# 	end
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.situation.must_equal :unprocessed
+			response.numero_lote.must_equal '3'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
 
-	# 	it "Quando não encontrar o RPS deve setar a situation com :unreceived" do
-	# 		fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/unreceived.xml')
-	# 		savon.expects(:consultar_situacao_lote_rps).returns(fixture)
-	# 		subject.request
-	# 		response = subject.response
+		it "Quando não encontrar o RPS deve setar a situation com :unreceived" do
+			fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/unreceived.xml')
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
 
-	# 		response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
-	# 		response.situation.must_equal :unreceived
-	# 		response.numero_lote.must_equal '12'
-	# 		response.status.must_equal :success
-	# 		response.successful_request?.must_equal true
-	# 	end
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.situation.must_equal :unreceived
+			response.numero_lote.must_equal '4'
+			response.status.must_equal :success
+			response.successful_request?.must_equal true
+		end
 
-	# 	it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-	# 		fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/fault.xml')
+		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
+			fixture = read_fixture('service/response/webiss/v1/consulta_situacao_lote_rps/fault.xml')
 			
-	# 		savon.expects(:consultar_situacao_lote_rps).returns(fixture)
-	# 		subject.request
-	# 		response = subject.response
+			savon.expects(:consultar_situacao_lote_rps).returns(fixture)
+			subject.request
+			response = subject.response
 
-	# 		response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
-	# 		response.numero_lote.must_be_nil
-	# 		response.situation.must_equal :error
-	# 		response.status.must_equal :falied
-	# 		response.error_messages.size.must_equal 1
-	# 		response.error_messages[0][:code].must_equal 'E900'
-	# 		response.error_messages[0][:message].must_equal 'Chamada ao método retornou erro.'
-	# 		response.error_messages[0][:solution].must_equal 'Entre em contato com o fornecedor do serviço para mais informações'
-	# 		response.successful_request?.must_equal true
-	# 	end
-	# end
+			response.must_be_kind_of BrNfe::Service::Response::ConsultaSituacaoLoteRps
+			response.numero_lote.must_be_nil
+			response.situation.must_equal :error
+			response.status.must_equal :falied
+			response.error_messages.size.must_equal 1
+			response.error_messages[0][:code].must_equal 'E50'
+			response.error_messages[0][:message].must_equal 'Inscricao Municipal do pretador inválida'
+			response.error_messages[0][:solution].must_equal 'Informe a inscricao municipal correta do prestador. '
+			response.successful_request?.must_equal true
+		end
+	end
 end

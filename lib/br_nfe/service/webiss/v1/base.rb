@@ -34,10 +34,13 @@ module BrNfe
 					end
 
 					def soap_namespaces
-						super.merge({
+						{
+							'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
+							'xmlns:xsd'     => 'http://www.w3.org/2001/XMLSchema',
+							'xmlns:xsi'     => 'http://www.w3.org/2001/XMLSchema-instance',
 							'xmlns:SOAP-ENC' => "http://schemas.xmlsoap.org/soap/encoding/",
 							'xmlns:ns4301' => "http://tempuri.org"
-						})
+						}
 					end
 
 					# Método que deve ser sobrescrito em cada subclass.
@@ -55,12 +58,12 @@ module BrNfe
 					# <b><Tipo de retorno: /b> _String_ XML
 					#
 					def content_xml
-						dados =  "<t:#{soap_body_root_tag} xmlns:t=\"http://tempuri.org/\">"
-						dados <<   "<t:cabec></t:cabec>"
-						dados <<   '<t:msg>'
-						dados <<     "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>#{xml_builder.html_safe}]]>"
-						dados <<   '</t:msg>'
-						dados << "</t:#{soap_body_root_tag}>"
+						dados =  "<#{soap_body_root_tag} xmlns=\"http://tempuri.org/\">"
+						dados <<   "<cabec></cabec>"
+						dados <<   '<msg>'
+						dados <<     "<![CDATA[#{xml_builder.html_safe}]]>"
+						dados <<   '</msg>'
+						dados << "</#{soap_body_root_tag}>"
 						dados
 					end
 				end
