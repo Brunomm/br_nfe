@@ -147,6 +147,10 @@ module BrNfe
 				end
 			private
 
+				def response_class_builder
+					BrNfe::Product::Response::Build::NfeInutilizacao
+				end
+
 				def generate_key
 					key =  'ID'
 					key << ibge_code_of_issuer_uf # 03-04 = Código da UF (2 posições)

@@ -149,4 +149,62 @@ describe BrNfe::Product::Operation::NfeInutilizacao do
 		end
 	end
 
+	describe 'REQUEST MUST BE SET RESPONSE CORRECTLY' do
+		let(:xml_success) { read_fixture('product/response/v3.10/nfe_inutilizacao/success.xml') } 
+		let(:xml_fail)    { read_fixture('product/response/v3.10/nfe_inutilizacao/fail.xml') } 
+		before do 
+			savon.mock!
+			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('product/wsdl/nfeinutilizacao2.xml') )
+		end
+		after  { savon.unmock! }
+
+		it "Quando a inutilização foi homologada" do
+			savon.expects(subject.method_wsdl).returns(xml_success)
+			subject.request
+			response = subject.response
+
+			response.environment.must_equal :test
+			response.app_version.must_equal 'SVRS201601161002'
+			response.processed_at.must_equal Time.parse('2017-01-17T14:30:49-02:00')
+			response.protocol.must_equal '342170000033755'
+			response.request_status.must_equal :success
+			response.processing_status_code.must_equal '102'
+			response.processing_status_motive.must_equal 'Inutilizacao de numero homologado'
+			response.processing_status.must_equal :success
+
+			response.uf.must_equal '42'
+			
+			response.year.must_equal '17'
+			response.cnpj.must_equal '26231073000188'
+			response.nf_model.must_equal '55'
+			response.nf_series.must_equal '1'
+			response.start_invoice_number.must_equal '6'
+			response.end_invoice_number.must_equal '8'
+		end
+
+		it "Quando a inutilização não for homologada" do
+			savon.expects(subject.method_wsdl).returns(xml_fail)
+			subject.request
+			response = subject.response
+
+			response.environment.must_equal :test
+			response.app_version.must_equal 'SVRS201601161002'
+			response.processed_at.must_equal Time.parse('2017-01-17T14:30:49-02:00')
+			response.protocol.must_equal ''
+			response.request_status.must_equal :success
+			response.processing_status_code.must_equal '256'
+			response.processing_status_motive.must_equal 'Rejeicao: Uma NF-e da faixa ja esta inutilizada na Base de dados da SEFAZ'
+			response.processing_status.must_equal :error
+
+			response.uf.must_equal '42'
+
+			response.year.must_equal '17'
+			response.cnpj.must_equal '26231073000188'
+			response.nf_model.must_equal '55'
+			response.nf_series.must_equal '1'
+			response.start_invoice_number.must_equal '6'
+			response.end_invoice_number.must_equal '8'
+		end
+	end
+
 end
