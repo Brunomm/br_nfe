@@ -1,0 +1,35 @@
+vBC       = nf_xml_value_monetary( issqn.total_base_calculo )
+vAliq     = nf_xml_value_percent(  issqn.aliquota )
+vISSQN    = nf_xml_value_monetary( issqn.total )
+cMunFG    = nf_xml_value_codigo_ibge_municipio( issqn.municipio_ocorrencia )
+cListServ = issqn.codigo_servico
+
+- if issqn.total_deducao_bc.to_f > 0.0
+	vDeducao     = nf_xml_value_monetary( issqn.total_deducao_bc )
+
+- if issqn.total_outras_retencoes.to_f > 0.0
+	vOutro       = nf_xml_value_monetary( issqn.total_outras_retencoes )
+
+- if issqn.total_desconto_incondicionado.to_f > 0.0
+	vDescIncond  = nf_xml_value_monetary( issqn.total_desconto_incondicionado )
+
+- if issqn.total_desconto_condicionado.to_f > 0.0
+	vDescCond    = nf_xml_value_monetary( issqn.total_desconto_condicionado )
+
+- if issqn.total_iss_retido.to_f > 0.0
+	vISSRet      = nf_xml_value_monetary( issqn.total_iss_retido )
+
+indISS = issqn.indicador_iss
+
+- if issqn.codigo_servico_municipio.present?
+	cServico = nf_xml_value_text( issqn.codigo_servico_municipio, 20 )
+
+- if issqn.municipio_incidencia.present?
+	cMun = nf_xml_value_codigo_ibge_municipio( issqn.municipio_incidencia )
+	- if issqn.municipio_incidencia.to_i == 9999999
+		cPais = nf_xml_value_codigo_pais( issqn.codigo_pais )
+
+- if issqn.numero_processo.present?
+	nProcesso = nf_xml_value_text( issqn.numero_processo, 30 )
+
+indIncentivo = nf_xml_value_ISSQN_incentivo_fiscal( issqn.incentivo_fiscal )

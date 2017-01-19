@@ -1,0 +1,10 @@
+en:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/operation/nfe_autorizacao:
+          invalid_invoice: 'Invoice %{index}: %{error_message}'
+          attributes:
+            notas_fiscais:
+              too_long:  'exceeded the maximum limit of %{count} invoices'
+              too_short: 'must have minimum %{count}'

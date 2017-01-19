@@ -10,8 +10,7 @@ describe BrNfe::Product::Emitente do
 	end
 
 	describe "validations" do
-		it { must validate_presence_of(:inscricao_municipal) }
-		it { must validate_presence_of(:natureza_operacao) }
+		it { wont validate_presence_of(:inscricao_municipal) }
 		describe "valida o endereco" do
 			it "deve ser inválido se endereco for invalido" do
 				subject.endereco.stubs(:valid?).returns(false)
