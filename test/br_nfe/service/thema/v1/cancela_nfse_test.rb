@@ -33,7 +33,7 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 			it "ambiente de testes" do
 				subject.env = :test
 				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEcancelamento?wsdl'
-			end			
+			end
 		end
 		
 		describe 'Para a cidade 4316808 - Santa Cruz do Sul-RS' do
@@ -45,8 +45,128 @@ describe BrNfe::Service::Thema::V1::CancelaNfse do
 			it "ambiente de testes" do
 				subject.env = :test
 				subject.wsdl.must_equal 'http://grphml.santacruz.rs.gov.br/thema-nfse-hml/services/NFSEcancelamento?wsdl'
-			end			
-		end	 	
+			end
+		end
+		
+		describe 'Para a cidade 4303103 - Cachoeirinha-RS' do
+			before { subject.ibge_code_of_issuer_city = '4303103' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.cachoeirinha.rs.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehomologacao.cachoeirinha.rs.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4307708 - Esteio-RS' do
+			before { subject.ibge_code_of_issuer_city = '4307708' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://grp.esteio.rs.gov.br/nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://grp.esteio.rs.gov.br/nfsehml/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4311403 - Lajeado-RS' do
+			before { subject.ibge_code_of_issuer_city = '4311403' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.lajeado.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehml.lajeado.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4312401 - Montenegro-RS' do
+			before { subject.ibge_code_of_issuer_city = '4312401' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'https://nfe.montenegro.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'https://nfsehml.montenegro.rs.gov.br/nfsehml/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4312658 - Não-Me-Toque-RS' do
+			before { subject.ibge_code_of_issuer_city = '4312658' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.naometoquers.com.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			# it "ambiente de testes" do
+			# 	subject.env = :test
+			# 	subject.wsdl.must_equal ''
+			# end
+		end
+
+		describe 'Para a cidade 4314100 - Passo Fundo-RS' do
+			before { subject.ibge_code_of_issuer_city = '4314100' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.pmpf.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehomologacao.pmpf.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4317608 - Santo Antônio da Patrulha-RS' do
+			before { subject.ibge_code_of_issuer_city = '4317608' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.pmsap.com.br/nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehomologacao.pmsap.com.br/nfsehml/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4318705 - São Leopoldo-RS' do
+			before { subject.ibge_code_of_issuer_city = '4318705' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfe.saoleopoldo.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfehomologacao.saoleopoldo.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4321204 - Taquara-RS' do
+			before { subject.ibge_code_of_issuer_city = '4321204' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfse.taquara.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfsehomologacao.taquara.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+		end
+
+		describe 'Para a cidade 4322608 - Venâncio Aires-RS' do
+			before { subject.ibge_code_of_issuer_city = '4322608' }
+			it "ambiente de produção" do
+				subject.env = :production
+				subject.wsdl.must_equal 'http://nfe.venancioaires.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+			it "ambiente de testes" do
+				subject.env = :test
+				subject.wsdl.must_equal 'http://nfehml.venancioaires.rs.gov.br/thema-nfse/services/NFSEcancelamento?wsdl'
+			end
+		end 	
 	end
 
 	it "#soap_body_root_tag" do
