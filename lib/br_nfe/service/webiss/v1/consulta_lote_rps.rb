@@ -25,13 +25,11 @@ module BrNfe
 					def set_response
 						@response = BrNfe::Service::Response::Build::ConsultaLoteRps.new(
 							savon_response: @original_response, # Rsposta da requisição SOAP
-							keys_root_path: [:consultar_lote_rps_response], # Caminho inicial da resposta / Chave pai principal
-							body_xml_path:  nil,
+							keys_root_path: [],
+							body_xml_path:  [:consultar_lote_rps_response, :consultar_lote_rps_result],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
-							
-							#//Envelope/Body/ConsultarLoteRpsResponse/ConsultarLoteRpsResult/ListaNfse/CompNfse/Nfse
-							nfe_xml_path:                '//*/*/*/*/*/*/*',
-							
+							# nfe_xml_path:                '//*/*/*/*/*/*/*',
+							nfe_xml_path:                '//*',
 							invoices_path:               [:consultar_lote_rps_result, :lista_nfse, :comp_nfse],
 							message_errors_path:         [:consultar_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
