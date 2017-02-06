@@ -373,6 +373,12 @@ module BrNfe
 			signer.to_xml
 		end
 
+		# Alerta caso o provedor não possuir ambiente de testes/homologação
+		#
+		def unknow_env_test
+			raise "Não possui ambiente de homologação"
+		end
+
 	private
 
 		def tag_cpf_cnpj(xml, cpf_cnpj)

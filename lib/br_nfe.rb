@@ -164,6 +164,18 @@ module BrNfe
 				autoload :ConsultaLoteRps
 			end
 		end
+		module Govbr
+			module V1
+				extend ActiveSupport::Autoload
+				autoload :Base
+				autoload :CancelaNfse
+				autoload :ConsultaSituacaoLoteRps
+				autoload :ConsultaNfsPorRps
+				autoload :RecepcaoLoteRps
+				autoload :ConsultaNfse
+				autoload :ConsultaLoteRps
+			end
+		end
 		module SC
 			module Florianopolis
 				extend ActiveSupport::Autoload
