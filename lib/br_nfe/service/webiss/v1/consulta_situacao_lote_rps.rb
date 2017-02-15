@@ -27,13 +27,18 @@ module BrNfe
 					def set_response
 						@response = BrNfe::Service::Response::Build::ConsultaSituacaoLoteRps.new(
 							savon_response: @original_response, # Rsposta da requisição SOAP
-							keys_root_path: [:consultar_situacao_lote_rps_response], # Caminho inicial da resposta / Chave pai principal
-							body_xml_path:  nil,
+							
+							# Preencher essa informação quando tem apenas 1 xml com todas as informações
+							keys_root_path: [], 
+							
+							# Preencher quando tem um XML dentro de outro
+							body_xml_path:  [:consultar_situacao_lote_rps_response, :consultar_situacao_lote_rps_result],
+							
 							xml_encode:     response_encoding, # Codificação do xml de resposta
 							# situation_key_values: Default,
-							lot_number_path:      [:consultar_situacao_lote_rps_result, :numero_lote] ,
-							situation_path:       [:consultar_situacao_lote_rps_result, :situacao],
-							message_errors_path:  [:consultar_situacao_lote_rps_result, :lista_mensagem_retorno, :mensagem_retorno]
+							lot_number_path:      [:consultar_situacao_lote_rps_resposta, :numero_lote] ,
+							situation_path:       [:consultar_situacao_lote_rps_resposta, :situacao],
+							message_errors_path:  [:consultar_situacao_lote_rps_resposta, :lista_mensagem_retorno, :mensagem_retorno]
 						).response
 					end
 				end

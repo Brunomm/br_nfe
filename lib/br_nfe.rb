@@ -150,6 +150,11 @@ module BrNfe
 				extend ActiveSupport::Autoload
 				autoload :Base
 				autoload :ConsultaSituacaoLoteRps
+				autoload :ConsultaLoteRps
+				autoload :RecepcaoLoteRps
+				autoload :ConsultaNfse
+				autoload :ConsultaNfsPorRps
+				autoload :CancelaNfse
 			end
 		end
 		module Ginfes

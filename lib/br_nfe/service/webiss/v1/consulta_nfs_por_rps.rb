@@ -24,8 +24,8 @@ module BrNfe
 					def set_response
 						@response = BrNfe::Service::Response::Build::ConsultaNfsPorRps.new(
 							savon_response: @original_response, # Rsposta da requisição SOAP
-							keys_root_path: [:consultar_nfse_por_rps_response], # Caminho inicial da resposta / Chave pai principal
-							body_xml_path:  nil,
+							keys_root_path: [],
+							body_xml_path:  [:consultar_nfse_por_rps_response, :consultar_nfse_por_rps_result],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
 							
 							#//Envelope/Body/ConsultarLoteRpsEnvioResponse/ConsultarLoteRpsResposta
