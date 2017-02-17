@@ -1,0 +1,4 @@
+UFSaidaPais  = nf_xml_value_UF(   nfe.exportacao_uf_saida )
+xLocExporta  = nf_xml_value_text( nfe.exportacao_local_embarque, 60 )
+- if nfe.exportacao_local_despacho.present?
+	xLocDespacho = nf_xml_value_text( nfe.exportacao_local_despacho, 60 )

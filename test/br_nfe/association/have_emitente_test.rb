@@ -26,8 +26,8 @@ describe HaveEmitenteTest do
 
 	it 'deve_manter_o_objeto_emitente_se_ja_tiver' do
 		subject.emitente.must_equal emitente
-		emitente.cnpj = 'nova-www'
-		subject.emitente.cnpj.must_equal 'nova-www'
+		emitente.cnpj = '99999999999'
+		subject.emitente.cnpj.must_equal '99999999999'
 	end
 
 	it 'Se_setar_o_emitente_com_outra_class_deve_ignorar' do
@@ -37,8 +37,8 @@ describe HaveEmitenteTest do
 
 	it 'posso_setar_o_emitente_com_um_hash_com_os_parametros_do_emitente' do
 		emitente.assign_attributes(razao_social: 'JOAO', cnpj: '123456', telefone: '123465', email: 'mail@mail.com')
-		subject.emitente = {cnpj: '99999', telefone: '654389', email: 'mail2'}
-		subject.emitente.cnpj.must_equal '99999' 
+		subject.emitente = {cnpj: '33664455778899', telefone: '654389', email: 'mail2'}
+		subject.emitente.cnpj.must_equal '33664455778899' 
 		subject.emitente.telefone.must_equal '654389'
 		subject.emitente.email.must_equal  'mail2'
 		subject.emitente.razao_social.must_equal  'JOAO'
@@ -47,11 +47,11 @@ describe HaveEmitenteTest do
 	it 'posso_setar_o_emitente_com_um_bloco' do
 		emitente.assign_attributes(razao_social: 'JOAO', cnpj: '123456', telefone: '11111', email: 'mail1')
 		subject.emitente do |address|
-			address.cnpj =        '99999'
+			address.cnpj =        '99999999999'
 			address.telefone = '11111'
 			address.email =         'mail1'
 		end
-		subject.emitente.cnpj.must_equal '99999' 
+		subject.emitente.cnpj.must_equal '99999999999' 
 		subject.emitente.telefone.must_equal '11111'
 		subject.emitente.email.must_equal  'mail1'
 		subject.emitente.razao_social.must_equal  'JOAO'

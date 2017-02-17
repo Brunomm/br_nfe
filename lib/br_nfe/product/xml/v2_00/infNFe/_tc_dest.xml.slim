@@ -1,0 +1,14 @@
+- destinatario = nfe.destinatario
+= render_xml('_tc_cpf_cnpj', cpf_cnpj: destinatario.cpf_cnpj)
+xNome = nf_xml_value_text( destinatario.razao_social,  60)
+
+enderDest
+	= render_xml('_tc_endereco', person: destinatario)
+
+IE = nf_xml_value_IE( destinatario.inscricao_estadual )
+
+- if destinatario.inscricao_suframa.present?
+	ISUF = nf_xml_value_inscricao_suframa( destinatario.inscricao_suframa )
+
+- if destinatario.email.present?
+	email = nf_xml_value_email( destinatario.email )

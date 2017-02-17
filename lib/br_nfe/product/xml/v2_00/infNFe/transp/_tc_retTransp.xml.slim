@@ -1,0 +1,6 @@
+vServ    = nf_xml_value_monetary( transporte.retencao_valor_sevico)
+vBCRet   = nf_xml_value_monetary( transporte.retencao_base_calculo_icms)
+pICMSRet = nf_xml_value_percent(  transporte.retencao_aliquota)
+vICMSRet = nf_xml_value_monetary( transporte.retencao_valor_icms)
+CFOP     = nf_xml_value_CFOP(     transporte.retencao_cfop)
+cMunFG   = nf_xml_value_codigo_ibge_municipio(transporte.retencao_codigo_municipio)

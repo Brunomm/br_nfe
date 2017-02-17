@@ -1,0 +1,26 @@
+cUF      = emitente.endereco.codigo_ibge_uf
+cNF      = nf_xml_value_codigo_nf( nfe.codigo_nf )
+natOp    = nf_xml_value_text( nfe.natureza_operacao )
+indPag   = nfe.forma_pagamento
+mod      = nfe.modelo_nf
+serie    = nfe.serie
+nNF      = nfe.numero_nf
+dhEmi    = nf_xml_value_date_time( nfe.data_hora_emissao )
+- if nfe.nfe?
+	dhSaiEnt = nf_xml_value_date_time( nfe.data_hora_expedicao )
+tpNF     = nfe.tipo_operacao
+idDest   = nf_xml_value_id_local_destino( nfe.destinatario.endereco )
+cMunFG   = nf_xml_value_codigo_ibge_municipio( emitente.endereco.codigo_municipio )
+tpImp    = nfe.tipo_impressao
+tpEmis   = codigo_tipo_emissao( nfe )
+cDV      = nfe.chave_de_acesso_dv
+tpAmb    = nf_xml_value_tipo_ambiente( env )
+finNFe   = nfe.finalidade_emissao
+indFinal = nf_xml_value_consumidor_final( nfe.consumidor_final )
+indPres  = nfe.presenca_comprador
+procEmi  = nfe.processo_emissao
+verProc  = nfe.versao_aplicativo
+
+- if contingencia?
+	dhCont = nf_xml_value_date_time(inicio_contingencia)
+	xJust  = nf_xml_value_text(     motivo_contingencia, 255 )

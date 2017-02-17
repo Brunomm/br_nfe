@@ -1,0 +1,26 @@
+- if pis.codigo_cst.in?(%w[01 02])
+	PISAliq
+		CST  = pis.codigo_cst
+		vBC  = nf_xml_value_monetary pis.total_base_calculo
+		pPIS = nf_xml_value_percent  pis.aliquota
+		vPIS = nf_xml_value_monetary pis.total
+
+- elsif pis.codigo_cst == '03'
+	PISQtde
+		CST  = pis.codigo_cst
+		qBCProd   = nf_xml_value_quantidade pis.quantidade_vendida
+		vAliqProd = nf_xml_value_float      pis.total_aliquota, 4
+		vPIS      = nf_xml_value_monetary   pis.total
+- elsif pis.codigo_cst.in?(%w[04 05 06 07 08 09])
+	PISNT
+		CST  = pis.codigo_cst
+- else
+	PISOutr
+		CST  = pis.codigo_cst
+		- if pis.quantidade_vendida.to_f > 0.0
+			qBCProd   = nf_xml_value_quantidade pis.quantidade_vendida
+			vAliqProd = nf_xml_value_float      pis.total_aliquota, 4
+		- else
+			vBC  = nf_xml_value_monetary pis.total_base_calculo
+			pPIS = nf_xml_value_percent  pis.aliquota
+		vPIS    = nf_xml_value_monetary pis.total

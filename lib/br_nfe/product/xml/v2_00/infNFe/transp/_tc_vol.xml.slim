@@ -1,0 +1,15 @@
+- if volume.quantidade.present?
+	qVol  = volume.quantidade.to_i
+- if volume.especie.present?
+	esp   = nf_xml_value_text(volume.especie, 60)
+- if volume.marca.present?
+	marca = nf_xml_value_text(volume.marca, 60)
+- if volume.numercao.present?
+	nVol  = nf_xml_value_text(volume.numercao, 60)
+- if volume.peso_liquido.present?
+	pesoL = nf_xml_value_peso(volume.peso_liquido)
+- if volume.peso_bruto.present?
+	pesoB = nf_xml_value_peso(volume.peso_bruto)
+- volume.lacres.each do |lacre|
+	lacres
+		nLacre = nf_xml_value_text(lacre, 60)
