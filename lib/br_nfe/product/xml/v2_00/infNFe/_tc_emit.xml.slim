@@ -1,0 +1,19 @@
+= render_xml('_tc_cpf_cnpj', cpf_cnpj: emitente.cpf_cnpj)
+xNome = nf_xml_value_text( emitente.razao_social,  60)
+- if emitente.nome_fantasia.present?
+	xFant = nf_xml_value_text( emitente.nome_fantasia, 60)
+
+enderEmit
+	= render_xml('_tc_endereco', person: emitente)
+
+IE = nf_xml_value_IE( emitente.inscricao_estadual )
+
+- if emitente.inscricao_estadual_st.present?
+	IEST = nf_xml_value_IE( emitente.inscricao_estadual_st )
+
+- if emitente.inscricao_municipal.present?
+	IM = nf_xml_value_IM( emitente.inscricao_municipal )
+	- if emitente.cnae_code.present?
+		CNAE = nf_xml_value_CNAE( emitente.cnae_code )
+
+CRT = nf_xml_value_CRT( emitente.codigo_regime_tributario )

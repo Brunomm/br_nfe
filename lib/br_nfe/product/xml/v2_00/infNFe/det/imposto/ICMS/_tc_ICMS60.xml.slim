@@ -1,0 +1,5 @@
+orig = icms.origem
+CST  = icms.codigo_cst
+- if icms.total_base_calculo_st_retido.to_f > 0.0
+	vBCSTRet   = nf_xml_value_monetary icms.total_base_calculo_st_retido
+	vICMSSTRet = nf_xml_value_monetary icms.total_st_retido

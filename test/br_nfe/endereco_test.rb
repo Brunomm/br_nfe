@@ -77,4 +77,19 @@ describe BrNfe::Endereco do
 		end
 	end
 
+	describe "#exterior?" do
+		it "se codigo_pais for diferente de 1058 enão deve ser true" do
+			subject.codigo_pais = 4456
+			subject.exterior?.must_equal true
+			subject.codigo_pais = '1234'
+			subject.exterior?.must_equal true
+		end
+		it "se codigo_pais for igual a 1058 enão deve ser false" do
+			subject.codigo_pais = 1058
+			subject.exterior?.must_equal false
+			subject.codigo_pais = '1058'
+			subject.exterior?.must_equal false
+		end
+	end
+
 end

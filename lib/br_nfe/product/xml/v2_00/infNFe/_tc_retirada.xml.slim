@@ -1,0 +1,11 @@
+= render_xml('_tc_cpf_cnpj', cpf_cnpj: nfe.endereco_retirada_cpf_cnpj )
+xLgr = nf_xml_value_text( nfe.endereco_retirada.logradouro, 60 )
+nro  = nf_xml_value_text( nfe.endereco_retirada.numero,     60 )
+
+- if nfe.endereco_retirada.complemento.present?
+	xCpl = nf_xml_value_text( nfe.endereco_retirada.complemento, 60 )
+
+xBairro = nf_xml_value_text( nfe.endereco_retirada.bairro, 60 )
+cMun    = nf_xml_value_codigo_ibge_municipio( nfe.endereco_retirada.codigo_municipio )
+xMun    = nf_xml_value_text( nfe.endereco_retirada.nome_municipio, 60 )
+UF      = nf_xml_value_UF(   nfe.endereco_retirada.uf )

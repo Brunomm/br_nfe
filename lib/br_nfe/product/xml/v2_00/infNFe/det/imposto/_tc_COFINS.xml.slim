@@ -1,0 +1,26 @@
+- if cofins.codigo_cst.in?(%w[01 02])
+	COFINSAliq
+		CST  = cofins.codigo_cst
+		vBC  = nf_xml_value_monetary cofins.total_base_calculo
+		pCOFINS = nf_xml_value_percent  cofins.aliquota
+		vCOFINS = nf_xml_value_monetary cofins.total
+
+- elsif cofins.codigo_cst == '03'
+	COFINSQtde
+		CST  = cofins.codigo_cst
+		qBCProd   = nf_xml_value_quantidade cofins.quantidade_vendida
+		vAliqProd = nf_xml_value_float      cofins.total_aliquota, 4
+		vCOFINS   = nf_xml_value_monetary   cofins.total
+- elsif cofins.codigo_cst.in?(%w[04 05 06 07 08 09])
+	COFINSNT
+		CST  = cofins.codigo_cst
+- else
+	COFINSOutr
+		CST  = cofins.codigo_cst
+		- if cofins.quantidade_vendida.to_f > 0.0
+			qBCProd   = nf_xml_value_quantidade cofins.quantidade_vendida
+			vAliqProd = nf_xml_value_float      cofins.total_aliquota, 4
+		- else
+			vBC  = nf_xml_value_monetary   cofins.total_base_calculo
+			pCOFINS = nf_xml_value_percent cofins.aliquota
+		vCOFINS    = nf_xml_value_monetary cofins.total
