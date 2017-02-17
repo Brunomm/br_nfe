@@ -1,0 +1,5 @@
+enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
+	idLote  = numero_lote
+	- notas_fiscais.each do |nfe|
+		- nfe.xml = render_xml('infNFe/NFe', nfe: nfe)
+		= nfe.xml.html_safe
