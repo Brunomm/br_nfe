@@ -8,7 +8,7 @@ FactoryGirl.define do
 		telefone                   "333366558"
 		email                      "mail@mail.com"
 		regime_especial_tributacao "3"
-		optante_simples_nacional   "2"
+		codigo_regime_tributario   "3"
 		incentivo_fiscal           "2"
 		natureza_operacao          "1"
 	end

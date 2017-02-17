@@ -1,0 +1,7 @@
+envEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
+	idLote = numero_lote
+	- if cancelamento
+		evento versao="#{xml_version}"
+			- evento_xml = render_xml('evento/infEventoCancelamento')
+			= evento_xml.gsub('<infEvento xmlns="http://www.portalfiscal.inf.br/nfe"', '<infEvento ').html_safe
+			= render_xml('signature_sh1', data_xml: evento_xml, uri: "#{cancelamento.chave}").html_safe

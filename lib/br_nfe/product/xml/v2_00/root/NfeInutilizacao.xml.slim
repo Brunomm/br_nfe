@@ -1,0 +1,4 @@
+inutNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="#{xml_version}"
+	- infInut = render_xml 'infInut'
+	= infInut.gsub('<infInut xmlns="http://www.portalfiscal.inf.br/nfe"','<infInut ').html_safe
+	= render_xml('signature_sh1', data_xml: infInut, uri: "#{chave}").html_safe

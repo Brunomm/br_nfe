@@ -4,7 +4,7 @@ module BrNfe
 		def default_values
 			{
 				codigo_pais: '1058',
-				nome_pais: 'BRASIL'
+				nome_pais:   'BRASIL'
 			}
 		end
 
@@ -54,7 +54,11 @@ module BrNfe
 		end
 
 		def nome_pais
-			"#{@nome_pais}".to_valid_format_nf			
+			"#{@nome_pais}".to_valid_format_nf
+		end
+
+		def exterior?
+			codigo_pais.to_i != 1058
 		end
 	end
 end
