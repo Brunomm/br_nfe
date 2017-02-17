@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <ConsultarNfseResponse xmlns="http://tempuri.org/">
+      <ConsultarNfseResult>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+      	&lt;ConsultarNfseResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/nfse"&gt;
+      	&lt;ListaNfse /&gt;
+      	&lt;/ConsultarNfseResposta&gt;
+      </ConsultarNfseResult>
+    </ConsultarNfseResponse>
+  </s:Body>
+</s:Envelope>

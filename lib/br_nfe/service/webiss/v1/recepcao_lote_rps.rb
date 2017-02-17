@@ -12,6 +12,10 @@ module BrNfe
 					def method_wsdl
 						:recepcionar_lote_rps
 					end
+
+					def id_attribute?
+						false
+					end
 					
 					# Tag root da requisição
 					#
@@ -31,8 +35,8 @@ module BrNfe
 					def set_response
 						@response = BrNfe::Service::Response::Build::RecepcaoLoteRps.new(
 							savon_response: @original_response, # Rsposta da requisição SOAP
-							keys_root_path: [:recepcionar_lote_rps_response], # Caminho inicial da resposta / Chave pai principal
-							body_xml_path:  nil,
+							keys_root_path: [],
+							body_xml_path:  [:recepcionar_lote_rps_response, :recepcionar_lote_rps_result],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
 							lot_number_path:      [:recepcionar_lote_rps_result, :numero_lote],
 							protocol_path:        [:recepcionar_lote_rps_result, :protocolo],

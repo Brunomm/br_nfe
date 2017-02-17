@@ -13,6 +13,10 @@ module BrNfe
 						render_xml 'servico_cancelar_nfse_envio'
 					end
 
+					def id_attribute?
+						false
+					end
+
 					# Tag root da requisição
 					#
 					def soap_body_root_tag
@@ -24,8 +28,8 @@ module BrNfe
 					def set_response
 						@response = BrNfe::Service::Response::Build::Cancelamento.new(
 							savon_response: @original_response, # Rsposta da requisição SOAP
-							keys_root_path: [:cancelar_nfse_response], # Caminho inicial da resposta / Chave pai principal
-							body_xml_path:  nil,
+							keys_root_path: [],
+							body_xml_path:  [:cancelar_nfse_response, :cancelar_nfse_result],
 							xml_encode:     response_encoding, # Codificação do xml de resposta
 							codigo_cancelamento_path:    [:cancelar_nfse_result, :cancelamento, :confirmacao, :pedido, :inf_pedido_cancelamento, :codigo_cancelamento],
 							data_hora_cancelamento_path: [:cancelar_nfse_result, :cancelamento, :confirmacao, :data_hora_cancelamento],
