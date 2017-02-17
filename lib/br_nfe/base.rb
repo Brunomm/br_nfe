@@ -35,6 +35,10 @@ module BrNfe
 			@env ||= :production
 		end
 
+		def env_test?
+			env == :test
+		end
+
 		def original_response
 			@original_response
 		end
@@ -47,6 +51,11 @@ module BrNfe
 		#
 		def env_namespace
 			:soapenv
+		end
+
+		# Para saber se deve add o attr id na assinatura
+		def id_attribute?
+			true
 		end
 
 		# Deve conter o LINK do webservice a ser chamado

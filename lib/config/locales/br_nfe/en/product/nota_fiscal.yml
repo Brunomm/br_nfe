@@ -1,0 +1,21 @@
+en:
+  activemodel:
+    attributes::
+      br_nfe/product/nota_fiscal:
+        endereco_retirada_cpf_cnpj: CPF/CNPJ withdrawal address
+        autorizados_download_xml: CPF/CNPJ authorized to download the XML of NF-e
+    errors:
+      models:
+        br_nfe/product/nota_fiscal:
+          invalid_emitente: 'Issuer > %{error_message}'
+          invalid_destinatario: 'Addressee > %{error_message}'
+          invalid_transporte: 'Transport: %{error_message}'
+          invalid_fatura: 'Billing Invoice: %{error_message}'
+          invalid_pagamento: 'Payment %{index}: %{error_message}'
+          invalid_endereco_retirada: 'Withdrawal address: %{error_message}'
+          invalid_endereco_entrega: 'Delivery address: %{error_message}'
+          invalid_item: 'Item %{index} > %{error_message}'
+          invalid_processo: 'Process %{index} > %{error_message}'
+          attributes:
+            autorizados_download_xml:
+              too_long:  "exceeded the maximum limit of %{count} CPF/CNPJ's"
