@@ -1,0 +1,8 @@
+- if exportacao.numero_drawback.present?
+	nDraw = nf_xml_value_drawback exportacao.numero_drawback 
+
+- if exportacao.exportacao_indireta?
+	exportInd
+		nRE     = nf_xml_value_number     exportacao.numero_registro, 12
+		chNFe   = nf_xml_value_chave_nfe  exportacao.chave_nfe_recebida
+		qExport = nf_xml_value_quantidade exportacao.quantidade

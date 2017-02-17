@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao">
+      <cUF>42</cUF>
+      <versaoDados>3.10</versaoDados>
+    </nfeCabecMsg>
+  </soap:Header>
+  <soap:Body>
+    <nfeAutorizacaoLoteResult xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao">
+      <retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
+        <tpAmb>2</tpAmb>
+        <verAplic>SVRS201603081012</verAplic>
+        <cStat>104</cStat>
+        <xMotivo>Lote processado</xMotivo>
+        <cUF>42</cUF>
+        <dhRecbto>2016-12-27T16:39:28-02:00</dhRecbto>
+        <protNFe versao="3.10">
+          <infProt>
+            <tpAmb>2</tpAmb>
+            <verAplic>SVRS201603081012</verAplic>
+            <chNFe>42161208897094000155550010000000041201601018</chNFe>
+            <dhRecbto>2016-12-27T16:39:27-02:00</dhRecbto>
+            <nProt>342160000822005</nProt>
+            <digVal>sUtU5xKUqAA4/Gsmk1dY9O+chgA=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+          </infProt>
+        </protNFe>
+      </retEnviNFe>
+    </nfeAutorizacaoLoteResult>
+  </soap:Body>
+</soap:Envelope>

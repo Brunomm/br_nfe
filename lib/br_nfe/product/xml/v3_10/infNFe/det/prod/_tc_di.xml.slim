@@ -1,0 +1,28 @@
+nDI          = nf_xml_value_text declaracao.numero_documento, 12
+dDI          = nf_xml_value_date declaracao.data_registro
+xLocDesemb   = nf_xml_value_text declaracao.local_desembaraco, 60
+UFDesemb     = nf_xml_value_UF declaracao.uf_desembaraco
+dDesemb      = nf_xml_value_date declaracao.data_desembaraco
+tpViaTransp  = nf_xml_value_number declaracao.via_transporte, 2
+
+- if declaracao.via_transporte.to_i == 1 && declaracao.valor_afrmm.present?
+	vAFRMM       = nf_xml_value_monetary declaracao.valor_afrmm
+
+tpIntermedio = nf_xml_fixed_code declaracao.tipo_intermediacao, {size: 1}
+
+- if declaracao.tipo_intermediacao.to_i.in?([2,3])
+	/ Obrigatória a informação no caso de importação por conta e
+	/ ordem ou por encomenda. Informar os zeros não significativos
+	CNPJ         = nf_xml_value_cnpj declaracao.cnpj_adquirente
+	UFTerceiro   = nf_xml_value_UF declaracao.uf_terceiro
+
+cExportador  = nf_xml_value_text declaracao.codigo_exportador, 60
+- declaracao.adicoes.each do |adicao|
+	adi
+		nAdicao     = nf_xml_value_number   adicao.numero_adicao, 3
+		nSeqAdic    = nf_xml_value_number   adicao.sequencial,    3
+		cFabricante = nf_xml_value_text     adicao.codigo_fabricante, 60
+		- if adicao.valor_desconto.to_f > 0.0
+			vDescDI     = nf_xml_value_monetary adicao.valor_desconto
+		- if adicao.numero_drawback.present?
+			nDraw       = nf_xml_value_drawback adicao.numero_drawback

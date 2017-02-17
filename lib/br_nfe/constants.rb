@@ -28,6 +28,51 @@ module BrNfe
 			'51', #  Mato Grosso
 			'52', #  Goiás
 			'53', #  Distrito Federal	
-		]	
+		]
+		SIGLAS_UF = [
+			'AC', # Acre
+			'AL', # Alagoas
+			'AP', # Amapá
+			'AM', # Amazonas
+			'BA', # Bahia
+			'CE', # Ceará
+			'DF', # Distrito Federal
+			'ES', # Espírito Santo
+			'GO', # Goiás
+			'MA', # Maranhão
+			'MT', # Mato Grosso
+			'MS', # Mato Grosso do Sul
+			'MG', # Minas Gerais
+			'PA', # Pará
+			'PB', # Paraíba
+			'PR', # Paraná
+			'PE', # Pernambuco
+			'PI', # Piauí
+			'RJ', # Rio de Janeiro
+			'RN', # Rio Grande do Norte
+			'RS', # Rio Grande do Sul
+			'RO', # Rondônia
+			'RR', # Roraima
+			'SC', # Santa Catarina
+			'SP', # São Paulo
+			'SE', # Sergipe
+			'TO', # Tocantins
+			'EX'  # Exterior
+		]
+
+		FORMAS_PAGAMENTO = [1, 2, 3, 4, 5, 10, 11, 12, 13, 99, '1', '2', '3', '4', '5', '01', '02', '03', '04', '05', '10', '11', '12', '13', '99']
+
+		NFE_STATUS_SUCCESS    = %w[100 101 102 103 104 107 111 112 124 128 135 138 139 140 150 151]
+		NFE_STATUS_PROCESSING = %w[105]
+		NFE_STATUS_OFFLINE    = %w[108 109]
+		NFE_STATUS_DENIED     = %w[110 205 301 302 303]
+
+		NFE_SITUATION_AUTORIZED = %w[100 124 139 140 150]
+		NFE_SITUATION_ADJUSTED  = %w[128 135 136]
+		NFE_SITUATION_CANCELED  = %w[101 151 218]
+		NFE_SITUATION_DENIED    = %w[110 205 301 302 303]
+		NFE_SITUATION_DRAFT     = %w[105 106 108 109 137 142]
+
+
 	end
 end

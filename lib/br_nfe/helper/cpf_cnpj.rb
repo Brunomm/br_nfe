@@ -15,7 +15,14 @@ module BrNfe
 			end
 
 			def cpf_ou_cnpj?
-				sem_formatacao.size > 11 ? :cnpj : :cpf
+				case sem_formatacao.size
+				when 11
+					:cpf
+				when 14
+					:cnpj
+				else
+					:id_estrangeiro
+				end
 			end
 
 			def sem_formatacao

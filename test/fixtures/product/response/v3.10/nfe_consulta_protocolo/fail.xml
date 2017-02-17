@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta2">
+      <cUF>42</cUF>
+      <versaoDados>3.10</versaoDados>
+    </nfeCabecMsg>
+  </soap:Header>
+  <soap:Body>
+    <nfeConsultaNF2Result xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta2">
+      <retConsSitNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
+        <tpAmb>2</tpAmb>
+        <verAplic>SVRS201610061504</verAplic>
+        <cStat>226</cStat>
+        <xMotivo>Rejeicao: Codigo da UF do Emitente diverge da UF autorizadora</xMotivo>
+        <cUF>42</cUF>
+        <dhRecbto>2017-01-04T15:45:02-02:00</dhRecbto>
+        <chNFe>35140208520909000182550010000006201777646345</chNFe>
+      </retConsSitNFe>
+    </nfeConsultaNF2Result>
+  </soap:Body>
+</soap:Envelope>
