@@ -1,10 +1,5 @@
-<?xml version="1.0"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            targetNamespace="http://www.abrasf.org.br/nfse.xsd" 
-            xmlns="http://www.abrasf.org.br/nfse.xsd" 
-            xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
-            attributeFormDefault="unqualified"
-            elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.abrasf.org.br/nfse.xsd" xmlns="http://www.abrasf.org.br/nfse.xsd" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified" elementFormDefault="qualified">
 <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema20020212.xsd"/>
 
 <!-- definition of simple elements -->
@@ -448,7 +443,7 @@
             <xsd:element name="InfNfse" type="tcInfNfse" minOccurs="1" maxOccurs="1"/>
             <xsd:element ref="dsig:Signature" minOccurs="1" maxOccurs="2"/>
         </xsd:sequence>
-	<xsd:attribute name="versao" type="tsVersao" use="required" />
+	<xsd:attribute name="versao" type="tsVersao" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="tcInfPedidoCancelamento">
@@ -499,7 +494,7 @@
             <xsd:element name="Confirmacao" type="tcConfirmacaoCancelamento" minOccurs="1" maxOccurs="1"/>
             <xsd:element ref="dsig:Signature" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
-	<xsd:attribute name="versao" type="tsVersao" use="required" />
+	<xsd:attribute name="versao" type="tsVersao" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="tcInfSubstituicaoNfse">
@@ -517,7 +512,7 @@
             <xsd:element name="SubstituicaoNfse" type="tcInfSubstituicaoNfse" minOccurs="1" maxOccurs="1"/>
             <xsd:element ref="dsig:Signature" minOccurs="1" maxOccurs="2"/>
         </xsd:sequence>
-	<xsd:attribute name="versao" type="tsVersao" use="required" />
+	<xsd:attribute name="versao" type="tsVersao" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="tcCompNfse">
         <xsd:sequence>
@@ -581,7 +576,7 @@
     	MOTIVO: Compatibilizar com o estado, em que o nome do atributo é Id, com I maiúsculo.
 	-->
         <xsd:attribute name="Id" type="tsIdTag"/>
-	<!-- <xsd:attribute name="versao" type="tsVersao" use="required" /> -->
+	<!-- <xsd:attribute name="versao" type="tsVersao" use="required"/> -->
     </xsd:complexType>
 
     <xsd:element name="EnviarLoteRpsResposta">
@@ -773,7 +768,7 @@
 			<xsd:sequence>
 				<xsd:element name="versaoDados" type="tsVersao" minOccurs="1" maxOccurs="1"/>
 			</xsd:sequence>
-			<xsd:attribute name="versao" type="tsVersao" use="required" />
+			<xsd:attribute name="versao" type="tsVersao" use="required"/>
 		</xsd:complexType>
 	</xsd:element>
 

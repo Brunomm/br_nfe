@@ -13,10 +13,6 @@ module BrNfe
 						:recepcionar_lote_rps
 					end
 
-					def id_attribute?
-						false
-					end
-					
 					def soap_body_root_tag
 						'RecepcionarLoteRps'
 					end

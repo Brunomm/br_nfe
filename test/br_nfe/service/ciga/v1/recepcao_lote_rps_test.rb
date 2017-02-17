@@ -38,15 +38,15 @@ describe BrNfe::Service::Ciga::V1::RecepcaoLoteRps do
 			subject.lote_rps = [rps_completo]
 			validate_schema
 		end
-		# it "Deve ser válido com 1 RPS com apenas as informações obrigatórias preenchidas" do
-		# 	subject.lote_rps = [rps_basico]
-		# 	validate_schema
-		# end
-		# it "Deve ser válido com vários RPS's - 1 rps completo e 1 parcial" do
-		# 	subject.assign_attributes(certificate_pkcs12_password: nil, certificate_pkcs12_path: nil, username: '23020443000140', password: '33161107')
-		# 	subject.lote_rps = [rps_completo, rps_basico]
-		# 	validate_schema
-		# end
+		it "Deve ser válido com 1 RPS com apenas as informações obrigatórias preenchidas" do
+			subject.lote_rps = [rps_basico]
+			validate_schema
+		end
+		it "Deve ser válido com vários RPS's - 1 rps completo e 1 parcial" do
+			subject.assign_attributes(certificate_pkcs12_password: nil, certificate_pkcs12_path: nil, username: '23020443000140', password: '33161107')
+			subject.lote_rps = [rps_completo, rps_basico]
+			validate_schema
+		end
 	end
 
 	# describe "#request and set response" do

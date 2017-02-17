@@ -16,11 +16,11 @@ describe BrNfe::Service::Ciga::V1::Base do
 		end
 		it "se o env for de production deve enviar a requisição para o ambinete de produção da ciga" do
 			subject.env = :production
-			subject.wsdl.must_equal 'https://nfse.ciga.sc.gov.br/webservice/v1'
+			subject.wsdl.must_equal 'https://nfse.ciga.sc.gov.br/webservice/v1?wsdl'
 		end
 		it "se o env for de test deve enviar a requisição para o ambinete de homologação da ciga" do
 			subject.env = :test
-			subject.wsdl.must_equal 'https://nfse-testes.ciga.sc.gov.br/webservice/v1'
+			subject.wsdl.must_equal 'https://nfse-testes.ciga.sc.gov.br/webservice/v1?wsdl'
 		end
 
 	end

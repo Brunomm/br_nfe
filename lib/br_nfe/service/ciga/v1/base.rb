@@ -6,9 +6,9 @@ module BrNfe
 
 					def wsdl
 						if env == :test
-							'https://nfse-testes.ciga.sc.gov.br/webservice/v1'
+							'https://nfse-testes.ciga.sc.gov.br/webservice/v1?wsdl'
 						else
-							'https://nfse.ciga.sc.gov.br/webservice/v1'
+							'https://nfse.ciga.sc.gov.br/webservice/v1?wsdl'
 						end
 					end
 
