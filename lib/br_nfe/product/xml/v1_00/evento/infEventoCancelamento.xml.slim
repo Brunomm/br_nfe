@@ -1,0 +1,19 @@
+|<infEvento xmlns="http://www.portalfiscal.inf.br/nfe" Id="#{cancelamento.chave}">
+cOrgao = nf_xml_value_orgao_emissor( cancelamento )
+tpAmb  = nf_xml_value_tipo_ambiente( env )
+
+- if "#{emitente.cpf_cnpj}".size > 11
+	CNPJ = nf_xml_value_cnpj( emitente.cpf_cnpj )
+- else
+	CPF = nf_xml_value_cpf( emitente.cpf_cnpj )
+
+chNFe      = nf_xml_value_chave_nfe( cancelamento.chave_nfe )
+dhEvento   = nf_xml_value_date_time( cancelamento.data_hora )
+tpEvento   = cancelamento.codigo_evento
+nSeqEvento = cancelamento.numero_sequencial.to_i
+verEvento  = '1.00'
+detEvento versao="1.00"
+	descEvento = 'Cancelamento'
+	nProt = cancelamento.protocolo_nfe
+	xJust = nf_xml_value_text( cancelamento.justificativa, 255 )
+|</infEvento>

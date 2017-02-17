@@ -1,0 +1,13 @@
+- if nfe.informacoes_fisco.present?
+	infAdFisco = nf_xml_value_text( nfe.informacoes_fisco, 2_000 )
+
+- if nfe.informacoes_contribuinte.present?
+	infCpl  = nf_xml_value_text( nfe.informacoes_contribuinte, 2_000 )
+
+/ obsCont
+/ obsFisco
+
+- nfe.processos_referenciados.each do |processo|
+	procRef
+		nProc   = nf_xml_value_text( processo.numero_processo, 60 )
+		indProc = processo.indicador.to_i

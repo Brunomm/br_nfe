@@ -1,6 +1,17 @@
 module BrNfe
 	class ActiveModelBase
-		include ActiveModel::Model
+		include ::ActiveModel::Model
+		include BrNfe::ActiveModel::Associations
+
+		# Utilizado para referenciar o objeto que utiliza a informação.
+		# Setado automaticamnete no has_one e has_many;
+		# Exemplo:
+		#    ~$ endereco = Endereco.new
+		#    ~$ pessoa = Pessoa.new(endereco: endereco)
+		#    ~$ endereco.reference
+		#    ~$ => pessoa
+		#
+		attr_accessor :reference
 
 		def initialize(attributes = {})
 			attributes = default_values.merge!(attributes)
@@ -57,6 +68,32 @@ module BrNfe
 		def canonicalize(xml)
 			xml = Nokogiri::XML(xml.to_s, &:noblanks)
 			xml.canonicalize(Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0)
+		end
+
+		def convert_to_time(value)
+			return if value.blank?
+			if value.class.in?([Time, DateTime])
+				value.to_time.in_time_zone
+			else
+				Time.zone ? Time.zone.parse(value.to_s) : Time.parse(value.to_s)
+			end
+		rescue
+			nil
+		end
+
+		def convert_to_date(value)
+			return if value.blank?
+			if value.is_a?(Date)
+				value
+			else
+				Date.parse(value.to_s)
+			end
+		rescue
+			nil
+		end
+
+		def convert_to_boolean(value)
+			BrNfe.true_values.include?(value)
 		end
 
 	end

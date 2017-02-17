@@ -1,0 +1,44 @@
+ide  = render_xml 'infNFe/_tc_ide', nfe: nfe
+emit = render_xml 'infNFe/_tc_emit'
+/ avulsa
+dest = render_xml 'infNFe/_tc_dest', nfe: nfe
+
+- if nfe.endereco_retirada
+	retirada = render_xml 'infNFe/_tc_retirada', nfe: nfe
+
+- if nfe.endereco_entrega
+	entrega  = render_xml 'infNFe/_tc_entrega', nfe: nfe
+
+- nfe.autorizados_download_xml.each do |auth|
+	autXML
+		= render_xml('_tc_cpf_cnpj', cpf_cnpj: auth)
+
+- nfe.itens.each_with_index do |item, i|
+	det nItem="#{i+1}"
+		= render_xml 'infNFe/_tc_det', item: item
+
+total
+	= render_xml 'infNFe/_tc_total', nfe: nfe
+	
+transp
+	= render_xml('infNFe/_tc_transp', nfe: nfe)
+
+- if nfe.fatura
+	cobr
+		= render_xml 'infNFe/_tc_cobr', nfe: nfe
+
+- if nfe.nfce?
+	- nfe.pagamentos.each do |pagamento|
+		pag
+			= render_xml 'infNFe/_tc_pag', pagamento: pagamento
+
+- if nfe.informacoes_fisco.present? || nfe.informacoes_contribuinte.present? || nfe.processos_referenciados.present?
+	infAdic
+		= render_xml 'infNFe/_tc_infAdic', nfe: nfe
+
+- if 	nfe.exportacao_uf_saida.present? && nfe.exportacao_local_embarque.present?
+	exporta
+		= render_xml 'infNFe/_tc_exporta', nfe: nfe
+
+/ compra
+/ cana
