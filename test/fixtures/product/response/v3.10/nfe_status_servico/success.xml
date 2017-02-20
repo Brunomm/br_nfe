@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2">
+      <cUF>42</cUF>
+      <versaoDados>3.10</versaoDados>
+    </nfeCabecMsg>
+  </soap:Header>
+  <soap:Body>
+    <nfeStatusServicoNF2Result xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2">
+      <retConsStatServ xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
+        <tpAmb>1</tpAmb>
+        <verAplic>SVRS201610061549</verAplic>
+        <cStat>107</cStat>
+        <xMotivo>Servico em Operacao</xMotivo>
+        <cUF>42</cUF>
+        <dhRecbto>2017-01-05T17:26:03-02:00</dhRecbto>
+        <tMed>1</tMed>
+      </retConsStatServ>
+    </nfeStatusServicoNF2Result>
+  </soap:Body>
+</soap:Envelope>

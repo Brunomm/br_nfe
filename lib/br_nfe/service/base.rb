@@ -32,10 +32,6 @@ module BrNfe
 				[]
 			end
 
-			def id_attribute?
-				true
-			end
-
 			def request
 				@original_response = client_wsdl.call(method_wsdl, xml: soap_xml)
 				set_response

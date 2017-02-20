@@ -1,0 +1,247 @@
+<definitions name="ServiceGinfesImplService" targetNamespace="http://producao.ginfes.com.br" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://producao.ginfes.com.br" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <types/>
+ <message name="ServiceGinfesImpl_CancelarNfseResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_CancelarNfseV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfseV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_RecepcionarLoteRpsV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfsePorRpsV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarLoteRps">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarSituacaoLoteRpsResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarSituacaoLoteRpsV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarLoteRpsResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_RecepcionarLoteRpsV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfsePorRps">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarSituacaoLoteRps">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfse">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfseV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfseResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfsePorRpsResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarLoteRpsV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarLoteRpsV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_RecepcionarLoteRps">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_RecepcionarLoteRpsResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarSituacaoLoteRpsV3Response">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_CancelarNfse">
+  <part name="arg0" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_ConsultarNfsePorRpsV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <message name="ServiceGinfesImpl_CancelarNfseV3">
+  <part name="arg0" type="xsd:string"/>
+  <part name="arg1" type="xsd:string"/>
+ </message>
+ <portType name="ServiceGinfesImpl">
+  <operation name="CancelarNfse" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_CancelarNfse"/>
+   <output message="tns:ServiceGinfesImpl_CancelarNfseResponse"/>
+  </operation>
+  <operation name="CancelarNfseV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_CancelarNfseV3"/>
+   <output message="tns:ServiceGinfesImpl_CancelarNfseV3Response"/>
+  </operation>
+  <operation name="ConsultarLoteRps" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_ConsultarLoteRps"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarLoteRpsResponse"/>
+  </operation>
+  <operation name="ConsultarLoteRpsV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_ConsultarLoteRpsV3"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarLoteRpsV3Response"/>
+  </operation>
+  <operation name="ConsultarNfse" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_ConsultarNfse"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarNfseResponse"/>
+  </operation>
+  <operation name="ConsultarNfsePorRps" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_ConsultarNfsePorRps"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarNfsePorRpsResponse"/>
+  </operation>
+  <operation name="ConsultarNfsePorRpsV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_ConsultarNfsePorRpsV3"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarNfsePorRpsV3Response"/>
+  </operation>
+  <operation name="ConsultarNfseV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_ConsultarNfseV3"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarNfseV3Response"/>
+  </operation>
+  <operation name="ConsultarSituacaoLoteRps" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_ConsultarSituacaoLoteRps"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarSituacaoLoteRpsResponse"/>
+  </operation>
+  <operation name="ConsultarSituacaoLoteRpsV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_ConsultarSituacaoLoteRpsV3"/>
+   <output message="tns:ServiceGinfesImpl_ConsultarSituacaoLoteRpsV3Response"/>
+  </operation>
+  <operation name="RecepcionarLoteRps" parameterOrder="arg0">
+   <input message="tns:ServiceGinfesImpl_RecepcionarLoteRps"/>
+   <output message="tns:ServiceGinfesImpl_RecepcionarLoteRpsResponse"/>
+  </operation>
+  <operation name="RecepcionarLoteRpsV3" parameterOrder="arg0 arg1">
+   <input message="tns:ServiceGinfesImpl_RecepcionarLoteRpsV3"/>
+   <output message="tns:ServiceGinfesImpl_RecepcionarLoteRpsV3Response"/>
+  </operation>
+ </portType>
+ <binding name="ServiceGinfesImplBinding" type="tns:ServiceGinfesImpl">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="CancelarNfse">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="CancelarNfseV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarLoteRps">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarLoteRpsV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarNfse">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarNfsePorRps">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarNfsePorRpsV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarNfseV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarSituacaoLoteRps">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="ConsultarSituacaoLoteRpsV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="RecepcionarLoteRps">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+  <operation name="RecepcionarLoteRpsV3">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://producao.ginfes.com.br" use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="ServiceGinfesImplService">
+  <port binding="tns:ServiceGinfesImplBinding" name="ServiceGinfesImplPort">
+   <soap:address location="https://producao.ginfes.com.br//ServiceGinfesImpl"/>
+  </port>
+ </service>
+</definitions>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <ConsultarNfseResponse xmlns="http://tempuri.org/">
+      <ConsultarNfseResult>&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
+        &lt;ConsultarNfseResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/nfse"&gt;
+          &lt;ListaMensagemRetorno 
+            &lt;MensagemRetorno&gt;
+              &lt;Codigo&gt;E160&lt;/Codigo&gt;
+              &lt;Mensagem&gt;Arquivo enviado fora da estrutura do arquivo XML de entrada.&lt;/Mensagem&gt;
+              &lt;Correcao&gt;Envie um arquivo dentro do schema do arquivo XML de entrada.&lt;/Correcao&gt;
+            &lt;/MensagemRetorno&gt;
+          &lt;/ListaMensagemRetorno&gt;
+        &lt;/ConsultarNfseResposta&gt;
+      </ConsultarNfseResult>
+    </ConsultarNfseResponse>
+  </s:Body>
+</s:Envelope>

@@ -22,8 +22,8 @@ describe HaveIntermediarioTest do
 
 	it 'deve_manter_o_objeto_intermediario_se_ja_tiver' do
 		subject.intermediario.must_equal intermediario
-		intermediario.cpf_cnpj = 'nova-www'
-		subject.intermediario.cpf_cnpj.must_equal 'nova-www'
+		intermediario.cpf_cnpj = '00888888812345'
+		subject.intermediario.cpf_cnpj.must_equal '00888888812345'
 	end
 
 	it 'Se_setar_o_intermediario_com_outra_class_deve_ignorar' do
@@ -33,35 +33,35 @@ describe HaveIntermediarioTest do
 
 	it 'posso_setar_o_intermediario_com_um_hash_com_os_parametros_do_intermediario' do
 		intermediario.assign_attributes(cpf_cnpj: '123456', razao_social: '123465')
-		subject.intermediario = {cpf_cnpj: '99999', razao_social: '654389'}
-		subject.intermediario.cpf_cnpj.must_equal '99999' 
+		subject.intermediario = {cpf_cnpj: '12345678901', razao_social: '654389'}
+		subject.intermediario.cpf_cnpj.must_equal '12345678901' 
 		subject.intermediario.razao_social.must_equal '654389'
 	end
 
 	it 'ao_setar_um_intermediario_com_um_hash_e_nao_tiver_um_intermediario_deve_instanciar_um_com_os_parametros' do
 		subject.intermediario = nil
-		subject.intermediario = {cpf_cnpj: '99999', razao_social: '654389'}
-		subject.intermediario.cpf_cnpj.must_equal '99999' 
+		subject.intermediario = {cpf_cnpj: '12345678901234', razao_social: '654389'}
+		subject.intermediario.cpf_cnpj.must_equal '12345678901234' 
 		subject.intermediario.razao_social.must_equal '654389'
 	end
 
 	it 'posso_setar_o_intermediario_com_um_bloco' do
 		intermediario.assign_attributes(cpf_cnpj: '123456', razao_social: '11111')
 		subject.intermediario do |address|
-			address.cpf_cnpj =        '99999'
+			address.cpf_cnpj =        '12345678901234'
 			address.razao_social = '11111'
 		end
-		subject.intermediario.cpf_cnpj.must_equal '99999' 
+		subject.intermediario.cpf_cnpj.must_equal '12345678901234' 
 		subject.intermediario.razao_social.must_equal '11111'
 	end
 
 	it 'ao_setar_um_intermediario_com_um_bloco_e_nao_tiver_um_intermediario_deve_instanciar_um_com_os_parametros' do
 		subject.intermediario = nil
 		subject.intermediario do |address|
-			address.cpf_cnpj =        '99999'
+			address.cpf_cnpj =        '12345678901234'
 			address.razao_social = '11111'
 		end
-		subject.intermediario.cpf_cnpj.must_equal '99999' 
+		subject.intermediario.cpf_cnpj.must_equal '12345678901234' 
 		subject.intermediario.razao_social.must_equal '11111'
 	end
 

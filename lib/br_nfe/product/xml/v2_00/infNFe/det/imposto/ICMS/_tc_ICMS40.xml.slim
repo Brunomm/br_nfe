@@ -1,0 +1,7 @@
+/ Utilizado para os CSTs 40, 41 e 50
+orig  = icms.origem
+CST   = icms.codigo_cst
+/################## DESONERAÇÃO DE ICMS ##################\
+- if icms.total_desoneracao.to_f > 0.0
+	vICMS nf_xml_value_monetary icms.total_desoneracao
+	motDesICMS icms.motivo_desoneracao
