@@ -1,0 +1,45 @@
+- if icms.codigo_cst == '00'
+	ICMS00
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS00', icms: icms
+- elsif icms.codigo_cst == '10'
+	ICMS10
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS10', icms: icms
+- elsif icms.codigo_cst == '20'
+	ICMS20
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS20', icms: icms
+- elsif icms.codigo_cst == '30'
+	ICMS30
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS30', icms: icms
+- elsif icms.codigo_cst.in?(%w[40 41 50])
+	ICMS40
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS40', icms: icms
+- elsif icms.codigo_cst == '51'
+	ICMS51
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS51', icms: icms
+- elsif icms.codigo_cst == '60'
+	ICMS60
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS60', icms: icms
+- elsif icms.codigo_cst == '70'
+	ICMS70
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS70', icms: icms
+- elsif icms.codigo_cst == '90'
+	ICMS90
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS90', icms: icms
+- elsif icms.codigo_cst == '101'
+	ICMSSN101
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS101', icms: icms
+- elsif icms.codigo_cst.in?(%w[102 103 300 400])
+	ICMSSN102
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS102', icms: icms
+- elsif icms.codigo_cst == '201'
+	ICMSSN201
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS201', icms: icms
+- elsif icms.codigo_cst.in?(%w[202 203])
+	ICMSSN202
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS202', icms: icms
+- elsif icms.codigo_cst == '500'
+	ICMSSN500
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS500', icms: icms
+- else # 900
+	ICMSSN900
+		= render_xml 'infNFe/det/imposto/ICMS/_tc_ICMS900', icms: icms

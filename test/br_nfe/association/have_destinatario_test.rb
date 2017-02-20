@@ -26,8 +26,8 @@ describe HaveDestinatarioTest do
 
 	it 'deve_manter_o_objeto_destinatario_se_ja_tiver' do
 		subject.destinatario.must_equal destinatario
-		destinatario.cpf_cnpj = 'nova-www'
-		subject.destinatario.cpf_cnpj.must_equal 'nova-www'
+		destinatario.cpf_cnpj = '1234567890'
+		subject.destinatario.cpf_cnpj.must_equal '01234567890'
 	end
 
 	it 'Se_setar_o_destinatario_com_outra_class_deve_ignorar' do
@@ -36,21 +36,21 @@ describe HaveDestinatarioTest do
 	end
 
 	it 'posso_setar_o_destinatario_com_um_hash_com_os_parametros_do_destinatario' do
-		destinatario.assign_attributes(cpf_cnpj: '123456', telefone: '123465', email: 'mail@mail.com')
-		subject.destinatario = {cpf_cnpj: '99999', telefone: '654389', email: 'mail2'}
-		subject.destinatario.cpf_cnpj.must_equal '99999' 
+		destinatario.assign_attributes(cpf_cnpj: '12345678901', telefone: '123465', email: 'mail@mail.com')
+		subject.destinatario = {cpf_cnpj: '12345678901', telefone: '654389', email: 'mail2'}
+		subject.destinatario.cpf_cnpj.must_equal '12345678901' 
 		subject.destinatario.telefone.must_equal '654389'
 		subject.destinatario.email.must_equal  'mail2'
 	end
 
 	it 'posso_setar_o_destinatario_com_um_bloco' do
-		destinatario.assign_attributes(cpf_cnpj: '123456', telefone: '11111', email: 'mail1')
+		destinatario.assign_attributes(cpf_cnpj: '12345678901', telefone: '11111', email: 'mail1')
 		subject.destinatario do |address|
-			address.cpf_cnpj =        '99999'
+			address.cpf_cnpj =        '99999999999'
 			address.telefone = '11111'
 			address.email =         'mail1'
 		end
-		subject.destinatario.cpf_cnpj.must_equal '99999' 
+		subject.destinatario.cpf_cnpj.must_equal '99999999999' 
 		subject.destinatario.telefone.must_equal '11111'
 		subject.destinatario.email.must_equal  'mail1'
 	end

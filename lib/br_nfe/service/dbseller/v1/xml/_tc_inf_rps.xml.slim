@@ -1,0 +1,47 @@
+- rps ||= false
+- raise "É obrigatório passar um RPS por parâmetro" unless rps
+
+*{tag: "#{namespace_for_tags}IdentificacaoRps"}
+	= render_xml '_tc_identificacao_rps', rps: rps
+
+*{tag: "#{namespace_for_tags}DataEmissao"}      = ts_datetime(rps.data_emissao)
+*{tag: "#{namespace_for_tags}NaturezaOperacao"} = ts_natureza_operacao(emitente.natureza_operacao)
+
+/ - if emitente.regime_especial_tributacao.present? 
+	/ Código de identificação do regime especial de tributação: 
+	/ - (1)Microempresa municipal
+	/ - (2)Estimativa
+	/ - (3)Sociedade de profissionais
+	/ - (4)Cooperativa, 
+	/ - (5)Microempresário Individual (MEI)
+	/ - (6)Microempresário e Empresa de Pequeno Porte (ME EPP)
+	/ *{tag: "#{namespace_for_tags}RegimeEspecialTributacao"} = ts_regime_especial_tributacao(emitente.regime_especial_tributacao) 
+
+/ (1)sim ----- (2)não -----
+*{tag: "#{namespace_for_tags}OptanteSimplesNacional"} = ts_sim_nao(emitente.optante_simples_nacional?)   
+
+/ (1)sim ----- (2)não -----
+*{tag: "#{namespace_for_tags}IncentivadorCultural"} = ts_sim_nao(emitente.incentivo_fiscal?)
+
+*{tag: "#{namespace_for_tags}Status"} = ts_status_rps(rps.status)
+
+/ - if rps.replace_invoice?
+/ 	*{tag: "#{namespace_for_tags}RpsSubstituido"}
+/ 		= render_xml '_tc_identificacao_rps', rps: rps, substituicao: true
+
+*{tag: "#{namespace_for_tags}Servico"}
+	= render_xml '_tc_dados_servico', rps: rps
+
+*{tag: "#{namespace_for_tags}Prestador"}
+	= render_xml '_tc_identificacao_prestador', emitente: emitente
+
+*{tag: "#{namespace_for_tags}Tomador"}
+	= render_xml '_tc_dados_tomador', destinatario: rps.destinatario
+
+/ - if rps.intermediario
+/ 	*{tag: "#{namespace_for_tags}IntermediarioServico"}
+/ 		= render_xml '_tc_identificacao_intermediario_servico', intermediario: rps.intermediario
+
+- if rps.codigo_obra.present? || rps.codigo_art.present?
+	*{tag: "#{namespace_for_tags}ConstrucaoCivil"}
+		= render_xml '_tc_dados_construcao_civil', rps: rps

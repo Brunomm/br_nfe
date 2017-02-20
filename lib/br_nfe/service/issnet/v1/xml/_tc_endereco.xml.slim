@@ -1,0 +1,18 @@
+- address ||= false
+- raise "Deve ser passado uma variável local chamda address" unless address
+
+*{tag: "#{namespace_for_tags}Endereco"} = ts_endereco("#{address.logradouro}")
+*{tag: "#{namespace_for_tags}Numero"}   = ts_numero_endereco("#{address.numero}")
+
+- address.complemento.present?
+	*{tag: "#{namespace_for_tags}Complemento"}  = ts_complemento_endereco("#{address.complemento}")
+
+*{tag: "#{namespace_for_tags}Bairro"}          = ts_bairro("#{address.bairro}")
+
+/ Nome da tag difirente do padrão (CodigoMunicipio -> Cidade)
+*{tag: "#{namespace_for_tags}Cidade"} = ts_codigo_municipio_ibge(address.codigo_municipio)
+
+/ Nome da tag difirente do padrão (Uf -> Estado)
+*{tag: "#{namespace_for_tags}Estado"}          = ts_uf("#{address.uf}")
+
+*{tag: "#{namespace_for_tags}Cep"}             = ts_cep(address.cep)
