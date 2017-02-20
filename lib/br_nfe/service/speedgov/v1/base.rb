@@ -11,16 +11,13 @@ module BrNfe
 					def get_wsdl_by_city
 						{
 							# Caculé - BA 
-							# '2905008' => '',
-
-							# Sobradinho - BA 
-							# '2930774' => '',
+							'2905008' => 'http://www.speedgov.com.br/wscac/Nfes?wsdl',
 
 							# Aquiraz - CE  
 							'2301000' => 'http://www.speedgov.com.br/wsaqz/Nfes?wsdl',
 
 							# Aracati - CE  
-							# '2301109' => '',
+							'2301109' => 'http://www.speedgov.com.br/wsarc/Nfes?wsdl',
 
 							# Barbalha - CE  
 							'2301901' => 'http://www.speedgov.com.br/wsbar/Nfes?wsdl',
@@ -28,140 +25,47 @@ module BrNfe
 							# Beberibe - CE  
 							'2302206' => 'http://www.speedgov.com.br/wsbeb/Nfes?wsdl',
 
-							# Boa Viagem - CE 
-							# '2302404' => '',
-
-							# Camocim - CE 
-							# '2302602' => '',
-
-							# Canindé - CE 
-							# '2302800' => '',
-
-							# Carnaubal - CE 
-							# '2303402' => '',
-
-							# Catarina - CE 
-							# '2303600' => '',
-
-							# Chorozinho - CE 
-							# '2303956' => '',
+							# Crateús - CE 
+							'2304103' => 'http://www.speedgov.com.br/wscra/Nfes?wsdl',
 
 							# Crato - CE 
 							'2304202' => 'http://www.speedgov.com.br/wscrt/Nfes?wsdl',
 
-							# Cruz - CE 
-							# '2304251' => '',
-
-							# Fortim - CE 
-							# '2304459' => '',
-
 							# Guaraciaba do Norte - CE 
 							'2305001' => 'http://www.speedgov.com.br/wsgua/Nfes?wsdl',
 
-							# Hidrolândia - CE 
-							# '2305209' => '',
-
 							# Horizonte - CE 
-							# '2305233' => '',
-
-							# Icapui - CE 
-							# '2305357' => '',
-
-							# Ipu - CE 
-							# '2305803' => '',
-
-							# Ipueiras - CE 
-							# '2305902' => '',
-
-							# Irauçuba - CE 
-							# '2306108' => '',
+							'2305233' => 'http://www.speedgov.com.br/wshor/Nfes?wsdl',
 
 							# Itaitinga - CE 
 							'2306256' => 'http://www.speedgov.com.br/wsita/Nfes?wsdl',
-
-							# Jaguaretama - CE 
-							# '2306702' => '',
 
 							# Jijoca - CE 
 							'2307254' => 'http://www.speedgov.com.br/wsjij/Nfes?wsdl',
 
 							# Juazeiro do Norte - CE 
-							# '2307304' => '',
-
-							# Jucás - CE 
-							# '2307403' => '',
+							'2307304' => 'http://www.speedgov.com.br/wsjun/Nfes?wsdl',
 
 							# Maracanaú - CE 
 							'2307650' => 'http://www.speedgov.com.br/wsmar/Nfes?wsdl',
 
-							# Mombaça - CE 
-							# '2308500' => '',
-
-							# Morada Nova - CE 
-							# '2308708' => '',
-
-							# Monsenhor Tabosa - CE 
-							# '2308609' => '',
-
-							# Nova Russas - CE 
-							# '2309300' => '',
-
-							# Novo Oriente - CE 
-							# '2309409' => '',
-
-							# Pacajús - CE 
-							# '2309607' => '',
-
 							# Pindoretama - CE 
 							'2310852' => 'http://www.speedgov.com.br/wspin/Nfes?wsdl',
 
-							# Quiterianópolis - CE 
-							# '2311264' => '',
-
 							# Quixadá  - CE 
-							# '2311306' => '',
+							'2311306' => 'http://www.speedgov.com.br/wsqda/Nfes?wsdl',
 
 							# Quixeramobim - CE 
 							'2311405' => 'http://www.speedgov.com.br/wsqxb/Nfes?wsdl',
-
-							# Reriutaba - CE 
-							# '2311702' => '',
-
-							# Saboeiro - CE 
-							# '2311900' => '',
-
-							# Santa Quitéria - CE 
-							# '2312205' => '',
-
-							# Senador Pompeu - CE 
-							# '2312700' => '',
 
 							# Tauá - CE 
 							'2313302' => 'http://www.speedgov.com.br/wstau/Nfes?wsdl',
 
 							# Tianguá - CE 
-							# '2313401' => '',
-
-							# Trairi - CE 
-							# '2313500' => '',
-
-							# Ubajara - CE 
-							# '2313609' => '',
-
-							# Umirim - CE 
-							# '2313757' => '',
-
-							# Uruburetama - CE 
-							# '2313807' => '',
-
-							# Pires Ferreira - CE 
-							# '2310951' => '',
+							'2313401' => 'http://www.speedgov.com.br/wstia/Nfes?wsdl',
 
 							# Barra do Corda - MA 
-							# '2101608' => '',
-
-							# Lagoa Grande - PE 
-							# '2608750' => '',
+							'2101608' => 'http://www.speedgov.com.br/wsbco/Nfes?wsdl',
 
 							# Petrolina - PE 
 							'2611101' => 'http://www.speedgov.com.br/wspet/Nfes?wsdl',
