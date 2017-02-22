@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WS_ConsultaNfse" targetNamespace="FISS-LEX" xmlns:wsdlns="FISS-LEX" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="FISS-LEX">
+	<types>
+		<schema targetNamespace="FISS-LEX" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<complexType name="ConsultarNfseEnvio">
+				<sequence>
+					<element name="Prestador" type="tns:tcIdentificacaoPrestador" form="unqualified">
+					</element>
+					<element name="NumeroNfse" type="xsd:int" form="unqualified">
+					</element>
+					<element name="PeriodoEmissao" type="tns:ABRASFConsultarNfseEnvio.PeriodoEmissao" form="unqualified">
+					</element>
+					<element name="Tomador" type="tns:tcIdentificacaoTomador" form="unqualified">
+					</element>
+					<element name="IntermediarioServico" type="tns:tcIdentificacaoIntermediarioServico" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcIdentificacaoPrestador">
+				<sequence>
+					<element name="Cnpj" type="xsd:string" form="unqualified">
+					</element>
+					<element name="InscricaoMunicipal" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="ABRASFConsultarNfseEnvio.PeriodoEmissao">
+				<sequence>
+					<element name="DataInicial" type="xsd:dateTime" nillable="true" form="unqualified">
+					</element>
+					<element name="DataFinal" type="xsd:dateTime" nillable="true" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcIdentificacaoTomador">
+				<sequence>
+					<element name="CpfCnpj" type="tns:tcCpfCnpj" form="unqualified">
+					</element>
+					<element name="InscricaoMunicipal" type="xsd:string" form="unqualified">
+					</element>
+					<element name="InscricaoEstadual" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcIdentificacaoIntermediarioServico">
+				<sequence>
+					<element name="RazaoSocial" type="xsd:string" form="unqualified">
+					</element>
+					<element name="CpfCnpj" type="tns:tcCpfCnpj" form="unqualified">
+					</element>
+					<element name="InscricaoMunicipal" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcCpfCnpj">
+				<sequence>
+					<element name="Cpf" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Cnpj" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="ArrayOftcMensagemRetorno">
+				<sequence>
+					<element minOccurs="0" maxOccurs="unbounded" name="tcMensagemRetorno" type="tns:tcMensagemRetorno" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcMensagemRetorno">
+				<sequence>
+					<element name="Codigo" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Mensagem" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Correcao" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<element name="WS_ConsultaNfse.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Consultarnfseenvio" type="tns:ConsultarNfseEnvio"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="WS_ConsultaNfse.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Consultarnfseresposta" type="xsd:string"/>
+						<element minOccurs="1" maxOccurs="1" name="Listamensagemretorno" type="tns:ArrayOftcMensagemRetorno"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="WS_ConsultaNfse.ExecuteSoapIn">
+		<part name="parameters" element="tns:WS_ConsultaNfse.Execute"/>
+	</message>
+	<message name="WS_ConsultaNfse.ExecuteSoapOut">
+		<part name="parameters" element="tns:WS_ConsultaNfse.ExecuteResponse"/>
+	</message>
+	<portType name="WS_ConsultaNfseSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:WS_ConsultaNfse.ExecuteSoapIn"/>
+			<output message="wsdlns:WS_ConsultaNfse.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="WS_ConsultaNfseSoapBinding" type="wsdlns:WS_ConsultaNfseSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="FISS-LEXaction/AWS_CONSULTANFSE.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WS_ConsultaNfse">
+		<port name="WS_ConsultaNfseSoapPort" binding="wsdlns:WS_ConsultaNfseSoapBinding">
+			<soap:address location="http://demo.fisslex.com.br/fiss-lex/servlet/aws_consultanfse"/>
+		</port>
+	</service>
+</definitions>
