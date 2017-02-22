@@ -1,0 +1,4 @@
+*{tag: "#{namespace_identifier}Consultarloterpsenvio"} *message_namespaces
+	*{tag: "#{namespace_for_tags}Prestador"}
+		= render_xml '_tc_identificacao_prestador'
+	*{tag: "#{namespace_for_tags}Protocolo"} = ts_numero_protocolo(protocolo)

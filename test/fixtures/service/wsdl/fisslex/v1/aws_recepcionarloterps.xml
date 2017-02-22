@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WS_RecepcionarLoteRps" targetNamespace="FISS-LEX" xmlns:wsdlns="FISS-LEX" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="FISS-LEX">
+	<types>
+		<schema targetNamespace="FISS-LEX" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="WS_RecepcionarLoteRps.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Enviarloterpsenvio" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="WS_RecepcionarLoteRps.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Enviarloterpsresposta" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="WS_RecepcionarLoteRps.ExecuteSoapIn">
+		<part name="parameters" element="tns:WS_RecepcionarLoteRps.Execute"/>
+	</message>
+	<message name="WS_RecepcionarLoteRps.ExecuteSoapOut">
+		<part name="parameters" element="tns:WS_RecepcionarLoteRps.ExecuteResponse"/>
+	</message>
+	<portType name="WS_RecepcionarLoteRpsSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:WS_RecepcionarLoteRps.ExecuteSoapIn"/>
+			<output message="wsdlns:WS_RecepcionarLoteRps.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="WS_RecepcionarLoteRpsSoapBinding" type="wsdlns:WS_RecepcionarLoteRpsSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="FISS-LEXaction/AWS_RECEPCIONARLOTERPS.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WS_RecepcionarLoteRps">
+		<port name="WS_RecepcionarLoteRpsSoapPort" binding="wsdlns:WS_RecepcionarLoteRpsSoapBinding">
+			<soap:address location="http://demo.fisslex.com.br/fiss-lex/servlet/aws_recepcionarloterps"/>
+		</port>
+	</service>
+</definitions>

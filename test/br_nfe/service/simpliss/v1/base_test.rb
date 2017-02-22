@@ -19,9 +19,172 @@ describe BrNfe::Service::Simpliss::V1::Base do
 			subject.env = :test
 			subject.wsdl.must_equal 'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
 		end
-		it "se codigo da cidade emitente for 4202008 então deve pagar a URL de Balneário Camboriú" do
+
+		# Balneário Camboriú-SC
+		it "se codigo da cidade emitente for 4202008 então deve pagar a URL de Balneário Camboriú-SC" do
 			subject.ibge_code_of_issuer_city = '4202008'
 			subject.wsdl.must_equal 'http://wsbalneariocamboriu.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+
+		# Andirá-PR
+		it "se codigo da cidade emitente for 4101101 então deve pagar a URL de Andirá-PR" do
+			subject.ibge_code_of_issuer_city = '4101101'
+			subject.wsdl.must_equal 'http://wsandira.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Astorga-PR
+		it "se codigo da cidade emitente for 4102109 então deve pagar a URL de Astorga-PR" do
+			subject.ibge_code_of_issuer_city = '4102109'
+			subject.wsdl.must_equal 'http://wsastorga.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Bandeirantes-PR
+		it "se codigo da cidade emitente for 4102406 então deve pagar a URL de Bandeirantes-PR" do
+			subject.ibge_code_of_issuer_city = '4102406'
+			subject.wsdl.must_equal 'http://wsbandeirantes.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Colorado-PR
+		it "se codigo da cidade emitente for 4105904 então deve pagar a URL de Colorado-PR" do
+			subject.ibge_code_of_issuer_city = '4105904'
+			subject.wsdl.must_equal 'http://wscolorado.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Nova Londrina-PR
+		it "se codigo da cidade emitente for 4117107 então deve pagar a URL de Nova Londrina-PR" do
+			subject.ibge_code_of_issuer_city = '4117107'
+			subject.wsdl.must_equal 'http://wsnovalondrina.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Porecatu-PR
+		it "se codigo da cidade emitente for 4120002 então deve pagar a URL de Porecatu-PR" do
+			subject.ibge_code_of_issuer_city = '4120002'
+			subject.wsdl.must_equal 'http://wsporecatu.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Sertanópolis-PR
+		it "se codigo da cidade emitente for 4126504 então deve pagar a URL de Sertanópolis-PR" do
+			subject.ibge_code_of_issuer_city = '4126504'
+			subject.wsdl.must_equal 'http://wssertanopolis.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+
+		# Bambuí-MG
+		it "se codigo da cidade emitente for 3105103 então deve pagar a URL de Bambuí-MG" do
+			subject.ibge_code_of_issuer_city = '3105103'
+			subject.wsdl.must_equal 'http://wsbambui.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Iguatama-MG
+		it "se codigo da cidade emitente for 3130309 então deve pagar a URL de Iguatama-MG" do
+			subject.ibge_code_of_issuer_city = '3130309'
+			subject.wsdl.must_equal 'http://wsiguatama.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# João Monlevade-MG	
+		it "se codigo da cidade emitente for 3136207 então deve pagar a URL de João Monlevade-MG" do
+			subject.ibge_code_of_issuer_city = '3136207'
+			subject.wsdl.must_equal 'http://wsjoaomonlevade.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Patrocinio-MG	
+		it "se codigo da cidade emitente for 3148103 então deve pagar a URL de Patrocinio-MG" do
+			subject.ibge_code_of_issuer_city = '3148103'
+			subject.wsdl.must_equal 'http://wspatrocinio.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+
+
+		# Volta Redonda-RJ	
+		it "se codigo da cidade emitente for 3306305 então deve pagar a URL de Volta Redonda-RJ" do
+			subject.ibge_code_of_issuer_city = '3306305'
+			subject.wsdl.must_equal 'http://wsvoltaredonda.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+
+			
+		# Alfredo Marcondes-SP
+		it "se codigo da cidade emitente for 3500808 então deve pagar a URL de Alfredo Marcondes-SP" do
+			subject.ibge_code_of_issuer_city = '3500808'
+			subject.wsdl.must_equal 'http://wsalfredomarcondes.simplissweb.com.br/nfseservice.svc?wsdl'
+		end			
+		# Araras-SP
+		it "se codigo da cidade emitente for 3503307 então deve pagar a URL de Araras-SP" do
+			subject.ibge_code_of_issuer_city = '3503307'
+			subject.wsdl.must_equal 'http://189.56.68.34:8080/ws_araras/nfseservice.svc?wsdl'
+		end
+		# Carapicuíba-SP
+		it "se codigo da cidade emitente for 3510609 então deve pagar a URL de Carapicuíba-SP" do
+			subject.ibge_code_of_issuer_city = '3510609'
+			subject.wsdl.must_equal 'http://wscarapicuiba.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Casa Branca-SP
+		it "se codigo da cidade emitente for 3510807 então deve pagar a URL de Casa Branca-SP" do
+			subject.ibge_code_of_issuer_city = '3510807'
+			subject.wsdl.must_equal 'http://wscasabranca.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Dois Córregos-SP
+		it "se codigo da cidade emitente for 3514106 então deve pagar a URL de Dois Corregos-SP" do
+			subject.ibge_code_of_issuer_city = '3514106'
+			subject.wsdl.must_equal 'http://wsdoiscorregos.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Embu das Artes-SP
+		it "se codigo da cidade emitente for 3515004 então deve pagar a URL de Embu das Artes-SP" do
+			subject.ibge_code_of_issuer_city = '3515004'
+			subject.wsdl.must_equal 'http://wsembudasartes.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Espirito Santo do Pinhal-SP
+		it "se codigo da cidade emitente for 3515186 então deve pagar a URL de Embu das Artes-SP" do
+			subject.ibge_code_of_issuer_city = '3515186'
+			subject.wsdl.must_equal 'http://wsespiritosantodopinhal.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Herculandia-SP
+		it "se codigo da cidade emitente for 3519006 então deve pagar a URL de Herculandia-SP" do
+			subject.ibge_code_of_issuer_city = '3519006'
+			subject.wsdl.must_equal 'http://wsherculandia.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Indiana-SP
+		it "se codigo da cidade emitente for 3520608 então deve pagar a URL de Indiana-SP" do
+			subject.ibge_code_of_issuer_city = '3520608'
+			subject.wsdl.must_equal 'http://wsindiana.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Iracemápolis-SP
+		it "se codigo da cidade emitente for 3521408 então deve pagar a URL de Iracemápolis-SP" do
+			subject.ibge_code_of_issuer_city = '3521408'
+			subject.wsdl.must_equal 'http://wsiracemapolis.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Mirante Do Paranapanema-SP
+		it "se codigo da cidade emitente for 3530201 então deve pagar a URL de Mirante Do Paranapanema-SP" do
+			subject.ibge_code_of_issuer_city = '3530201'
+			subject.wsdl.must_equal 'http://wsmirantedoparanapanema.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Osvaldo Cruz-SP
+		it "se codigo da cidade emitente for 3534609 então deve pagar a URL de Osvaldo Cruz-SP" do
+			subject.ibge_code_of_issuer_city = '3534609'
+			subject.wsdl.must_equal 'http://wsosvaldocruz.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Piracicaba-SP
+		it "se codigo da cidade emitente for 3538709 então deve pagar a URL de Piracicaba-SP" do
+			subject.ibge_code_of_issuer_city = '3538709'
+			subject.wsdl.must_equal 'http://sistemas.pmp.sp.gov.br/semfi/simpliss/ws_nfse/nfseservice.svc?wsdl'
+		end
+		# Presidente Prudente-SP
+		it "se codigo da cidade emitente for 3541406 então deve pagar a URL de Presidente Prudente-SP" do
+			subject.ibge_code_of_issuer_city = '3541406'
+			subject.wsdl.must_equal 'http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc?wsdl'
+		end
+		# Santa Cruz das Palmeiras-SP
+		it "se codigo da cidade emitente for 3546306 então deve pagar a URL de Santa Cruz das Palmeiras-SP" do
+			subject.ibge_code_of_issuer_city = '3546306'
+			subject.wsdl.must_equal 'http://wssantacruzdaspalmeiras.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# São João da Boa Vista-SP
+		it "se codigo da cidade emitente for 3549102 então deve pagar a URL de São João da Boa Vista-SP" do
+			subject.ibge_code_of_issuer_city = '3549102'
+			subject.wsdl.must_equal 'http://wssaojoao.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# São José do Rio Pardo-SP
+		it "se codigo da cidade emitente for 3549706 então deve pagar a URL de São José do Rio Pardo-SP" do
+			subject.ibge_code_of_issuer_city = '3549706'
+			subject.wsdl.must_equal 'http://wssaojosedoriopardo.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Tupã-SP
+		it "se codigo da cidade emitente for 3555000 então deve pagar a URL de Tupã-SP" do
+			subject.ibge_code_of_issuer_city = '3555000'
+			subject.wsdl.must_equal 'http://wstupa.simplissweb.com.br/nfseservice.svc?wsdl'
+		end
+		# Vargem Grande do Sul-SP
+		it "se codigo da cidade emitente for 3556404 então deve pagar a URL de Vargem Grande do Sul-SP" do
+			subject.ibge_code_of_issuer_city = '3556404'
+			subject.wsdl.must_equal 'http://wsvargemgrandedosul.simplissweb.com.br/nfseservice.svc?wsdl'
 		end
 	end
 

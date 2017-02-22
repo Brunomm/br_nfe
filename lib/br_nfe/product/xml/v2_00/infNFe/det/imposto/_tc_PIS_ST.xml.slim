@@ -1,0 +1,7 @@
+- if pis.quantidade_vendida.to_f > 0.0
+	qBCProd   = nf_xml_value_quantidade pis.quantidade_vendida
+	vAliqProd = nf_xml_value_float      pis.total_aliquota, 4
+- else
+	vBC  = nf_xml_value_monetary pis.total_base_calculo
+	pPIS = nf_xml_value_percent  pis.aliquota
+vPIS    = nf_xml_value_monetary pis.total

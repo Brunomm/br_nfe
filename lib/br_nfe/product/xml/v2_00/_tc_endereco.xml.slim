@@ -1,0 +1,19 @@
+xLgr = nf_xml_value_text( person.endereco.logradouro, 60 )
+nro  = nf_xml_value_text( person.endereco.numero,     60 )
+
+- if person.endereco.complemento.present?
+	xCpl = nf_xml_value_text( person.endereco.complemento, 60 )
+
+xBairro = nf_xml_value_text( person.endereco.bairro, 60 )
+cMun    = nf_xml_value_codigo_ibge_municipio( person.endereco.codigo_municipio )
+xMun    = nf_xml_value_text( person.endereco.nome_municipio, 60 )
+UF      = nf_xml_value_UF(   person.endereco.uf )
+CEP     = nf_xml_value_CEP(  person.endereco.cep )
+
+/  Só é necessário informar o país se não for o Brasil
+- if person.endereco.codigo_pais.to_i != 1058 
+	cPais   = nf_xml_value_codigo_pais( person.endereco.codigo_pais )
+	xPais   = nf_xml_value_text(        person.endereco.nome_pais, 60 )
+
+- if person.telefone.present?
+	fone    = nf_xml_value_fone( person.telefone )

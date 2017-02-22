@@ -1,0 +1,12 @@
+Signature xmlns="http://www.w3.org/2000/09/xmldsig#"
+	- info_xml = render_xml('_signed_info_sh1', data_xml: data_xml, uri: uri)
+	/ o xmlns é necessário apenas para assinar e não deve estar presente no XML
+	/ e para evitar 2 renderizações foi feito um gsub para tirar o xmlns
+	= info_xml.gsub('<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">','<SignedInfo >').html_safe
+
+	- signature_hash = certificate_key.sign(OpenSSL::Digest::SHA1.new, info_xml.html_safe)
+	SignatureValue = remove_quebras( Base64.encode64( signature_hash ) )
+
+	KeyInfo
+		X509Data
+			X509Certificate = certificate.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").gsub(/\n/,"")

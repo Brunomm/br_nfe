@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DBSellerService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/soap/http" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:ii="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" targetNamespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao">
+  <wsdl:types>
+  </wsdl:types>
+  <wsdl:message name="RecepcionarLoteRpsRequest">
+    <wsdl:part name="xml" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="RecepcionarLoteRpsResponse">
+    <wsdl:part name="return" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarSituacaoLoteRpsRequest">
+      <wsdl:part name="xml" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarSituacaoLoteRpsResponse">
+      <wsdl:part name="return" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarNfsePorRpsRequest">
+      <wsdl:part name="xml" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarNfsePorRpsResponse">
+      <wsdl:part name="return" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarLoteRpsResquest">
+      <wsdl:part name="xml" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarLoteRpsResponse">
+      <wsdl:part name="return" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="CancelarNfseRequest">
+      <wsdl:part name="xml" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="CancelarNfseResponse">
+      <wsdl:part name="return" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarNfseRequest">
+      <wsdl:part name="xml" type="xsd:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConsultarNfseResponse">
+      <wsdl:part name="return" type="xsd:string"/>
+    </wsdl:message>
+  <wsdl:portType name="DBSellerPort">
+    <wsdl:operation name="RecepcionarLoteRps" parameterOrder="xml">
+      <wsdl:input message="ii:RecepcionarLoteRpsRequest"/>
+      <wsdl:output message="ii:RecepcionarLoteRpsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSituacaoLoteRps" parameterOrder="xml">
+      <wsdl:input message="ii:ConsultarSituacaoLoteRpsRequest"/>
+      <wsdl:output message="ii:ConsultarSituacaoLoteRpsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNfsePorRps" parameterOrder="xml">
+      <wsdl:input message="ii:ConsultarNfsePorRpsRequest"/>
+      <wsdl:output message="ii:ConsultarNfsePorRpsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLoteRps" parameterOrder="xml">
+      <wsdl:input message="ii:ConsultarLoteRpsResquest"/>
+      <wsdl:output message="ii:ConsultarLoteRpsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarNfse" parameterOrder="xml">
+      <wsdl:input message="ii:CancelarNfseRequest"/>
+      <wsdl:output message="ii:CancelarNfseResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNfse" parameterOrder="xml">
+      <wsdl:input message="ii:ConsultarNfseRequest"/>
+      <wsdl:output message="ii:ConsultarNfseResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DBSellerBinding" type="ii:DBSellerPort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <wsdl:operation name="RecepcionarLoteRps">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSituacaoLoteRps">
+      <soap:operation soapAction=""/>
+        <wsdl:input>
+          <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+        </wsdl:input>
+        <wsdl:output>
+          <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+        </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="ConsultarNfsePorRps">
+        <soap:operation soapAction=""/>
+          <wsdl:input>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="ConsultarLoteRps">
+      <soap:operation soapAction=""/>
+       <wsdl:input>
+        <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="CancelarNfse">
+        <soap:operation soapAction=""/>
+          <wsdl:input>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="ConsultarNfse">
+        <soap:operation soapAction=""/>
+          <wsdl:input>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body namespace="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao" use="literal"/>
+          </wsdl:output>
+      </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DBSellerService">
+    <wsdl:port name="DBSellerPort" binding="ii:DBSellerBinding">
+      <soap:address location="http://nfse.alegrete.rs.gov.br/webservice/index/homologacao"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

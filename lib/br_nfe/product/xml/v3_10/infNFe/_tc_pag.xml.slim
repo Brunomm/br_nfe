@@ -1,0 +1,7 @@
+tPag = nf_xml_fixed_code(pagamento.forma_pagamento, size: 2)
+vPag = nf_xml_value_monetary( pagamento.total )
+- if pagamento.cartao?
+	card
+		CNPJ  = nf_xml_value_cnpj( pagamento.cartao_cnpj )
+		tBand = nf_xml_fixed_code( pagamento.cartao_bandeira, {size: 2} )
+		cAut  = nf_xml_value_text( pagamento.cartao_autorizacao,  20 )
