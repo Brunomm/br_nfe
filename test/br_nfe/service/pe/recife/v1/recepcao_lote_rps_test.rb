@@ -1,11 +1,11 @@
 require 'test_helper'
 
-describe BrNfe::Service::PR::Curitiba::V1::RecepcaoLoteRps do
-	subject        { FactoryGirl.build(:service_pr_curitiba_v1_recepcao_lote_rps, emitente: emitente) }
+describe BrNfe::Service::PE::Recife::V1::RecepcaoLoteRps do
+	subject        { FactoryGirl.build(:service_pe_recife_v1_recepcao_lote_rps, emitente: emitente) }
 	let(:emitente) { FactoryGirl.build(:service_emitente)   }
 	
 	describe "superclass" do
-		it { subject.class.superclass.must_equal BrNfe::Service::PR::Curitiba::V1::Base }
+		it { subject.class.superclass.must_equal BrNfe::Service::PE::Recife::V1::Base }
 	end
 
 	it "deve conter as regras de BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps inclusas" do
@@ -17,18 +17,18 @@ describe BrNfe::Service::PR::Curitiba::V1::RecepcaoLoteRps do
 	end
 
 	it "#soap_body_root_tag" do
-		subject.soap_body_root_tag.must_equal 'RecepcionarLoteRps'
+		subject.soap_body_root_tag.must_equal 'RecepcionarLoteRpsRequest'
 	end
 	
 	describe "Validação do XML através do XSD" do
 		let(:rps_basico) { FactoryGirl.build(:br_nfe_rps)              } 
 		let(:rps_completo) { FactoryGirl.build(:br_nfe_rps, :completo) } 
 		
-		let(:schemas_dir) { BrNfe.root+'/test/fixtures/service/schemas/pr/curitiba/V1' }
+		let(:schemas_dir) { BrNfe.root+'/test/fixtures/service/schemas/pe/recife/V1' }
 		
 		def validate_schema
 			Dir.chdir(schemas_dir) do
-				schema = Nokogiri::XML::Schema(IO.read('nfse.xsd'))
+				schema = Nokogiri::XML::Schema(IO.read('nfse_recife_v01.xsd'))
 				document = Nokogiri::XML(subject.xml_builder)
 				errors = schema.validate(document)
 				errors.must_be_empty
@@ -52,12 +52,12 @@ describe BrNfe::Service::PR::Curitiba::V1::RecepcaoLoteRps do
 	# describe "#request and set response" do
 	# 	before do 
 	# 		savon.mock!
-	# 		stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/pr/curitiba/v1/NfseServices.svc.xml') )
+	# 		stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/pe/recife/v1/NfseServices.svc.xml') )
 	# 	end
 	# 	after  { savon.unmock! }
 
 	# 	it "Quando gravou o RPS com sucesso deve setar seus valores corretamente na resposta" do
-	# 		fixture = read_fixture('service/response/pr/curitiba/v1/recepcao_lote_rps/success.xml')
+	# 		fixture = read_fixture('service/response/pe/recife/v1/recepcao_lote_rps/success.xml')
 			
 	# 		savon.expects(:recepcionar_lote_rps).returns(fixture)
 	# 		subject.request
@@ -72,7 +72,7 @@ describe BrNfe::Service::PR::Curitiba::V1::RecepcaoLoteRps do
 	# 	end
 
 	# 	it "Quando a requisição voltar com erro deve setar os erros corretamente" do
-	# 		fixture = read_fixture('service/response/pr/curitiba/v1/recepcao_lote_rps/error.xml')
+	# 		fixture = read_fixture('service/response/pe/recife/v1/recepcao_lote_rps/error.xml')
 			
 	# 		savon.expects(:recepcionar_lote_rps).returns(fixture)
 	# 		subject.request
