@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/nfe/item_tax/icms_uf_destino:
+          attributes:
+            aliquota_interestadual:
+              inclusion: 'should contain one of the values: 4.00, 7.00 ou 12.00'

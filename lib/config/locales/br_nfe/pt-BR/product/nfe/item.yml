@@ -1,0 +1,20 @@
+pt-BR:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/nfe/item:
+          invalid_declaracao_importacao: 'Declaração importação %{index}: %{error_message}'
+          invalid_detalhe_exportacao: 'Detalhe de exportação %{index}: %{error_message}'
+          invalid_icms: 'ICMS > %{error_message}'
+          invalid_ipi: 'IPI > %{error_message}'
+          invalid_pis: 'PIS > %{error_message}'
+          invalid_cofins: 'COFINS > %{error_message}'
+          invalid_pis_st: 'PIS ST > %{error_message}'
+          invalid_cofins_st: 'COFINS ST > %{error_message}'
+          invalid_importacao: 'Imposto de importação > %{error_message}'
+          invalid_issqn: 'ISSQN > %{error_message}'
+          invalid_icms_uf_destino: 'Partilha de ICMS > %{error_message}'
+          attributes:
+            declaracoes_importacao:
+              too_long:  'excedeu o limite máximo de %{count} declarações'
+              too_short: 'deve ter no mímino %{count}'

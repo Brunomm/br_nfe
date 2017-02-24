@@ -1,0 +1,17 @@
+- transportador = transporte.transportador
+= render_xml('_tc_cpf_cnpj', cpf_cnpj: transportador.cpf_cnpj)
+
+- if transportador.razao_social.present?
+	xNome = nf_xml_value_text( transportador.razao_social,  60)
+
+- if transportador.inscricao_estadual.present?
+	IE = nf_xml_value_IE( transportador.inscricao_estadual )
+
+- if transportador.endereco.logradouro.present? || transportador.endereco.bairro.present?
+	xEnder = nf_xml_value_text("#{nf_xml_value_text(transportador.endereco.bairro,  25)}-#{nf_xml_value_text(transportador.endereco.logradouro,  25)}-#{transportador.endereco.numero}", 60)
+
+- if transportador.endereco.nome_municipio.present?
+	xMun = nf_xml_value_text( transportador.endereco.nome_municipio, 60 )
+
+- if transportador.endereco.uf.present?
+	UF = nf_xml_value_UF(transportador.endereco.uf)

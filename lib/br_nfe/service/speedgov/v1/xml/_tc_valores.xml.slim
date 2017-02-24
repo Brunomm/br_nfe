@@ -1,0 +1,49 @@
+- rps ||= false
+- raise "É obrigatório passar um RPS por parâmetro" unless rps
+
+*{tag: "#{namespace_for_tags}ValorServicos"} = ts_valor(rps.valor_total_servicos)
+
+- if rps.deducoes.present? && rps.deducoes.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorDeducoes"} = ts_valor(rps.deducoes)
+
+- if rps.valor_pis.present? && rps.valor_pis.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorPis"}      = ts_valor(rps.valor_pis)
+
+- if rps.valor_cofins.present? && rps.valor_cofins.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorCofins"}   = ts_valor(rps.valor_cofins)
+
+- if rps.valor_inss.present? && rps.valor_inss.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorInss"}     = ts_valor(rps.valor_inss)
+
+- if rps.valor_ir.present? && rps.valor_ir.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorIr"}       = ts_valor(rps.valor_ir)
+
+- if rps.valor_csll.present? && rps.valor_csll.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorCsll"}     = ts_valor(rps.valor_csll)	
+
+*{tag: "#{namespace_for_tags}IssRetido"} = ts_sim_nao(rps.iss_retido?)
+
+- if rps.total_iss.present? && rps.total_iss.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorIss"} = ts_valor(rps.total_iss)
+
+- if rps.total_iss_retido.present? && rps.total_iss_retido.to_f > 0.0
+	*{tag: "#{namespace_for_tags}ValorIssRetido"} = ts_valor(rps.total_iss_retido)
+
+- if rps.outras_retencoes.present? && rps.outras_retencoes.to_f > 0.0
+	*{tag: "#{namespace_for_tags}OutrasRetencoes"} = ts_valor(rps.outras_retencoes)
+
+- if rps.base_calculo.present? && rps.base_calculo.to_f > 0.0
+	*{tag: "#{namespace_for_tags}BaseCalculo"} = ts_valor(rps.base_calculo)
+
+- if rps.iss_aliquota.present? && rps.iss_aliquota.to_f > 0.0
+	*{tag: "#{namespace_for_tags}Aliquota"} = ts_aliquota(rps.iss_aliquota)
+
+*{tag: "#{namespace_for_tags}ValorLiquidoNfse"} = ts_valor(rps.valor_liquido)
+
+/ Alteração na ordem das tags
+- if rps.desconto_condicionado.present? && rps.desconto_condicionado.to_f > 0.0
+	*{tag: "#{namespace_for_tags}DescontoCondicionado"} = ts_valor(rps.desconto_condicionado)
+
+- if rps.desconto_incondicionado.present? && rps.desconto_incondicionado.to_f > 0.0
+	*{tag: "#{namespace_for_tags}DescontoIncondicionado"} = ts_valor(rps.desconto_incondicionado)
+	

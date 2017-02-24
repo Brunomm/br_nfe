@@ -1,0 +1,14 @@
+prod
+	= render_xml 'infNFe/det/_tc_prod',    item: item
+imposto
+	= render_xml 'infNFe/det/_tc_imposto', item: item
+
+- if item.percentual_devolucao.to_f > 0.0
+	impostoDevol
+		pDevol = nf_xml_value_percent( item.percentual_devolucao )
+		- if item.total_ipi_devolucao.to_f > 0.0
+			IPI
+				vIPIDevol = nf_xml_value_monetary( item.total_ipi_devolucao )
+
+- if item.informacoes_adicionais.present?
+	infAdProd = nf_xml_value_text( item.informacoes_adicionais, 500 )

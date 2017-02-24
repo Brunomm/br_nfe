@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WS_CancelarNfse" targetNamespace="FISS-LEX" xmlns:wsdlns="FISS-LEX" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="FISS-LEX">
+	<types>
+		<schema targetNamespace="FISS-LEX" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="WS_CancelarNfse.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Cancelarnfseenvio" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="WS_CancelarNfse.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Cancelarnfseresposta" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="WS_CancelarNfse.ExecuteSoapIn">
+		<part name="parameters" element="tns:WS_CancelarNfse.Execute"/>
+	</message>
+	<message name="WS_CancelarNfse.ExecuteSoapOut">
+		<part name="parameters" element="tns:WS_CancelarNfse.ExecuteResponse"/>
+	</message>
+	<portType name="WS_CancelarNfseSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:WS_CancelarNfse.ExecuteSoapIn"/>
+			<output message="wsdlns:WS_CancelarNfse.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="WS_CancelarNfseSoapBinding" type="wsdlns:WS_CancelarNfseSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="FISS-LEXaction/AWS_CANCELARNFSE.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WS_CancelarNfse">
+		<port name="WS_CancelarNfseSoapPort" binding="wsdlns:WS_CancelarNfseSoapBinding">
+			<soap:address location="http://demo.fisslex.com.br/fiss-lex/servlet/aws_cancelarnfse"/>
+		</port>
+	</service>
+</definitions>

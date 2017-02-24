@@ -1,0 +1,5 @@
+*{tag: "#{namespace_for_tags}CpfCnpj"}
+	= render_xml '_tc_cpf_cnpj', cpf_cnpj: emitente.cpf_cnpj
+
+- if emitente.inscricao_municipal.present?
+	*{tag: "#{namespace_for_tags}InscricaoMunicipal"} = ts_inscricao_municipal(emitente.inscricao_municipal)
