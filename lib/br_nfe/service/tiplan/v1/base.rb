@@ -41,10 +41,14 @@ module BrNfe
 					end
 
 					def wsdl
-						if gtw = get_wsdl_by_city[ibge_code_of_issuer_city]
-							gtw
-						else # Default for tdd
-							"https://spe.duquedecaxias.rj.gov.br/nfse/WSNacional/nfse.asmx?wsdl"
+						if env == :test
+							unknow_env_test
+						else
+							if gtw = get_wsdl_by_city[ibge_code_of_issuer_city]
+								gtw
+							else # Default for tdd
+								"https://spe.duquedecaxias.rj.gov.br/nfse/WSNacional/nfse.asmx?wsdl"
+							end
 						end
 					end
 
