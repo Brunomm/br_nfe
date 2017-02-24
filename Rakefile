@@ -11,3 +11,22 @@ task :console do
 end
  
 task :default => :test
+
+namespace :test do
+  desc "Test lib source"
+  Rake::TestTask.new(:product) do |t|    
+    t.libs << "test"
+    t.pattern = 'test/br_nfe/product/**/*_test.rb'
+    t.verbose = true    
+  end
+
+end
+
+namespace :test do
+  desc "Test lib source"
+  Rake::TestTask.new(:service) do |t|    
+    t.libs << "test"
+    t.pattern = 'test/br_nfe/service/**/*_test.rb'
+    t.verbose = true    
+  end
+end

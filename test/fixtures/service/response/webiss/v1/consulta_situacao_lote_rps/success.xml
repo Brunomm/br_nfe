@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <ConsultarSituacaoLoteRpsResponse xmlns="http://tempuri.org/">
+      <ConsultarSituacaoLoteRpsResult>&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
+&lt;ConsultarSituacaoLoteRpsResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/nfse"&gt;&#xD;
+  &lt;NumeroLote&gt;2&lt;/NumeroLote&gt;&#xD;
+  &lt;Situacao&gt;4&lt;/Situacao&gt;&#xD;
+&lt;/ConsultarSituacaoLoteRpsResposta&gt;</ConsultarSituacaoLoteRpsResult>
+    </ConsultarSituacaoLoteRpsResponse>
+  </s:Body>
+</s:Envelope>

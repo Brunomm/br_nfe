@@ -1,0 +1,4 @@
+*{tag: "#{namespace_identifier}ConsultarSituacaoLoteRpsEnvio"} *message_namespaces
+	*{tag: "#{namespace_identifier}Prestador"}
+		= render_xml '_tc_identificacao_prestador'
+	*{tag: "#{namespace_identifier}Protocolo"} = ts_numero_protocolo(protocolo)
