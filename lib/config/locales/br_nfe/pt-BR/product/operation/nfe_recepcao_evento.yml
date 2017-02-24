@@ -1,0 +1,6 @@
+pt-BR:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/operation/nfe_recepcao_evento:
+          invalid_cancelamento: 'Evento de cancelamento inválido: %{error_message}'

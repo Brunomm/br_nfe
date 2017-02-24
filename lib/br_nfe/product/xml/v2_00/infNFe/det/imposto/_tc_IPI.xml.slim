@@ -1,0 +1,30 @@
+- if ipi.classe_enquadramento.present?	
+	clEnq = nf_xml_value_text( ipi.classe_enquadramento, 5 )
+
+- if ipi.cnpj_produtor.present?	
+	CNPJProd = nf_xml_value_cnpj( ipi.cnpj_produtor )
+
+- if ipi.codigo_selo.present?	
+	cSelo = nf_xml_value_text( ipi.codigo_selo, 60 )
+
+- if ipi.quantidade_selo.present?	
+	qSelo = nf_xml_value_number( ipi.quantidade_selo, 12 )
+
+cEnq = nf_xml_value_codigo_enquadramento_IPI( ipi.codigo_enquadramento )
+
+- if ipi.codigo_cst.in?(%w[00 49 50 99])
+	IPITrib
+		CST = ipi.codigo_cst
+
+		- if ipi.aliquota.to_f > 0.0
+			vBC  = nf_xml_value_monetary( ipi.base_calculo )
+			pIPI = nf_xml_value_percent(  ipi.aliquota )
+
+		- elsif ipi.quantidade_unidade.to_f > 0.0
+			qUnid = nf_xml_value_quantidade( ipi.quantidade_unidade )
+			vUnid = nf_xml_value_quantidade( ipi.total_unidade )
+
+		vIPI = nf_xml_value_monetary( ipi.total )
+- else
+	IPINT
+		CST = ipi.codigo_cst

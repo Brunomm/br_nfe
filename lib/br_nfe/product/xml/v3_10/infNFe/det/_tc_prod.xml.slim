@@ -1,0 +1,48 @@
+cProd = nf_xml_value_text( item.codigo_produto, 60 )
+cEAN  = nf_xml_value_EAN(  item.codigo_ean )
+xProd = nf_xml_value_text( item.descricao_produto, 120 )
+NCM   = nf_xml_value_NCM(  item.codigo_ncm )
+
+- item.codigos_nve.each do |nve|
+	NVE = nf_xml_value_NVE(nve)
+
+- item.codigo_cest.present?
+	CEST = nf_xml_value_CEST( item.codigo_cest )
+	
+- if item.codigo_extipi.present?
+	EXTIPI = nf_xml_value_EXTIPI(  item.codigo_extipi )
+
+CFOP     = nf_xml_value_CFOP(    item.cfop )
+uCom     = nf_xml_value_text(    item.unidade_comercial, 6)
+qCom     = nf_xml_value_float(   item.quantidade_comercial, 4)
+vUnCom   = nf_xml_value_float(   item.valor_unitario_comercial, 10)
+vProd    = nf_xml_value_monetary(item.valor_total_produto)
+cEANTrib = nf_xml_value_EAN(     item.codigo_ean_tributavel )
+uTrib    = nf_xml_value_text(    item.unidade_tributavel, 6)
+qTrib    = nf_xml_value_float(   item.quantidade_tributavel, 4)
+vUnTrib  = nf_xml_value_float(   item.valor_unitario_tributavel, 10)
+- if item.total_frete.to_f > 0
+	vFrete = nf_xml_value_monetary(item.total_frete)
+- if item.total_seguro.to_f > 0
+	vSeg   = nf_xml_value_monetary(item.total_seguro)
+- if item.total_desconto.to_f > 0
+	vDesc  = nf_xml_value_monetary(item.total_desconto)
+- if item.total_outros.to_f > 0
+	vOutro = nf_xml_value_monetary(item.total_outros)
+indTot = nf_xml_value_boolean( item.soma_total_nfe )
+- item.declaracoes_importacao.each do |declaracao|
+	DI
+		= render_xml('infNFe/det/prod/_tc_di', declaracao: declaracao)
+
+- item.detalhes_exportacao.reject(&:ignore?).each do |exportacao|
+	detExport
+		= render_xml('infNFe/det/prod/_tc_det_export', exportacao: exportacao)
+
+- if item.numero_pedido_compra.present?
+	xPed = nf_xml_value_number item.numero_pedido_compra, 15
+
+- if item.item_pedido_compra.present?
+	nItemPed = nf_xml_value_number_fixed_size item.item_pedido_compra, 6
+
+- if item.numero_fci.present?
+	nFCI = "#{item.numero_fci}".upcase
