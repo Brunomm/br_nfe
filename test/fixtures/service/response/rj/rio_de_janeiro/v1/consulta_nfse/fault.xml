@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <ConsultarNfseResponse xmlns="http://notacarioca.rio.gov.br/">
+            <outputXML>&lt;ConsultarNfseResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;&lt;ListaMensagemRetorno&gt;&lt;MensagemRetorno&gt;&lt;Codigo&gt;E138&lt;/Codigo&gt;&lt;Mensagem&gt;CNPJ não autorizado a realizar o serviço&lt;/Mensagem&gt;&lt;Correcao&gt;Informe o CNPJ autorizado a executar o serviço.&lt;/Correcao&gt;&lt;/MensagemRetorno&gt;&lt;/ListaMensagemRetorno&gt;&lt;/ConsultarNfseResposta&gt;</outputXML>
+        </ConsultarNfseResponse>
+    </soap:Body>
+</soap:Envelope>

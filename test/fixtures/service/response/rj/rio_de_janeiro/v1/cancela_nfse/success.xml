@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <CancelarNfseResponse xmlns="http://notacarioca.rio.gov.br/">
+      <outputXML>&lt;CancelarNfseResposta&gt;&lt;Cancelamento xmlns="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd"&gt;&lt;Confirmacao&gt;&lt;Pedido&gt;&lt;InfPedidoCancelamento id="C661442196"&gt;&lt;IdentificacaoNfse&gt;&lt;Numero&gt;3&lt;/Numero&gt;&lt;Cnpj&gt;23020443000140&lt;/Cnpj&gt;&lt;InscricaoMunicipal&gt;488542&lt;/InscricaoMunicipal&gt;&lt;CodigoMunicipio&gt;4204202&lt;/CodigoMunicipio&gt;&lt;/IdentificacaoNfse&gt;&lt;CodigoCancelamento&gt;2&lt;/CodigoCancelamento&gt;&lt;/InfPedidoCancelamento&gt;&lt;/Pedido&gt;&lt;DataHoraCancelamento&gt;2016-07-29T09:38:24.4803985-03:00&lt;/DataHoraCancelamento&gt;&lt;/Confirmacao&gt;&lt;Signature xmlns="http://www.w3.org/2000/09/xmldsig#"/&gt;&lt;/Cancelamento&gt;&lt;/CancelarNfseResposta&gt;</outputXML>
+    </CancelarNfseResponse>
+  </soap:Body>
+</soap:Envelope>

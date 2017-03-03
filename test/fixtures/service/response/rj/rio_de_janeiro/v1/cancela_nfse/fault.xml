@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <CancelarNfseResponse xmlns="http://notacarioca.rio.gov.br/">
+      <outputXML>&lt;CancelarNfseResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;&lt;ListaMensagemRetorno&gt;&lt;MensagemRetorno&gt;&lt;Codigo&gt;E973&lt;/Codigo&gt;&lt;Mensagem&gt;Assinatura : Cancelamento_NF5544&lt;/Mensagem&gt;&lt;Correcao&gt;Verifique a assinatura do elemento&lt;/Correcao&gt;&lt;/MensagemRetorno&gt;&lt;/ListaMensagemRetorno&gt;&lt;/CancelarNfseResposta&gt;</outputXML>
+    </CancelarNfseResponse>
+  </soap:Body>
+</soap:Envelope>

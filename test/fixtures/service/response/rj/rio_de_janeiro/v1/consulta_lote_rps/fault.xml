@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <ConsultarLoteRpsResponse xmlns="http://notacarioca.rio.gov.br/">
+            <outputXML>&lt;ConsultarLoteRpsResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;&lt;ListaMensagemRetorno&gt;&lt;MensagemRetorno&gt;&lt;Codigo&gt;E43&lt;/Codigo&gt;&lt;Mensagem&gt;Inscrição Municipal do prestador não encontrada na base de dados do município.&lt;/Mensagem&gt;&lt;Correcao&gt;Informe a inscrição municipal correta do prestador.&lt;/Correcao&gt;&lt;/MensagemRetorno&gt;&lt;/ListaMensagemRetorno&gt;&lt;/ConsultarLoteRpsResposta&gt;</outputXML>
+        </ConsultarLoteRpsResponse>
+    </soap:Body>
+</soap:Envelope>
