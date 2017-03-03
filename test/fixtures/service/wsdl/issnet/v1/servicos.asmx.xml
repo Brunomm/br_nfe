@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.issnetonline.com.br/webservice/nfd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.issnetonline.com.br/webservice/nfd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.issnetonline.com.br/webservice/nfd">
+      <s:element name="RecepcionarLoteRps">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RecepcionarLoteRpsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RecepcionarLoteRpsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaSituacaoLoteRPS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaSituacaoLoteRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultaSituacaoLoteRPSResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarSituacaoLoteRPS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarSituacaoLoteRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarSituacaoLoteRPSResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFSePorRPS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFSePorRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultaNFSePorRPSResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarNFSePorRPS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarNFSePorRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarNFSePorRPSResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarLoteRps">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarLoteRpsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarLoteRpsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarNfse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarNfseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarNfseResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUrlVisualizacaoNfse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUrlVisualizacaoNfseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarUrlVisualizacaoNfseResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUrlVisualizacaoNfseSerie">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarUrlVisualizacaoNfseSerieResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarUrlVisualizacaoNfseSerieResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarNfse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarNfseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelarNfseResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RecepcionarLoteRpsSoapIn">
+    <wsdl:part name="parameters" element="tns:RecepcionarLoteRps"/>
+  </wsdl:message>
+  <wsdl:message name="RecepcionarLoteRpsSoapOut">
+    <wsdl:part name="parameters" element="tns:RecepcionarLoteRpsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaSituacaoLoteRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaSituacaoLoteRPS"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaSituacaoLoteRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaSituacaoLoteRPSResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarSituacaoLoteRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarSituacaoLoteRPS"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarSituacaoLoteRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarSituacaoLoteRPSResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFSePorRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaNFSePorRPS"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFSePorRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaNFSePorRPSResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarNFSePorRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarNFSePorRPS"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarNFSePorRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarNFSePorRPSResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarLoteRpsSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarLoteRps"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarLoteRpsSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarLoteRpsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarNfseSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarNfse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarNfseSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarNfseResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarUrlVisualizacaoNfseSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarUrlVisualizacaoNfse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarUrlVisualizacaoNfseSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarUrlVisualizacaoNfseResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarUrlVisualizacaoNfseSerieSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarUrlVisualizacaoNfseSerie"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarUrlVisualizacaoNfseSerieSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarUrlVisualizacaoNfseSerieResponse"/>
+  </wsdl:message>
+  <wsdl:message name="CancelarNfseSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarNfse"/>
+  </wsdl:message>
+  <wsdl:message name="CancelarNfseSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarNfseResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="ServicosSoap">
+    <wsdl:operation name="RecepcionarLoteRps">
+      <wsdl:input message="tns:RecepcionarLoteRpsSoapIn"/>
+      <wsdl:output message="tns:RecepcionarLoteRpsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaSituacaoLoteRPS">
+      <wsdl:input message="tns:ConsultaSituacaoLoteRPSSoapIn"/>
+      <wsdl:output message="tns:ConsultaSituacaoLoteRPSSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSituacaoLoteRPS">
+      <wsdl:input message="tns:ConsultarSituacaoLoteRPSSoapIn"/>
+      <wsdl:output message="tns:ConsultarSituacaoLoteRPSSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFSePorRPS">
+      <wsdl:input message="tns:ConsultaNFSePorRPSSoapIn"/>
+      <wsdl:output message="tns:ConsultaNFSePorRPSSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNFSePorRPS">
+      <wsdl:input message="tns:ConsultarNFSePorRPSSoapIn"/>
+      <wsdl:output message="tns:ConsultarNFSePorRPSSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLoteRps">
+      <wsdl:input message="tns:ConsultarLoteRpsSoapIn"/>
+      <wsdl:output message="tns:ConsultarLoteRpsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNfse">
+      <wsdl:input message="tns:ConsultarNfseSoapIn"/>
+      <wsdl:output message="tns:ConsultarNfseSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfse">
+      <wsdl:input message="tns:ConsultarUrlVisualizacaoNfseSoapIn"/>
+      <wsdl:output message="tns:ConsultarUrlVisualizacaoNfseSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfseSerie">
+      <wsdl:input message="tns:ConsultarUrlVisualizacaoNfseSerieSoapIn"/>
+      <wsdl:output message="tns:ConsultarUrlVisualizacaoNfseSerieSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarNfse">
+      <wsdl:input message="tns:CancelarNfseSoapIn"/>
+      <wsdl:output message="tns:CancelarNfseSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicosSoap" type="tns:ServicosSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RecepcionarLoteRps">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/RecepcionarLoteRps" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaSituacaoLoteRPS">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultaSituacaoLoteRPS" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSituacaoLoteRPS">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarSituacaoLoteRPS" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFSePorRPS">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultaNFSePorRPS" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNFSePorRPS">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarNFSePorRPS" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLoteRps">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarLoteRps" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNfse">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarNfse" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfse">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarUrlVisualizacaoNfse" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfseSerie">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarUrlVisualizacaoNfseSerie" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarNfse">
+      <soap:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/CancelarNfse" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServicosSoap12" type="tns:ServicosSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RecepcionarLoteRps">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/RecepcionarLoteRps" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaSituacaoLoteRPS">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultaSituacaoLoteRPS" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSituacaoLoteRPS">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarSituacaoLoteRPS" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFSePorRPS">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultaNFSePorRPS" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNFSePorRPS">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarNFSePorRPS" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLoteRps">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarLoteRps" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNfse">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarNfse" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfse">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarUrlVisualizacaoNfse" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUrlVisualizacaoNfseSerie">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/ConsultarUrlVisualizacaoNfseSerie" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarNfse">
+      <soap12:operation soapAction="http://www.issnetonline.com.br/webservice/nfd/CancelarNfse" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Servicos">
+    <wsdl:port name="ServicosSoap" binding="tns:ServicosSoap">
+      <soap:address location="http://www.issnetonline.com.br/webserviceabrasf/homologacao/servicos.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="ServicosSoap12" binding="tns:ServicosSoap12">
+      <soap12:address location="http://www.issnetonline.com.br/webserviceabrasf/homologacao/servicos.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

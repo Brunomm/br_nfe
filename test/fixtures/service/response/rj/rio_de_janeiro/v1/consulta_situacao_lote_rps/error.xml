@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <ConsultarSituacaoLoteRpsResponse xmlns="http://notacarioca.rio.gov.br/">
+            <outputXML>&lt;ConsultarSituacaoLoteRpsResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;&lt;NumeroLote&gt;1&lt;/NumeroLote&gt;&lt;Situacao&gt;3&lt;/Situacao&gt;&lt;/ConsultarSituacaoLoteRpsResposta&gt;</outputXML>
+        </ConsultarSituacaoLoteRpsResponse>
+    </soap:Body>
+</soap:Envelope>

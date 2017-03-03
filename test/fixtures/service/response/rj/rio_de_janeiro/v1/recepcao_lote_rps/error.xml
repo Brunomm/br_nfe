@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <RecepcionarLoteRpsResponse xmlns="http://notacarioca.rio.gov.br/">
+            <outputXML>&lt;EnviarLoteRpsResposta xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"&gt;&lt;ListaMensagemRetorno&gt;&lt;MensagemRetorno&gt;&lt;Codigo&gt;E47&lt;/Codigo&gt;&lt;Mensagem&gt;CPF/CNPJ do tomador inválido&lt;/Mensagem&gt;&lt;Correcao&gt;Informe o CPF/CNPJ correto do tomador.&lt;/Correcao&gt;&lt;/MensagemRetorno&gt;&lt;/ListaMensagemRetorno&gt;&lt;/EnviarLoteRpsResposta&gt;</outputXML>
+        </RecepcionarLoteRpsResponse>
+    </soap:Body>
+</soap:Envelope>

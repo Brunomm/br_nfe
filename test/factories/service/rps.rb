@@ -16,10 +16,10 @@ FactoryGirl.define do
 		description        "MENSALIDADE PLANO PRO. 349,00 \n\nValor Aprox dos Tributos: R$ 6,59 Federal, R$ 0,00 Estadual e R$ 1,62 Municipal \n Fonte: IBPT/FECOMERCIO SC 5oi7eW"
 		codigo_municipio   '4204202'
 		cnae_code          '6202300'
+		codigo_tributacao_municipio '6699'
 		items              { [ FactoryGirl.build(:service_item, valor_unitario: valor_total_servicos, quantidade: 1) ] }
 
 		trait :completo do
-			codigo_tributacao_municipio '6699'
 			condicao_pagamento        { FactoryGirl.build(:condicao_pagamento, :a_prazo) }
 			intermediario             { FactoryGirl.build(:intermediario) }
 			numero_substituicao       '555'

@@ -233,7 +233,7 @@ Também é possível fazer o `merge` dos atributos através do método `assign_a
 	telefone: '4933665577',
 	email: 'emitente@mail.com',
 	regime_especial_tributacao: '1',
-	optante_simples_nacional: true,
+	codigo_regime_tributario: '1', # 1: Simples Nacional, 2: Simples Nacional(sublimite), 3: Reg. Normal
 	incentivo_fiscal: false,
 	endereco: @endereco
 })

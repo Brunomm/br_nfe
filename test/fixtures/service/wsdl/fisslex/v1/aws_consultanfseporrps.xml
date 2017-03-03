@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WS_ConsultaNfsePorRps" targetNamespace="FISS-LEX" xmlns:wsdlns="FISS-LEX" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="FISS-LEX">
+	<types>
+		<schema targetNamespace="FISS-LEX" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<complexType name="ConsultarNfseRpsEnvio">
+				<sequence>
+					<element name="IdentificacaoRps" type="tns:tcIdentificacaoRps" form="unqualified">
+					</element>
+					<element name="Prestador" type="tns:tcIdentificacaoPrestador" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcIdentificacaoRps">
+				<sequence>
+					<element name="Numero" type="xsd:int" form="unqualified">
+					</element>
+					<element name="Serie" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Tipo" type="xsd:byte" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcIdentificacaoPrestador">
+				<sequence>
+					<element name="Cnpj" type="xsd:string" form="unqualified">
+					</element>
+					<element name="InscricaoMunicipal" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="ArrayOftcMensagemRetorno">
+				<sequence>
+					<element minOccurs="0" maxOccurs="unbounded" name="tcMensagemRetorno" type="tns:tcMensagemRetorno" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="tcMensagemRetorno">
+				<sequence>
+					<element name="Codigo" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Mensagem" type="xsd:string" form="unqualified">
+					</element>
+					<element name="Correcao" type="xsd:string" form="unqualified">
+					</element>
+				</sequence>
+			</complexType>
+			<element name="WS_ConsultaNfsePorRps.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Consultarnfserpsenvio" type="tns:ConsultarNfseRpsEnvio"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="WS_ConsultaNfsePorRps.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Consultarnfserpsresposta" type="xsd:string"/>
+						<element minOccurs="1" maxOccurs="1" name="Listamensagemretorno" type="tns:ArrayOftcMensagemRetorno"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="WS_ConsultaNfsePorRps.ExecuteSoapIn">
+		<part name="parameters" element="tns:WS_ConsultaNfsePorRps.Execute"/>
+	</message>
+	<message name="WS_ConsultaNfsePorRps.ExecuteSoapOut">
+		<part name="parameters" element="tns:WS_ConsultaNfsePorRps.ExecuteResponse"/>
+	</message>
+	<portType name="WS_ConsultaNfsePorRpsSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:WS_ConsultaNfsePorRps.ExecuteSoapIn"/>
+			<output message="wsdlns:WS_ConsultaNfsePorRps.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="WS_ConsultaNfsePorRpsSoapBinding" type="wsdlns:WS_ConsultaNfsePorRpsSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="FISS-LEXaction/AWS_CONSULTANFSEPORRPS.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WS_ConsultaNfsePorRps">
+		<port name="WS_ConsultaNfsePorRpsSoapPort" binding="wsdlns:WS_ConsultaNfsePorRpsSoapBinding">
+			<soap:address location="http://demo.fisslex.com.br/fiss-lex/servlet/aws_consultanfseporrps"/>
+		</port>
+	</service>
+</definitions>

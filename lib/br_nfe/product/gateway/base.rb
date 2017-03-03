@@ -8,54 +8,27 @@ module BrNfe
 				def env_production?; env == :production end
 
 				##########################################################################################
-				################################  NFE STATUS SERVIÇO  ####################################
-					# Serviço destinado à consulta do status do serviço prestado pelo 
-					# Portal da Secretaria de Fazenda Estadual
-					# Traduzindo: Utilizado para saber se o SEFAZ do estado está em operação
-					#
-					# O processamento do pedido de consulta de status de Serviço pode resultar em uma
-					# mensagem de erro ou retornar a situação atual do Servidor de Processamento, códigos de
-					# situação 
-					#   + 107 - Serviço em Operação
-					#   + 108 - Serviço Paralisado Temporariamente
-					#   + 109 - Serviço Paralisado sem Previsão
-					# A critério da UF o campo xObs pode ser utilizado para
-					# fornecer maiores informações ao contribuinte, como por exemplo: “manutenção programada”,
-					# “modificação de versão do aplicativo”, “previsão de retorno”, etc.
-					#
-					# Processo: síncrono.
-					# Método: nfeStatusServico
-					def wsdl_status_servico
-						raise "O método #wsdl_status_servico deve ser implementado no webservice de cada estado"
+				##################################  NFE DOWNLOAD NF  #####################################
+					def wsdl_download_nf
+						if env_production?
+							'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+						else
+							'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+						end
 					end
-					def operation_status_servico
-						raise "O método #operation_status_servico deve ser implementado no webservice de cada estado"
+					def operation_download_nf
+						:nfe_download_nf
 					end
-					def version_xml_status_servico
-						raise "O método #version_xml_status_servico deve ser implementado no webservice de cada estado"
+					def version_xml_download_nf
+						:v1_00
 					end
-					# URL que é adicionado nas tags Header/nfeCabecMsg e Body/nfeDadosMsg
-					def url_xmlns_status_servico
-						raise "O método #url_xmlns_status_servico deve ser implementado no webservice de cada estado"
+					def url_xmlns_download_nf
+						'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'
+					end
+					def ssl_version_download_nf
+						:TLSv1
 					end
 
-				##########################################################################################
-				################################  NFE AUTORIZAÇÃO  #######################################
-					# Serviço destinado à recepção de mensagens de lote de NF-e.
-					# Traduzindo: Serviço destinando a enviar as notas fiscais para o SEFAZ
-					#
-					# Processo: assíncrono.
-					# Método: nfeAutorizacaoLote
-					#
-					def wsdl_autorizacao
-					end
-					def operation_autorizacao
-					end
-					def version_xml_autorizacao
-					end					
-					# URL que é adicionado nas tags Header/nfeCabecMsg e Body/nfeDadosMsg
-					def url_xmlns_autorizacao
-					end
 			end
 		end
 	end

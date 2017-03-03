@@ -201,8 +201,8 @@ describe BrNfe::Service::Rps do
 		end
 
 		it "atributos pode ser modificados em forma de bloco" do
-			subject.intermediario = {cpf_cnpj: '123', razao_social: 'razao'}
-			subject.intermediario.cpf_cnpj.must_equal '123'
+			subject.intermediario = {cpf_cnpj: '00000000123', razao_social: 'razao'}
+			subject.intermediario.cpf_cnpj.must_equal '00000000123'
 			subject.intermediario.razao_social.must_equal 'RAZAO'
 			
 			subject.intermediario do |dest|

@@ -1,0 +1,50 @@
+ICMSTot
+	vBC     = nf_xml_value_monetary( nfe.total_icms_base_calculo )
+	vICMS   = nf_xml_value_monetary( nfe.total_icms )
+	vBCST   = nf_xml_value_monetary( nfe.total_icms_base_calculo_st )
+	vST     = nf_xml_value_monetary( nfe.total_icms_st )
+	vProd   = nf_xml_value_monetary( nfe.total_produtos )
+	vFrete  = nf_xml_value_monetary( nfe.total_frete )
+	vSeg    = nf_xml_value_monetary( nfe.total_seguro )
+	vDesc   = nf_xml_value_monetary( nfe.total_desconto )
+	vII     = nf_xml_value_monetary( nfe.total_imposto_importacao )
+	vIPI    = nf_xml_value_monetary( nfe.total_ipi )
+	vPIS    = nf_xml_value_monetary( nfe.total_pis )
+	vCOFINS = nf_xml_value_monetary( nfe.total_cofins )
+	vOutro  = nf_xml_value_monetary( nfe.total_outras_despesas )
+	vNF     = nf_xml_value_monetary( nfe.total_nf )
+	- if nfe.total_tributos.to_f > 0.0
+		vTotTrib = nf_xml_value_monetary( nfe.total_tributos )
+
+- if nfe.has_any_service?
+	ISSQNtot
+		vServ = nf_xml_value_monetary( nfe.total_servicos )
+		vBC   = nf_xml_value_monetary( nfe.total_servicos_base_calculo )
+		
+		- if nfe.total_servicos_iss.to_f > 0.0
+			vISS        = nf_xml_value_monetary( nfe.total_servicos_iss )
+		
+		- if nfe.total_servicos_pis.to_f > 0.0
+			vPIS        = nf_xml_value_monetary( nfe.total_servicos_pis )
+		
+		- if nfe.total_servicos_cofins.to_f > 0.0
+			vCOFINS     = nf_xml_value_monetary( nfe.total_servicos_cofins )
+
+- if nfe.has_taxes_retention?
+	retTrib
+		- if nfe.total_retencao_pis.to_f > 0.0
+			vRetPIS = nf_xml_value_monetary( nfe.total_retencao_pis )			
+		- if nfe.total_retencao_cofins.to_f > 0.0
+			vRetCOFINS = nf_xml_value_monetary( nfe.total_retencao_cofins )
+		- if nfe.total_retencao_csll.to_f > 0.0
+			vRetCSLL = nf_xml_value_monetary( nfe.total_retencao_csll )
+
+		- if nfe.total_retencao_base_calculo_irrf.to_f > 0.0
+			vBCIRRF = nf_xml_value_monetary( nfe.total_retencao_base_calculo_irrf )
+		- if nfe.total_retencao_irrf.to_f > 0.0
+			vIRRF = nf_xml_value_monetary( nfe.total_retencao_irrf )
+
+		- if nfe.total_retencao_base_calculo_previdencia.to_f > 0.0
+			vBCRetPrev = nf_xml_value_monetary( nfe.total_retencao_base_calculo_previdencia )
+		- if nfe.total_retencao_previdencia.to_f > 0.0
+			vRetPrev = nf_xml_value_monetary( nfe.total_retencao_previdencia )

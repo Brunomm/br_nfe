@@ -1,0 +1,10 @@
+pt-BR:
+  activemodel:
+    errors:
+      models:
+        br_nfe/product/nfe/declaracao_importacao:
+          invalid_adicao: 'Adição %{index}: %{error_message}'
+          attributes:
+            adicoes:
+              too_long:  'excedeu o limite máximo de %{count} adições'
+              too_short: 'deve ter no mímino %{count}'
