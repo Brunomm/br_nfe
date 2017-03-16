@@ -1,9 +1,10 @@
-orig  = icms.origem
-CST   = icms.codigo_cst
-modBC = icms.modalidade_base_calculo
-vBC   = nf_xml_value_monetary icms.total_base_calculo
-pICMS = nf_xml_value_percent  icms.aliquota
-vICMS = nf_xml_value_monetary icms.total
+orig   = icms.origem
+CST    = icms.codigo_cst
+modBC  = icms.modalidade_base_calculo
+pRedBC = nf_xml_value_percent  icms.reducao_base_calculo
+vBC    = nf_xml_value_monetary icms.total_base_calculo
+pICMS  = nf_xml_value_percent  icms.aliquota
+vICMS  = nf_xml_value_monetary icms.total
 
 /################## DESONERAÇÃO DE ICMS ##################\
 - if icms.total_desoneracao.to_f > 0.0

@@ -14,13 +14,15 @@
 		veicTransp
 			placa = nf_xml_value_placa transporte.veiculo.placa
 			UF    = nf_xml_value_UF    transporte.veiculo.uf
-			RNTC  = nf_xml_value_RNTC  transporte.veiculo.rntc
+			- if transporte.veiculo.rntc.present?
+				RNTC  = nf_xml_value_RNTC  transporte.veiculo.rntc
 
 	- transporte.reboques.each do |reboque|
 		reboque
 			placa = nf_xml_value_placa reboque.placa
 			UF    = nf_xml_value_UF    reboque.uf
-			RNTC  = nf_xml_value_RNTC  reboque.rntc
+			- if reboque.rntc.present?
+				RNTC  = nf_xml_value_RNTC  reboque.rntc
 
 	- if transporte.forma_transporte_vagao?
 		vagao = nf_xml_value_text(transporte.identificacao_vagao, 20)

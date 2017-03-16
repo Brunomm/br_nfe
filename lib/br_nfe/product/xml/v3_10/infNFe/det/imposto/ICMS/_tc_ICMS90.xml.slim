@@ -3,14 +3,14 @@ CST   = icms.codigo_cst
 
 - if icms.aliquota.to_f > 0.0
 	modBC    = icms.modalidade_base_calculo
-	- if icms.total_icms_diferido.to_f > 0.0
-		pRedBC   = nf_xml_value_percent  icms.total_icms_diferido
+	- if icms.reducao_base_calculo.to_f > 0.0
+		pRedBC   = nf_xml_value_percent  icms.reducao_base_calculo
 	vBC      = nf_xml_value_monetary icms.total_base_calculo
 	pICMS    = nf_xml_value_percent  icms.aliquota
 	vICMS    = nf_xml_value_monetary icms.total
 
 /################## ICMS ST ##################\
-- if icms.aliquota_st.for_f > 0.0
+- if icms.aliquota_st.to_f > 0.0
 	modBCST  = icms.modalidade_base_calculo_st
 	- if icms.mva_st.to_f > 0.0
 		pMVAST   = nf_xml_value_percent  icms.mva_st

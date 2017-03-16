@@ -146,7 +146,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 			nf.status_code.must_equal '100'
 			nf.status_motive.must_equal 'Autorizado o uso da NF-e'
 			nf.chave_de_acesso.must_equal '42170108897094000155550010000000051201601010'
-			nf.situation.must_equal :autorized
+			nf.situation.must_equal :authorized
 			nf.xml.must_equal xml_nfe_with_proc, "Deveria adicionar o protocolo da NF-e e a NF dentro da tag nfeProc"
 		end
 

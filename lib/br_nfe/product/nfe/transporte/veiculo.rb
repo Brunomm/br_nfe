@@ -34,14 +34,14 @@ module BrNfe
 					# Registro Nacional de Transportador de Carga (ANTT)
 					#
 					# <b>Type:     </b> _String_
-					# <b>Required: </b> _Yes_
+					# <b>Required: </b> _No_
 					# <b>Length:   </b> _max: 20_
 					# <b>tag:      </b> RNTC
 					#
 					attr_accessor :rntc
 
 
-					validates :placa, :rntc, :uf, presence: true
+					validates :placa, :uf, presence: true
 					validates :uf,  inclusion: { in: BrNfe::Constants::SIGLAS_UF} , allow_blank: true
 					validates :rntc,  length: { maximum: 20 }
 					validates :placa, length: { is: 7 }

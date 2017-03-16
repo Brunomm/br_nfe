@@ -620,10 +620,10 @@ describe BrNfe::Product::NotaFiscal do
 		end
 	end
 	describe '#get_situation_by_status_code' do
-		it "se o código do status estiver na constante NFE_SITUATION_AUTORIZED, deve retornar :autorized" do
+		it "se o código do status estiver na constante NFE_SITUATION_AUTORIZED, deve retornar :authorized" do
 			BrNfe::Constants::NFE_SITUATION_AUTORIZED.each do |code|
 				subject.status_code = code
-				subject.get_situation_by_status_code.must_equal :autorized
+				subject.get_situation_by_status_code.must_equal :authorized
 			end
 		end
 		it "se o código do status estiver na constante NFE_SITUATION_ADJUSTED, deve retornar :adjusted" do

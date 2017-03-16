@@ -4,7 +4,7 @@ vTotTrib = nf_xml_value_monetary item.total_tributos
 	- if item.icms
 		ICMS
 			= render_xml 'infNFe/det/imposto/_tc_ICMS', icms: item.icms
-	- if item.ipi
+	- if item.ipi && item.ipi.codigo_cst.present?
 		IPI
 			= render_xml 'infNFe/det/imposto/_tc_IPI', ipi: item.ipi
 	- if item.importacao

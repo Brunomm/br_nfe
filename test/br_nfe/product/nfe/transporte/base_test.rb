@@ -1,5 +1,17 @@
 require 'test_helper'
 
+# Validações para quando não há transporte
+module ValidationsWhenNotHasCarriage
+	extend ActiveSupport::Concern
+	included do
+		before { subject.stubs(:have_carriage?).returns(false) }
+		it { wont validate_presence_of(:veiculo) }
+		it { wont_validate_have_one :veiculo, BrNfe.veiculo_product_class, :invalid_veiculo }
+		it { wont validate_presence_of(:identificacao_balsa) }
+		it { wont validate_presence_of(:identificacao_vagao) }
+	end
+end
+
 describe BrNfe::Product::Nfe::Transporte::Base do
 	subject { FactoryGirl.build(:product_transporte_base) }
 	let(:veiculo) { FactoryGirl.build(:product_transporte_veiculo) } 
@@ -52,24 +64,6 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 				it { wont validate_numericality_of(:retencao_valor_icms) }
 			end
 		end
-		context "Quando a forma_transporte for :veiculo" do
-			before { subject.forma_transporte = :veiculo }
-			it { must validate_presence_of(:veiculo) }
-			it { wont validate_presence_of(:identificacao_balsa) }
-			it { wont validate_presence_of(:identificacao_vagao) }
-		end
-		context "Quando a forma_transporte for :balsa" do
-			before { subject.forma_transporte = :balsa }
-			it { wont validate_presence_of(:veiculo) }
-			it { must validate_presence_of(:identificacao_balsa) }
-			it { wont validate_presence_of(:identificacao_vagao) }
-		end
-		context "Quando a forma_transporte for :vagao" do
-			before { subject.forma_transporte = :vagao }
-			it { wont validate_presence_of(:veiculo) }
-			it { wont validate_presence_of(:identificacao_balsa) }
-			it { must validate_presence_of(:identificacao_vagao) }
-		end
 	end
 
 	describe '#retencao_icms? method' do
@@ -93,83 +87,49 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 		end
 	end
 
-	describe '#veiculo' do
-		let(:alias_msg_erro) { 'Veículo: ' } 
-		let(:msg_erro_1) { 'Erro 1' } 
-		let(:msg_erro_2) { 'Erro 2' } 
-		it "deve ignorar valores que não são da class de veiculo" do
-			subject.veiculo = nil
-			subject.veiculo = 123
-			subject.veiculo.must_be_nil
-			subject.veiculo = 'aaaa'
-			subject.veiculo.must_be_nil
-			subject.veiculo = BrNfe.veiculo_product_class.new
-			subject.veiculo.must_be_kind_of BrNfe.veiculo_product_class
+	describe 'Quando a forma_transporte for :veiculo' do
+		before { subject.forma_transporte = :veiculo }
+		it { must_have_one(:veiculo, 
+				BrNfe.veiculo_product_class,  
+				{placa: 'LOG', rntc: 'NR', uf: "SP"}
+		)}
+		context "e houver frete" do
+			before { subject.stubs(:have_carriage?).returns(true) }
+			it { must validate_presence_of(:veiculo) }
+			it { must_validate_have_one :veiculo, BrNfe.veiculo_product_class, :invalid_veiculo }
+			it { wont validate_presence_of(:identificacao_balsa) }
+			it { wont validate_presence_of(:identificacao_vagao) }
 		end
-		it "deve instanciar um veiculo com os atributos se setar um Hash " do
-			subject.veiculo = nil
-			subject.veiculo = {placa: 'LOG', rntc: 'NR', uf: "SP"}
-			subject.veiculo.must_be_kind_of BrNfe.veiculo_product_class
+		context "e não houver frete" do
+			include ValidationsWhenNotHasCarriage
+		end
+	end
 
-			subject.veiculo.placa.must_equal 'LOG'
-			subject.veiculo.rntc.must_equal  'NR'
-			subject.veiculo.uf.must_equal    'SP'
+	describe 'Quando a forma_transporte for :balsa' do
+		before { subject.forma_transporte = :balsa }
+		context "e houver frete" do
+			before { subject.stubs(:have_carriage?).returns(true) }
+			it { must validate_presence_of(:identificacao_balsa) }
+			it { wont validate_presence_of(:veiculo) }
+			it { wont validate_presence_of(:identificacao_vagao) }
+			it { wont_validate_have_one :veiculo, BrNfe.veiculo_product_class, :invalid_veiculo }
 		end
-		it "deve instanciar um veiculo setar os atributos em forma de Block " do
-			subject.veiculo = nil
-			subject.veiculo do |e| 
-				e.placa = 'PLACA'
-				e.rntc  = 'RNTC'
-				e.uf    = 'MG'
-			end
+		context "e não houver frete" do
+			include ValidationsWhenNotHasCarriage
+		end
+	end
 
-			subject.veiculo.must_be_kind_of BrNfe.veiculo_product_class
-			subject.veiculo.placa.must_equal 'PLACA'
-			subject.veiculo.rntc.must_equal  'RNTC'
-			subject.veiculo.uf.must_equal    'MG'
+	describe 'Quando a forma_transporte for :vagao' do
+		before { subject.forma_transporte = :vagao }
+		context "e houver frete" do
+			before { subject.stubs(:have_carriage?).returns(true) }
+			it { must validate_presence_of(:identificacao_vagao) }
+			it { wont validate_presence_of(:identificacao_balsa) }
+			it { wont validate_presence_of(:veiculo) }
+			it { wont_validate_have_one :veiculo, BrNfe.veiculo_product_class, :invalid_veiculo }
 		end
-		it "deve ser possível limpar o atributo" do
-			subject.veiculo = {rntc: 'LOG'}
-			subject.veiculo.must_be_kind_of BrNfe.veiculo_product_class
-
-			subject.veiculo = nil
-			subject.veiculo.must_be_nil
-		end
-			
-		it "deve validar o veiculo se for preenchido e se a forma_transporte for veiculo" do
-			subject.forma_transporte = :veiculo
-			veiculo = BrNfe.veiculo_product_class.new
-			veiculo.errors.add :base, msg_erro_1
-			veiculo.errors.add :base, msg_erro_2
-			veiculo.expects(:invalid?).returns(true)
-			subject.veiculo = veiculo
-			
-			must_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
-			must_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
-		end
-
-		it "não deve validar o veiculo se a forma_transporte for balsa" do
-			subject.forma_transporte = :balsa
-			veiculo = BrNfe.veiculo_product_class.new
-			veiculo.errors.add :base, msg_erro_1
-			veiculo.errors.add :base, msg_erro_2
-			veiculo.stubs(:invalid?).returns(true)
-			subject.veiculo = veiculo
-			
-			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
-			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
-		end
-
-		it "não deve validar o veiculo se a forma_transporte for vagao" do
-			subject.forma_transporte = :vagao
-			veiculo = BrNfe.veiculo_product_class.new
-			veiculo.errors.add :base, msg_erro_1
-			veiculo.errors.add :base, msg_erro_2
-			veiculo.stubs(:invalid?).returns(true)
-			subject.veiculo = veiculo
-			
-			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_1}
-			wont_be_message_error :base, :invalid_veiculo, {error_message: msg_erro_2}, false # Para não executar mais o valid?
+		context "e não houver frete" do
+			include ValidationsWhenNotHasCarriage
 		end
 	end
 
@@ -219,3 +179,4 @@ describe BrNfe::Product::Nfe::Transporte::Base do
 		it { must_validate_have_one(:transportador, BrNfe.transportador_product_class, :invalid_transportador) }
 	end
 end
+

@@ -1005,7 +1005,7 @@ module BrNfe
 				# Informa o status atual da nota fiscal.
 				# Retorna se a nota fiscal está autorizada, cancelada, denegada, rejeitada, ajustada.
 				# Exemplo:
-				# - :autorized - Quando a nota fiscal está autorizada para uso
+				# - :authorized - Quando a nota fiscal está autorizada para uso
 				# - :adjusted - Quando a nota fiscal está autorizada para o uso e foi realizado algum
 				#               evento posterior que a mesma foi ajustada
 				# - :draft    - Quando a nota fiscal ainda não tem validade fiscal.
@@ -1019,7 +1019,7 @@ module BrNfe
 				end
 				def get_situation_by_status_code
 					if "#{status_code}".strip.in?(    BrNfe::Constants::NFE_SITUATION_AUTORIZED )
-						:autorized
+						:authorized
 					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_ADJUSTED )
 						:adjusted
 					elsif "#{status_code}".strip.in?( BrNfe::Constants::NFE_SITUATION_CANCELED )

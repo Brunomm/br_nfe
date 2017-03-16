@@ -3,8 +3,8 @@ CST  = icms.codigo_cst
 
 - if icms.modalidade_base_calculo.present?
 	modBC    = icms.modalidade_base_calculo
-- if icms.total_icms_diferido.present?
-	pRedBC   = nf_xml_value_percent  icms.total_icms_diferido
+- if icms.reducao_base_calculo.present?
+	pRedBC   = nf_xml_value_percent  icms.reducao_base_calculo
 - if icms.total_base_calculo.present?
 	vBC      = nf_xml_value_monetary icms.total_base_calculo
 - if icms.aliquota.present?

@@ -3,11 +3,11 @@
 	fat
 		- if fatura.numero_fatura.present?
 			nFat  = nf_xml_value_text( fatura.numero_fatura, 60 )
-		- if fatura.valor_original.present?
+		- if fatura.valor_original.to_f > 0.0
 			vOrig = nf_xml_value_monetary( fatura.valor_original )
-		- if fatura.valor_desconto.present?
+		- if fatura.valor_desconto.to_f > 0.0
 			vDesc = nf_xml_value_monetary( fatura.valor_desconto )
-		- if fatura.valor_liquido.present?
+		- if fatura.valor_liquido.to_f > 0.0
 			vLiq  = nf_xml_value_monetary( fatura.valor_liquido )
 
 - fatura.duplicatas.each do |duplicata|

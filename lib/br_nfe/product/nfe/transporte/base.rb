@@ -216,12 +216,12 @@ module BrNfe
 					validate_has_many :reboques, message: :invalid_reboque
 					validates :reboques,         length: {maximum: 5}
 
-					with_options if: :forma_transporte_veiculo? do |record|
+					with_options if: lambda { |rec| rec.have_carriage? && rec.forma_transporte_veiculo? } do |record|
 						record.validates :veiculo, presence: true
 						record.validate_has_one :veiculo
 					end
-					validates :identificacao_balsa, presence: true, if: :forma_transporte_balsa?
-					validates :identificacao_vagao, presence: true, if: :forma_transporte_vagao?
+					validates :identificacao_balsa, presence: true, if: lambda { |rec| rec.have_carriage? && rec.forma_transporte_balsa? }
+					validates :identificacao_vagao, presence: true, if: lambda { |rec| rec.have_carriage? && rec.forma_transporte_vagao? }
 
 					with_options if: :retencao_icms? do |record|
 						record.validates :retencao_codigo_municipio, :retencao_cfop, presence: true
@@ -230,6 +230,9 @@ module BrNfe
 						record.validates :retencao_valor_icms,        numericality: true,             allow_blank: true
 					end
 
+					def have_carriage?
+						modalidade_frete.to_i != 9
+					end
 
 					def forma_transporte_veiculo?
 						forma_transporte == :veiculo

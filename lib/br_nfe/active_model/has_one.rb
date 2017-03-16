@@ -37,7 +37,11 @@ module BrNfe
 					options = {message: "invalid_#{attr_name}".to_sym}
 					options.merge!(args.extract_options!)
 					if options[:if]
-						validate  "#{attr_name}_validation", if: lambda{|rec| rec.send(attr_name) && rec.send(options[:if]) }
+						if options[:if].is_a?(Proc)
+							validate  "#{attr_name}_validation", if: lambda{|rec| rec.send(attr_name) && options[:if].call(rec) }
+						else
+							validate  "#{attr_name}_validation", if: lambda{|rec| rec.send(attr_name) && rec.send(options[:if]) }
+						end
 					else
 						validate  "#{attr_name}_validation", if: attr_name
 					end
