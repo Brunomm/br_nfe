@@ -26,7 +26,7 @@ module BrNfe
 			end
 
 			def nf_xml_value_text value, max=60, xml_version=:v3_10
-				"#{value}".strip.max_size(max).br_nfe_escape_html
+				"#{value}".strip.max_size(max).br_nfe_escape_html.remove_accents.gsub(/\r\n/,' ').gsub(/\n/,' ')
 			end
 
 			def nf_xml_value_codigo_ibge_municipio value, xml_version=:v3_10
