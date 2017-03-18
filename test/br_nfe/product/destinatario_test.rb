@@ -7,6 +7,7 @@ describe BrNfe::Product::Destinatario do
 	describe "validations" do
 		it { must validate_presence_of(:cpf_cnpj) }
 		it { must validate_presence_of(:razao_social) }
+		it { must validate_inclusion_of(:indicador_ie).in_array([1,2,9]) }
 		
 		describe "valida o endereco" do
 			it "deve ser inválido se endereco for invalido" do
@@ -20,5 +21,6 @@ describe BrNfe::Product::Destinatario do
 				subject.valid?.must_equal true
 			end
 		end
+
 	end
 end

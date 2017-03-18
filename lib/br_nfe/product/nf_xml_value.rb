@@ -78,15 +78,11 @@ module BrNfe
 			# Nota 3: No caso de Contribuinte Isento de Inscrição (indIEDest=2), 
 			#         não informar a tag IE do destinatário.
 			#
-			def nf_xml_value_indicador_IE v_ie, nfe, xml_version=:v3_10
+			def nf_xml_value_indicador_IE indicador_ie, nfe, xml_version=:v3_10
 				if nfe.nfce? # 65 NFC-e
 					'9'
-				elsif "#{v_ie}".strip.upcase == 'ISENTO'
-					'2'
-				elsif "#{v_ie}".present?
-					'1'
 				else
-					'9'
+					indicador_ie
 				end
 			end
 

@@ -9,7 +9,7 @@
 enderDest
 	= render_xml('_tc_endereco', person: destinatario)
 
-- indicador_ie = nf_xml_value_indicador_IE( destinatario.inscricao_estadual, nfe )
+- indicador_ie = nf_xml_value_indicador_IE( destinatario.indicador_ie, nfe )
 indIEDest = indicador_ie
 
 - if indicador_ie == '1'
