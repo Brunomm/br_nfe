@@ -12,15 +12,15 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 		it { must validate_presence_of(:protocolo) }
 	end
 
-	describe "#wsdl" do
+	describe "#url_wsdl" do
 		context "for env production" do
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarLoteRps?wsdl' }
+			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarLoteRps?wsdl' }
 		end
 		context "for env test" do
 			before do 
 				subject.env = :test
 			end
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarLoteRps?wsdl' }
+			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarLoteRps?wsdl' }
 		end
 	end
 
@@ -60,7 +60,7 @@ describe BrNfe::Service::Betha::V1::ConsultaLoteRps do
 	describe "#request and set response" do
 		before do 
 			savon.mock!
-			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_lote_rps.xml') )
+			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_lote_rps.xml') )
 		end
 		after  { savon.unmock! }
 

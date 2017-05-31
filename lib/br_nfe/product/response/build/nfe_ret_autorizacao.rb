@@ -4,6 +4,10 @@ module BrNfe
 			module Build
 				class NfeRetAutorizacao < Base
 
+					def paths
+						operation.gateway_settings[:xml_paths][:retorno_autorizacao][:return_paths]
+					end
+
 					# Responsável por definir qual classe será instânciada para
 					# setar os valores de retorno referentes a cada operação.
 					#
@@ -22,13 +26,13 @@ module BrNfe
 					#
 					def specific_attributes
 						{
-							environment:              body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:tpAmb',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							app_version:              body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:verAplic', nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							processed_at:             body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:dhRecbto', nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							protocol:                 body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:nRec',     nf: nf_xmlns, ret: url_xmlns_retorno).text,
+							environment:              body_xml.xpath(paths[:environment],  paths[:namespaces]).text,
+							app_version:              body_xml.xpath(paths[:app_version],  paths[:namespaces]).text,
+							processed_at:             body_xml.xpath(paths[:processed_at], paths[:namespaces]).text,
+							protocol:                 body_xml.xpath(paths[:protocol],     paths[:namespaces]).text,
 
-							processing_status_code:   body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:cStat',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							processing_status_motive: body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:xMotivo',  nf: nf_xmlns, ret: url_xmlns_retorno).text,
+							processing_status_code:   body_xml.xpath(paths[:processing_status_code],   paths[:namespaces]).text,
+							processing_status_motive: body_xml.xpath(paths[:processing_status_motive], paths[:namespaces]).text,
 
 							notas_fiscais:            get_invoices
 						}
@@ -39,7 +43,7 @@ module BrNfe
 					# <b>Type: </b> _Nokogiri::XML::NodeSet_
 					#
 					def protocol_nfe_nodes
-						@protocol_nfe_nodes ||= body_xml.xpath('//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:protNFe', nf: nf_xmlns, ret: url_xmlns_retorno)
+						@protocol_nfe_nodes ||= body_xml.xpath(paths[:prot_nfe], paths[:namespaces] )
 					end
 
 					# Responsável por instânciar as notas fiscais presentes na resposta
@@ -57,7 +61,6 @@ module BrNfe
 						end
 						invoices
 					end
-
 				end
 			end
 		end

@@ -1,0 +1,3 @@
+nfse:
+  v3_10:
+    teste: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'

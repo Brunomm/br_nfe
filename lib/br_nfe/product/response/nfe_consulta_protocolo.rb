@@ -7,6 +7,7 @@ module BrNfe
 				has_many :events, 'BrNfe::Product::Response::Event'
 
 				has_one :main_event, 'BrNfe::Product::Response::Event'
+				attr_accessor :vers
 			end
 		end
 	end

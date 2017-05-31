@@ -27,10 +27,6 @@ module BrNfe
 			false
 		end
 
-		def ssl_request?
-			false
-		end
-
 		def env
 			@env ||= :production
 		end
@@ -59,8 +55,9 @@ module BrNfe
 		end
 
 		# Deve conter o LINK do webservice a ser chamado
+		# TODO: Remover método quando reconfigurar a emissão das notas de serviço
 		#
-		def wsdl
+		def url_wsdl
 			raise "Não implementado."
 		end
 
@@ -167,29 +164,20 @@ module BrNfe
 			:v1
 		end
 
-		# Versão da requisição SSL caso o servidor necessite de autenticação SSL
-		# Valores possíveis: [:TLSv1_2, :TLSv1_1, :TLSv1, :SSLv3, :SSLv23]
-		# Default: :SSLv3
-		def ssl_version
-			:SSLv3
+		def client_wsdl_params
+			{
+				wsdl:             url_wsdl,
+				log:              BrNfe.client_wsdl_log,
+				pretty_print_xml: BrNfe.client_wsdl_pretty_print_xml,
+				ssl_verify_mode:  :none
+			}
 		end
 
 		# Cliente WSDL utilizado para fazer a requisição.
 		# Utilizando a gem savon.
 		# Veja mais detalhes em http://savonrb.com/version2/client.html
 		def client_wsdl
-			@client_wsdl ||= Savon.client do |global|
-				global.wsdl             wsdl
-				global.log              BrNfe.client_wsdl_log
-				global.pretty_print_xml BrNfe.client_wsdl_pretty_print_xml
-				global.ssl_verify_mode  :none
-				if ssl_request?
-					global.ssl_version           ssl_version
-					global.ssl_cert              certificate
-					global.ssl_cert_key          certificate_key
-					global.ssl_cert_key_password certificate_pkcs12_password
-				end
-			end
+			@client_wsdl ||= Savon.client client_wsdl_params
 		end
 
 		# Caso não tenha o certificate_pkcs12 salvo em arquivo, pode setar a string do certificate_pkcs12 direto pelo atributo certificate_pkcs12_value

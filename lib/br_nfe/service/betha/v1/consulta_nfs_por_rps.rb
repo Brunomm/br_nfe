@@ -5,7 +5,7 @@ module BrNfe
 				class ConsultaNfsPorRps < BrNfe::Service::Betha::V1::Gateway
 					include BrNfe::Service::Concerns::Rules::ConsultaNfsPorRps
 					
-					def wsdl
+					def url_wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarNfsePorRps?wsdl"
 					end
 

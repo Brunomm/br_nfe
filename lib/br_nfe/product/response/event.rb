@@ -22,7 +22,7 @@ module BrNfe
 				# CÓDIGO DO EVENTO
 				# Código do Tipo do Evento.
 				#   110111: Cancelamento
-				#   110110: CCe
+				#   110110: CCe - Carta de Correcao
 				#   110140: EPEC
 				# Eventos de manifestação do destinatário
 				#   210200: Confirmação da Operação

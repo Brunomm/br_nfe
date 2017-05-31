@@ -9,6 +9,10 @@ module BrNfe
 					def original_xml
 						@original_xml ||= operation.original_xml || operation.xml_builder
 					end
+
+					def nfe_settings
+						operation.nfe_settings
+					end
 					
 					# Responsável por instanciar o objeto de resposta contendo os valores
 					# pertinentes a cada operação.
@@ -51,7 +55,7 @@ module BrNfe
 					# <b>Type: </b> _String_
 					#
 					def url_xmlns_retorno
-						@url_xmlns_retorno ||= header_xml.collect_namespaces['xmlns']
+						@url_xmlns_retorno ||= header_xml.collect_namespaces['xmlns'] || operation.url_xmlns
 					end
 
 					# Responsável por trazer qual a versão do layout o XML da resposta
@@ -92,7 +96,10 @@ module BrNfe
 					# # <b>Type: </b> _Nokogiri::XML::Document_
 					#
 					def body_xml
-						@body_xml ||= parse_nokogiri_xml( response_xml.xpath('//soap:Envelope/soap:Body', 'xmlns:soap' => "http://www.w3.org/2003/05/soap-envelope").try(:children).try(:to_xml) )
+						@body_xml ||= parse_nokogiri_xml( response_xml.xpath(
+							paths[:body_xml][:path], 
+							paths[:body_xml][:namespaces]
+						).try(:children).try(:to_xml) )
 					end
 
 					# Responsável por pegar o conteúdo presente dentro da tag
@@ -103,7 +110,10 @@ module BrNfe
 					# # <b>Type: </b> _Nokogiri::XML::Document_
 					#
 					def header_xml
-						@header_xml ||= parse_nokogiri_xml( response_xml.xpath('//soap:Envelope/soap:Header', 'xmlns:soap' => "http://www.w3.org/2003/05/soap-envelope").try(:children).try(:to_xml) )
+						@header_xml ||= parse_nokogiri_xml( response_xml.xpath(
+							paths[:header_xml][:path], 
+							paths[:header_xml][:namespaces]
+						).try(:children).try(:to_xml) )
 					end
 
 					# Responsável por converter a string xml a ser modificado
@@ -186,22 +196,22 @@ module BrNfe
 					end
 
 					def get_processed_at_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/dhRecbto').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:processed_at]).text
 					end
 					def get_protocol_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/nProt').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:protocol]).text
 					end
 					def get_digest_value_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/digVal').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:digest_value]).text
 					end
 					def get_status_code_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/cStat').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:status_code]).text
 					end
 					def get_status_motive_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/xMotivo').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:status_motive]).text
 					end
 					def get_access_key_from_prot_nfe prot_nfe
-						prot_nfe.xpath('//protNFe/infProt/chNFe').text
+						prot_nfe.xpath( nfe_settings[:prot_nfe_paths][:access_key]).text
 					end
 
 					# Seta os valores que estão concatenados na chave da NF-e

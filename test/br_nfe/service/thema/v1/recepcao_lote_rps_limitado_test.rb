@@ -16,23 +16,23 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 		subject.soap_body_root_tag.must_equal 'recepcionarLoteRpsLimitado'
 	end
 
-	describe "#wsdl" do
+	describe "#url_wsdl" do
 		it "default" do
 			subject.ibge_code_of_issuer_city = '111'
 			subject.env = :production
-			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
+			subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
 			subject.env = :test
-			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
+			subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
 		end
 		describe 'Para a cidade 4205902 - Gaspar-SC' do
 			before { subject.ibge_code_of_issuer_city = '4205902' }
 			it "ambiente de produção" do
 				subject.env = :production
-				subject.wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
+				subject.url_wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
 			end
 			it "ambiente de testes" do
 				subject.env = :test
-				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
+				subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEremessa?wsdl'
 			end			
 		end	 	
 	end
@@ -69,7 +69,7 @@ describe BrNfe::Service::Thema::V1::RecepcaoLoteRpsLimitado do
 	describe "#request and set response" do
 		before do 
 			savon.mock!
-			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/thema/v1/nfse_remessa.xml') )
+			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/thema/v1/nfse_remessa.xml') )
 		end
 		after  { savon.unmock! }
 

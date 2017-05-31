@@ -8,7 +8,7 @@ module BrNfe
 
 					validates :protocolo, presence: true
 
-					def wsdl
+					def url_wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarLoteRps?wsdl"
 					end
 

@@ -83,7 +83,7 @@ describe BrNfe::Service::Base do
 		let(:soap_xml) { '<Envelope><Body>XML</Body></Envelope>' } 
 
 		before do
-			subject.stubs(:wsdl).returns('http://duobr.com?wsdl')
+			subject.stubs(:url_wsdl).returns('http://duobr.com?wsdl')
 			subject.stubs(:method_wsdl).returns(:operation)
 			subject.expects(:soap_xml).returns(soap_xml)
 		end

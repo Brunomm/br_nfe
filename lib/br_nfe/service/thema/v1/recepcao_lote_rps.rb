@@ -5,7 +5,7 @@ module BrNfe
 				class RecepcaoLoteRps < BrNfe::Service::Thema::V1::Base
 					include BrNfe::Service::Concerns::Rules::RecepcaoLoteRps
 					
-					def wsdl
+					def url_wsdl
 						get_wsdl_by_city[:send]
 					end
 

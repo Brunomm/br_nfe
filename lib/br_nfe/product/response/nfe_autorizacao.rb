@@ -4,8 +4,9 @@ module BrNfe
 			class NfeAutorizacao < Base
 				has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class'
 
-				attr_accessor :tempo_medio
-				alias_attribute :tMed, :tempo_medio
+				attr_accessor :average_time
+				alias_attribute :tempo_medio, :average_time
+				alias_attribute :tMed, :average_time
 			end
 		end
 	end

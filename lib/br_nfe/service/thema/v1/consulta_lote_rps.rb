@@ -3,7 +3,7 @@ module BrNfe
 		module Thema
 			module V1
 				class ConsultaLoteRps < BrNfe::Service::Thema::V1::Base
-					def wsdl
+					def url_wsdl
 						get_wsdl_by_city[:consult]
 					end
 

@@ -50,7 +50,7 @@ describe BrNfe::Service::Simpliss::V1::CancelaNfse do
 	describe "#request and set response" do
 		before do 
 			savon.mock!
-			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
+			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
 		end
 		after  { savon.unmock! }
 

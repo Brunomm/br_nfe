@@ -12,15 +12,15 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 		subject.class.included_modules.must_include BrNfe::Service::Concerns::Rules::ConsultaNfse
 	end
 
-	describe "#wsdl" do
+	describe "#url_wsdl" do
 		context "for env production" do
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarNfse?wsdl' }
+			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarNfse?wsdl' }
 		end
 		context "for env test" do
 			before do 
 				subject.env = :test
 			end
-			it { subject.wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarNfse?wsdl' }
+			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarNfse?wsdl' }
 		end
 	end
 
@@ -60,7 +60,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfse do
 	describe "#request and set response" do
 		before do 
 			savon.mock!
-			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_nfse.xml') )
+			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_nfse.xml') )
 		end
 		after  { savon.unmock! }
 

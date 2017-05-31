@@ -4,7 +4,7 @@ module BrNfe
 			module V1
 				class Base < BrNfe::Service::Base
 
-					def wsdl
+					def url_wsdl
 						if env == :test
 							'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl'
 						elsif ibge_code_of_issuer_city == '4202008' # Balneário Camboriú

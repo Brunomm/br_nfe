@@ -43,7 +43,7 @@ module BrNfe
 					convert_to_boolean(@sincrono)
 				end
 				alias_attribute :indSinc, :sincrono
-				
+
 				# Array com as notas fiscais a serem emitidas
 				# Pode ser adicionado os dados das notas fiscais em forma de `Hash` ou
 				# O próprio objeto da NF-e.
@@ -67,40 +67,14 @@ module BrNfe
 				#
 				has_many :notas_fiscais, 'BrNfe.nota_fiscal_product_class'
 
-				
 				validate_has_many :notas_fiscais, message: :invalid_invoice
 				validates :notas_fiscais, length: {in: 1..50}
 				validates :numero_lote, presence: true
 				validates :numero_lote, numericality: {only_integer: true}, allow_blank: true
 				validates :numero_lote, length: {maximum: 15}, allow_blank: true
 
-				# URL que será setada no atribto xmlns do XML;
-				# Ex:
-				# nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2"
-				def url_xmlns
-					gateway.url_xmlns_autorizacao
-				end
-
-				# URL do webservice para enviar as informações.
-				# Ex:
-				# https://www.sefazvirtual.fazenda.gov.br/NfeInutilizacao2/NfeInutilizacao2.asmx?wsdl
-				def wsdl
-					gateway.wsdl_autorizacao
-				end
-
-				# Método SOAP que será chamado para enviar o XML
-				def method_wsdl
-					gateway.operation_autorizacao
-				end
-
-				# Versão utilizada pelo webservice do  estado para determinada ação.
-				def gateway_xml_version
-					gateway.version_xml_autorizacao
-				end
-
-				# Versão SSL utilizada pelo webservice
-				def ssl_version
-					gateway.ssl_version_autorizacao
+				def operation_name
+					:autorizacao
 				end
 
 				# XML que será enviado no body da requisição SOAP contendo as informações

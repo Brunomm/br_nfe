@@ -4,6 +4,10 @@ module BrNfe
 			module Build
 				class NfeStatusServico < Base
 
+					def paths
+						operation.gateway_settings[:xml_paths][:status_servico][:return_paths]
+					end
+
 					# Responsável por definir qual classe será instânciada para
 					# setar os valores de retorno referentes a cada operação.
 					#
@@ -22,20 +26,19 @@ module BrNfe
 					#
 					def specific_attributes
 						{
-							environment:              body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:tpAmb',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							app_version:              body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:verAplic', nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							processed_at:             body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:dhRecbto', nf: nf_xmlns, ret: url_xmlns_retorno).text,
 							
-							processing_status_code:   body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:cStat',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							processing_status_motive: body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:xMotivo',  nf: nf_xmlns, ret: url_xmlns_retorno).text,
+							environment:              body_xml.xpath( paths[:environment],  paths[:namespaces]).text,
+							app_version:              body_xml.xpath( paths[:app_version],  paths[:namespaces]).text,
+							processed_at:             body_xml.xpath( paths[:processed_at], paths[:namespaces]).text,
+							uf:                       body_xml.xpath( paths[:uf],           paths[:namespaces]).text,
+							average_time:             body_xml.xpath( paths[:average_time],  paths[:namespaces]).text.to_i,
+							observation:              body_xml.xpath( paths[:observation],  paths[:namespaces]).text,
+							return_prevision:         body_xml.xpath( paths[:return_prevision],   paths[:namespaces]).text,
+							processing_status_code:   body_xml.xpath( paths[:processing_status_code],   paths[:namespaces]).text,
+							processing_status_motive: body_xml.xpath( paths[:processing_status_motive], paths[:namespaces]).text,
 							
-							uf:               body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:cUF',  nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							average_time:     body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:tMed',  nf: nf_xmlns, ret: url_xmlns_retorno).text.to_i,
-							observation:      body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:xObs',  nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							return_prevision: body_xml.xpath('//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:dhRetorno',  nf: nf_xmlns, ret: url_xmlns_retorno).text,
 						}
 					end
-
 				end
 			end
 		end

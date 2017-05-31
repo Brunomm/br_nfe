@@ -18,23 +18,23 @@ describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 		subject.soap_body_root_tag.must_equal 'consultarLoteRps'
 	end
 
-	describe "#wsdl" do
+	describe "#url_wsdl" do
 		it "default" do
 			subject.ibge_code_of_issuer_city = '111'
 			subject.env = :production
-			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+			subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
 			subject.env = :test
-			subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+			subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
 		end
 		describe 'Para a cidade 4205902 - Gaspar-SC' do
 			before { subject.ibge_code_of_issuer_city = '4205902' }
 			it "ambiente de produção" do
 				subject.env = :production
-				subject.wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+				subject.url_wsdl.must_equal 'http://nfse.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
 			end
 			it "ambiente de testes" do
 				subject.env = :test
-				subject.wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
+				subject.url_wsdl.must_equal 'http://nfsehml.gaspar.sc.gov.br/nfse/services/NFSEconsulta?wsdl'
 			end			
 		end	 	
 	end
@@ -57,7 +57,7 @@ describe BrNfe::Service::Thema::V1::ConsultaLoteRps do
 	describe "#request and set response" do
 		before do 
 			savon.mock!
-			stub_request(:get, subject.wsdl).to_return(status: 200, body: read_fixture('service/wsdl/thema/v1/nfse_consulta.xml') )
+			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/thema/v1/nfse_consulta.xml') )
 		end
 		after  { savon.unmock! }
 

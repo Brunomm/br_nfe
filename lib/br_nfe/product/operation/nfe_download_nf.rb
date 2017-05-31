@@ -38,41 +38,19 @@ module BrNfe
 				validates :chave_nfe, presence: true
 				validates :chave_nfe, length: {is: 44}
 
-				def gateway
-					@gateway ||= case force_gateway
+				def gateway_settings
+					@gateway_settings ||= case force_gateway
 					when :SVAN
-						BrNfe::Product::Gateway::WebServiceSVAN.new({env: env})
+						BrNfe.settings[:nfe][nfe_version][:gateway][:svan]
 					when :AN
-						BrNfe::Product::Gateway::Base.new({env: env})
+						BrNfe.settings[:nfe][nfe_version][:gateway][:sc] # Santa catarina utiliza o webservice do AN para download de nf
 					else
 						super
 					end
 				end
 
-
-				# URL do webservice para enviar as informações.
-				def wsdl
-					gateway.wsdl_download_nf
-				end
-
-				# Método SOAP que será chamado para enviar o XML
-				def method_wsdl
-					gateway.operation_download_nf
-				end
-
-				# Versão utilizada pelo webservice do  estado para determinada ação.
-				def gateway_xml_version
-					gateway.version_xml_download_nf
-				end
-
-				# URL que será setada no atribto xmlns do XML;
-				def url_xmlns
-					gateway.url_xmlns_download_nf
-				end
-
-				# Versão SSL utilizada pelo webservice
-				def ssl_version
-					gateway.ssl_version_download_nf
+				def operation_name
+					:download_nf
 				end
 
 				# XML que será enviado no body da requisição SOAP contendo as informações

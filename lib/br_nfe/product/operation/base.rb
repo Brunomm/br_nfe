@@ -4,6 +4,9 @@ module BrNfe
 			class Base < BrNfe::Base
 				include NfXmlValue
 
+				# Versão da NF-e que irá pegar as configurações
+				attr_accessor :nfe_version
+
 				# Serve para saber se vai usar o módo de contingência, e se usar,
 				# serve para saber qual o tipo de contingência será utilizado.
 				# Options: [:normal, :svc]
@@ -41,6 +44,7 @@ module BrNfe
 				def default_values
 					{
 						tipo_emissao:   :normal,
+						nfe_version:    :v3_10,
 					}
 				end
 
@@ -48,97 +52,156 @@ module BrNfe
 					true
 				end
 
-				# Para as Notas fiscais de produto a autenticação via SSL é obrigatória
-				def ssl_request?
-					true
-				end
-
-				# O Gateway é responsável de identificar o Webservice de acordo com o Estado(UF).
-				# Irá identificar o webservice através do valor do método `ibge_code_of_issuer_uf`, 
-				# na qual pode ser setado diretamente ou pego através do endereço do emissor.
-				# Para ver a lista de WebService por estado acesse: http://www.nfe.fazenda.gov.br/portal/webServices.aspx
+				# Método utilizado para saber qual Webservice será utilizado.
+				# Deve sempre retornar um symbol de acordo com as configurações dos gateways.
 				#
-				# <b>Tipo de retorno: </b> _Object (Gateway::Base ou derivados)_
+				# <b>Tipo de retorno: </b> _Symbol_
 				#
 				def gateway
 					@gateway ||= case tipo_emissao
 					when :normal
 						get_gateway_by_normal_operation
 					when :svc
-						get_gateway_by_svc_operation					
+						get_gateway_by_svc_operation
 					end
 				end
+
+				# Configurações das operações da nota fiscal de acordo com a versão.
+				#
+				def nfe_settings
+					BrNfe.settings[:nfe][nfe_version]
+				end
+
+				# Método que retorna as configurações do Servidor da Sefaz a ser utilziada.
+				# Irá retornar um Hash com as seguntes chaves:
+				#  - :operation   => Contém qual a versão do XML que é utilizado, qual o método
+				#                    da operação e a url do xmlns raiz que será adicionado no XML
+				#  - :soap_client => Contém as configurações para instanciar o client Soap com o Savon.
+				#  - :xml_paths   => Contém os caminhos com namespace para encontrar os valores dentro dos XMLS
+				#
+				# <b>Tipo de retorno: </b> _Symbol_ 
+				#
+				def gateway_settings
+					nfe_settings[:gateway][gateway]
+				end
+
 
 				# WebServices utilizados para contingência em SVC (Servidor Virtual de Contingência)
 				# Existe 2 servidores de contingência para SVC: O `SVC-AN` e `SVC-RS`
 				# Cada estado(UF) é autorizado a emitir notas em contingência em apenas 1 dos servidores.
 				# Esse método é responsável em setar qual o WebService será utilizado para cada UF.
 				#
-				# <b>Tipo de retorno: </b> _Object (::WebServiceSvcRS ou ::WebServiceSvcAN)_
+				# <b>Tipo de retorno: </b> _Hash_
 				#
 				def get_gateway_by_svc_operation
 					case ibge_code_of_issuer_uf
 					#    'AM', 'BA', 'CE', 'GO', 'MA', 'MS', 'MT', 'PA', 'PE', 'PI', 'PR'
 					when '13', '29', '23', '52', '21', '50', '51', '15', '26', '22', '41'
-						BrNfe::Product::Gateway::WebServiceSvcRS.new({env: env})
+						:svc_rs
 					else # AC, AL, AP, DF, ES, MG, PB, RJ, RN, RO, RR, RS, SC, SE, SP, TO 
-						BrNfe::Product::Gateway::WebServiceSvcAN.new({env: env})					
+						:svc_an
 					end
 				end
 
 				# Seta o WebService quando o tipo de emissão for normal para cada UF
 				#
-				# <b>Tipo de retorno: </b> _Object (Gateway::Base ou derivados)_
+				# <b>Tipo de retorno: </b> _Hash_
 				#
 				def get_gateway_by_normal_operation				
-					case ibge_code_of_issuer_uf
+					case "#{ibge_code_of_issuer_uf}"
 					when '13'
-						BrNfe::Product::Gateway::WebServiceAM.new({env: env})
+						:am
 					when '29'
-						BrNfe::Product::Gateway::WebServiceBA.new({env: env})
+						:ba
 					when '23'
-						BrNfe::Product::Gateway::WebServiceCE.new({env: env})
+						:ce
 					when '52'
-						BrNfe::Product::Gateway::WebServiceGO.new({env: env})
+						:go
 					when '31'
-						BrNfe::Product::Gateway::WebServiceMG.new({env: env})
+						:mg
 					when '50'
-						BrNfe::Product::Gateway::WebServiceMS.new({env: env})
+						:ms
 					when '51'
-						BrNfe::Product::Gateway::WebServiceMT.new({env: env})
+						:mt
 					when '26'
-						BrNfe::Product::Gateway::WebServicePE.new({env: env})
+						:pe
 					when '41'
-						BrNfe::Product::Gateway::WebServicePR.new({env: env})
+						:pr
 					when '43'
-						BrNfe::Product::Gateway::WebServiceRS.new({env: env})
+						:rs
 					when '35'
-						BrNfe::Product::Gateway::WebServiceSP.new({env: env})
-					when '21', '15', '22'
-						BrNfe::Product::Gateway::WebServiceSVAN.new({env: env})
-					else
-						BrNfe::Product::Gateway::WebServiceSVRS.new({env: env})
+						:sp
+					when '21', '15' # MA, PA
+						:svan
+					else 
+						# AC, AL, AP, ES, DF, PB, RJ, RM, RO, RR, SC, PI
+						# 12, 27, 16, 32, 53, 25, 33, 24, 11, 14, 42, 22
+						:svrs
 					end
 				end
 
+				def operation_name
+					raise NotImplementedError.new("Not implemented #operation_name in #{self}.")
+				end
+
+				# Método SOAP que será chamado para enviar o XML
+				#
+				# <b>Tipo de retorno: </b> _Symbol_
+				#
+				def method_wsdl
+					gateway_settings[:operation][operation_name][env][:operation_method]
+				end
+
 				# Valor utilizado para inserir a url do xmlns nas tags nfeCabecMsg e nfeDadosMsg.
-				# Como a url pode variar de acordo com o tipo de serviço e UF, deve ser sobrescrita
-				# na subclass de cada serviço.
+				# URL que será setada no atribto xmlns do XML;
+				# Ex:
+				#  nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2"
 				#
 				# <b>Tipo de retorno: </b> _String_
 				#
 				def url_xmlns
-					raise "O método #url_xmlns deve ser implementar em cada operação"
+					gateway_settings[:operation][operation_name][env][:url_xmlns]
 				end
 
-				# Irá retornar a versão setada de acordo com o serviço e estado.
-				# Deve ser sobrescrito para cada serviço e irá pegar a versão do XML
-				# de acordo com o Estado e Serviço, conforme descrito em: http://www.nfe.fazenda.gov.br/portal/webServices.aspx
+				# Versão utilizada pelo webservice do  estado para determinada ação.
+				# Irá retornar a versão setada de acordo com o serviço e estado conforme 
+				# descrito em: http://www.nfe.fazenda.gov.br/portal/webServices.aspx
 				#
 				# <b>Tipo de retorno: </b> _Symbol_
 				#
 				def gateway_xml_version
-					raise "O método #gateway_xml_version deve ser implementar em cada operação"
+					gateway_settings[:operation][operation_name][env][:xml_version]
+				end
+
+				# Retorna o xmlns utilizada para identificar o envelope da requisição SOAP
+				# Normalmente é http://www.w3.org/2003/05/soap-envelope
+				#
+				# <b>Tipo de retorno: </b> _String_
+				#
+				def xmlns_soap
+					gateway_settings[:operation][operation_name][env][:xmlns_soap]
+				end
+
+				# Parâmetros específicos para cada servidor de cada estado para
+				# que seja instanciado o Client WSDL savon.
+				#
+				# <b>Tipo de retorno: </b> _Hash_
+				#
+				def client_wsdl_params
+					super.merge({
+						ssl_version:           :SSLv3, # Valores possíveis: [:TLSv1_2, :TLSv1_1, :TLSv1, :SSLv3, :SSLv23]
+						ssl_cert:              certificate,
+						ssl_cert_key:          certificate_key,
+						ssl_cert_key_password: certificate_pkcs12_password,
+					}).merge(gateway_settings[:soap_client][operation_name][env])
+				end
+
+
+				# Deve conter o LINK do webservice a ser chamado
+				# TODO: Remover método
+				#
+				def url_wsdl
+					''
 				end
 
 				# Versão do XML utilizado na requisição.
@@ -206,10 +269,10 @@ module BrNfe
 					when :normal 
 						1
 					when :svc
-						if gateway.is_a?(BrNfe::Product::Gateway::WebServiceSvcAN) # SVC-AN
-							6
-						else # SVC-RS
-							7
+						if gateway == :svc_rs
+							7 # SVC-RS
+						else
+							6 # SVC-AN
 						end
 					end
 				end
@@ -243,8 +306,8 @@ module BrNfe
 
 				def get_response
 					builder = response_class_builder.new do |builder|
-						builder.savon_response = @savon_response
-						builder.operation      = self
+						builder.savon_response    = @savon_response
+						builder.operation         = self
 					end
 					builder.assign_attributes(builder_response_params)
 					builder.response

@@ -258,7 +258,7 @@ module BrNfe
 				if evento.codigo_orgao.present?
 					evento.codigo_orgao
 				else
-					if gateway.is_a?(BrNfe::Product::Gateway::WebServiceSVAN) && evento.is_a?(BrNfe.cancelamento_product_class)
+					if gateway == :svan && evento.is_a?(BrNfe.cancelamento_product_class)
 						91
 					else
 						"#{evento.chave_nfe}"[0..1]

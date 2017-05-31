@@ -117,10 +117,10 @@ describe BrNfe::Base do
 		end
 	end
 	
-	describe "#wsdl" do
+	describe "#url_wsdl" do
 		it "deve dar um erro por default" do
 			assert_raises RuntimeError do
-				subject.wsdl
+				subject.url_wsdl
 			end
 		end
 	end
@@ -203,76 +203,37 @@ describe BrNfe::Base do
 		end
 	end
 
-	describe "ssl_version" do
-		it "por padrão deve retornar :SSLv3" do
-			subject.ssl_version.must_equal :SSLv3
-		end
-	end
-
-	describe '#ssl_request?' do
-		it "por padrão não deve instanciar o client_wsdl com ssl" do
-			subject.ssl_request?.must_equal false
+	describe '#client_wsdl_params' do
+		it "Deve retornar um hash com algumas configurações padrões para aplciar no client soap" do
+			subject.stubs(:url_wsdl).returns('http://stub.com?wsdl')
+			subject.client_wsdl_params[:wsdl].must_equal             'http://stub.com?wsdl'
+			subject.client_wsdl_params[:log].must_equal              BrNfe.client_wsdl_log
+			subject.client_wsdl_params[:pretty_print_xml].must_equal BrNfe.client_wsdl_pretty_print_xml
+			subject.client_wsdl_params[:ssl_verify_mode].must_equal  :none
 		end
 	end
 
 	describe "#client_wsdl" do
-		it "deve instanciar um Savon.client com a configuração adequada" do
+		it "deve instanciar um Savon.client com os parametros de client_wsdl_params" do
 			# Stub metodos para configuração do client WSDL
-			subject.expects(:wsdl).returns('wsdl')
-			
-			# Ajusto a configuração da gem para testar
-			BrNfe.stubs(:client_wsdl_log).returns('client_wsdl_log')
-			BrNfe.stubs(:client_wsdl_pretty_print_xml).returns('client_wsdl_pretty_print_xml')
-			# Não deve pegar o certificado para configurar o client
-			subject.expects(:ssl_version).never
-			subject.expects(:certificate).never
-			subject.expects(:certificate_key).never
-			subject.expects(:certificate_pkcs12_password).never
+			subject.expects(:client_wsdl_params).returns({
+				wsdl: 'http://stub.com?wsdl',
+				ssl_verify_mode: :none,
+				log: false,
+				ssl_version: :TLSv1,
+				follow_redirects: true,
+				headers: {
+					:'Content-Type' => 'application/soap+xml; charset=utf-8'
+				}
+			})
 
-			subject.instance_variable_get(:@client_wsdl).must_be_nil
-			
 			client_wsdl = subject.client_wsdl
-
-			client_wsdl.globals[:wsdl].must_equal 'wsdl'
-			client_wsdl.globals[:log].must_equal 'client_wsdl_log'
-			client_wsdl.globals[:pretty_print_xml].must_equal 'client_wsdl_pretty_print_xml'
-			client_wsdl.globals[:ssl_verify_mode].must_equal :none
-
-			client_wsdl.globals[:ssl_version].must_be_nil
-			client_wsdl.globals[:ssl_cert].must_be_nil
-			client_wsdl.globals[:ssl_cert_key].must_be_nil
-			client_wsdl.globals[:ssl_cert_key_password].must_be_nil
-
-			subject.instance_variable_get(:@client_wsdl).must_equal client_wsdl
-		end
-
-		it "se ssl_request? for true então deve instanciar um Savon.client com a configuração de SSL" do
-			# Stub metodos para configuração do client WSDL
-			subject.expects(:wsdl).returns('wsdl')
-			
-			# Ajusto a configuração da gem para testar
-			BrNfe.stubs(:client_wsdl_log).returns('client_wsdl_log')
-			BrNfe.stubs(:client_wsdl_pretty_print_xml).returns('client_wsdl_pretty_print_xml')
-			# Não deve pegar o certificado para configurar o client
-			subject.expects(:ssl_version).returns(:TLSv1)
-			subject.expects(:certificate).returns(:certificate)
-			subject.expects(:certificate_key).returns(:certificate_key)
-			subject.expects(:certificate_pkcs12_password).returns(:certificate_pkcs12_password)
-			subject.expects(:ssl_request?).returns(true)
-
-			subject.instance_variable_get(:@client_wsdl).must_be_nil
-			
-			client_wsdl = subject.client_wsdl
-
-			client_wsdl.globals[:wsdl].must_equal 'wsdl'
-			client_wsdl.globals[:log].must_equal 'client_wsdl_log'
-			client_wsdl.globals[:pretty_print_xml].must_equal 'client_wsdl_pretty_print_xml'
-			client_wsdl.globals[:ssl_verify_mode].must_equal :none
-
-			client_wsdl.globals[:ssl_version].must_equal :TLSv1
-			client_wsdl.globals[:ssl_cert].must_equal :certificate
-			client_wsdl.globals[:ssl_cert_key].must_equal :certificate_key
-			client_wsdl.globals[:ssl_cert_key_password].must_equal :certificate_pkcs12_password
+			client_wsdl.globals[:wsdl].must_equal( 'http://stub.com?wsdl' )
+			client_wsdl.globals[:ssl_verify_mode].must_equal( :none )
+			client_wsdl.globals[:log].must_equal( false )
+			client_wsdl.globals[:ssl_version].must_equal( :TLSv1 )
+			client_wsdl.globals[:follow_redirects].must_equal( true )
+			client_wsdl.globals[:headers].must_equal( {:'Content-Type' => 'application/soap+xml; charset=utf-8'} )
 
 			subject.instance_variable_get(:@client_wsdl).must_equal client_wsdl
 		end

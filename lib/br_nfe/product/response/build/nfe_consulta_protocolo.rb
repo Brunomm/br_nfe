@@ -5,6 +5,17 @@ module BrNfe
 		module Response
 			module Build
 				class NfeConsultaProtocolo < Base
+					def paths
+						operation.gateway_settings[:xml_paths][:consulta_protocolo][:return_paths]
+					end
+
+					def evento_request_paths
+						nfe_settings[:evento_request_paths]
+					end
+					def evento_return_paths
+						nfe_settings[:evento_return_paths]
+					end
+
 					# Responsável por definir qual classe será instânciada para
 					# setar os valores de retorno referentes a cada operação.
 					#
@@ -21,19 +32,16 @@ module BrNfe
 					#
 					def specific_attributes
 						attrs = {
-							environment:              body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:tpAmb',    nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							app_version:              body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:verAplic', nf: nf_xmlns, ret: url_xmlns_retorno).text,
-							processed_at:             request_processed_at,
-							processing_status_code:   get_processing_status_code,
-							processing_status_motive: get_processing_status_motive,
+							environment:              body_xml.xpath( paths[:environment],              paths[:namespaces]).text,
+							app_version:              body_xml.xpath( paths[:app_version],              paths[:namespaces]).text,
+							processed_at:             body_xml.xpath( paths[:processed_at],             paths[:namespaces]).text,
+							processing_status_code:   body_xml.xpath( paths[:processing_status_code],   paths[:namespaces]).text,
+							processing_status_motive: body_xml.xpath( paths[:processing_status_motive], paths[:namespaces]).text,
+							vers:                     xml_version
 						}
-
 						set_events!( attrs )
-
 						attrs[:nota_fiscal] = build_invoice_by_prot_nfe( prot_nfe_doc ) if prot_nfe_doc
-
 						set_invoice_situation!( attrs )
-
 						attrs
 					end
 
@@ -41,19 +49,9 @@ module BrNfe
 
 					def prot_nfe_doc
 						return @prot_nfe_doc if @prot_nfe_doc
-						if prot_nfe = body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:protNFe', nf: nf_xmlns, ret: url_xmlns_retorno).first
+						if prot_nfe = body_xml.xpath( paths[:prot_nfe], paths[:namespaces] ).first
 							@prot_nfe_doc = parse_nokogiri_xml( prot_nfe.to_xml )
 						end
-					end
-
-					def request_processed_at
-						@request_processed_at ||= body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:dhRecbto', nf: nf_xmlns, ret: url_xmlns_retorno).text
-					end
-					def get_processing_status_code
-						@get_processing_status_code ||= body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:cStat',    nf: nf_xmlns, ret: url_xmlns_retorno).text
-					end
-					def get_processing_status_motive
-						@get_processing_status_motive ||= body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:xMotivo',  nf: nf_xmlns, ret: url_xmlns_retorno).text
 					end
 
 					# Responsável por instanciar e setar os eventos através do XML
@@ -62,7 +60,7 @@ module BrNfe
 					#
 					def set_events! attrs
 						attrs[:events] = []
-						body_xml.xpath('//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:procEventoNFe', nf: nf_xmlns, ret: url_xmlns_retorno).each do |event_node|
+						body_xml.xpath( paths[:proc_evento_nfe], paths[:namespaces]).each do |event_node|
 							doc_evento = parse_nokogiri_xml( event_node.to_xml )
 							attrs[:events] << build_event_by_xml( doc_evento )
 						end
@@ -93,25 +91,24 @@ module BrNfe
 						doc_evento.remove_namespaces!
 
 						BrNfe::Product::Response::Event.new do |event|
-							event.codigo_orgao       = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/cOrgao').text
-							event.status_code        = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/cStat').text
-							event.status_motive      = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/xMotivo').text
-							event.code               = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/tpEvento').text
-							event.sequence           = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/nSeqEvento').text.to_i
-							
-							if doc_evento.xpath('//procEventoNFe/retEvento/infEvento/CNPJDest').present?
-								event.cpf_cnpj_destino   = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/CNPJDest').text
+							event.codigo_orgao       = doc_evento.xpath( evento_return_paths[:codigo_orgao] ).text
+							event.status_code        = doc_evento.xpath( evento_return_paths[:status_code] ).text
+							event.status_motive      = doc_evento.xpath( evento_return_paths[:status_motive] ).text
+							event.code               = doc_evento.xpath( evento_return_paths[:code] ).text
+							event.sequence           = doc_evento.xpath( evento_return_paths[:sequence] ).text.to_i
+							event.registred_at       = doc_evento.xpath( evento_return_paths[:registred_at] ).text
+							event.ret_event_protocol = doc_evento.xpath( evento_return_paths[:ret_event_protocol] ).text
+							if doc_evento.xpath(evento_return_paths[:cnpj_destino]).present?
+								event.cpf_cnpj_destino   = doc_evento.xpath(evento_return_paths[:cnpj_destino]).text
 							else
-								event.cpf_cnpj_destino   = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/CPFDest').text
+								event.cpf_cnpj_destino   = doc_evento.xpath(evento_return_paths[:cpf_destino]).text
 							end
-							
-							event.sent_at            = doc_evento.xpath('//procEventoNFe/evento/infEvento/dhEvento').text
-							event.registred_at       = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/dhRegEvento').text
-							event.event_protocol     = doc_evento.xpath('//procEventoNFe/evento/infEvento/detEvento/nProt').text
-							event.ret_event_protocol = doc_evento.xpath('//procEventoNFe/retEvento/infEvento/nProt').text
-							event.description        = doc_evento.xpath('//procEventoNFe/evento/infEvento/detEvento/descEvento').text
-							event.justification      = doc_evento.xpath('//procEventoNFe/evento/infEvento/detEvento/xJust').text
-							event.correction_text    = doc_evento.xpath('//procEventoNFe/evento/infEvento/detEvento/xCorrecao').text
+
+							event.sent_at            = doc_evento.xpath( evento_request_paths[:sent_at] ).text
+							event.event_protocol     = doc_evento.xpath( evento_request_paths[:event_protocol] ).text
+							event.description        = doc_evento.xpath( evento_request_paths[:description] ).text
+							event.justification      = doc_evento.xpath( evento_request_paths[:justification] ).text
+							event.correction_text    = doc_evento.xpath( evento_request_paths[:correction_text] ).text
 							event.xml                = '<?xml version="1.0" encoding="UTF-8"?>'+canonicalize( doc_evento_with_namespaces.to_xml )
 						end
 					end

@@ -22,8 +22,8 @@ Gem::Specification.new do |gem|
 	gem.required_ruby_version = ['~> 2.1', '~> 2.2', '~> 2.3']
 
 	gem.add_dependency "rake", '~> 10'
-	gem.add_dependency "activesupport", '~> 4'
-	gem.add_dependency "activemodel",   '~> 4'
+	gem.add_dependency "activesupport", '~> 4.2'
+	gem.add_dependency "activemodel",   '~> 4.2'
 	gem.add_dependency "nokogiri", "~> 1.6"
 	gem.add_dependency "savon", "~> 2.11"
 	gem.add_dependency "signer", "~> 1.4"

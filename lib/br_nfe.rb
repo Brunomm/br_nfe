@@ -360,11 +360,19 @@ module BrNfe
 		mattr_accessor :transportador_product_class
 		@@transportador_product_class = BrNfe::Product::Nfe::Transporte::Transportador
 		
+		def self.load_settings
+			settings = {}
+			Dir[BrNfe.root+'/lib/config/settings/**/*.{yml}'].each do |file_path|
+				settings.deep_merge! YAML.load(File.open(file_path)).deep_symbolize_keys!
+			end
+			settings
+		end
+		mattr_accessor :settings
+		@@settings = BrNfe.load_settings
 	
 	def self.setup
 		yield self
 	end
-
 	######################### END CONFIGURAÇÕES #########################
 
 	include Helper

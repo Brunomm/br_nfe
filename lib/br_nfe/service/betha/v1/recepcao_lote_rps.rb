@@ -9,7 +9,7 @@ module BrNfe
 						true
 					end
 
-					def wsdl
+					def url_wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/recepcionarLoteRps?wsdl"
 					end
 					def method_wsdl

@@ -1,0 +1,804 @@
+nfe:
+  v3_10:
+    gateway:
+      am:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/NfeStatusServico2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/NfeStatusServico2?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/NfeAutorizacao?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/NfeAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/NfeConsulta2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/NfeConsulta2?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.am.gov.br/services2/services/RecepcaoEvento?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homnfe.sefaz.am.gov.br/services2/services/RecepcaoEvento?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      ba:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/NfeStatusServico/NfeStatusServico.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/NfeStatusServico/NfeStatusServico.asmx?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/NfeConsulta/NfeConsulta.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/NfeConsulta/NfeConsulta.asmx?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/NfeInutilizacao/NfeInutilizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/NfeInutilizacao/NfeInutilizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.ba.gov.br/webservices/sre/recepcaoevento.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.sefaz.ba.gov.br/webservices/sre/recepcaoevento.asmx?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      ce:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://nfe.sefaz.ce.gov.br/nfe2/services/NfeDownloadNF?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://nfeh.sefaz.ce.gov.br/nfe2/services/NfeDownloadNF?wsdl'
+              ssl_version: :TLSv1
+      go:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl'
+              ssl_version: :TLSv1
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl'
+              ssl_version: :TLSv1
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+            test:
+              wsdl: 'https://homolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+              follow_redirects: true
+              headers:
+                Content-Type: 'application/soap+xml; charset=utf-8'
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      mg:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/NfeStatus2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NfeStatus2?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/NfeAutorizacao?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NfeAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/NfeConsulta2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NfeConsulta2?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.fazenda.mg.gov.br/nfe2/services/RecepcaoEvento?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/RecepcaoEvento?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      ms:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.fazenda.ms.gov.br/producao/services2/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.ms.gov.br/homologacao/services2/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      mt:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/NfeStatusServico2?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/NfeAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/NfeConsulta2?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/NfeInutilizacao2?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.mt.gov.br/nfews/v2/services/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.sefaz.mt.gov.br/nfews/v2/services/RecepcaoEvento?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      pe:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/NfeStatusServico2?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/NfeAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/NfeRetAutorizacao?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/NfeConsulta2?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/NfeInutilizacao2?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefaz.pe.gov.br/nfe-service/services/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfehomolog.sefaz.pe.gov.br/nfe-service/services/RecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      pr:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeStatusServico3?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeStatusServico3?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeAutorizacao3?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeAutorizacao3?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeRetAutorizacao3?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeRetAutorizacao3?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeConsulta3?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeConsulta3?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeInutilizacao3?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeInutilizacao3?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.fazenda.pr.gov.br/nfe/NFeRecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.pr.gov.br/nfe/NFeRecepcaoEvento?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      rs:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.sefazrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      sp:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/nfestatusservico2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nfestatusservico2.asmx?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/nfeautorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nfeautorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/nferetautorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nferetautorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/nfeconsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nfeconsulta2.asmx?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.fazenda.sp.gov.br/ws/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://homologacao.nfe.fazenda.sp.gov.br/ws/recepcaoevento.asmx?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      svan:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeStatusServico2/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeStatusServico2/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeConsulta2/NfeConsulta2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeConsulta2/NfeConsulta2.asmx?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeInutilizacao2/NfeInutilizacao2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeInutilizacao2/NfeInutilizacao2.asmx?wsdl'
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/RecepcaoEvento/RecepcaoEvento.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/RecepcaoEvento/RecepcaoEvento.asmx?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.sefazvirtual.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.sefazvirtual.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      svc_an:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://www.svc.fazenda.gov.br/NfeStatusServico2/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.svc.fazenda.gov.br/NfeStatusServico2/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :TLSv1
+          autorizacao:
+            production:
+              wsdl: 'https://www.svc.fazenda.gov.br/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.svc.fazenda.gov.br/NfeAutorizacao/NfeAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://www.svc.fazenda.gov.br/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.svc.fazenda.gov.br/NfeRetAutorizacao/NfeRetAutorizacao.asmx?wsdl'
+              ssl_version: :TLSv1
+          consulta_protocolo:
+            production:
+              wsdl: 'https://www.svc.fazenda.gov.br/NfeConsulta2/NfeConsulta2.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.svc.fazenda.gov.br/NfeConsulta2/NfeConsulta2.asmx?wsdl'
+              ssl_version: :TLSv1
+          inutilizacao:
+            production:
+              wsdl: ''
+              ssl_version: :TLSv1
+            test:
+              wsdl: ''
+              ssl_version: :TLSv1
+          recepcao_evento:
+            production:
+              wsdl: 'https://www.svc.fazenda.gov.br/RecepcaoEvento/RecepcaoEvento.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.svc.fazenda.gov.br/RecepcaoEvento/RecepcaoEvento.asmx?wsdl'
+              ssl_version: :TLSv1
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      svc_rs:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: ''
+              ssl_version: :SSLv3
+            test:
+              wsdl: ''
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+      svrs:
+        soap_client:
+          status_servico:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico2.asmx?wsdl'
+              ssl_version: :SSLv3
+          autorizacao:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          retorno_autorizacao:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao.asmx?wsdl'
+              ssl_version: :SSLv3
+          consulta_protocolo:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta2.asmx?wsdl'
+              ssl_version: :SSLv3
+          inutilizacao:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao2.asmx?wsdl'
+              ssl_version: :SSLv3
+          recepcao_evento:
+            production:
+              wsdl: 'https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+            test:
+              wsdl: 'https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento.asmx?wsdl'
+              ssl_version: :SSLv3
+          download_nf:
+            production:
+              wsdl: 'https://www.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1
+            test:
+              wsdl: 'https://hom.nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx?wsdl'
+              ssl_version: :TLSv1

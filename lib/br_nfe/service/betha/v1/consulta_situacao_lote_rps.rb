@@ -3,7 +3,7 @@ module BrNfe
 		module Betha
 			module V1
 				class ConsultaSituacaoLoteRps < BrNfe::Service::Betha::V1::ConsultaLoteRps
-					def wsdl
+					def url_wsdl
 						"http://e-gov.betha.com.br/e-nota-contribuinte-#{'test-' if env == :test}ws/consultarSituacaoLoteRps?wsdl"
 					end
 

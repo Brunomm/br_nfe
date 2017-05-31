@@ -1,0 +1,843 @@
+default_operation_status_servico: &default_operation_status_servico
+  operation_method: :nfe_status_servico_nf2
+  xml_version: :v3_10
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2'
+
+default_operation_autorizacao: &default_operation_autorizacao
+  operation_method: :nfe_autorizacao_lote
+  xml_version: :v3_10
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao'
+
+default_operation_retorno_autorizacao: &default_operation_retorno_autorizacao
+  operation_method: :nfe_ret_autorizacao_lote
+  xml_version: :v3_10
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao'
+
+default_operation_consulta_protocolo: &default_operation_consulta_protocolo
+  operation_method: :nfe_consulta_nf2
+  xml_version: :v3_10
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta2'
+
+default_operation_inutilizacao: &default_operation_inutilizacao
+  operation_method: :nfe_inutilizacao_nf2
+  xml_version: :v3_10
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao2'
+
+default_operation_recepcao_evento: &default_operation_recepcao_evento
+  operation_method: :nfe_recepcao_evento
+  xml_version: :v1_00
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento'
+
+default_operation_download_nf: &default_operation_download_nf
+  operation_method: :nfe_download_nf
+  xml_version: :v1_00
+  url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF'
+
+soap_envelope_config: &soap_envelope_config
+  xmlns_soap: 'http://www.w3.org/2003/05/soap-envelope'
+
+nfe:
+  v3_10:
+    gateway:
+      am:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      ba:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              operation_method: :nfe_status_servico_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico'
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              operation_method: :nfe_status_servico_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico'
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+              operation_method: :nfe_consulta_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta'
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+              operation_method: :nfe_consulta_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta'
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_inutilizacao_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao'
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_inutilizacao_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao'
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      ce:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      go:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      mg:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      ms:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      mt:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              xmlns_soap: 'http://schemas.xmlsoap.org/soap/envelope/'
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              xmlns_soap: 'http://schemas.xmlsoap.org/soap/envelope/'
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+              xml_version: :v2_00
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      pe:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      pr:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              operation_method: :nfe_status_servico_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3'
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+              operation_method: :nfe_status_servico_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico3'
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3'
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3'
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_ret_autorizacao
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3'
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_ret_autorizacao
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3'
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+              operation_method: :nfe_consulta_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3'
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+              operation_method: :nfe_consulta_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta3'
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_inutilizacao_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao3'
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+              operation_method: :nfe_inutilizacao_nf
+              url_xmlns: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao3'
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      rs:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      sp:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      svan:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      svc_an:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              operation_method: null
+              xml_version: null
+              url_xmlns: null
+            test:
+              operation_method: null
+              xml_version: null
+              url_xmlns: null
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      svc_rs:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              operation_method: null
+              xml_version: null
+              url_xmlns: null
+            test:
+              operation_method: null
+              xml_version: null
+              url_xmlns: null
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+      svrs:
+        operation:
+          status_servico:
+            production:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_status_servico
+              <<: *soap_envelope_config
+          autorizacao:
+            production:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_autorizacao
+              <<: *soap_envelope_config
+          retorno_autorizacao:
+            production:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_retorno_autorizacao
+              <<: *soap_envelope_config
+          consulta_protocolo:
+            production:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_consulta_protocolo
+              <<: *soap_envelope_config
+          inutilizacao:
+            production:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_inutilizacao
+              <<: *soap_envelope_config
+          recepcao_evento:
+            production:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_recepcao_evento
+              <<: *soap_envelope_config
+          download_nf:
+            production:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
+            test:
+              <<: *default_operation_download_nf
+              <<: *soap_envelope_config
