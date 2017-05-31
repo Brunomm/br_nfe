@@ -218,7 +218,7 @@ describe BrNfe::Product::Operation::NfeStatusServico do
 					client_wsdl.globals[:ssl_verify_mode].must_equal :none
 					client_wsdl.globals[:ssl_version].must_equal :TLSv1
 					client_wsdl.globals[:follow_redirects].must_equal true
-					client_wsdl.globals[:headers].must_equal( {'Content-Type': 'application/soap+xml; charset=utf-8'} )
+					client_wsdl.globals[:headers].must_equal( {:'Content-Type' => 'application/soap+xml; charset=utf-8'} )
 				end
 				it "configurações para e emissão normal no ambiente de teste" do
 					subject.env = :test
@@ -226,7 +226,7 @@ describe BrNfe::Product::Operation::NfeStatusServico do
 					client_wsdl.globals[:ssl_verify_mode].must_equal :none
 					client_wsdl.globals[:ssl_version].must_equal :TLSv1
 					client_wsdl.globals[:follow_redirects].must_equal true
-					client_wsdl.globals[:headers].must_equal( {'Content-Type': 'application/soap+xml; charset=utf-8'} )
+					client_wsdl.globals[:headers].must_equal( {:'Content-Type' => 'application/soap+xml; charset=utf-8'} )
 				end
 				it "Deve usar o servidor SVCAN para emissão em Contingência" do
 					must_use_SVCRS_for_SVC_mode
