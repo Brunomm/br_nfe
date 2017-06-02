@@ -65,8 +65,8 @@ module BrNfe
 				alias_attribute :evento_nProt, :event_protocol
 
 				# NÚMERO DO PROTOCOLO DE AUTORIZAÇÃO DO EVENTO
-				attr_accessor :ret_event_protocol
-				alias_attribute :retEvento_nProt, :ret_event_protocol
+				attr_accessor :authorization_protocol
+				alias_attribute :retEvento_nProt, :authorization_protocol
 
 				# DESCRIÇÃO DO EVENTO
 				attr_accessor :description
@@ -83,6 +83,27 @@ module BrNfe
 
 				# XML DO EVENTO
 				attr_accessor :xml
+
+				def success?
+					"#{status_code}".strip.in? BrNfe::Constants::NFE_STATUS_SUCCESS
+				end
+
+				def status
+					success? ? :success : :error
+				end
+
+				def event_type
+					case code
+					when '110111'
+						:cancellation
+					when '110110'
+						:correction
+					when '110140'
+						:epec
+					else
+						:recipient_manifestation
+					end
+				end
 			end
 		end
 	end

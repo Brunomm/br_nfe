@@ -91,13 +91,13 @@ module BrNfe
 						doc_evento.remove_namespaces!
 
 						BrNfe::Product::Response::Event.new do |event|
-							event.codigo_orgao       = doc_evento.xpath( evento_return_paths[:codigo_orgao] ).text
-							event.status_code        = doc_evento.xpath( evento_return_paths[:status_code] ).text
-							event.status_motive      = doc_evento.xpath( evento_return_paths[:status_motive] ).text
-							event.code               = doc_evento.xpath( evento_return_paths[:code] ).text
-							event.sequence           = doc_evento.xpath( evento_return_paths[:sequence] ).text.to_i
-							event.registred_at       = doc_evento.xpath( evento_return_paths[:registred_at] ).text
-							event.ret_event_protocol = doc_evento.xpath( evento_return_paths[:ret_event_protocol] ).text
+							event.codigo_orgao           = doc_evento.xpath( evento_return_paths[:codigo_orgao] ).text
+							event.status_code            = doc_evento.xpath( evento_return_paths[:status_code] ).text
+							event.status_motive          = doc_evento.xpath( evento_return_paths[:status_motive] ).text
+							event.code                   = doc_evento.xpath( evento_return_paths[:code] ).text
+							event.sequence               = doc_evento.xpath( evento_return_paths[:sequence] ).text.to_i
+							event.registred_at           = doc_evento.xpath( evento_return_paths[:registred_at] ).text
+							event.authorization_protocol = doc_evento.xpath( evento_return_paths[:authorization_protocol] ).text
 							if doc_evento.xpath(evento_return_paths[:cnpj_destino]).present?
 								event.cpf_cnpj_destino   = doc_evento.xpath(evento_return_paths[:cnpj_destino]).text
 							else

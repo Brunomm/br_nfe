@@ -11,14 +11,14 @@
       <retEnvEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
         <idLote>1</idLote>
         <tpAmb>2</tpAmb>
-        <verAplic>SVRS201601161016</verAplic>
+        <verAplic>SVRS201601161025</verAplic>
         <cOrgao>42</cOrgao>
         <cStat>128</cStat>
         <xMotivo>Lote de Evento Processado</xMotivo>
         <retEvento versao="1.00">
           <infEvento>
             <tpAmb>2</tpAmb>
-            <verAplic>SVRS201601161016</verAplic>
+            <verAplic>SVRS202501161025</verAplic>
             <cOrgao>42</cOrgao>
             <cStat>501</cStat>
             <xMotivo>Rejeicao: Prazo de Cancelamento Superior ao Previsto na Legislacao</xMotivo>

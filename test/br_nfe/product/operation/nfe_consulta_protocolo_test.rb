@@ -158,7 +158,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				event.sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				event.registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				event.event_protocol.must_equal ''
-				event.ret_event_protocol.must_equal '135140000457555'
+				event.authorization_protocol.must_equal '135140000457555'
 				event.xml.must_equal read_fixture('product/response/v3.10/nfe_consulta_protocolo/event_xml/one_event.xml')
 
 				nf = response.nota_fiscal
@@ -201,7 +201,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[0].sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				events[0].registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				events[0].event_protocol.must_equal ''
-				events[0].ret_event_protocol.must_equal '135140000457555'
+				events[0].authorization_protocol.must_equal '135140000457555'
 				events[0].description.must_equal 'Carta de Correcao'
 				events[0].justification.must_equal ''
 				events[0].correction_text.must_equal 'teste de consulta de nfe corrigida primeira coorecao para consulta de nota'
@@ -216,7 +216,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[1].sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				events[1].registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				events[1].event_protocol.must_equal ''
-				events[1].ret_event_protocol.must_equal '135140000457416'
+				events[1].authorization_protocol.must_equal '135140000457416'
 				events[1].description.must_equal 'Carta de Correcao'
 				events[1].justification.must_equal ''
 				events[1].correction_text.must_equal 'teste de consulta de nfe corrigida segunda coorecao para consulta de nota'
@@ -231,7 +231,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[2].sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				events[2].registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				events[2].event_protocol.must_equal ''
-				events[2].ret_event_protocol.must_equal '135140000457417'
+				events[2].authorization_protocol.must_equal '135140000457417'
 				events[2].description.must_equal 'Carta de Correcao'
 				events[2].justification.must_equal ''
 				events[2].correction_text.must_equal 'teste de consulta de nfe corrigida terceiro coorecao para consulta de nota'
@@ -277,7 +277,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[0].sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				events[0].registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				events[0].event_protocol.must_equal ''
-				events[0].ret_event_protocol.must_equal '135140000457555'
+				events[0].authorization_protocol.must_equal '135140000457555'
 				events[0].description.must_equal 'Carta de Correcao'
 				events[0].justification.must_equal ''
 				events[0].correction_text.must_equal 'teste de consulta de nfe corrigida primeira coorecao para consulta de nota'
@@ -292,7 +292,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[2].sent_at.must_equal Time.parse('2014-02-05T16:06:30-02:00')
 				events[2].registred_at.must_equal Time.parse('2014-02-05T16:06:32-02:00')
 				events[2].event_protocol.must_equal ''
-				events[2].ret_event_protocol.must_equal '135140000457416'
+				events[2].authorization_protocol.must_equal '135140000457416'
 				events[2].description.must_equal 'Carta de Correcao'
 				events[2].justification.must_equal ''
 				events[2].correction_text.must_equal 'teste de consulta de nfe corrigida segunda coorecao para consulta de nota'
@@ -308,7 +308,7 @@ describe BrNfe::Product::Operation::NfeConsultaProtocolo do
 				events[1].sent_at.must_equal Time.parse('2017-01-03T08:54:58-02:00')
 				events[1].registred_at.must_equal Time.parse('2017-01-03T08:55:05-02:00')
 				events[1].event_protocol.must_equal '342170000000903'
-				events[1].ret_event_protocol.must_equal '342170000000906'
+				events[1].authorization_protocol.must_equal '342170000000906'
 				events[1].description.must_equal 'Cancelamento'
 				events[1].justification.must_equal 'Cancelamento para teste'
 				events[1].correction_text.must_equal ''

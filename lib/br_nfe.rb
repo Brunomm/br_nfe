@@ -200,25 +200,6 @@ module BrNfe
 				autoload :IcmsUfDestino
 			end
 		end
-		module Gateway
-			extend ActiveSupport::Autoload
-			autoload :Base
-			autoload :WebServiceAM
-			autoload :WebServiceBA
-			autoload :WebServiceCE
-			autoload :WebServiceGO
-			autoload :WebServiceMG
-			autoload :WebServiceMS
-			autoload :WebServiceMT
-			autoload :WebServicePE
-			autoload :WebServicePR
-			autoload :WebServiceRS
-			autoload :WebServiceSP
-			autoload :WebServiceSVAN
-			autoload :WebServiceSvcAN
-			autoload :WebServiceSvcRS
-			autoload :WebServiceSVRS
-		end
 
 		module Evento
 			extend ActiveSupport::Autoload
@@ -250,6 +231,7 @@ module BrNfe
 			autoload :NfeConsultaProtocolo
 			autoload :NfeInutilizacao
 			autoload :NfeStatusServico
+			autoload :NfeRecepcaoEvento
 			autoload :Event
 			module Build
 				extend ActiveSupport::Autoload
@@ -259,6 +241,7 @@ module BrNfe
 				autoload :NfeConsultaProtocolo
 				autoload :NfeInutilizacao
 				autoload :NfeStatusServico
+				autoload :NfeRecepcaoEvento
 			end
 		end
 	end

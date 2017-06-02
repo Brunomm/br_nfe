@@ -39,6 +39,10 @@ module BrNfe
 				def xml_builder
 					@xml_builder ||= render_xml 'root/NfeRecepcaoEvento'
 				end
+
+				def response_class_builder
+					BrNfe::Product::Response::Build::NfeRecepcaoEvento
+				end
 			end
 		end
 	end

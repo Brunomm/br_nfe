@@ -82,6 +82,28 @@ default_return_inutilizacao: &default_return_inutilizacao
   start_invoice_number:     '//infInut/nNFIni'
   end_invoice_number:       '//infInut/nNFFin'
 
+default_return_recepcao_evento: &default_return_recepcao_evento
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento'
+  ret_env_evento:           '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento'
+  ret_evento_without_namespaces: '//retEnvEvento/retEvento'
+  environment:              '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:tpAmb'
+  app_version:              '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:verAplic'
+  processed_at:             '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:dhRecbto'
+  processing_status_code:   '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:cStat'
+  processing_status_motive: '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:xMotivo'
+  codigo_orgao:             '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:cOrgao'
+  info_event_codigo_orgao:           '//retEvento/infEvento/cOrgao'
+  info_event_status_code:            '//retEvento/infEvento/cStat'
+  info_event_status_motive:          '//retEvento/infEvento/xMotivo'
+  info_event_code:                   '//retEvento/infEvento/tpEvento'
+  info_event_sequence:               '//retEvento/infEvento/nSeqEvento'
+  info_event_cnpj_destino:           '//retEvento/infEvento/CNPJDest'
+  info_event_cpf_destino:            '//retEvento/infEvento/CPFDest'
+  info_event_registred_at:           '//retEvento/infEvento/dhRegEvento'
+  info_event_authorization_protocol: '//retEvento/infEvento/nProt'
+
 nfe:
   v3_10:
     prot_nfe_paths:
@@ -98,15 +120,15 @@ nfe:
       justification:   '//procEventoNFe/evento/infEvento/detEvento/xJust'
       correction_text: '//procEventoNFe/evento/infEvento/detEvento/xCorrecao'
     evento_return_paths:
-      codigo_orgao:       '//procEventoNFe/retEvento/infEvento/cOrgao'
-      status_code:        '//procEventoNFe/retEvento/infEvento/cStat'
-      status_motive:      '//procEventoNFe/retEvento/infEvento/xMotivo'
-      code:               '//procEventoNFe/retEvento/infEvento/tpEvento'
-      sequence:           '//procEventoNFe/retEvento/infEvento/nSeqEvento'
-      cnpj_destino:       '//procEventoNFe/retEvento/infEvento/CNPJDest'
-      cpf_destino:        '//procEventoNFe/retEvento/infEvento/CPFDest'
-      registred_at:       '//procEventoNFe/retEvento/infEvento/dhRegEvento'
-      ret_event_protocol: '//procEventoNFe/retEvento/infEvento/nProt'
+      codigo_orgao:           '//procEventoNFe/retEvento/infEvento/cOrgao'
+      status_code:            '//procEventoNFe/retEvento/infEvento/cStat'
+      status_motive:          '//procEventoNFe/retEvento/infEvento/xMotivo'
+      code:                   '//procEventoNFe/retEvento/infEvento/tpEvento'
+      sequence:               '//procEventoNFe/retEvento/infEvento/nSeqEvento'
+      cnpj_destino:           '//procEventoNFe/retEvento/infEvento/CNPJDest'
+      cpf_destino:            '//procEventoNFe/retEvento/infEvento/CPFDest'
+      registred_at:           '//procEventoNFe/retEvento/infEvento/dhRegEvento'
+      authorization_protocol: '//procEventoNFe/retEvento/infEvento/nProt'
     gateway:
       am:
         xml_paths:
@@ -133,6 +155,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -161,6 +184,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -189,6 +213,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -217,6 +242,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -245,6 +271,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -273,6 +300,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -305,6 +333,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -333,6 +362,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -367,6 +397,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -395,6 +426,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -423,6 +455,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -451,6 +484,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -479,6 +513,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -507,6 +542,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return
@@ -535,6 +571,7 @@ nfe:
           recepcao_evento:
             return_paths:
               <<: *default_return
+              <<: *default_return_recepcao_evento
           download_nf:
             return_paths:
               <<: *default_return

@@ -3,7 +3,7 @@ module BrNfe
 		module Response
 			class Base < BrNfe::ActiveModelBase
 
-				# XML ORIGINAL ENVIADO PELA SEFAZ
+				# XML ORIGINAL RECEBIDO DA SEFAZ
 				attr_accessor :soap_xml
 
 				# AMBIENTE DO PROCESSAMENTO
