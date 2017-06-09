@@ -27,6 +27,9 @@ module BrNfe
 				@indicador_ie ||= capture_indicador_ie
 				@indicador_ie.to_i
 			end
+			
+			attr_accessor :suframa
+
 			validate :validar_endereco
 
 			validates :indicador_ie, inclusion: {in: [1,2,9]}

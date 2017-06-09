@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="3.10">
+	<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+		<infNFe  Id="NFe42170611111111111111550010000000181201601017" versao="3.10">
+			<ide>
+				<cUF>42</cUF>
+				<cNF>20160101</cNF>
+				<natOp>Venda</natOp>
+				<indPag>0</indPag>
+				<mod>55</mod>
+				<serie>1</serie>
+				<nNF>18</nNF>
+				<dhEmi>2017-06-06T09:11:39-03:00</dhEmi>
+				<dhSaiEnt>2017-06-06T09:11:39-03:10</dhSaiEnt>
+				<tpNF>1</tpNF>
+				<idDest>2</idDest>
+				<cMunFG>4204202</cMunFG>
+				<tpImp>1</tpImp>
+				<tpEmis>1</tpEmis>
+				<cDV>7</cDV>
+				<tpAmb>2</tpAmb>
+				<finNFe>2</finNFe>
+				<indFinal>1</indFinal>
+				<indPres>9</indPres>
+				<procEmi>0</procEmi>
+				<verProc>0</verProc>
+			</ide>
+			<emit>
+				<CNPJ>85525646000145</CNPJ>
+				<xNome>DIGBOX COMERCIO DE SISTEMAS PARA AUTOMACAO RESIDENCIAL LTDA</xNome>
+				<xFant>DIGBOX</xFant>
+				<enderEmit>
+					<xLgr>AV. GETULIO VARGAS - N</xLgr>
+					<nro>333</nro>
+					<xBairro>LIDER</xBairro>
+					<cMun>4204202</cMun>
+					<xMun>CHAPECO</xMun>
+					<UF>SC</UF>
+					<CEP>89805045</CEP>
+					<fone>4933124411</fone>
+				</enderEmit>
+				<IE>255422470</IE>
+				<IM>326070</IM>
+				<CRT>1</CRT>
+			</emit>
+			<dest>
+				<CNPJ>22174841509</CNPJ>
+				<xNome>NINA CLARICE</xNome>
+				<enderDest>
+					<xLgr>RUA BENTO T DA ROCHA</xLgr>
+					<nro>311</nro>
+					<xCpl>LETRA E</xCpl>
+					<xBairro>VILA NOVA</xBairro>
+					<cMun>4209102</cMun>
+					<xMun>JOINVILLE</xMun>
+					<UF>SC</UF>
+					<CEP>89237100</CEP>
+					<fone>4732781411</fone>
+				</enderDest>
+				<indIEDest>9</indIEDest>
+				<email>almoxarifado@ninakaique.com.br</email>
+			</dest>
+			<retirada>
+				<CNPJ>23020443000140</CNPJ>
+				<xLgr>RUA AFONSO PENA - D</xLgr>
+				<nro>420</nro>
+				<xCpl>D</xCpl>
+				<xBairro>SAO CRISTOVAO</xBairro>
+				<cMun>4204202</cMun>
+				<xMun>CHAPECO</xMun>
+				<UF>SC</UF>
+			</retirada>
+			<entrega>
+				<CPF>74604254273</CPF>
+				<xLgr>RUA JUCA BALA</xLgr>
+				<nro>444</nro>
+				<xCpl>D</xCpl>
+				<xBairro>SAO JUCA</xBairro>
+				<cMun>4204204</cMun>
+				<xMun>SAO CARLOS</xMun>
+				<UF>SC</UF>
+			</entrega>
+			<autXML>
+				<CPF>74604254273</CPF>
+			</autXML>
+			<det nItem="1">
+				<prod>
+					<cProd>018-1520</cProd>
+					<cEAN>
+					</cEAN>
+					<xProd>PIX - CABO HDMI 15m 2.0 4K ULTRAHD</xProd>
+					<NCM>85444200</NCM>
+					<NVE>55556</NVE>
+					<NVE>66548</NVE>
+					<CFOP>5101</CFOP>
+					<uCom>PC</uCom>
+					<qCom>1.0000</qCom>
+					<vUnCom>261.2500000000</vUnCom>
+					<vProd>261.25</vProd>
+					<cEANTrib>33546896546321</cEANTrib>
+					<uTrib>PC</uTrib>
+					<qTrib>1.0000</qTrib>
+					<vUnTrib>261.2500000000</vUnTrib>
+					<indTot>1</indTot>
+					<xPed>654879</xPed>
+					<nItemPed>7</nItemPed>
+				</prod>
+				<imposto>
+					<vTotTrib>0.00</vTotTrib>
+					<ICMS>
+						<ICMS00>
+							<orig>0</orig>
+							<CST>00</CST>
+							<modBC>3</modBC>
+							<vBC>264.46</vBC>
+							<pICMS>2.0000</pICMS>
+							<vICMS>5.29</vICMS>
+						</ICMS00>
+					</ICMS>
+					<PIS>
+						<PISQtde>
+							<CST>07</CST>
+						</PISQtde>
+					</PIS>
+					<COFINS>
+						<COFINSAliq>
+							<CST>07</CST>
+						</COFINSAliq>
+					</COFINS>
+					<ICMSUFDest>
+						<vBCUFDest>0.00</vBCUFDest>
+						<pFCPUFDest>0.00</pFCPUFDest>
+						<pICMSUFDest>0.00</pICMSUFDest>
+						<pICMSInter>0.00</pICMSInter>
+						<pICMSInterPart>60.00</pICMSInterPart>
+						<vFCPUFDest>0.00</vFCPUFDest>
+						<vICMSUFDest>0.00</vICMSUFDest>
+						<vICMSUFRemet>0.00</vICMSUFRemet>
+					</ICMSUFDest>
+				</imposto>
+				<impostoDevol>
+					<pDevol>3.0</pDevol>
+					<IPI>
+						<vIPIDevol>1.58</vIPIDevol>
+					</IPI>
+				</impostoDevol>
+				<infAdProd>Info adicionais produto</infAdProd>
+			</det>
+			<total>
+				<ICMSTot>
+					<vBC>1.00</vBC>
+					<vICMS>2.00</vICMS>
+					<vICMSDeson>3.00</vICMSDeson>
+					<vFCPUFDest>4.00</vFCPUFDest>
+					<vICMSUFDest>5.00</vICMSUFDest>
+					<vICMSUFRemet>6.00</vICMSUFRemet>
+					<vBCST>7.00</vBCST>
+					<vST>8.00</vST>
+					<vProd>1800.00</vProd>
+					<vFrete>100.00</vFrete>
+					<vSeg>10.00</vSeg>
+					<vDesc>199.50</vDesc>
+					<vII>1.00</vII>
+					<vIPI>2.00</vIPI>
+					<vPIS>3.00</vPIS>
+					<vCOFINS>4.00</vCOFINS>
+					<vOutro>5.00</vOutro>
+					<vNF>1700.50</vNF>
+					<vTotTrib>157.87</vTotTrib>
+				</ICMSTot>
+				<retTrib>
+					<vRetPIS>50.00</vRetPIS>
+					<vRetCOFINS>51.00</vRetCOFINS>
+					<vRetCSLL>52.00</vRetCSLL>
+					<vBCIRRF>53.00</vBCIRRF>
+					<vIRRF>54.00</vIRRF>
+					<vBCRetPrev>55.00</vBCRetPrev>
+					<vRetPrev>56.00</vRetPrev>
+				</retTrib>
+			</total>
+			<transp>
+				<modFrete>9</modFrete>
+			</transp>
+		</infNFe>
+		<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+			<SignedInfo >
+				<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">
+				</CanonicalizationMethod>
+				<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+				</SignatureMethod>
+				<Reference URI="#NFe42170611111111111111550010000000181201601017">
+					<Transforms>
+						<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
+						</Transform>
+						<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">
+						</Transform>
+					</Transforms>
+					<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">
+					</DigestMethod>
+					<DigestValue>82P5jTpEKwXOkNUXtgYbRLTLlzU=</DigestValue>
+				</Reference>
+			</SignedInfo>
+			<SignatureValue>IFNOKu2kjiTX/egPPXpg9/WQvC4HIloIGkPT==</SignatureValue>
+			<KeyInfo>
+				<X509Data>
+					<X509Certificate>MIIHzzCCBbegAwIBAgIIJcgWBglHL+YwDQYJKoZIhvcNAQE==</X509Certificate>
+				</X509Data>
+			</KeyInfo>
+		</Signature>
+	</NFe>
+	<protNFe versao="3.10">
+		<infProt>
+			<tpAmb>1</tpAmb>
+			<verAplic>SVRS201705291104</verAplic>
+			<chNFe>42170611111111111111550010000000181201601017</chNFe>
+			<dhRecbto>2017-06-02T10:10:07-03:00</dhRecbto>
+			<nProt>342170067070649</nProt>
+			<digVal>2kA5WLPGvBWAruvJmk6HhNxO/vI=</digVal>
+			<cStat>100</cStat>
+			<xMotivo>Autorizado o uso da NF-e</xMotivo>
+		</infProt>
+	</protNFe>
+	<retEnvEvento versao="1.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+		<idLote>1</idLote>
+		<tpAmb>1</tpAmb>
+		<verAplic>SVRS201601161016</verAplic>
+		<cOrgao>42</cOrgao>
+		<cStat>128</cStat>
+		<xMotivo>Lote de Evento Processado</xMotivo>
+		<retEvento versao="1.00">
+			<infEvento>
+				<tpAmb>1</tpAmb>
+				<verAplic>SVRS201601161016</verAplic>
+				<cOrgao>42</cOrgao>
+				<cStat>135</cStat>
+				<xMotivo>Evento registrado e vinculado a NF-e</xMotivo>
+				<chNFe>42170611111111111111550010000000181201601017</chNFe>
+				<tpEvento>110111</tpEvento>
+				<nSeqEvento>1</nSeqEvento>
+				<CNPJDest>18587753000100</CNPJDest>
+				<dhRegEvento>2017-03-24T10:59:56-03:00</dhRegEvento>
+				<nProt>342170035680552</nProt>
+			</infEvento>
+		</retEvento>
+	</retEnvEvento>
+</nfeProc>

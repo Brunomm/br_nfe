@@ -1033,6 +1033,11 @@ module BrNfe
 					end
 				end
 
+			##################################################################################
+			#########################  DADOS SETADOS NA LEITURA DO XML #######################
+				attr_accessor :tipo_ambiente
+				alias_attribute :tbAmb, :tipo_ambiente
+
 			def default_values
 				{
 					versao_aplicativo:   0, 

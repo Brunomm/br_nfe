@@ -15,6 +15,17 @@ module BrNfe
 				# <b>Default: </b> _:normal_
 				#
 				attr_accessor :tipo_emissao
+				def tipo_emissao= value
+					if "#{value}" == '1'
+						@tipo_emissao = :normal 
+					elsif "#{value}" == '9'
+						@tipo_emissao = :offline_nfce
+					elsif "#{value}".in?(%w[6 7])
+						@tipo_emissao = :svc
+					else
+						@tipo_emissao = value
+					end
+				end
 
 				# Informações que devem ser informadas quando a operação for em contingência.
 				#

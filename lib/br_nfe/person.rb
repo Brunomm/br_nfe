@@ -13,6 +13,7 @@ module BrNfe
 		delegate :nome_municipio,  :nome_municipio=,   to: :endereco, prefix: :endereco
 		delegate :codigo_ibge_uf,  :codigo_ibge_uf=,   to: :endereco, prefix: :endereco
 		delegate :codigo_municipio,:codigo_municipio=, to: :endereco, prefix: :endereco
+		delegate :descricao,       :descricao=,        to: :endereco, prefix: :endereco
 		
 		# Obrigatórios
 		attr_accessor :cpf_cnpj

@@ -244,6 +244,17 @@ module BrNfe
 				autoload :NfeRecepcaoEvento
 			end
 		end
+
+		module Reader
+			extend ActiveSupport::Autoload
+			autoload :Nfe			
+			autoload :Emitente
+			autoload :Destinatario
+			autoload :Transporte
+			autoload :EnderecoRetiradaEntrega
+			autoload :Fatura
+			autoload :Item
+		end
 	end
 
 

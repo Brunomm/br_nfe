@@ -34,6 +34,19 @@ module BrNfe
 					attr_accessor :total
 					alias_attribute :vPag, :total
 
+					# TIPO DE INTEGRAÇÃO COM O CARTÃO
+					#   Tipo de Integração do processo de pagamento com o sistema de automação da empresa/ 
+					#   1 = Pagamento integrado com o sistema de automação da empresa Ex. equipamento TEF , Comercio Eletronico 
+					#   2 = Pagamento não integrado com o sistema de automação da empresa Ex: equipamento POS
+					# 
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _Yes_
+					# <b>Exemplo:  </b> _1500.50_
+					# <b>tag:      </b> tpIntegra
+					#
+					attr_accessor :tipo_integracao
+					alias_attribute :tpIntegra, :tipo_integracao
+
 					# CNPJ da Credenciadora de cartão de crédito e/ou débito
 					# Informar o CNPJ da Credenciadora de cartão de crédito / débito
 					# 

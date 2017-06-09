@@ -106,29 +106,6 @@ default_return_recepcao_evento: &default_return_recepcao_evento
 
 nfe:
   v3_10:
-    prot_nfe_paths:
-      processed_at:  '//protNFe/infProt/dhRecbto'
-      protocol:      '//protNFe/infProt/nProt'
-      digest_value:  '//protNFe/infProt/digVal'
-      status_code:   '//protNFe/infProt/cStat'
-      status_motive: '//protNFe/infProt/xMotivo'
-      access_key:    '//protNFe/infProt/chNFe'
-    evento_request_paths:
-      sent_at:         '//procEventoNFe/evento/infEvento/dhEvento'
-      event_protocol:  '//procEventoNFe/evento/infEvento/detEvento/nProt'
-      description:     '//procEventoNFe/evento/infEvento/detEvento/descEvento'
-      justification:   '//procEventoNFe/evento/infEvento/detEvento/xJust'
-      correction_text: '//procEventoNFe/evento/infEvento/detEvento/xCorrecao'
-    evento_return_paths:
-      codigo_orgao:           '//procEventoNFe/retEvento/infEvento/cOrgao'
-      status_code:            '//procEventoNFe/retEvento/infEvento/cStat'
-      status_motive:          '//procEventoNFe/retEvento/infEvento/xMotivo'
-      code:                   '//procEventoNFe/retEvento/infEvento/tpEvento'
-      sequence:               '//procEventoNFe/retEvento/infEvento/nSeqEvento'
-      cnpj_destino:           '//procEventoNFe/retEvento/infEvento/CNPJDest'
-      cpf_destino:            '//procEventoNFe/retEvento/infEvento/CPFDest'
-      registred_at:           '//procEventoNFe/retEvento/infEvento/dhRegEvento'
-      authorization_protocol: '//procEventoNFe/retEvento/infEvento/nProt'
     gateway:
       am:
         xml_paths:
@@ -575,3 +552,26 @@ nfe:
           download_nf:
             return_paths:
               <<: *default_return
+    prot_nfe_paths:
+      processed_at:  '//protNFe/infProt/dhRecbto'
+      protocol:      '//protNFe/infProt/nProt'
+      digest_value:  '//protNFe/infProt/digVal'
+      status_code:   '//protNFe/infProt/cStat'
+      status_motive: '//protNFe/infProt/xMotivo'
+      access_key:    '//protNFe/infProt/chNFe'
+    evento_request_paths:
+      sent_at:         '//procEventoNFe/evento/infEvento/dhEvento'
+      event_protocol:  '//procEventoNFe/evento/infEvento/detEvento/nProt'
+      description:     '//procEventoNFe/evento/infEvento/detEvento/descEvento'
+      justification:   '//procEventoNFe/evento/infEvento/detEvento/xJust'
+      correction_text: '//procEventoNFe/evento/infEvento/detEvento/xCorrecao'
+    evento_return_paths:
+      codigo_orgao:           '//procEventoNFe/retEvento/infEvento/cOrgao'
+      status_code:            '//procEventoNFe/retEvento/infEvento/cStat'
+      status_motive:          '//procEventoNFe/retEvento/infEvento/xMotivo'
+      code:                   '//procEventoNFe/retEvento/infEvento/tpEvento'
+      sequence:               '//procEventoNFe/retEvento/infEvento/nSeqEvento'
+      cnpj_destino:           '//procEventoNFe/retEvento/infEvento/CNPJDest'
+      cpf_destino:            '//procEventoNFe/retEvento/infEvento/CPFDest'
+      registred_at:           '//procEventoNFe/retEvento/infEvento/dhRegEvento'
+      authorization_protocol: '//procEventoNFe/retEvento/infEvento/nProt'

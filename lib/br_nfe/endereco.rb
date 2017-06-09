@@ -20,6 +20,10 @@ module BrNfe
 		attr_accessor :codigo_pais # defaul: 1058 (Brasil)
 		attr_accessor :nome_pais   # defaul: BRASIL
 
+		# Descrição do endereço. Utilizado para a leitura da NF-e quando a pessoa 
+		# possui um unico campo com todos os dados do endereço
+		attr_accessor :descricao
+
 		# Código IBGE do Estado (UF)
 		# Caso não seja setado um valor no atributo, irá pegar os primeiros 2
 		# dígitos do código IBGE do município.
