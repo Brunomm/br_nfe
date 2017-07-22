@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    br_nfe (2.2.0)
+    br_nfe (2.3.0)
       activemodel (~> 4.2)
       activesupport (~> 4.2)
       nokogiri (~> 1.6)
@@ -203,4 +203,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.11.2
+   1.15.1
