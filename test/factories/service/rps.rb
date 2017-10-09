@@ -45,7 +45,6 @@ FactoryGirl.define do
 			iss_retido              true
 			total_iss_retido        5.55
 			valor_liquido                 349.00
-			municipio_incidencia     '111'
 		end
 	end
 end

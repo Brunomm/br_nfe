@@ -55,7 +55,6 @@ module BrNfe
 						attr_accessor :invoice_desconto_incondicionado_path                # Valor do desconto incondicionado
 						attr_accessor :invoice_responsavel_retencao_path                   # Responsável pela retenção
 						attr_accessor :invoice_numero_processo_path                        # Número do processo da NF
-						attr_accessor :invoice_municipio_incidencia_path                   # Código do municipio em que o serviço foi prestado
 						attr_accessor :invoice_orgao_gerador_municipio_path                # Órgão gerador municipal da NFS
 						attr_accessor :invoice_orgao_gerador_uf_path                       # Órgão gerador estadual da NFS
 						attr_accessor :invoice_cancelamento_codigo_path                    # Código do cancelamento da NFS
@@ -95,10 +94,10 @@ module BrNfe
 						attr_accessor :invoice_destinatario_endereco_codigo_municipio_path # Codigo_municipio do destinatário da NFS
 						attr_accessor :invoice_destinatario_endereco_uf_path               # Uf do destinatário da NFS
 						attr_accessor :invoice_destinatario_endereco_cep_path              # Cep do destinatário da NFS
-					
+
 					#######################   FIM DA DEFINIÇÃO DOS CAMINHOS   ############################
 					######################################################################################
-					
+
 					######################################################################################
 					###############   DEFINIÇÃO DOS VALORES PADRÕES PARA O CAMINHO DA NFSE ###############
 						def default_values
@@ -143,7 +142,6 @@ module BrNfe
 								invoice_desconto_incondicionado_path:                response_invoice_desconto_incondicionado_path,
 								# invoice_responsavel_retencao_path:                   response_invoice_responsavel_retencao_path,
 								# invoice_numero_processo_path:                        response_invoice_numero_processo_path,
-								# invoice_municipio_incidencia_path:                   response_invoice_municipio_incidencia_path,
 								invoice_orgao_gerador_municipio_path:                response_invoice_orgao_gerador_municipio_path,
 								invoice_orgao_gerador_uf_path:                       response_invoice_orgao_gerador_uf_path,
 								invoice_cancelamento_codigo_path:                    response_invoice_cancelamento_codigo_path,
@@ -187,13 +185,13 @@ module BrNfe
 						end
 					##############  FIM DEFINIÇÃO DOS VALORES PADRÕES PARA O CAMINHO DA NFSE #############
 					######################################################################################
-					
+
 					# Método que retorna as notas fiscais emitidas.
 					# Como pode ser que retorne mais de uma NF, a busca pela NF
 					# pode retornar um Array ou um Hash.
 					# Se retornar um array é porque existe mais de uma NFE, então é necessario
 					# percorer com um loop e instanciar cada nota com seus valores.
-					# Se retornar um Hash é porque tem apenas uma NFe, e nesse caso 
+					# Se retornar um Hash é porque tem apenas uma NFe, e nesse caso
 					# irá instanciar apenas a nfe encontrada.
 					#
 					# <b>Tipo de retorno: </b> _Array_
@@ -225,7 +223,7 @@ module BrNfe
 						savon_response.xml
 					end
 
-					# Método responsável por instanciar a nota fiscal de acordo com o hash 
+					# Método responsável por instanciar a nota fiscal de acordo com o hash
 					#   passado por parêmetro
 					# O parâmetro recebido deve ser o Hash representado pelo tipo de dados tcCompNfse(do manual NFS-e v1)
 					#
@@ -248,7 +246,6 @@ module BrNfe
 							codigo_municipio:                 find_value_for_keys(invoice_hash, invoice_codigo_municipio_path                ),
 							responsavel_retencao:             find_value_for_keys(invoice_hash, invoice_responsavel_retencao_path            ),
 							numero_processo:                  find_value_for_keys(invoice_hash, invoice_numero_processo_path                 ),
-							municipio_incidencia:             find_value_for_keys(invoice_hash, invoice_municipio_incidencia_path            ),
 							orgao_gerador_municipio:          find_value_for_keys(invoice_hash, invoice_orgao_gerador_municipio_path         ),
 							orgao_gerador_uf:                 find_value_for_keys(invoice_hash, invoice_orgao_gerador_uf_path                ),
 							codigo_obra:                      find_value_for_keys(invoice_hash, invoice_codigo_obra_path                     ),
@@ -262,7 +259,7 @@ module BrNfe
 						build_destinatario_nfe(nfe, invoice_hash)
 						nfe
 					end
-					
+
 					def build_rps_fields_nfe(nfe, invoice_hash)
 						nfe.assign_attributes({
 							rps_numero:                       find_value_for_keys(invoice_hash, invoice_rps_numero_path                      ),

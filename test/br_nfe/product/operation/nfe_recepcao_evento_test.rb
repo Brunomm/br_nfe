@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 	subject { FactoryGirl.build(:product_operation_nfe_recepcao_evento) }
-	let(:evento_cancelamento) { FactoryGirl.build(:product_evento_cancelamento) } 
+	let(:evento_cancelamento) { FactoryGirl.build(:product_evento_cancelamento) }
 
 	describe '#aliases' do
 		it { must_have_alias_attribute :idLote,  :numero_lote }
@@ -23,7 +23,7 @@ describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 	describe '#xml_builder' do
 		it "Deve renderizar o XML e setar o valor na variavel @xml_builder" do
 			subject.expects(:render_xml).returns('<xml>OK</xml>')
-			
+
 			subject.xml_builder.must_equal '<xml>OK</xml>'
 			subject.instance_variable_get(:@xml_builder).must_equal '<xml>OK</xml>'
 		end
@@ -33,7 +33,7 @@ describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 			subject.xml_builder.must_equal '<xml>OK</xml>'
 		end
 	end
-	
+
 	context "CANCELAMENTO - Validações para versão do XML 1.00 e NF-e 3.10" do
 		before do
 			subject.cancelamento = evento_cancelamento
@@ -52,11 +52,11 @@ describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 			end
 		end
 		describe 'REQUEST MUST BE SET RESPONSE CORRECTLY' do
-			let(:xml_success) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/success.xml') } 
-			let(:xml_fail)    { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/fail.xml') } 
-			let(:expect_xml_success_result) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/xml_result_success_formatted.xml') } 
-			let(:expect_xml_fail_result) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/xml_result_fail_formatted.xml') } 
-			before do 
+			let(:xml_success) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/success.xml') }
+			let(:xml_fail)    { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/fail.xml') }
+			let(:expect_xml_success_result) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/xml_result_success_formatted.xml') }
+			let(:expect_xml_fail_result) { read_fixture('product/response/v3.10/nfe_recepcao_evento/cancelamento/xml_result_fail_formatted.xml') }
+			before do
 				evento_cancelamento.data_hora = Time.parse('2017-06-02T11:25:58-03:00')
 				evento_cancelamento.chave = 'ID1101113513040726711800012055000000000123193923347101'
 				savon.mock!
@@ -83,6 +83,7 @@ describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 				response.events.size.must_equal 1
 				event = response.events[0]
 
+				event.status.must_equal                 :success
 				event.codigo_orgao.must_equal           '42'
 				event.status_code.must_equal            '135'
 				event.status_motive.must_equal          'Evento registrado e vinculado a NF-e'
@@ -114,6 +115,7 @@ describe BrNfe::Product::Operation::NfeRecepcaoEvento do
 				response.events.size.must_equal 1
 				event = response.events[0]
 
+				event.status.must_equal                 :error
 				event.codigo_orgao.must_equal           '42'
 				event.status_code.must_equal            '501'
 				event.status_motive.must_equal          'Rejeicao: Prazo de Cancelamento Superior ao Previsto na Legislacao'

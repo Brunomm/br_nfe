@@ -11,7 +11,7 @@
 	*{tag: "#{namespace_for_tags}CodigoTributacaoMunicipio"} = ts_codigo_tributacao(rps.codigo_tributacao_municipio)
 
 *{tag: "#{namespace_for_tags}Discriminacao"}   = ts_discriminacao(rps.description)
-*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(rps.codigo_municipio)
+*{tag: "#{namespace_for_tags}CodigoMunicipio"} = ts_codigo_municipio_ibge(rps.municipio_incidencia)
 
 - rps.items.each do |item|
 	*{tag: "#{namespace_for_tags}ItensServico"}

@@ -3,7 +3,7 @@ require 'test_helper'
 describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 	subject             { FactoryGirl.build(:servico_betha_consulta_nfs_por_rps, emitente: emitente) }
 	let(:emitente)      { FactoryGirl.build(:service_emitente) }
-	let(:rps)           { subject.rps } 
+	let(:rps)           { subject.rps }
 
 	describe "superclass" do
 		it { subject.class.superclass.must_equal BrNfe::Service::Betha::V1::Gateway }
@@ -18,7 +18,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-ws/consultarNfsePorRps?wsdl' }
 		end
 		context "for env test" do
-			before do 
+			before do
 				subject.env = :test
 			end
 			it { subject.url_wsdl.must_equal 'http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarNfsePorRps?wsdl' }
@@ -31,7 +31,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 
 	describe "Validação do XML através do XSD" do
 		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/betha/v1/xsd' }
-				
+
 		describe "Validações a partir do arquivo XSD" do
 			it "Deve ser válido com 1 RPS com todas as informações preenchidas" do
 				Dir.chdir(schemas_dir) do
@@ -53,13 +53,13 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 		subject.emitente.cpf_cnpj = '12345678901234'
 		content_xml = Nori.new.parse(subject.content_xml).deep_transform_keys!{|k| k.to_s.underscore.to_sym}
 		prestador = content_xml[:'ns1:consultar_nfse_rps_envio'][:prestador]
-		
+
 		prestador[:cnpj].must_equal '12345678901234'
 		prestador[:inscricao_municipal].must_be_nil
 	end
 
 	describe "#request and set response" do
-		before do 
+		before do
 			savon.mock!
 			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/betha/v1/consultar_nfse_por_rps.xml') )
 		end
@@ -67,7 +67,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
 			fixture = read_fixture('service/response/betha/v1/consulta_nfse_por_rps/fault.xml')
-			
+
 			savon.expects(:consultar_nfse_por_rps_envio).returns(fixture)
 			subject.request
 			response = subject.response
@@ -114,6 +114,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal 'Descrição: 1 MENSALIDADE WEBSITE: R$ 49,00'
 			nf.codigo_municipio.must_equal '4204202'
+			nf.municipio_incidencia.must_equal '4204202'
 			nf.valor_total_servicos.must_equal '49'
 			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0'
@@ -131,7 +132,6 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 			nf.desconto_incondicionado.must_equal '0'
 			nf.responsavel_retencao.must_be_nil
 			nf.numero_processo.must_be_nil
-			nf.municipio_incidencia.must_be_nil
 			nf.orgao_gerador_municipio.must_equal '4204202'
 			nf.orgao_gerador_uf.must_equal 'SC'
 			nf.cancelamento_codigo.must_be_nil
@@ -145,7 +145,7 @@ describe BrNfe::Service::Betha::V1::ConsultaNfsPorRps do
 			nf.codigo_obra.must_be_nil
 			nf.codigo_art.must_be_nil
 
-			nf.destinatario.cpf_cnpj.must_equal '11111111111111'		
+			nf.destinatario.cpf_cnpj.must_equal '11111111111111'
 		end
 	end
 
