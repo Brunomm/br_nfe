@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Product::Operation::NfeAutorizacao do
 	subject { FactoryGirl.build(:product_operation_nfe_autorizacao) }
-	let(:nota_fiscal) { FactoryGirl.build(:product_nota_fiscal) } 
+	let(:nota_fiscal) { FactoryGirl.build(:product_nota_fiscal) }
 
 	describe '#aliases' do
 		it { must_have_alias_attribute :idLote,  :numero_lote }
@@ -29,7 +29,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 	describe '#xml_builder' do
 		it "Deve renderizar o XML e setar o valor na variavel @xml_builder" do
 			subject.expects(:render_xml).returns('<xml>OK</xml>')
-			
+
 			subject.xml_builder.must_equal '<xml>OK</xml>'
 			subject.instance_variable_get(:@xml_builder).must_equal '<xml>OK</xml>'
 		end
@@ -40,7 +40,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 		end
 	end
 
-	context "Ao gerar o XML do lote deve setar o XML de cada nota no atributo xml da nf" do
+	context "Ao gerar o XML do lote deve setar o XML de cada nota no atributo xml e xml_inf_nfe da nf" do
 		let(:subject) { FactoryGirl.build(:product_operation_nfe_autorizacao, :for_signature_test) }
 		let(:nf1) { subject.notas_fiscais[0] }
 		let(:nf2) { subject.notas_fiscais[1] }
@@ -52,10 +52,16 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 			subject.xml_builder
 
 			nf1.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000021201601015"'
+			nf1.xml_inf_nfe[0..60].must_equal '<infNFe  Id="NFe42161266622465000192550010000000021201601015"'
+
 			nf2.xml[0..108].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe42161266622465000192550010000000501201601012"'
+			nf2.xml_inf_nfe[0..60].must_equal '<infNFe  Id="NFe42161266622465000192550010000000501201601012"'
 
 			nf1.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+			nf1.xml_inf_nfe[-9..-1].must_equal '</infNFe>'
+
 			nf2.xml[-57..-1].must_equal '</X509Certificate></X509Data></KeyInfo></Signature></NFe>'
+			nf2.xml_inf_nfe[-9..-1].must_equal '</infNFe>'
 		end
 		it "Para a versão 2.00 da NF" do
 			subject.stubs(:gateway_xml_version).returns(:v2_00)
@@ -108,7 +114,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 			end
 		end
 		describe 'REQUEST MUST BE SET RESPONSE CORRECTLY' do
-			let(:original_xml)           { read_fixture('product/response/v3.10/nfe_autorizacao/original_xml.xml') } 
+			let(:original_xml)           { read_fixture('product/response/v3.10/nfe_autorizacao/original_xml.xml') }
 			let(:response_async_fail)    { read_fixture('product/response/v3.10/nfe_autorizacao/async_fail.xml') }
 			let(:response_async_success) { read_fixture('product/response/v3.10/nfe_autorizacao/async_success.xml') }
 			let(:response_sync_fail)     { read_fixture('product/response/v3.10/nfe_autorizacao/sync_fail.xml') }
@@ -136,7 +142,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 					response = subject.response
 
 					response.must_be_kind_of BrNfe::Product::Response::NfeAutorizacao
-				
+
 					response.request_status.must_equal :success
 					response.processing_status.must_equal :success
 					response.environment.must_equal :test
@@ -166,7 +172,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 					response = subject.response
 
 					response.must_be_kind_of BrNfe::Product::Response::NfeAutorizacao
-				
+
 					response.request_status.must_equal :success
 					response.processing_status.must_equal :success
 					response.environment.must_equal :test
@@ -202,7 +208,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 					response = subject.response
 
 					response.must_be_kind_of BrNfe::Product::Response::NfeAutorizacao
-				
+
 					response.request_status.must_equal :success
 					response.processing_status.must_equal :error
 					response.environment.must_equal :test
@@ -239,13 +245,13 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 					nota_fiscal.xml[0..63].must_equal '<NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe  Id="NFe'
 					nota_fiscal.xml[-6..-1].must_equal '</NFe>'
 
-					# Agora vou setar um XML fixo na NF para que seja 
+					# Agora vou setar um XML fixo na NF para que seja
 					# modificado conforme o esperado. Não vou usar o xml original
 					# pois o mesmo pode ser modificado conforme novas regras vão surgindo.
 					# e não é o objetivo desse teste validar as regras de campos do xml, e sim
 					# se está ajustando o valor corretamente.
 					nota_fiscal.xml = xml_nfe_without_proc
-					
+
 					# Ao chamar o response irá setar a tag <nfeProc> no XML da NF-e
 					# e também irá adicionar o protocolo de autorização
 					response = subject.response
@@ -350,7 +356,7 @@ describe BrNfe::Product::Operation::NfeAutorizacao do
 			end
 		end
 		describe 'Configurações por UF dos parametros para instanciar o client Soap' do
-			let(:client_wsdl) { subject.client_wsdl } 
+			let(:client_wsdl) { subject.client_wsdl }
 			describe 'UF 12 - Acre' do
 				before { subject.ibge_code_of_issuer_uf = '12' }
 				it "Deve utilizar o servidor SVRS para emissão normal" do
