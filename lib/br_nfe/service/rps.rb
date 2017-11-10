@@ -21,12 +21,11 @@ module BrNfe
 			with_options if: :validar_recepcao_rps do |record|
 				record.validates :data_emissao, :item_lista_servico, :description, :codigo_municipio, :base_calculo, presence: true
 				record.validates :total_iss, :iss_aliquota, presence: true, unless: :iss_retido?
-				record.validates :municipio_incidencia, presence: true, if: :municipio_incidencia_obrigatorio?
 
 				record.validates :valor_total_servicos, :base_calculo, numericality: {greater_than: 0}
-				
-				record.validates :deducoes, :valor_pis, :valor_cofins, :valor_inss, :valor_ir, 
-				          :valor_csll, :outras_retencoes, :total_iss, :iss_aliquota, :base_calculo, 
+
+				record.validates :deducoes, :valor_pis, :valor_cofins, :valor_inss, :valor_ir,
+				          :valor_csll, :outras_retencoes, :total_iss, :iss_aliquota, :base_calculo,
 				          :desconto_incondicionado, :desconto_condicionado, numericality: true, allow_blank: true
 
 				record.validate :validar_intermediario
@@ -38,13 +37,13 @@ module BrNfe
 				self.items = [] # Para poder utilizar o << para adicionar itens
 				super
 			end
-			
+
 			# Itens do RPS
 			# Contém um vetor com todos os serviços prestados
 			# Para a maioria das cidades os itens são informados junto à discriminação
 			# porém para outras poucas cidades é possível inserir vários itens de serviços
 			# na NF.
-			# 
+			#
 			# Mesmo para as cidades que não permitem enviar os itens de serviço
 			# será necessário informar pelo menos 1 item.
 			#
@@ -66,7 +65,7 @@ module BrNfe
 			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :total_issqn_st
-			
+
 			attr_accessor :validar_recepcao_rps
 
 			attr_accessor :numero
@@ -80,7 +79,7 @@ module BrNfe
 			attr_accessor :numero_substituicao
 			attr_accessor :serie_substituicao
 			attr_accessor :tipo_substituicao
-			
+
 			#Para construção civil
 			attr_accessor :codigo_obra
 			attr_accessor :codigo_art
@@ -105,18 +104,18 @@ module BrNfe
 				@base_calculo || (valor_total_servicos.to_f - deducoes.to_f).round(2)
 			end
 
-			# Valor das deduções de impostos 
-			# 
+			# Valor das deduções de impostos
+			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :deducoes
 
 			# Iss retido?
-			# Identifica se o ISS foi retido 
+			# Identifica se o ISS foi retido
 			#
 			# <b>Tipo: </b> _Integer_
 			attr_accessor :iss_retido
 
-			# Valor do Iss retido 
+			# Valor do Iss retido
 			# Total de iss retido da nota
 			#
 			# <b>Tipo: </b> _float_
@@ -128,7 +127,7 @@ module BrNfe
 			#
 			# <b>Tipo: </b> _Float_
 			attr_accessor :total_iss
-			
+
 			# % de Aliquota do ISS
 			# Utilizado para as cidades que não possuem multiplos itens de serviço na nota.
 			# Caso não seja definido então irá pegar a aliquota do 1º item que encontrar
@@ -145,15 +144,15 @@ module BrNfe
 			end
 
 			# Valor líquido da NF (R$)
-			# Caso não seja setado um valor manualmente irá calcular o valor 
+			# Caso não seja setado um valor manualmente irá calcular o valor
 			#
 			# <b>Tipo: </b> _Float_
 			#
 			attr_accessor :valor_liquido
 			def valor_liquido
 				@valor_liquido ||= valor_total_servicos.to_f - (
-					valor_pis.to_f + valor_cofins.to_f + valor_inss.to_f + 
-					valor_ir.to_f  + valor_csll.to_f   + outras_retencoes.to_f + 
+					valor_pis.to_f + valor_cofins.to_f + valor_inss.to_f +
+					valor_ir.to_f  + valor_csll.to_f   + outras_retencoes.to_f +
 					total_iss_retido.to_f + desconto_incondicionado.to_f + desconto_condicionado.to_f
 				)
 			end
@@ -166,17 +165,17 @@ module BrNfe
 			attr_accessor :outras_retencoes
 			attr_accessor :desconto_incondicionado
 			attr_accessor :desconto_condicionado
-			
+
 			attr_accessor :responsavel_retencao
 			attr_accessor :item_lista_servico
 			attr_accessor :codigo_tributacao_municipio
 			attr_accessor :exigibilidade_iss
 			attr_accessor :codigo_municipio
-			attr_accessor :municipio_incidencia
+			alias_attribute :municipio_incidencia, :codigo_municipio
 			attr_accessor :codigo_pais
 			attr_accessor :numero_processo
 			attr_accessor :outras_informacoes
-			
+
 			# Código CNAE (Classificação Nacional de Atividades Econômicas)
 			# Pode ser encontrado em  http://www.cnae.ibge.gov.br/
 			# Tamanho de 8 caracteres
@@ -184,7 +183,7 @@ module BrNfe
 			#   um código CNAE será pega o código do 1° item de serviço (se houver algum)
 			#
 			# <b>Tipo: </b> _String_
-			attr_accessor :cnae_code 
+			attr_accessor :cnae_code
 			def cnae_code
 				@cnae_code || items.first.try(:cnae_code)
 			end
@@ -230,10 +229,6 @@ module BrNfe
 				if destinatario.invalid?
 					destinatario.errors.full_messages.map{|msg| errors.add(:base, "Destinatário: #{msg}") }
 				end
-			end
-
-			def municipio_incidencia_obrigatorio?
-				"#{exigibilidade_iss}".in?(['1','01','6','06','7','07'])
 			end
 			def destinatario_class
 				BrNfe.destinatario_service_class

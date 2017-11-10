@@ -12,7 +12,7 @@ module BrNfe
 				attr_accessor :data_emissao
 				attr_accessor :url_nf
 				attr_accessor :xml_nf
-				
+
 				#identificacao do rps
 				attr_accessor :rps_numero
 				attr_accessor :rps_serie
@@ -30,12 +30,13 @@ module BrNfe
 				attr_accessor :regime_especial_tributacao
 				attr_accessor :optante_simples_nacional
 				attr_accessor :incentivador_cultural
-				
+
 				# dados dos serviços
 				attr_accessor :item_lista_servico
 				attr_accessor :cnae_code
 				attr_accessor :description
 				attr_accessor :codigo_municipio
+				alias_attribute :municipio_incidencia, :codigo_municipio
 
 				#Valores dos serviços
 				attr_accessor :valor_total_servicos
@@ -56,8 +57,7 @@ module BrNfe
 
 				attr_accessor :responsavel_retencao
 				attr_accessor :numero_processo
-				attr_accessor :municipio_incidencia
-				
+
 				# Orgão gerador
 				attr_accessor :orgao_gerador_municipio
 				attr_accessor :orgao_gerador_uf
@@ -67,7 +67,7 @@ module BrNfe
 				attr_accessor :cancelamento_numero_nf
 				attr_accessor :cancelamento_cnpj
 				attr_accessor :cancelamento_inscricao_municipal
-				attr_accessor :cancelamento_municipio				
+				attr_accessor :cancelamento_municipio
 				attr_accessor :cancelamento_sucesso
 				attr_accessor :cancelamento_data_hora
 

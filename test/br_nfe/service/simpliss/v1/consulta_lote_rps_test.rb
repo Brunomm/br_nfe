@@ -21,10 +21,10 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 	it "#soap_body_root_tag" do
 		subject.soap_body_root_tag.must_equal 'ConsultarLoteRps'
 	end
-	
+
 	describe "Validação do XML através do XSD" do
 		let(:schemas_dir) { BrNfe.root+'/test/br_nfe/service/simpliss/v1/xsd' }
-				
+
 		describe "Validações a partir do arquivo XSD" do
 			it "Deve ser válido com 1 RPS com todas as informações preenchidas" do
 				# Só assim para passar na validação XSD.
@@ -34,7 +34,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 				subject.stubs(:namespace_identifier).returns(nil)
 				subject.stubs(:namespace_for_tags).returns(nil)
 				subject.stubs(:namespace_for_signature).returns(nil)
-				
+
 				Dir.chdir(schemas_dir) do
 					schema = Nokogiri::XML::Schema(IO.read('nfse_3.xsd'))
 					document = Nokogiri::XML(subject.xml_builder)
@@ -46,7 +46,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 	end
 
 	describe "#request and set response" do
-		before do 
+		before do
 			savon.mock!
 			stub_request(:get, subject.url_wsdl).to_return(status: 200, body: read_fixture('service/wsdl/simpliss/v1/nfseservice.xml') )
 		end
@@ -54,7 +54,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 
 		it "Quando a requisição voltar com erro deve setar os erros corretamente" do
 			fixture = read_fixture('service/response/simpliss/v1/consulta_lote_rps/fault.xml')
-			
+
 			savon.expects(:consultar_lote_rps).returns(fixture)
 			subject.request
 			response = subject.response
@@ -104,6 +104,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 			nf.cnae_code.must_equal '6202300'
 			nf.description.must_equal '1 TESTE WEBSERVICE: R$ 5,00'
 			nf.codigo_municipio.must_equal '4204202'
+			nf.municipio_incidencia.must_equal '4204202'
 			nf.valor_total_servicos.must_equal '10'
 			nf.iss_retido.must_equal '2'
 			nf.total_iss.must_equal '0.2'
@@ -121,7 +122,6 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 			nf.desconto_incondicionado.must_be_nil
 			nf.responsavel_retencao.must_be_nil
 			nf.numero_processo.must_be_nil
-			nf.municipio_incidencia.must_be_nil
 			nf.orgao_gerador_municipio.must_equal '4204202'
 			nf.orgao_gerador_uf.must_equal 'SC'
 			nf.cancelamento_codigo.must_be_nil
@@ -135,7 +135,7 @@ describe BrNfe::Service::Simpliss::V1::ConsultaLoteRps do
 			nf.codigo_obra.must_be_nil
 			nf.codigo_art.must_be_nil
 
-			nf.destinatario.cpf_cnpj.must_equal '12345678901234'		
+			nf.destinatario.cpf_cnpj.must_equal '12345678901234'
 		end
 
 		it "Quando encontrar uma nota fiscal com as informações completas" do

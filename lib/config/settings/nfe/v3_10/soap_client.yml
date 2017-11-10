@@ -174,6 +174,7 @@ nfe:
               wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl'
               ssl_version: :SSLv3
               follow_redirects: true
+              soap_version: 2
               headers:
                 Content-Type: 'application/soap+xml; charset=utf-8'
             test:
@@ -187,6 +188,7 @@ nfe:
               wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl'
               ssl_version: :SSLv3
               follow_redirects: true
+              soap_version: 2
               headers:
                 Content-Type: 'application/soap+xml; charset=utf-8'
             test:
@@ -200,6 +202,7 @@ nfe:
               wsdl: 'https://nfe.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl'
               ssl_version: :SSLv3
               follow_redirects: true
+              soap_version: 2
               headers:
                 Content-Type: 'application/soap+xml; charset=utf-8'
             test:

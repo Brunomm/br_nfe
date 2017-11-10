@@ -4,7 +4,11 @@ module BrNfe
 			# include BrNfe::Association::HaveCondicaoPagamento
 
 			# Identificação do emitente da NF-e
-			# 
+			# Versão do XML
+			attr_accessor :versao
+
+			# Identificação do emitente da NF-e
+			#
 			# <b>Type:     </b> _BrNfe.emitente_product_class
 			# <b>Required: </b> _Yes_
 			# <b>tag:      </b> emit
@@ -14,22 +18,22 @@ module BrNfe
 
 			# Identificação do Destinatário da NF-e
 			#  Grupo obrigatório para a NF-e (modelo 55)
-			# 
+			#
 			# <b>Type:     </b> _BrNfe.destinatario_product_class_
 			# <b>Required: </b> _Yes_ (No if modelo_nf == 65)
 			# <b>tag:      </b> dest
 			#
 			has_one :destinatario, 'BrNfe.destinatario_product_class', null: false
 			alias_attribute :dest, :destinatario
-			
+
 			# Código do Tipo de Emissão da NF-e
 			#  ✓ 1=Emissão normal (não em contingência);
 			#  ✓ 6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);
 			#  ✓ 7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);
-			#  ✓ 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas 
+			#  ✓ 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas
 			#      também para a NFC-e).
 			#  Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
-			# 
+			#
 			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
 			# <b>Default:  </b> _1_
@@ -53,11 +57,11 @@ module BrNfe
 			end
 
 
-			# Código numérico que compõe a Chave de Acesso. Número aleatório gerado pelo 
+			# Código numérico que compõe a Chave de Acesso. Número aleatório gerado pelo
 			# emitente para cada NF-e para evitar acessos indevidos da NF-e.
 			# Resumo: É um código controlado pelo sistema. Pode por exemplo ser
 			#        utilizado o ID da tabela da nota fiscal.
-			# 
+			#
 			# <b>Type:     </b> _Number_
 			# <b>Required: </b> _Yes_
 			# <b>Default:  </b> _nil_
@@ -67,9 +71,9 @@ module BrNfe
 			attr_accessor :codigo_nf
 			alias_attribute :cNF, :codigo_nf
 
-			
+
 			# Série do Documento Fiscal, preencher com zeros na hipótese
-			# de a NF-e não possuir série. (v2.0) 
+			# de a NF-e não possuir série. (v2.0)
 			# Série 890-899: uso exclusivo para emissão de NF-e avulsa, pelo
 			#    contribuinte com seu certificado digital, através do site do Fisco
 			#    (procEmi=2). (v2.0)
@@ -185,7 +189,7 @@ module BrNfe
 			# 3=DANFE Simplificado;
 			# 4=DANFE NFC-e;
 			# 5=DANFE NFC-e em mensagem eletrônica (o envio de mensagem eletrônica pode
-			#   ser feita de forma simultânea com a impressão do DANFE; usar o tpImp=5 
+			#   ser feita de forma simultânea com a impressão do DANFE; usar o tpImp=5
 			#   quando esta for a única forma de disponibilização do DANFE).
 			#
 			# <b>Required: </b> _Yes_
@@ -226,7 +230,7 @@ module BrNfe
 			end
 			alias_attribute :indFinal, :consumidor_final
 
-			# Indicador de presença do comprador no estabelecimento comercial no 
+			# Indicador de presença do comprador no estabelecimento comercial no
 			# momento da operação:
 			#   0=Não se aplica (por exemplo, Nota Fiscal complementar ou de ajuste);
 			#   1=Operação presencial;
@@ -274,7 +278,7 @@ module BrNfe
 			#
 			has_one :endereco_retirada, 'BrNfe.endereco_class'
 			alias_attribute :retirada, :endereco_retirada
-			
+
 			# CPF ou CNPJ do local de retirada da mercadoria.
 			# Só é obrigatório se o endereco_retirada for preenchido
 			#
@@ -300,7 +304,7 @@ module BrNfe
 			#
 			has_one :endereco_entrega, 'BrNfe.endereco_class'
 			alias_attribute :entrega, :endereco_entrega
-			
+
 			# CPF ou CNPJ do local de entrega da mercadoria.
 			# Só é obrigatório se o endereco_entrega for preenchido
 			#
@@ -348,7 +352,7 @@ module BrNfe
 			# No caso desta GEM, a fatura contém o Array de duplicatas.
 			# Ex:
 			#    self.fatura.duplicatas
-			#    => [#<::Cobranca::Duplicata:0x00000006302b80 ...>, #<::Cobranca::Duplicata:0x00000046465bw4 ...>] 
+			#    => [#<::Cobranca::Duplicata:0x00000006302b80 ...>, #<::Cobranca::Duplicata:0x00000046465bw4 ...>]
 			#
 			# <b>Type:     </b> _BrNfe.fatura_product_class_
 			# <b>Required: </b> _No_
@@ -359,11 +363,11 @@ module BrNfe
 			has_one :fatura, 'BrNfe.fatura_product_class'
 			alias_attribute :cobranca, :fatura
 			alias_attribute :cobr, :fatura
-			
+
 			# Array com as informações dos pagamentos
 			# IMPORTANTE: Utilizado apenas para NFC-e
 			#
-			# Pode ser adicionado os dados dos pagamentos em forma de `Hash` 
+			# Pode ser adicionado os dados dos pagamentos em forma de `Hash`
 			# ou o próprio objeto da classe BrNfe.pagamento_product_class.
 			#
 			# Exemplo com Hash:
@@ -698,7 +702,7 @@ module BrNfe
 				validates :total_servicos_cofins, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
 
 				# DATA DA PRESTAÇÃO DO SERVIÇO
-				# 
+				#
 				#
 				# <b>Type:     </b> _Date_
 				# <b>Required: </b> _Yes_ apenas se tiver algum serviço nos itens
@@ -775,9 +779,9 @@ module BrNfe
 				validates :total_servicos_iss_retido, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
 
 				# CÓDIGO DO REGIME ESPECIAL DE TRIBUTAÇÃO
-				#  1 = Microempresa Municipal; 
+				#  1 = Microempresa Municipal;
 				#  2 = Estimativa;
-				#  3 = Sociedade de Profissionais; 
+				#  3 = Sociedade de Profissionais;
 				#  4 = Cooperativa;
 				#  5 = Microempresário Individual (MEI);
 				#  6 = Microempresário e Empresa de Pequeno Porte (ME/EPP)
@@ -957,6 +961,11 @@ module BrNfe
 				# Utilizado para setar o XML da nfe na resposta
 				attr_accessor :xml
 
+				# Utilizado para setar o XML da tag <infNFe>
+				# Serve apenas se deseja pegar apenas a informação da NF-e sem a assinatura.
+				#
+				attr_accessor :xml_inf_nfe
+
 				# PROTOCOLO / NÚMERO DO RECIBO
 				#  Número do Recibo gerado pelo Portal da
 				#  Secretaria de Fazenda Estadual
@@ -973,7 +982,7 @@ module BrNfe
 				alias_attribute :digVal, :digest_value
 
 				# DATA E HORA DO PROCESSAMENTO DA REQUISIÇÃO
-				# 
+				#
 				attr_accessor :processed_at
 				def processed_at
 					convert_to_time(@processed_at)
@@ -1012,7 +1021,7 @@ module BrNfe
 				# - :canceled - Quando a nota fiscal foi cancelada.
 				# - :denied   - Quando a nota fiscal foi denegada e o XML deve ser guardado.
 				# - :rejected - Quando a nota fiscal foi rejeitada e pode ser enviada novamente com as correções.
-				# 
+				#
 				attr_accessor :situation
 				def situation
 					@situation ||= get_situation_by_status_code
@@ -1040,7 +1049,7 @@ module BrNfe
 
 			def default_values
 				{
-					versao_aplicativo:   0, 
+					versao_aplicativo:   0,
 					natureza_operacao:   'Venda',
 					forma_pagamento:     0, # 0=À vista
 					modelo_nf:           55, #NF-e
@@ -1059,7 +1068,7 @@ module BrNfe
 
 			validates :codigo_tipo_emissao, presence: true
 			validates :codigo_tipo_emissao, inclusion: [1, 6, 7, 9, '1', '6', '7', '9']
-			
+
 			validates :codigo_nf, presence: true
 			validates :codigo_nf, numericality: { only_integer: true }
 			validates :codigo_nf, length: { maximum: 8 }
@@ -1072,7 +1081,7 @@ module BrNfe
 			validates :numero_nf, presence: true
 			validates :numero_nf, numericality: { only_integer: true }
 			validates :numero_nf, length: { maximum: 9 }
-			
+
 			validates :natureza_operacao, presence: true
 
 			validates :forma_pagamento, presence: true
@@ -1100,7 +1109,7 @@ module BrNfe
 
 			validate_has_many :itens, message: :invalid_item
 			validates         :itens, length:  {minimum: 1, maximum: 990}
-			
+
 			validate_has_many :processos_referenciados, message: :invalid_processo
 
 			with_options if: :nfce? do |record|
@@ -1112,7 +1121,7 @@ module BrNfe
 			validate_has_one  :fatura
 			validate_has_one  :destinatario
 			validate_has_one  :emitente
-			
+
 			validate_has_one  :endereco_retirada
 			with_options if: :endereco_retirada do |record|
 				record.validates :endereco_retirada_cpf_cnpj, presence: true
@@ -1142,7 +1151,7 @@ module BrNfe
 			end
 
 			# MÉTODO PARA SABER SE EXISTE ALGUM VALOR NO TOTALIZADOR DE RETENÇÃO DE IMPOSTOS.
-			# Utilizado para saber se deve ou não colocar a tag de totalizador de retenções 
+			# Utilizado para saber se deve ou não colocar a tag de totalizador de retenções
 			# no XML.
 			#
 			# <b>Tipo: </b> _Boolean_
