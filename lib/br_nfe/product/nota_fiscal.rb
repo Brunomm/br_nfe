@@ -269,6 +269,21 @@ module BrNfe
 			attr_accessor :versao_aplicativo
 			alias_attribute :verProc, :versao_aplicativo
 
+			# Chave de acesso de notas referenciadas. (por enquanto aceita apenas a chave de acesso)
+			#
+			# <b>Type:     </b> _Array_
+			# <b>Required: </b> _No_
+			# <b>Default:  </b> _[]_
+			# <b>tag:      </b> NFref > refNFe
+			#
+			attr_accessor :notas_referenciadas
+			def notas_referenciadas
+				@notas_referenciadas = [@notas_referenciadas].flatten unless @notas_referenciadas.is_a?(Array)
+				@notas_referenciadas.compact!
+				@notas_referenciadas
+			end
+			alias_attribute :NFref, :notas_referenciadas
+
 			# Endereço da retirada da mercadoria
 			#
 			# <b>Type:     </b> _BrNfe.endereco_class_
