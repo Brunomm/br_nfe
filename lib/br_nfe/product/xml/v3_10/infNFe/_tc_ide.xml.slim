@@ -24,3 +24,8 @@ verProc  = nfe.versao_aplicativo
 - if contingencia?
 	dhCont = nf_xml_value_date_time(inicio_contingencia)
 	xJust  = nf_xml_value_text(     motivo_contingencia, 255 )
+
+- if nfe.notas_referenciadas.size > 0
+	NFref
+		- nfe.notas_referenciadas.each do |ref|
+			refNFe = ref
