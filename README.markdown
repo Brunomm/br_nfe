@@ -420,7 +420,7 @@ Seja um contribuidor. Você pode contribuir de várias formas:
 
 ----------
 
-> ¹ **Órgão Emissor: ** É a empresa contratada pela prefeitura com  a finalidade de processar as notas fiscais. Exemplo: (Betha, Simpliss, Thema)
+¹ **Órgão Emissor: ** É a empresa contratada pela prefeitura com  a finalidade de processar as notas fiscais. Exemplo: (Betha, Simpliss, Thema)
 
 ----------
 
