@@ -12,7 +12,6 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_alias_attribute :cNF,      :codigo_nf }
 		it { must_have_alias_attribute :nNF,      :numero_nf }
 		it { must_have_alias_attribute :natOp,    :natureza_operacao }
-		it { must_have_alias_attribute :indPag,   :forma_pagamento }
 		it { must_have_alias_attribute :mod,      :modelo_nf }
 		it { must_have_alias_attribute :dhEmi,    :data_hora_emissao,   Time.current.in_time_zone }
 		it { must_have_alias_attribute :dhSaiEnt, :data_hora_expedicao, Time.current.in_time_zone }
@@ -80,9 +79,6 @@ describe BrNfe::Product::NotaFiscal do
 		it '#natureza_operacao deve ter o padrão Venda' do
 			subject.class.new.natureza_operacao.must_equal 'Venda'
 		end
-		it '#forma_pagamento deve ter o padrão 0' do
-			subject.class.new.forma_pagamento.must_equal 0
-		end
 		it '#modelo_nf deve ter o padrão 55' do
 			subject.class.new.modelo_nf.must_equal 55
 		end
@@ -138,10 +134,6 @@ describe BrNfe::Product::NotaFiscal do
 		end
 		context '#natureza_operacao' do
 			it { must validate_presence_of(:natureza_operacao) }
-		end
-		context '#forma_pagamento' do
-			it { must validate_presence_of(:forma_pagamento) }
-			it { must validate_inclusion_of(:forma_pagamento).in_array([0, 1, 2, '0', '1', '2']) }
 		end
 		context '#modelo_nf' do
 			it { must validate_presence_of(:modelo_nf) }

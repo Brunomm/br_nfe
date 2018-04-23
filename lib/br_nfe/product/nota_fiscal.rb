@@ -120,6 +120,8 @@ module BrNfe
 			# 1=Pagamento a prazo;
 			# 2=Outros.
 			#
+			# REMOVIDO NA VERSÃO 4.0
+			#
 			# <b>Type:     </b> _Number_ OR _String_
 			# <b>Required: </b> _Yes_
 			# <b>Default:  </b> _0_
@@ -1099,9 +1101,6 @@ module BrNfe
 			validates :numero_nf, length: { maximum: 9 }
 
 			validates :natureza_operacao, presence: true
-
-			validates :forma_pagamento, presence: true
-			validates :forma_pagamento, inclusion: [0, 1, 2, '0', '1', '2']
 
 			validates :modelo_nf, presence: true
 			validates :modelo_nf, inclusion: [55, 65, '55', '65']
