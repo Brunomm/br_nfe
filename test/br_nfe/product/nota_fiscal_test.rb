@@ -2,8 +2,8 @@ require 'test_helper'
 
 describe BrNfe::Product::NotaFiscal do
 	subject { FactoryGirl.build(:product_nota_fiscal, emitente: emitente) }
-	let(:endereco) { FactoryGirl.build(:endereco) } 
-	let(:emitente) { FactoryGirl.build(:product_emitente, endereco: endereco) } 
+	let(:endereco) { FactoryGirl.build(:endereco) }
+	let(:emitente) { FactoryGirl.build(:product_emitente, endereco: endereco) }
 
 	let(:pagamento) { FactoryGirl.build(:product_cobranca_pagamento) }
 
@@ -30,7 +30,7 @@ describe BrNfe::Product::NotaFiscal do
 		it { must_have_alias_attribute :cobranca, :fatura, BrNfe.fatura_product_class.new }
 		it { must_have_alias_attribute :cobr,     :fatura, BrNfe.fatura_product_class.new }
 		it { must_have_alias_attribute :pag,      :pagamentos, [BrNfe.pagamento_product_class.new] }
-		
+
 		it { must_have_alias_attribute :ICMSTot_vBC,          :total_icms_base_calculo }
 		it { must_have_alias_attribute :ICMSTot_vICMS,        :total_icms }
 		it { must_have_alias_attribute :ICMSTot_vICMSDeson,   :total_icms_desonerado }
@@ -113,10 +113,10 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe "Validations" do
-		before do 
+		before do
 			MiniTest::Spec.string_for_validation_length = '1'
 		end
-		after do 
+		after do
 			MiniTest::Spec.string_for_validation_length = 'x'
 		end
 
@@ -153,11 +153,11 @@ describe BrNfe::Product::NotaFiscal do
 		context '#data_hora_expedicao' do
 			it "deve ser obrigatório se for uma NF-e" do
 				subject.modelo_nf = 55
-				must validate_presence_of(:data_hora_expedicao)				
+				must validate_presence_of(:data_hora_expedicao)
 			end
 			it "não deve ser obrigatório se for uma NFC-e" do
 				subject.modelo_nf = 65
-				wont validate_presence_of(:data_hora_expedicao)				
+				wont validate_presence_of(:data_hora_expedicao)
 			end
 		end
 		context '#tipo_operacao' do
@@ -170,7 +170,7 @@ describe BrNfe::Product::NotaFiscal do
 		end
 		context '#presenca_comprador' do
 			it { must validate_presence_of(:presenca_comprador) }
-			it { must validate_inclusion_of(:presenca_comprador).in_array([0, 1, 2, 3, 4, 9, '0', '1', '2', '3', '4', '9']) }
+			it { must validate_inclusion_of(:presenca_comprador).in_array([0, 1, 2, 3, 4, 5, 9, '0', '1', '2', '3', '4', '5', '9']) }
 		end
 		context '#processo_emissao' do
 			it { must validate_presence_of(:processo_emissao) }
@@ -188,7 +188,7 @@ describe BrNfe::Product::NotaFiscal do
 			end
 			context "quando o endereco_entrega não for preenchido" do
 				before { subject.endereco_entrega = nil }
-				it { wont validate_presence_of(:endereco_entrega_cpf_cnpj) }				
+				it { wont validate_presence_of(:endereco_entrega_cpf_cnpj) }
 				it { wont validate_length_of(:endereco_entrega_cpf_cnpj).is_at_most(14) }
 			end
 		end
@@ -200,7 +200,7 @@ describe BrNfe::Product::NotaFiscal do
 			end
 			context "quando o endereco_retirada não for preenchido" do
 				before { subject.endereco_retirada = nil }
-				it { wont validate_presence_of(:endereco_retirada_cpf_cnpj) }				
+				it { wont validate_presence_of(:endereco_retirada_cpf_cnpj) }
 				it { wont validate_length_of(:endereco_retirada_cpf_cnpj).is_at_most(14) }
 			end
 		end
@@ -400,17 +400,17 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#endereco_retirada' do
-		it { must_have_one(:endereco_retirada, 
-				BrNfe.endereco_class,  
+		it { must_have_one(:endereco_retirada,
+				BrNfe.endereco_class,
 				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
 		)}
 		it { must_validate_have_one(:endereco_retirada, BrNfe.endereco_class, :invalid_endereco_retirada) }
 	end
 
 	describe '#endereco_entrega' do
-		it '316' do 
-			must_have_one(:endereco_entrega, 
-				BrNfe.endereco_class,  
+		it '316' do
+			must_have_one(:endereco_entrega,
+				BrNfe.endereco_class,
 				{logradouro: 'LOG', numero: 'NR', bairro: "BRR"}
 			)
 		end
@@ -441,7 +441,7 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#emitente' do
-		it 'have one' do 
+		it 'have one' do
 			must_have_one(:emitente,
 				BrNfe.emitente_product_class,
 				{nome_fantasia: 'FANTASIA', razao_social: 'RAZAO'},
@@ -452,7 +452,7 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#destinatario' do
-		it 'have one' do 
+		it 'have one' do
 			must_have_one(:destinatario,
 				BrNfe.destinatario_product_class,
 				{nome_fantasia: 'FANTASIA', razao_social: 'RAZAO'},
@@ -463,16 +463,16 @@ describe BrNfe::Product::NotaFiscal do
 	end
 
 	describe '#transporte' do
-		it { must_have_one(:transporte, 
-				BrNfe.transporte_product_class,  
+		it { must_have_one(:transporte,
+				BrNfe.transporte_product_class,
 				{retencao_cfop: 'LOG', retencao_valor_sevico: 50.55}
 		)}
 		it { must_validate_have_one(:transporte, BrNfe.transporte_product_class, :invalid_transporte) }
 	end
 
 	describe '#fatura' do
-		it { must_have_one(:fatura, 
-				BrNfe.fatura_product_class,  
+		it { must_have_one(:fatura,
+				BrNfe.fatura_product_class,
 				{numero_fatura: 'LOG', valor_original: 50.55}
 		)}
 		it { must_validate_have_one(:fatura, BrNfe.fatura_product_class, :invalid_fatura) }
@@ -480,13 +480,13 @@ describe BrNfe::Product::NotaFiscal do
 
 	describe '#pagamentos' do
 		it { must_have_many(:pagamentos, BrNfe.pagamento_product_class, {forma_pagamento: '1', total: 350.00})  }
-		it { must_validate_length_has_many(:pagamentos, 
-				BrNfe.pagamento_product_class, 
+		it { must_validate_length_has_many(:pagamentos,
+				BrNfe.pagamento_product_class,
 				condition: :nfce?
 		)}
-		
-		it { must_validates_has_many(:pagamentos, 
-			BrNfe.pagamento_product_class, 
+
+		it { must_validates_has_many(:pagamentos,
+			BrNfe.pagamento_product_class,
 			:invalid_pagamento,
 			condition: :nfce?
 		)}
@@ -494,8 +494,8 @@ describe BrNfe::Product::NotaFiscal do
 
 	describe '#itens' do
 		it { must_have_many(:itens, BrNfe.item_product_class, {codigo_produto: 'P123', codigo_ean: '123456'})  }
-		it { must_validate_length_has_many(:itens, 
-				BrNfe.item_product_class, 
+		it { must_validate_length_has_many(:itens,
+				BrNfe.item_product_class,
 				minimum: 1
 		)}
 		it { must_validates_has_many(:itens, BrNfe.item_product_class, :invalid_item) }

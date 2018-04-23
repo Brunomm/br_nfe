@@ -237,6 +237,7 @@ module BrNfe
 			#   2=Operação não presencial, pela Internet;
 			#   3=Operação não presencial, Teleatendimento;
 			#   4=NFC-e em operação com entrega a domicílio;
+			#   5=Operação presencial, fora do estabelecimento;
 			#   9=Operação não presencial, outros. (Default)
 			#
 			# <b>Required: </b> _Yes_
@@ -1115,7 +1116,7 @@ module BrNfe
 			validates :tipo_impressao, inclusion: [0, 1, 2, 3, 4, 5, '0', '1', '2', '3', '4', '5']
 
 			validates :presenca_comprador, presence: true
-			validates :presenca_comprador, inclusion: [0, 1, 2, 3, 4, 9, '0', '1', '2', '3', '4', '9']
+			validates :presenca_comprador, inclusion: [0, 1, 2, 3, 4, 5, 9, '0', '1', '2', '3', '4', '5', '9']
 
 			validates :processo_emissao, presence: true
 			validates :processo_emissao, inclusion: [0, 1, 2, 3, '0', '1', '2', '3']
