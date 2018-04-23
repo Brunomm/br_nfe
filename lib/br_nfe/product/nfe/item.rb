@@ -6,7 +6,7 @@ module BrNfe
 				############################ INFORMAÇÕES DO PRODUTO ############################
 					# Utilizado apenas para fins de validação.
 					# informa se o item da NF-e é um produto ou um serviço.
-					# 
+					#
 					# <b>Type:      </b> _Symbol_
 					# <b>Required:  </b> _Yes_
 					# <b>Default:   </b> _:product_
@@ -22,7 +22,7 @@ module BrNfe
 					#
 					# OBS: Caso não seja preenchido irá pegar automaticamente o valor
 					#      da CFOP.
-					# 
+					#
 					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
 					# <b>Default:  </b> _CFOP#{cfop}_
@@ -38,11 +38,11 @@ module BrNfe
 					alias_attribute :cProd, :codigo_produto
 
 					# GTIN (Global Trade Item Number) do produto, antigo código EAN ou código de barras
-					# Preencher com o código GTIN-8, GTIN-12, GTIN-13 ou GTIN-14 
-					# (antigos códigos EAN, UPC e DUN-14), não informar o conteúdo da TAG 
+					# Preencher com o código GTIN-8, GTIN-12, GTIN-13 ou GTIN-14
+					# (antigos códigos EAN, UPC e DUN-14), não informar o conteúdo da TAG
 					# em caso de o produto não possuir este código.
 					#
-					# OBS: esse atributo sempre vai retornar apenas os números setados 
+					# OBS: esse atributo sempre vai retornar apenas os números setados
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
@@ -58,7 +58,7 @@ module BrNfe
 					end
 
 					# Descrição do produto ou serviço
-					# 
+					#
 					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _COPO DE PLÁSTICO 700 ML PARATA_
@@ -68,15 +68,15 @@ module BrNfe
 					attr_accessor :descricao_produto
 					alias_attribute :xProd, :descricao_produto
 
-					# Código NCM com 8 dígitos 
+					# Código NCM com 8 dígitos
 					# Obrigatória informação do NCM completo (8 dígitos).
 					# Nota: Em caso de item de serviço ou item que não tenham
 					# produto (ex. transferência de crédito, crédito do ativo
-					# imobilizado, etc.), informar o valor 00 (dois zeros). 
+					# imobilizado, etc.), informar o valor 00 (dois zeros).
 					# (NT 2014/004)
 					#
 					# OBS: esse atributo sempre vai retornar apenas os números
-					# 
+					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _'12345678'_ OR _123454_
@@ -97,7 +97,7 @@ module BrNfe
 					# Formato: duas letras maiúsculas e 4 algarismos. Se a
 					# mercadoria se enquadrar em mais de uma codificação, informar
 					# até 8 codificações principais. Vide: Anexo XII.03 - Identificador NVE.
-					# 
+					#
 					# <b>Type:     </b> _Array_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _['AB12324','AB5678'] OU 'AB4567'_
@@ -131,7 +131,7 @@ module BrNfe
 					#
 					# OBS: esse atributo sempre vai retornar apenas os números
 					#      EX: Se preencher com '5.102' vai retornar '5102'
-					# 
+					#
 					# <b>Type:     </b> _String_ OR _Number_
 					# <b>Required: </b> _Yes_
 					# <b>Example:  </b> _'5.102'_ OR _5102_
@@ -145,7 +145,7 @@ module BrNfe
 					alias_attribute :CFOP, :cfop
 
 					# Unidade Comercial
-					# informar a unidade de comercialização do produto 
+					# informar a unidade de comercialização do produto
 					# (Ex. pc, und, dz, kg, etc.).
 					#
 					# <b>Type:     </b> _String_
@@ -197,14 +197,14 @@ module BrNfe
 					attr_accessor :valor_total_produto
 					alias_attribute :vProd, :valor_total_produto
 
-					# GTIN (Global Trade Item Number) da unidade tributável, 
+					# GTIN (Global Trade Item Number) da unidade tributável,
 					# antigo código EAN ou código de barras
-					# Preencher com o código GTIN-8, GTIN-12, GTIN-13 ou GTIN-14 
+					# Preencher com o código GTIN-8, GTIN-12, GTIN-13 ou GTIN-14
 					# (antigos códigos EAN, UPC e DUN-14) da unidade tributável
 					# do produto, não informar o conteúdo da TAG em caso de o
 					# produto não possuir este código.
 					#
-					# OBS: esse atributo sempre vai retornar apenas os números setados 
+					# OBS: esse atributo sempre vai retornar apenas os números setados
 					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _No_
@@ -220,7 +220,7 @@ module BrNfe
 					alias_attribute :cEANTrib, :codigo_ean_tributavel
 
 					# Unidade Tributável
-					# Informar a unidade de tributação do produto 
+					# Informar a unidade de tributação do produto
 					# (Ex. pc, und, dz, kg, etc.).
 					#
 					# <b>Type:     </b> _String_
@@ -238,20 +238,20 @@ module BrNfe
 					# Quantidade Tributável
 					# Informar a quantidade de tributação do produto (v2.0).
 					#
-					# NOTA: Por termos diversos casos na legislação onde a tributação 
-					#  incide em unidades de produtos diferentes da que ele é costumeiramente 
-					#  vendido no mercado, especialmente no atacado. Ou seja, a unidade tributa 
-					#  é diferente da unidade comercializada, por este motivo é que foram criados 
-					#  os respectivos campos na NF-e (uCom, qCom e vCom)  (uTrib, qTrib e vUnTrib),  
+					# NOTA: Por termos diversos casos na legislação onde a tributação
+					#  incide em unidades de produtos diferentes da que ele é costumeiramente
+					#  vendido no mercado, especialmente no atacado. Ou seja, a unidade tributa
+					#  é diferente da unidade comercializada, por este motivo é que foram criados
+					#  os respectivos campos na NF-e (uCom, qCom e vCom)  (uTrib, qTrib e vUnTrib),
 					#  sendo que o resultado  (qCom * uCom) seja igual a (qTrib * uTrib).
-					#    Tomemos como exemplo o refrigerante pet de 2 litros que tem 
-					#  definido na pauta fiscal a “unidade tributável” como garrafa de 2litros, 
+					#    Tomemos como exemplo o refrigerante pet de 2 litros que tem
+					#  definido na pauta fiscal a “unidade tributável” como garrafa de 2litros,
 					#  sendo que o fabricante comercializa o mesmo produto em pacote com 6 unidades.
-					#  Assim na venda de 2 pacotes, temos como unidade comercial de 2 unidades 
+					#  Assim na venda de 2 pacotes, temos como unidade comercial de 2 unidades
 					#  que equivalem a 12 litros (2 x 6), com 2 litros cada.
 					#  Na unidade tributável, temos também 12 unidades tributáveis (12 x 1 unidade de 2 litros).
 					#    Observem que sempre qCom * uCom = qTrib * uTrib.
-					#    É importante ressaltar que na maioria dos casos a unidade comercial e a 
+					#    É importante ressaltar que na maioria dos casos a unidade comercial e a
 					#  unidade tributável são iguais.
 					#  Fonte: http://www.tecnospeed.com.br/forum/o-contador/motivo-da-rejeicao-nos-campos-unidade-tributave-e-unidade-comercial/
 					#
@@ -359,6 +359,53 @@ module BrNfe
 					attr_accessor :codigo_cest
 					alias_attribute :CEST, :codigo_cest
 
+					# INDICADOR DE ESCALA RELEVANTE
+					# Indicador de Produção em escala relevante, conforme
+					# Cláusula 23 do Convenio ICMS 52/2017:
+					# S - Produzido em Escala Relevante;
+					# N - Produzido em Escala NÃO Relevante.
+					# Nota: preenchimento obrigatório para produtos com NCM
+					# relacionado no Anexo XXVII do Convenio 52/2017.
+					#
+					# Caso você informe que um produto é emitido em escala não relevante, é
+					# obrigatório a informação do CNPJ do fabricante (campo CNPJFab)
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _N_
+					# <b>Length:   </b> _1_
+					# <b>tag:      </b> indEscala
+					#
+					attr_accessor :escala_relevante
+					alias_attribute :indEscala, :escala_relevante
+
+					# CNPJ DO FABRICANTE DA MERCADORIA
+					# ICNPJ do Fabricante da Mercadoria, obrigatório para
+					# produto em escala NÃO relevante
+					#
+					# <b>Type:     </b> _Number_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _12345678901234_
+					# <b>Length:   </b> _14_
+					# <b>tag:      </b> CNPJFab
+					#
+					attr_accessor :cnpj_fabricante
+					alias_attribute :CNPJFab, :cnpj_fabricante
+
+					# CÓDIGO DE BENEFÍCIO FISCAL NA UF APLICADO AO ITEM
+					# Código de Benefício Fiscal utilizado pela UF, aplicado ao item.
+					# Obs.: Deve ser utilizado o mesmo código adotado na EFD
+					#  e outras declarações, nas UF que o exigem.
+					#
+					# <b>Type:     </b> _String_
+					# <b>Required: </b> _No_
+					# <b>Example:  </b> _1234567890_
+					# <b>Length:   </b> _10_
+					# <b>tag:      </b> cBenef
+					#
+					attr_accessor :codigo_beneficio_fiscal
+					alias_attribute :cBenef, :codigo_beneficio_fiscal
+
 					# Declaração de Importação
 					# Informar dados da importação
 					#
@@ -370,7 +417,7 @@ module BrNfe
 					#
 					has_many :declaracoes_importacao, 'BrNfe.declaracao_importacao_product_class'
 					alias_attribute :DI, :declaracoes_importacao
-					
+
 					# GRUPO DE INFORMAÇÕES DE EXPORTAÇÃO PARA O ITEM
 					# Informar apenas no Drawback e nas exportações
 					#
@@ -474,7 +521,7 @@ module BrNfe
 					#
 					has_one :icms, 'BrNfe.icms_item_tax_product_class', null: false
 					alias_attribute :ICMS, :icms
-					
+
 					# IMPOSTO SOBRE PRODUTOS INDUSTRIALIZADOS - IPI
 					#  Informar apenas quando o item for sujeito ao IPI
 					#
@@ -485,7 +532,7 @@ module BrNfe
 					#
 					has_one :ipi, 'BrNfe.ipi_item_tax_product_class'
 					alias_attribute :IPI, :ipi
-					
+
 					# Imposto de Importação - II
 					#  Informar apenas quando o item for sujeito ao II
 					#
@@ -518,7 +565,7 @@ module BrNfe
 					#
 					has_one :pis_st,          'BrNfe.pis_st_item_tax_product_class'
 					alias_attribute :PISST, :pis_st
-					
+
 					# GRUPO COFINS
 					#  Informar apenas um dos grupos S02, S03, S04 ou S04 com
 					#  base valor atribuído ao campo de CST da COFINS
@@ -530,7 +577,7 @@ module BrNfe
 					#
 					has_one :cofins, 'BrNfe.cofins_item_tax_product_class', null: false
 					alias_attribute :COFINS, :cofins
-					
+
 					# GRUPO COFINS SUBSTITUIÇÃO TRIBUTÁRIA -  COFINS ST
 					#
 					# <b>Type:     </b> _HasOne_
@@ -540,7 +587,7 @@ module BrNfe
 					#
 					has_one :cofins_st, 'BrNfe.cofins_st_item_tax_product_class'
 					alias_attribute :COFINSST, :cofins_st
-					
+
 					# GRUPO ISSQN
 					#  Campos para cálculo do ISSQN na NF-e conjugada, onde há a
 					#  prestação de serviços sujeitos ao ISSQN e fornecimento de
@@ -556,7 +603,7 @@ module BrNfe
 					#
 					has_one :issqn, 'BrNfe.issqn_item_tax_product_class'
 					alias_attribute :ISSQN, :issqn
-					
+
 					# Grupo de Tributação do ICMS para a UF de destino
 					#  Grupo a ser informado nas vendas interestaduais para
 					#  consumidor final, não contribuinte do ICMS.
@@ -630,18 +677,18 @@ module BrNfe
 				validates :unidade_tributavel,        length: {maximum: 6}, allow_blank: true
 				validates :valor_unitario_tributavel, presence: true
 				validates :valor_unitario_tributavel, numericality: true
-				
+
 				validates :total_frete,    numericality: true, allow_blank: true
 				validates :total_seguro,   numericality: true, allow_blank: true
 				validates :total_desconto, numericality: true, allow_blank: true
 				validates :total_outros,   numericality: true, allow_blank: true
-				
+
 				validates :codigo_cest,    length: {maximum: 7}
-				
+
 				validate_has_many :declaracoes_importacao, message: :invalid_declaracao_importacao
 				validates :declaracoes_importacao,         length: {maximum: 100}
 				validate_has_many :detalhes_exportacao, message: :invalid_detalhe_exportacao
-				
+
 				validates :numero_pedido_compra, length: {maximum: 15}
 				validates :item_pedido_compra,   length: {maximum: 6}
 
