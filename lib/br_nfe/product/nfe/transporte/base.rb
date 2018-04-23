@@ -3,13 +3,15 @@ module BrNfe
 		module Nfe
 			module Transporte
 				class Base < BrNfe::ActiveModelBase
-					
+
 					# Modalidade do frete
-					# 0- Por conta do emitente; 
-					# 1- Por conta do destinatário/remetente; 
-					# 2- Por conta de terceiros; 
-					# 9- Sem frete
-					# 
+					# 0=Contratação do Frete por conta do Remetente (CIF);
+					# 1=Contratação do Frete por conta do Destinatário (FOB);
+					# 2=Contratação do Frete por conta de Terceiros;
+					# 3=Transporte Próprio por conta do Remetente;
+					# 4=Transporte Próprio por conta do Destinatário;
+					# 9=Sem Ocorrência de Transporte.
+					#
 					# <b>Type:     </b> _Number_
 					# <b>Required: </b> _Yes_
 					# <b>Default:  </b> _9_
@@ -22,7 +24,7 @@ module BrNfe
 
 					##############################################################################
 					#################### Dados da retenção ICMS do Transporte ####################
-						
+
 						# Método para saber se há retenção de ICMS, e se houver,
 						# aplica as validações e adiciona a tag no XML
 						#
@@ -54,7 +56,7 @@ module BrNfe
 						alias_attribute :vBCRet, :retencao_base_calculo_icms
 
 						# Percentual de aliquota da retenção do ICMS
-						# Exemplo: 
+						# Exemplo:
 						#  Se a aliquota for de 2,56% então deve setar o valor para
 						#  o atrubuto assim: self.retencao_aliquota = 2.56
 						#
@@ -91,7 +93,7 @@ module BrNfe
 						attr_accessor :retencao_cfop
 						alias_attribute :CFOP, :retencao_cfop
 
-						# Código do município de ocorrência do fato gerador 
+						# Código do município de ocorrência do fato gerador
 						# do ICMS do transporte
 						#
 						# <b>Type:     </b> _Number_
@@ -102,7 +104,7 @@ module BrNfe
 						attr_accessor :retencao_codigo_municipio
 						alias_attribute :cMunFG, :retencao_codigo_municipio
 
-					# Attr utilizado para saber como será validado os dados do 
+					# Attr utilizado para saber como será validado os dados do
 					# 'veiculo' utilizado para transportar a carga.
 					#
 					# <b>Type: </b> _Symbol_
@@ -111,7 +113,7 @@ module BrNfe
 					# <b>Default:   </b> _:veiculo_
 					#
 					attr_accessor :forma_transporte
-					
+
 					# Veículo de transporte
 					# Utilizado quando a forma de transporte for com :veiculo
 					#
@@ -198,8 +200,8 @@ module BrNfe
 					#
 					has_one :transportador, 'BrNfe.transportador_product_class'
 					alias_attribute :transporta, :transportador
-					
-					
+
+
 					def default_values
 						{
 							modalidade_frete: 9,        # 9 = Sem frete
@@ -207,11 +209,11 @@ module BrNfe
 						}
 					end
 
-					validates :modalidade_frete, inclusion: [0, '0', 1, '1', 2, '2', 9, '9']
+					validates :modalidade_frete, inclusion: [0, 1, 2, 3, 4, 9, '0', '1', '2', '3', '4', '9']
 					validates :forma_transporte, presence: true
 					validates :forma_transporte, inclusion: [:veiculo, :balsa, :vagao]
 					validate_has_one :transportador
-					
+
 					validate_has_many :volumes, message: :invalid_volume
 					validate_has_many :reboques, message: :invalid_reboque
 					validates :reboques,         length: {maximum: 5}
