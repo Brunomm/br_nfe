@@ -1,0 +1,25 @@
+orig = icms.origem
+CST  = icms.codigo_cst
+
+- if icms.modalidade_base_calculo.present?
+	modBC    = icms.modalidade_base_calculo
+- if icms.reducao_base_calculo.present?
+	pRedBC   = nf_xml_value_percent  icms.reducao_base_calculo
+- if icms.total_base_calculo.present?
+	vBC      = nf_xml_value_monetary icms.total_base_calculo
+- if icms.aliquota.present?
+	pICMS    = nf_xml_value_percent  icms.aliquota
+- if icms.total_icms_operacao.present?
+	vICMSOp  = nf_xml_value_monetary icms.total_icms_operacao
+- if icms.percentual_diferimento.present?
+	pDif     = nf_xml_value_percent  icms.percentual_diferimento
+- if icms.total_icms_diferido.present?
+	vICMSDif = nf_xml_value_monetary icms.total_icms_diferido
+- if icms.total.present?
+	vICMS    = nf_xml_value_monetary icms.total
+
+/################## FCP ##################\
+- if icms.cfp_valor.to_f > 0
+  vBCFCP = nf_xml_value_monetary( icms.cfp_base_calculo )
+  pFCP   = nf_xml_value_percent(  icms.cfp_percentual )
+  vFCP   = nf_xml_value_monetary( icms.cfp_valor )

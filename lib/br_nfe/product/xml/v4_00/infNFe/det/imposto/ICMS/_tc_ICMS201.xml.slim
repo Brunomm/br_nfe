@@ -1,0 +1,21 @@
+orig  = icms.origem
+CSOSN = icms.codigo_cst
+
+/################## ICMS ST ##################\
+modBCST  = icms.modalidade_base_calculo_st
+- if icms.mva_st.to_f > 0.0
+	pMVAST   = nf_xml_value_percent  icms.mva_st
+- if icms.reducao_base_calculo_st.to_f > 0.0
+	pRedBCST = nf_xml_value_percent  icms.reducao_base_calculo_st
+vBCST    = nf_xml_value_monetary icms.total_base_calculo_st
+pICMSST  = nf_xml_value_percent  icms.aliquota_st
+vICMSST  = nf_xml_value_monetary icms.total_st
+
+/################## FCP ##################\
+- if icms.cfp_st_valor.to_f > 0
+  vBCFCPST = nf_xml_value_monetary( icms.cfp_st_base_calculo )
+  pFCPST   = nf_xml_value_percent(  icms.cfp_st_percentual )
+  vFCPST   = nf_xml_value_monetary( icms.cfp_st_valor )
+
+pCredSN     = nf_xml_value_percent  icms.aliquota_credito_sn
+vCredICMSSN = nf_xml_value_monetary icms.total_credito_sn

@@ -1,0 +1,18 @@
+orig   = icms.origem
+CST    = icms.codigo_cst
+modBC  = icms.modalidade_base_calculo
+pRedBC = nf_xml_value_percent  icms.reducao_base_calculo
+vBC    = nf_xml_value_monetary icms.total_base_calculo
+pICMS  = nf_xml_value_percent  icms.aliquota
+vICMS  = nf_xml_value_monetary icms.total
+
+/################## FCP ##################\
+- if icms.cfp_valor.to_f > 0
+  vBCFCP = nf_xml_value_monetary( icms.cfp_base_calculo )
+  pFCP   = nf_xml_value_percent(  icms.cfp_percentual )
+  vFCP   = nf_xml_value_monetary( icms.cfp_valor )
+
+/################## DESONERAÇÃO DE ICMS ##################\
+- if icms.total_desoneracao.to_f > 0.0
+	vICMSDeson nf_xml_value_monetary icms.total_desoneracao
+	motDesICMS icms.motivo_desoneracao

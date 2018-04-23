@@ -1,0 +1,13 @@
+orig  = icms.origem
+CSOSN = icms.codigo_cst
+
+- if icms.total_base_calculo_st_retido.to_f > 0.0
+	vBCSTRet   = nf_xml_value_monetary icms.total_base_calculo_st_retido
+  pST        = nf_xml_value_percent( icms.aliquota_consumidor_final )
+  vICMSSTRet = nf_xml_value_monetary icms.total_st_retido
+
+/################## FCP ##################\
+- if icms.cfp_st_retido_valor.to_f > 0
+  vBCFCPSTRet = nf_xml_value_monetary( icms.cfp_st_retido_base_calculo )
+  pFCPSTRet   = nf_xml_value_percent(  icms.cfp_st_retido_percentual )
+  vFCPSTRet   = nf_xml_value_monetary( icms.cfp_st_retido_valor )

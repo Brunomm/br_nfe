@@ -657,6 +657,43 @@ module BrNfe
 				attr_accessor :total_tributos
 				alias_attribute :ICMSTot_vTotTrib, :total_tributos
 				validates :total_tributos, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
+
+				# VALOR TOTAL DO FCP (FUNDO DE COMBATE À POBREZA)
+				# Corresponde ao total da soma dos campos id: N17c
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> vFCP
+				#
+				attr_accessor :total_fcp
+				alias_attribute :vFCP, :total_fcp
+
+				# VALOR TOTAL DO FCP (FUNDO DE COMBATE À POBREZA) RETIDO POR SUBSTITUIÇÃO TRIBUTÁRIA
+				# Corresponde ao total da soma dos campos id: N23d
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> vFCPST
+				#
+				attr_accessor :total_fcp_st
+				alias_attribute :vFCPST, :total_fcp_st
+
+				# VALOR TOTAL DO FCP RETIDO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA
+				# Corresponde ao total da soma dos campos id: N27d
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> vFCPSTRet
+				#
+				attr_accessor :total_fcp_st_retido
+				alias_attribute :vFCPSTRet, :total_fcp_st_retido
+
 			##########################################################################
 			#########################  TOTAIS PARA SERVIÇOS  #########################
 				# VALOR TOTAL DOS SERVIÇOS SOB NÃO-INCIDÊNCIA OU NÃO TRIBUTADOS PELO ICMS
