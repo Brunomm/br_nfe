@@ -73,9 +73,9 @@ module BrNfe
 			#
 			# Nota 1: No caso de NFC-e informar indIEDest=9 e não informar
 			#         a tag IE do destinatário;
-			# Nota 2: No caso de operação com o Exterior informar indIEDest=9 e 
+			# Nota 2: No caso de operação com o Exterior informar indIEDest=9 e
 			#         não informar a tag IE do destinatário;
-			# Nota 3: No caso de Contribuinte Isento de Inscrição (indIEDest=2), 
+			# Nota 3: No caso de Contribuinte Isento de Inscrição (indIEDest=2),
 			#         não informar a tag IE do destinatário.
 			#
 			def nf_xml_value_indicador_IE indicador_ie, nfe, xml_version=:v3_10
@@ -190,20 +190,15 @@ module BrNfe
 			def nf_xml_value_EAN ean, xml_version=:v3_10
 				if ean.to_i > 0
 					if "#{ean}".strip.size > 8
-						"#{ean}".strip.rjust(12, '0') 
+						"#{ean}".strip.rjust(12, '0')
 					else
-						"#{ean}".strip.rjust(8, '0') 
+						"#{ean}".strip.rjust(8, '0')
 					end
 				end
 			end
 
 			def nf_xml_value_NCM ncm, xml_version=:v3_10
-				ncm = ncm.to_i
-				if ncm > 0
-					"#{ncm}".rjust(8, '0') 
-				else
-					"#{ncm}".rjust(2, '0') 
-				end
+				"#{ncm}".rjust(8, '0')
 			end
 
 			def nf_xml_value_EXTIPI value, xml_version=:v3_10
@@ -223,7 +218,7 @@ module BrNfe
 			end
 
 			def nf_xml_value_drawback value, xml_version=:v3_10
-				if "#{value}".strip.size <= 9 
+				if "#{value}".strip.size <= 9
 					only_numbers value, min_size: 9, max_size: 9
 				else
 					only_numbers value, min_size: 11, max_size: 11
