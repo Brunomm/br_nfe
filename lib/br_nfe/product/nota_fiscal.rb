@@ -401,13 +401,26 @@ module BrNfe
 			# Sempre vai retornar um Array de objetos da class configurada em `BrNfe.pagamento_product_class`
 			#
 			# <b>Tipo:    </b> _BrNfe.pagamento_product_class (BrNfe::Product::Nfe::Cobranca::Pagamento)_
-			# <b>Min:     </b> _0_
+			# <b>Min:     </b> _1_
 			# <b>Max:     </b> _100_
 			# <b>Default: </b> _[]_
 			# <b>tag:     </b> pag
 			#
 			has_many :pagamentos, 'BrNfe.pagamento_product_class'
 			alias_attribute :pag, :pagamentos
+
+			# VALOR DO TROCO
+			#  O valor do Troco na NFe deve ser informado quando o valor da NFe (campo vNF)
+			#  for diferente dos valores dos Pagamentos (campos vPag).
+			#
+			# <b>Type:     </b> _Float_
+			# <b>Required: </b> _No_
+			# <b>Example:  </b> _108.46_
+			# <b>Length:   </b> _13v2_
+			# <b>tag:      </b> vTroco
+			#
+			attr_accessor :pagamento_troco
+			alias_attribute :vTroco, :pagamento_troco
 
 			# DETALHAMENTO DE PRODUTOS E SERVIÇOS
 			#
