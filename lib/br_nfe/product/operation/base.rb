@@ -17,7 +17,7 @@ module BrNfe
 				attr_accessor :tipo_emissao
 				def tipo_emissao= value
 					if "#{value}" == '1'
-						@tipo_emissao = :normal 
+						@tipo_emissao = :normal
 					elsif "#{value}" == '9'
 						@tipo_emissao = :offline_nfce
 					elsif "#{value}".in?(%w[6 7])
@@ -45,9 +45,9 @@ module BrNfe
 				#
 				# <b>Required: </b> _No_
 				# <b>Type:     </b> _String_ XML
-				# 
+				#
 				attr_accessor :original_xml
-				
+
 				validates :tipo_emissao, inclusion: {in: [:normal, :svc]}
 				validates :inicio_contingencia, presence: true,                        if: :contingencia?
 				validates :motivo_contingencia, length: { minimum: 15, maximum: 256 }, if: :contingencia?
@@ -90,7 +90,7 @@ module BrNfe
 				#  - :soap_client => Contém as configurações para instanciar o client Soap com o Savon.
 				#  - :xml_paths   => Contém os caminhos com namespace para encontrar os valores dentro dos XMLS
 				#
-				# <b>Tipo de retorno: </b> _Symbol_ 
+				# <b>Tipo de retorno: </b> _Symbol_
 				#
 				def gateway_settings
 					nfe_settings[:gateway][gateway]
@@ -109,7 +109,7 @@ module BrNfe
 					#    'AM', 'BA', 'CE', 'GO', 'MA', 'MS', 'MT', 'PA', 'PE', 'PI', 'PR'
 					when '13', '29', '23', '52', '21', '50', '51', '15', '26', '22', '41'
 						:svc_rs
-					else # AC, AL, AP, DF, ES, MG, PB, RJ, RN, RO, RR, RS, SC, SE, SP, TO 
+					else # AC, AL, AP, DF, ES, MG, PB, RJ, RN, RO, RR, RS, SC, SE, SP, TO
 						:svc_an
 					end
 				end
@@ -118,7 +118,7 @@ module BrNfe
 				#
 				# <b>Tipo de retorno: </b> _Hash_
 				#
-				def get_gateway_by_normal_operation				
+				def get_gateway_by_normal_operation
 					case "#{ibge_code_of_issuer_uf}"
 					when '13'
 						:am
@@ -144,7 +144,7 @@ module BrNfe
 						:sp
 					when '21', '15' # MA, PA
 						:svan
-					else 
+					else
 						# AC, AL, AP, ES, DF, PB, RJ, RM, RO, RR, SC, PI
 						# 12, 27, 16, 32, 53, 25, 33, 24, 11, 14, 42, 22
 						:svrs
@@ -175,7 +175,7 @@ module BrNfe
 				end
 
 				# Versão utilizada pelo webservice do  estado para determinada ação.
-				# Irá retornar a versão setada de acordo com o serviço e estado conforme 
+				# Irá retornar a versão setada de acordo com o serviço e estado conforme
 				# descrito em: http://www.nfe.fazenda.gov.br/portal/webServices.aspx
 				#
 				# <b>Tipo de retorno: </b> _Symbol_
@@ -250,11 +250,12 @@ module BrNfe
 					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v1_10" if gateway_xml_version >= :v1_10
 					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v2_00" if gateway_xml_version >= :v2_00
 					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v2_01" if gateway_xml_version >= :v2_01
-					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v3_10" if gateway_xml_version == :v3_10
-					
+					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v3_10" if gateway_xml_version >= :v3_10
+					paths << "#{BrNfe.root}/lib/br_nfe/product/xml/v4_00" if gateway_xml_version == :v4_00
+
 					@xml_current_dir_path = paths.reverse+["#{BrNfe.root}/lib/br_nfe/product/xml"]+super
 				end
-				
+
 				# Método utilizado para saber se a operação será em contingência.
 				#
 				# <b>Tipo de retorno: </b> _Boolean_
@@ -271,13 +272,13 @@ module BrNfe
 				#  ✕ 5=Contingência FS-DA, com impressão do DANFE em formulário de segurança;
 				#  ✓ 6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);
 				#  ✓ 7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);
-				#  ✓ 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas 
+				#  ✓ 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas
 				#      também para a NFC-e).
 				#  Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
 				def codigo_tipo_emissao(nfe)
 					return 9 if nfe.nfce?
 					case tipo_emissao
-					when :normal 
+					when :normal
 						1
 					when :svc
 						if gateway == :svc_rs

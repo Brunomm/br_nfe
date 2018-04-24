@@ -1,0 +1,577 @@
+default_return: &default_return
+  header_xml:
+    path: '//soap:Envelope/soap:Header'
+    namespaces:
+      xmlns:soap: "http://www.w3.org/2003/05/soap-envelope"
+  body_xml:
+    path: '//soap:Envelope/soap:Body'
+    namespaces:
+      xmlns:soap: "http://www.w3.org/2003/05/soap-envelope"
+
+nfe_url_default: &nfe_url_default 'http://www.portalfiscal.inf.br/nfe'
+
+# Caminho para pegar os valores para cada requisição.
+# Deve considerar que sempre estará dentro do body
+default_return_status_servico: &default_return_status_servico
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2'
+  environment:              '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:tpAmb'
+  app_version:              '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:verAplic'
+  processed_at:             '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:dhRecbto'
+  processing_status_code:   '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:cStat'
+  processing_status_motive: '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:xMotivo'
+  uf:                       '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:cUF'
+  average_time:             '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:tMed'
+  observation:              '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:xObs'
+  return_prevision:         '//ret:nfeStatusServicoNF2Result/nf:retConsStatServ/nf:dhRetorno'
+
+default_return_autorizacao: &default_return_autorizacao
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao'
+  environment:              '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:tpAmb'
+  app_version:              '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:verAplic'
+  processed_at:             '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:dhRecbto'
+  processing_status_code:   '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:cStat'
+  processing_status_motive: '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:xMotivo'
+  prot_nfe:                 '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:protNFe' # Local onde é encontrado a tag <protNFe>
+  async_protocol:           '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:nRec'
+  average_time:             '//ret:nfeAutorizacaoLoteResult/nf:retEnviNFe/nf:infRec/nf:tMed'
+
+default_return_ret_autorizacao: &default_return_ret_autorizacao
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao'
+  environment:              '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:tpAmb'
+  app_version:              '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:verAplic'
+  processed_at:             '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:dhRecbto'
+  protocol:                 '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:nRec'
+  processing_status_code:   '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:cStat'
+  processing_status_motive: '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:xMotivo'
+  prot_nfe:                 '//ret:nfeRetAutorizacaoLoteResult/nf:retConsReciNFe/nf:protNFe' # Local onde é encontrado a tag <protNFe>
+
+default_return_consulta_protocolo: &default_return_consulta_protocolo
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeConsulta2'
+  environment:              '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:tpAmb'
+  app_version:              '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:verAplic'
+  processed_at:             '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:dhRecbto'
+  processing_status_code:   '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:cStat'
+  processing_status_motive: '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:xMotivo'
+  prot_nfe:                 '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:protNFe' # Local onde é encontrado a tag <protNFe>
+  proc_evento_nfe:          '//ret:nfeConsultaNF2Result/nf:retConsSitNFe/nf:procEventoNFe'
+
+default_return_inutilizacao: &default_return_inutilizacao
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeInutilizacao2'
+  inf_inut:                 '//ret:nfeInutilizacaoNF2Result/nf:retInutNFe/nf:infInut'
+  environment:              '//infInut/tpAmb'
+  app_version:              '//infInut/verAplic'
+  processed_at:             '//infInut/dhRecbto'
+  protocol:                 '//infInut/nProt'
+  processing_status_code:   '//infInut/cStat'
+  processing_status_motive: '//infInut/xMotivo'
+  uf:                       '//infInut/cUF'
+  year:                     '//infInut/ano'
+  cnpj:                     '//infInut/CNPJ'
+  nf_model:                 '//infInut/mod'
+  nf_series:                '//infInut/serie'
+  start_invoice_number:     '//infInut/nNFIni'
+  end_invoice_number:       '//infInut/nNFFin'
+
+default_return_recepcao_evento: &default_return_recepcao_evento
+  namespaces:
+    nf: *nfe_url_default
+    ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/RecepcaoEvento'
+  ret_env_evento:           '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento'
+  ret_evento_without_namespaces: '//retEnvEvento/retEvento'
+  environment:              '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:tpAmb'
+  app_version:              '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:verAplic'
+  processed_at:             '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:dhRecbto'
+  processing_status_code:   '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:cStat'
+  processing_status_motive: '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:xMotivo'
+  codigo_orgao:             '//ret:nfeRecepcaoEventoResult/nf:retEnvEvento/nf:cOrgao'
+  info_event_codigo_orgao:           '//retEvento/infEvento/cOrgao'
+  info_event_status_code:            '//retEvento/infEvento/cStat'
+  info_event_status_motive:          '//retEvento/infEvento/xMotivo'
+  info_event_code:                   '//retEvento/infEvento/tpEvento'
+  info_event_sequence:               '//retEvento/infEvento/nSeqEvento'
+  info_event_cnpj_destino:           '//retEvento/infEvento/CNPJDest'
+  info_event_cpf_destino:            '//retEvento/infEvento/CPFDest'
+  info_event_registred_at:           '//retEvento/infEvento/dhRegEvento'
+  info_event_authorization_protocol: '//retEvento/infEvento/nProt'
+
+nfe:
+  v4_10:
+    gateway:
+      am:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      ba:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      ce:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      go:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      mg:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      ms:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      mt:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+              body_xml:
+                path: '//soap:Envelope/soap:Body'
+                namespaces:
+                  xmlns:soap: 'http://schemas.xmlsoap.org/soap/envelope/'
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      pe:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      pr:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+              namespaces:
+                nf: *nfe_url_default
+                ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeAutorizacao3'
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+              namespaces:
+                nf: *nfe_url_default
+                ret: 'http://www.portalfiscal.inf.br/nfe/wsdl/NfeRetAutorizacao3'
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      rs:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      sp:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      svan:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      svc_an:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      svc_rs:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+      svrs:
+        xml_paths:
+          status_servico:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_status_servico
+          autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_autorizacao
+          retorno_autorizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_ret_autorizacao
+          consulta_protocolo:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_consulta_protocolo
+          inutilizacao:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_inutilizacao
+          recepcao_evento:
+            return_paths:
+              <<: *default_return
+              <<: *default_return_recepcao_evento
+          download_nf:
+            return_paths:
+              <<: *default_return
+    prot_nfe_paths:
+      processed_at:  '//protNFe/infProt/dhRecbto'
+      protocol:      '//protNFe/infProt/nProt'
+      digest_value:  '//protNFe/infProt/digVal'
+      status_code:   '//protNFe/infProt/cStat'
+      status_motive: '//protNFe/infProt/xMotivo'
+      access_key:    '//protNFe/infProt/chNFe'
+    evento_request_paths:
+      sent_at:         '//procEventoNFe/evento/infEvento/dhEvento'
+      event_protocol:  '//procEventoNFe/evento/infEvento/detEvento/nProt'
+      description:     '//procEventoNFe/evento/infEvento/detEvento/descEvento'
+      justification:   '//procEventoNFe/evento/infEvento/detEvento/xJust'
+      correction_text: '//procEventoNFe/evento/infEvento/detEvento/xCorrecao'
+    evento_return_paths:
+      codigo_orgao:           '//procEventoNFe/retEvento/infEvento/cOrgao'
+      status_code:            '//procEventoNFe/retEvento/infEvento/cStat'
+      status_motive:          '//procEventoNFe/retEvento/infEvento/xMotivo'
+      code:                   '//procEventoNFe/retEvento/infEvento/tpEvento'
+      sequence:               '//procEventoNFe/retEvento/infEvento/nSeqEvento'
+      cnpj_destino:           '//procEventoNFe/retEvento/infEvento/CNPJDest'
+      cpf_destino:            '//procEventoNFe/retEvento/infEvento/CPFDest'
+      registred_at:           '//procEventoNFe/retEvento/infEvento/dhRegEvento'
+      authorization_protocol: '//procEventoNFe/retEvento/infEvento/nProt'
