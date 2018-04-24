@@ -707,6 +707,22 @@ module BrNfe
 				attr_accessor :total_fcp_st_retido
 				alias_attribute :vFCPSTRet, :total_fcp_st_retido
 
+				# VALOR TOTAL DO IPI DEVOLVIDO
+				# Deve ser informado quando preenchido o Grupo Tributos
+				# Devolvidos na emissão de nota finNFe=4 (devolução) nas
+				# operações com não contribuintes do IPI. Corresponde ao
+				# total da soma dos campos id:UA04.
+				# Deve ser preenchido no XML mesmo que zerado
+				#
+				# <b>Type:     </b> _Float_
+				# <b>Required: </b> _Yes_
+				# <b>Example:  </b> _178.46_
+				# <b>Length:   </b> _13v2_
+				# <b>tag:      </b> vIPIDevol
+				#
+				attr_accessor :total_ipi_devolvido
+				alias_attribute :vIPIDevol, :total_ipi_devolvido
+
 			##########################################################################
 			#########################  TOTAIS PARA SERVIÇOS  #########################
 				# VALOR TOTAL DOS SERVIÇOS SOB NÃO-INCIDÊNCIA OU NÃO TRIBUTADOS PELO ICMS

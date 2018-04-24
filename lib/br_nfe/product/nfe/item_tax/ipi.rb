@@ -24,7 +24,7 @@ module BrNfe
 					# <b>Example:  </b> _00_
 					# <b>Length:   </b> _2_
 					# <b>tag:      </b> CST
-					# 
+					#
 					attr_accessor :codigo_cst
 					def codigo_cst
 						"#{@codigo_cst}".rjust(2, '0') if @codigo_cst.present?
@@ -40,11 +40,11 @@ module BrNfe
 					# <b>Example:  </b> _C1324_
 					# <b>Length:   </b> _max: 5_
 					# <b>tag:      </b> clEnq
-					# 
+					#
 					attr_accessor :classe_enquadramento
 					alias_attribute :clEnq, :classe_enquadramento
 
-					# CNPJ DO PRODUTOR DA MERCADORIA, QUANDO DIFERENTE DO EMITENTE. 
+					# CNPJ DO PRODUTOR DA MERCADORIA, QUANDO DIFERENTE DO EMITENTE.
 					# SOMENTE PARA OS CASOS DE EXPORTAÇÃO DIRETA OU INDIRETA.
 					#  Informar os zeros não significativos
 					#
@@ -53,7 +53,7 @@ module BrNfe
 					# <b>Example:  </b> _00.000.000/0001-00 OU 01234567890123_
 					# <b>Length:   </b> _14_
 					# <b>tag:      </b> CNPJProd
-					# 
+					#
 					attr_accessor :cnpj_produtor
 					def cnpj_produtor
 						"#{@cnpj_produtor}".gsub(/[^\d]/,'')
@@ -69,7 +69,7 @@ module BrNfe
 					# <b>Example:  </b> _SELO12345654_
 					# <b>Length:   </b> _max: 60_
 					# <b>tag:      </b> cSelo
-					# 
+					#
 					attr_accessor :codigo_selo
 					alias_attribute :cSelo, :codigo_selo
 
@@ -80,24 +80,24 @@ module BrNfe
 					# <b>Example:  </b> _50_
 					# <b>Length:   </b> _max: 12_
 					# <b>tag:      </b> qSelo
-					# 
+					#
 					attr_accessor :quantidade_selo
 					def quantidade_selo
 						"#{@quantidade_selo}".gsub(/[^\d]/,'')
 					end
 					alias_attribute :qSelo, :quantidade_selo
-					
+
 					# CÓDIGO DE ENQUADRAMENTO LEGAL DO IPI
-					# Tabela a ser criada pela RFB, informar 999 enquanto a tabela
-					# não for criada
+					#  Preenchimento conforme Anexo XIV da Nota Técnica 2015.002.
+					#  http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=hDS5co/qWOc=
 					#
 					# <b>Type:     </b> _String_
 					# <b>Required: </b> _Yes_
-					# <b>Example:  </b> _999_
+					# <b>Example:  </b> _265_
 					# <b>Default:  </b> _999_
 					# <b>Length:   </b> _max: 3_
 					# <b>tag:      </b> cEnq
-					# 
+					#
 					attr_accessor :codigo_enquadramento
 					alias_attribute :cEnq, :codigo_enquadramento
 
@@ -108,7 +108,7 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _152.38_
 					# <b>tag:      </b> vBC
-					# 
+					#
 					attr_accessor :base_calculo
 					alias_attribute :vBC, :base_calculo
 
@@ -118,18 +118,18 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _12.00_
 					# <b>tag:      </b> pIPI
-					# 
+					#
 					attr_accessor :aliquota
 					alias_attribute :pIPI, :aliquota
 
-					# QUANTIDADE TOTAL NA UNIDADE PADRÃO PARA TRIBUTAÇÃO 
+					# QUANTIDADE TOTAL NA UNIDADE PADRÃO PARA TRIBUTAÇÃO
 					# (SOMENTE PARA OS PRODUTOS TRIBUTADOS POR UNIDADE)
 					#
 					# <b>Type:     </b> _Float_
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _12.00_
 					# <b>tag:      </b> qUnid
-					# 
+					#
 					attr_accessor :quantidade_unidade
 					alias_attribute :qUnid, :quantidade_unidade
 
@@ -139,7 +139,7 @@ module BrNfe
 					# <b>Required: </b> _No_
 					# <b>Example:  </b> _12.00_
 					# <b>tag:      </b> vUnid
-					# 
+					#
 					attr_accessor :total_unidade
 					alias_attribute :vUnid, :total_unidade
 
@@ -149,13 +149,13 @@ module BrNfe
 					# <b>Required: </b> _No_ (Yes if CST [00 49 50 99])
 					# <b>Example:  </b> _12.00_
 					# <b>tag:      </b> vIPI
-					# 
+					#
 					attr_accessor :total
 					alias_attribute :vIPI, :total
 
 					def default_values
 						{
-							codigo_enquadramento: '999', 
+							codigo_enquadramento: '999',
 						}
 					end
 
