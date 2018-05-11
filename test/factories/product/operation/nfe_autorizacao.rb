@@ -41,7 +41,7 @@ FactoryGirl.define do
 				natureza_operacao:   'Venda', #Default
 				forma_pagamento:     0,  # Pagamento à vista; (Default)
 				modelo_nf:           55, # Default
-				data_hora_emissao:   Time.current, 
+				data_hora_emissao:   Time.current,
 				data_hora_expedicao: Time.current,
 				tipo_operacao:       1, # Saída - Default
 				tipo_impressao:      1, # DANFE normal, Retrato; (Default)
@@ -284,7 +284,7 @@ FactoryGirl.define do
 						},
 						icms_uf_destino: {
 							total_base_calculo:          1400.50,
-							percentual_fcp:              1.5,
+							percentual_fcp_uf_destino:   1.5,
 							aliquota_interna_uf_destino: 12.0,
 							aliquota_interestadual:      12.0,
 							percentual_partilha_destino: 80.0,
@@ -430,7 +430,7 @@ FactoryGirl.define do
 					natureza_operacao:   'Venda', #Default
 					forma_pagamento:     0,  # Pagamento à vista; (Default)
 					modelo_nf:           55, # Default
-					data_hora_emissao:   Time.parse('25/12/2016 12:00:00 -0300'), 
+					data_hora_emissao:   Time.parse('25/12/2016 12:00:00 -0300'),
 					data_hora_expedicao: Time.parse('25/12/2016 12:00:00 -0300'),
 					tipo_operacao:       1, # Saída - Default
 					tipo_impressao:      1, # DANFE normal, Retrato; (Default)

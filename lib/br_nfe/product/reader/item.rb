@@ -134,7 +134,7 @@ module BrNfe
 					def set_icms_uf_destino
 						@item.icms_uf_destino do |icms_uf_destino|
 							icms_uf_destino.total_base_calculo          = @xml.css( @path[:icms_uf_destino][:total_base_calculo]         ).text.to_f
-							icms_uf_destino.percentual_fcp              = @xml.css( @path[:icms_uf_destino][:percentual_fcp]             ).text.to_f
+							icms_uf_destino.percentual_fcp_uf_destino   = @xml.css( @path[:icms_uf_destino][:percentual_fcp_uf_destino]             ).text.to_f
 							icms_uf_destino.aliquota_interna_uf_destino = @xml.css( @path[:icms_uf_destino][:aliquota_interna_uf_destino]).text.to_f
 							icms_uf_destino.aliquota_interestadual      = @xml.css( @path[:icms_uf_destino][:aliquota_interestadual]     ).text.to_f
 							icms_uf_destino.percentual_partilha_destino = @xml.css( @path[:icms_uf_destino][:percentual_partilha_destino]).text.to_f

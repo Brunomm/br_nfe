@@ -5,7 +5,7 @@ describe BrNfe::Product::Nfe::ItemTax::IcmsUfDestino do
 
 	describe 'Alias attributes' do
 		it { must_have_alias_attribute :vBCUFDest,      :total_base_calculo }
-		it { must_have_alias_attribute :pFCPUFDest,     :percentual_fcp }
+		it { must_have_alias_attribute :pFCPUFDest,     :percentual_fcp_uf_destino }
 		it { must_have_alias_attribute :pICMSUFDest,    :aliquota_interna_uf_destino }
 		it { must_have_alias_attribute :pICMSInter,     :aliquota_interestadual }
 		it { must_have_alias_attribute :pICMSInterPart, :percentual_partilha_destino }
@@ -28,27 +28,27 @@ describe BrNfe::Product::Nfe::ItemTax::IcmsUfDestino do
 			it { must validate_numericality_of(:aliquota_interestadual).
 				is_greater_than_or_equal_to(0.0).
 				is_less_than_or_equal_to(99.99).
-				allow_nil 
+				allow_nil
 			}
 		end
 		describe '#percentual_partilha_destino' do
 			it { must validate_numericality_of(:percentual_partilha_destino).
 				is_greater_than_or_equal_to(0.0).
 				is_less_than_or_equal_to(100.0).
-				allow_nil 
+				allow_nil
 			}
 		end
-		describe '#percentual_fcp' do
-			it { must validate_numericality_of(:percentual_fcp).
+		describe '#percentual_fcp_uf_destino' do
+			it { must validate_numericality_of(:percentual_fcp_uf_destino).
 				is_greater_than_or_equal_to(0.0).
 				is_less_than_or_equal_to(2.0).
-				allow_nil 
+				allow_nil
 			}
 		end
 		describe '#total_fcp_destino' do
 			it { must validate_numericality_of(:total_fcp_destino).
 				is_greater_than_or_equal_to(0.0).
-				allow_nil 
+				allow_nil
 			}
 		end
 		describe '#total_destino' do

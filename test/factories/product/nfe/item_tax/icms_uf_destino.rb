@@ -1,7 +1,7 @@
 FactoryGirl.define do
 	factory :product_item_tax_icms_uf_destino, class:  BrNfe::Product::Nfe::ItemTax::IcmsUfDestino do
 		total_base_calculo          345.64
-		percentual_fcp              1.0
+		percentual_fcp_uf_destino   1.0
 		aliquota_interna_uf_destino 17.0
 		aliquota_interestadual      12.0
 		total_fcp_destino           3.46

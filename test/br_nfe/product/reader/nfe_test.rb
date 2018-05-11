@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe BrNfe::Product::Reader::Nfe do
 	describe "XML Version 3.10" do
-		let(:nfe_completa)     { read_fixture('product/nfe/v3_10/completa.xml') } 
+		let(:nfe_completa)     { read_fixture('product/nfe/v3_10/completa.xml') }
 		let(:nfe_without_proc) { read_fixture('product/nfe/v3_10/without_proc.xml') }
 		describe "Valores da nota fiscal" do
 			it "Deve carregar os totais da nota fiscal" do
@@ -167,7 +167,7 @@ describe BrNfe::Product::Reader::Nfe do
 				dest.endereco_nome_pais.must_equal 'BRASIL'
 				dest.telefone.must_equal '49991471446'
 				dest.indicador_ie.must_equal 9
-				dest.email.must_equal 'felipe_lucca@live.ie'				
+				dest.email.must_equal 'felipe_lucca@live.ie'
 				dest.inscricao_estadual.must_equal '99999999'
 				dest.suframa.must_equal '66547'
 				dest.inscricao_municipal.must_equal '4654564'
@@ -227,7 +227,7 @@ describe BrNfe::Product::Reader::Nfe do
 				transporte.reboques[1].uf.must_equal 'RS'
 				transporte.reboques[1].rntc.must_equal '654899'
 				# Volumes
-				transporte.volumes.size.must_equal 2 
+				transporte.volumes.size.must_equal 2
 				transporte.volumes[0].quantidade.must_equal '5'
 				transporte.volumes[0].especie.must_equal 'CAIXA'
 				transporte.volumes[0].marca.must_equal 'DUO'
@@ -358,7 +358,7 @@ describe BrNfe::Product::Reader::Nfe do
 			end
 		end
 		describe '#Itens da nota fiscal' do
-			let(:invoice) { BrNfe::Product::Reader::Nfe.new(nfe_completa).invoice } 
+			let(:invoice) { BrNfe::Product::Reader::Nfe.new(nfe_completa).invoice }
 			it "Deve ler o Item 1 - ICMS-00" do
 				item = invoice.itens[0]
 				# Atributos
@@ -461,7 +461,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -571,7 +571,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -670,7 +670,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -725,7 +725,7 @@ describe BrNfe::Product::Reader::Nfe do
 				icms.total_base_calculo.must_equal           0.0
 				icms.aliquota.must_equal                     0.0
 				icms.total.must_equal                        0.0
-				
+
 				icms.modalidade_base_calculo_st.must_equal   4
 				icms.mva_st.must_equal                       40.0
 				icms.reducao_base_calculo_st.must_equal      5.0
@@ -770,7 +770,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -880,7 +880,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -979,7 +979,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1078,7 +1078,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1133,7 +1133,7 @@ describe BrNfe::Product::Reader::Nfe do
 				icms.total_base_calculo.must_equal           598.9
 				icms.aliquota.must_equal                     3.33
 				icms.total.must_equal                        19.94
-				
+
 				icms.modalidade_base_calculo_st.must_be_nil
 				icms.mva_st.must_equal                       0.0
 				icms.reducao_base_calculo_st.must_equal      0.0
@@ -1178,7 +1178,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1288,7 +1288,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1388,7 +1388,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1488,7 +1488,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1588,7 +1588,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1688,7 +1688,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1788,7 +1788,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1888,7 +1888,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -1988,7 +1988,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              1.11
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   1.11
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 18.00
 				icms_uf_destino.aliquota_interestadual.must_equal      12.00
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2088,7 +2088,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              2.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   2.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 12.00
 				icms_uf_destino.aliquota_interestadual.must_equal      17.00
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2188,7 +2188,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2203,7 +2203,7 @@ describe BrNfe::Product::Reader::Nfe do
 				item.codigo_produto.must_equal            'CM080P'
 				item.codigo_ean.must_equal                ''
 				item.descricao_produto.must_equal         'AERTECNICA - CENTRAL DE ASPIRACAO PERFETTO P80'
-				
+
 				######################  Associações HasMany  ######################
 				item.declaracoes_importacao.must_be_empty
 				item.detalhes_exportacao.must_be_empty
@@ -2230,7 +2230,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2245,7 +2245,7 @@ describe BrNfe::Product::Reader::Nfe do
 				item.codigo_produto.must_equal            '164125'
 				item.codigo_ean.must_equal                ''
 				item.descricao_produto.must_equal         'BELKIN - CAPA PARA IPHONE HALO TRANSPARENTE'
-				
+
 				######################  Associações HasMany  ######################
 				item.declaracoes_importacao.must_be_empty
 				item.detalhes_exportacao.must_be_empty
@@ -2280,7 +2280,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          0.0
-				icms_uf_destino.percentual_fcp.must_equal              0.0
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   0.0
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 0.0
 				icms_uf_destino.aliquota_interestadual.must_equal      0.0
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2295,7 +2295,7 @@ describe BrNfe::Product::Reader::Nfe do
 				item.codigo_produto.must_equal            'TQF110039'
 				item.codigo_ean.must_equal                ''
 				item.descricao_produto.must_equal         '7BALL - TAQUEIRA DE CHAO BUENOS AIRES PRETA'
-				
+
 				######################  Associações HasMany  ######################
 				item.declaracoes_importacao.must_be_empty
 				item.detalhes_exportacao.must_be_empty
@@ -2343,7 +2343,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          411.80
-				icms_uf_destino.percentual_fcp.must_equal              1.50
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   1.50
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 17.00
 				icms_uf_destino.aliquota_interestadual.must_equal      12.00
 				icms_uf_destino.percentual_partilha_destino.must_equal 60.0
@@ -2475,7 +2475,7 @@ describe BrNfe::Product::Reader::Nfe do
 				# ICMS UF DESTINO
 				icms_uf_destino = item.icms_uf_destino
 				icms_uf_destino.total_base_calculo.must_equal          1400.50
-				icms_uf_destino.percentual_fcp.must_equal              1.50
+				icms_uf_destino.percentual_fcp_uf_destino.must_equal   1.50
 				icms_uf_destino.aliquota_interna_uf_destino.must_equal 12.00
 				icms_uf_destino.aliquota_interestadual.must_equal      17.00
 				icms_uf_destino.percentual_partilha_destino.must_equal 80.00
