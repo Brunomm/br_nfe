@@ -325,6 +325,7 @@ default: &default
     icms_uf_destino:
       root:                        'imposto/ICMSUFDest'
       total_base_calculo:          'imposto/ICMSUFDest/vBCUFDest'
+      bc_fcp_uf_destino:           'imposto/ICMSUFDest/vBCFCPUFDest'
       percentual_fcp_uf_destino:   'imposto/ICMSUFDest/pFCPUFDest'
       aliquota_interna_uf_destino: 'imposto/ICMSUFDest/pICMSUFDest'
       aliquota_interestadual:      'imposto/ICMSUFDest/pICMSInter'

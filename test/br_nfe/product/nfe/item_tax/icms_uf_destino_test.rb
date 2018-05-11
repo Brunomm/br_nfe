@@ -5,6 +5,7 @@ describe BrNfe::Product::Nfe::ItemTax::IcmsUfDestino do
 
 	describe 'Alias attributes' do
 		it { must_have_alias_attribute :vBCUFDest,      :total_base_calculo }
+		it { must_have_alias_attribute :vBCFCPUFDest,   :bc_fcp_uf_destino }
 		it { must_have_alias_attribute :pFCPUFDest,     :percentual_fcp_uf_destino }
 		it { must_have_alias_attribute :pICMSUFDest,    :aliquota_interna_uf_destino }
 		it { must_have_alias_attribute :pICMSInter,     :aliquota_interestadual }
@@ -41,7 +42,7 @@ describe BrNfe::Product::Nfe::ItemTax::IcmsUfDestino do
 		describe '#percentual_fcp_uf_destino' do
 			it { must validate_numericality_of(:percentual_fcp_uf_destino).
 				is_greater_than_or_equal_to(0.0).
-				is_less_than_or_equal_to(2.0).
+				is_less_than_or_equal_to(2.5).
 				allow_nil
 			}
 		end

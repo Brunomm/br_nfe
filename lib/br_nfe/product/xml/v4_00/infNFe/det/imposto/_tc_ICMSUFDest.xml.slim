@@ -1,0 +1,15 @@
+vBCUFDest      = nf_xml_value_monetary( icms.total_base_calculo )
+
+- if icms.total_fcp_destino.to_f > 0
+  vBCFCPUFDest   = nf_xml_value_monetary(  icms.bc_fcp_uf_destino )
+  pFCPUFDest     = nf_xml_value_monetary(  icms.percentual_fcp_uf_destino )
+
+pICMSUFDest    = nf_xml_value_monetary(  icms.aliquota_interna_uf_destino )
+pICMSInter     = nf_xml_value_monetary( icms.aliquota_interestadual )
+pICMSInterPart = nf_xml_value_monetary(  icms.percentual_partilha_destino )
+
+- if icms.total_fcp_destino.to_f > 0
+  vFCPUFDest     = nf_xml_value_monetary( icms.total_fcp_destino )
+
+vICMSUFDest    = nf_xml_value_monetary( icms.total_destino )
+vICMSUFRemet   = nf_xml_value_monetary( icms.total_origem )

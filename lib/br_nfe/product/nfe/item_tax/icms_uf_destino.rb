@@ -26,6 +26,17 @@ module BrNfe
 					attr_accessor :total_base_calculo
 					alias_attribute :vBCUFDest, :total_base_calculo
 
+					# VALOR DA BASE DE CÁLCULO DO FCP NA UF DE DESTINO.
+					#
+					# <b>Type:     </b> _Float_
+					# <b>Required: </b> _Yes_
+					# <b>Example:  </b> _1.47_
+					# <b>Length:   </b> _13v2-4_
+					# <b>tag:      </b> vBCFCPUFDest
+					#
+					attr_accessor :bc_fcp_uf_destino
+					alias_attribute :vBCFCPUFDest, :bc_fcp_uf_destino
+
 					# PERCENTUAL DO ICMS RELATIVO AO FUNDO DE COMBATE À POBREZA
 					# (FCP) NA UF DE DESTINO
 					#   Percentual adicional inserido na alíquota interna da UF de
@@ -141,7 +152,7 @@ module BrNfe
 					validates :aliquota_interestadual, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 99.99}, allow_blank: true
 					validates :aliquota_interestadual, inclusion: {in: [4.0, 7.0, 12.0]}, allow_blank: true
 					validates :percentual_partilha_destino, numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0}, allow_blank: true
-					validates :percentual_fcp_uf_destino,    numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 2.0}, allow_blank: true
+					validates :percentual_fcp_uf_destino,    numericality: {greater_than_or_equal_to: 0.0, less_than_or_equal_to: 2.5}, allow_blank: true
 					validates :total_fcp_destino, numericality: {greater_than_or_equal_to: 0.0}, allow_blank: true
 					validates :total_destino,     presence: true
 					validates :total_origem,      presence: true
