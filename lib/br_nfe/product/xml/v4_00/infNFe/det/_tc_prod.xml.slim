@@ -14,9 +14,10 @@ NCM   = nf_xml_value_NCM(  item.codigo_ncm )
 		/ #I05d
 		indEscala = item.escala_relevante
 
-	- if item.cnpj_fabricante.present?
-		/ #I05e
-		CNPJFab = item.cnpj_fabricante
+		/ Só precisa add o CNPJ do fabricante se tiver um indicador de escala relevante
+		- if item.cnpj_fabricante.present?
+			/ #I05e
+			CNPJFab = item.cnpj_fabricante
 
 	- if item.codigo_beneficio_fiscal.present?
 		/ #I05f
