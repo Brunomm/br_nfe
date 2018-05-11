@@ -120,7 +120,8 @@ module BrNfe
 			# 1=Pagamento a prazo;
 			# 2=Outros.
 			#
-			# REMOVIDO NA VERSÃO 4.0
+			# NA VERSÃO 4.0 essa informação está em cada pagamento (tag: indPag, id: YA01b).
+			#
 			#
 			# <b>Type:     </b> _Number_ OR _String_
 			# <b>Required: </b> _Yes_
@@ -383,7 +384,6 @@ module BrNfe
 			alias_attribute :cobr, :fatura
 
 			# Array com as informações dos pagamentos
-			# IMPORTANTE: Utilizado apenas para NFC-e
 			#
 			# Pode ser adicionado os dados dos pagamentos em forma de `Hash`
 			# ou o próprio objeto da classe BrNfe.pagamento_product_class.

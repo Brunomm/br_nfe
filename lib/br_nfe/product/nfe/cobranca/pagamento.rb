@@ -97,6 +97,25 @@ module BrNfe
 					attr_accessor :cartao_autorizacao
 					alias_attribute :cAut, :cartao_autorizacao
 
+					# Indicador da forma de pagamento
+					# 0=Pagamento à vista; (Default)
+					# 1=Pagamento a prazo;
+					#
+					# <b>Type:     </b> _Number_ OR _String_
+					# <b>Required: </b> _Yes_
+					# <b>Default:  </b> _0_
+					# <b>Length:   </b> _1_
+					# <b>tag:      </b> indPag (ID: YA01b)
+					#
+					attr_accessor :indicacao_pagamento
+					alias_attribute :indPag, :indicacao_pagamento
+
+					def default_values
+						{
+							indicacao_pagamento: 0,
+						}
+					end
+
 					validates :forma_pagamento, :total, presence: true
 					validates :forma_pagamento, inclusion: {in: BrNfe::Constants::FORMAS_PAGAMENTO}
 					validates :total, numericality: {greater_than_or_equal_to: 0.0}
