@@ -1,4 +1,7 @@
 detPag
+	- if pagamento.indicacao_pagamento.present?
+	  indPag = pagamento.indicacao_pagamento.to_i
+
 	tPag = nf_xml_fixed_code(pagamento.forma_pagamento, size: 2)
 	vPag = nf_xml_value_monetary( pagamento.total )
 	- if pagamento.cartao?

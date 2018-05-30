@@ -66,6 +66,11 @@ module BrNfe
 						@item.total_ipi_devolucao       = @xml.css( @path[:total_ipi_devolucao] ).text.to_f
 						@item.informacoes_adicionais    = @xml.css( @path[:informacoes_adicionais] ).text
 						@item.total_tributos            = @xml.css( @path[:total_tributos] ).text.to_f
+
+						# NF-e 4.0
+						@item.escala_relevante        = @xml.css( @path[:escala_relevante] ).text
+						@item.cnpj_fabricante         = @xml.css( @path[:cnpj_fabricante] ).text
+						@item.codigo_beneficio_fiscal = @xml.css( @path[:codigo_beneficio_fiscal] ).text
 					end
 
 					def set_icms
@@ -93,7 +98,18 @@ module BrNfe
 							total_base_calculo_st_retido: @xml.css( @path[:icms][:total_base_calculo_st_retido]).text.to_f,
 							total_st_retido:              @xml.css( @path[:icms][:total_st_retido]             ).text.to_f,
 							aliquota_credito_sn:          @xml.css( @path[:icms][:aliquota_credito_sn]         ).text.to_f,
-							total_credito_sn:             @xml.css( @path[:icms][:total_credito_sn]            ).text.to_f
+							total_credito_sn:             @xml.css( @path[:icms][:total_credito_sn]            ).text.to_f,
+							# NF-e 4.0
+							cfp_base_calculo:             @xml.css( @path[:icms][:cfp_base_calculo]           ).text.to_f,
+							cfp_percentual:               @xml.css( @path[:icms][:cfp_percentual]             ).text.to_f,
+							cfp_valor:                    @xml.css( @path[:icms][:cfp_valor]                  ).text.to_f,
+							cfp_st_base_calculo:          @xml.css( @path[:icms][:cfp_st_base_calculo]        ).text.to_f,
+							cfp_st_percentual:            @xml.css( @path[:icms][:cfp_st_percentual]          ).text.to_f,
+							cfp_st_valor:                 @xml.css( @path[:icms][:cfp_st_valor]               ).text.to_f,
+							cfp_st_retido_base_calculo:   @xml.css( @path[:icms][:cfp_st_retido_base_calculo] ).text.to_f,
+							cfp_st_retido_percentual:     @xml.css( @path[:icms][:cfp_st_retido_percentual]   ).text.to_f,
+							cfp_st_retido_valor:          @xml.css( @path[:icms][:cfp_st_retido_valor]        ).text.to_f,
+							aliquota_consumidor_final:    @xml.css( @path[:icms][:aliquota_consumidor_final]  ).text.to_f,
 						}
 					end
 					def set_ipi

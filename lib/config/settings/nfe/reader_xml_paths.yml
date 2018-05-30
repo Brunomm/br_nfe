@@ -1,4 +1,4 @@
-default: &default
+default: &default_nfe_v310
   codigo_tipo_emissao:       'NFe/infNFe/ide/tpEmis'
   codigo_nf:                 'NFe/infNFe/ide/cNF'
   natureza_operacao:         'NFe/infNFe/ide/natOp'
@@ -134,7 +134,7 @@ default: &default
       numero_duplicata: 'nDup'
       vencimento: 'dVenc'
       total: 'vDup'
-  pagamentos:
+  pagamentos: &default_pagamentos_v310
     root:               'NFe/infNFe/pag'
     forma_pagamento:    'tPag'
     total:              'vPag'
@@ -142,7 +142,7 @@ default: &default
     cartao_cnpj:        'card/CNPJ'
     cartao_bandeira:    'card/tBand'
     cartao_autorizacao: 'card/cAut'
-  total_icms:
+  total_icms: &default_total_icms_v310
     root: 'NFe/infNFe/total/ICMSTot'
     total_icms_base_calculo:    'NFe/infNFe/total/ICMSTot/vBC'
     total_icms:                 'NFe/infNFe/total/ICMSTot/vICMS'
@@ -198,9 +198,7 @@ default: &default
     protocol:     'nProt'
     processed_at: 'dhRegEvento'
     status_code:  'cStat'
-
-
-  items:
+  items: &default_items_v310
     root: 'NFe/infNFe/det'
     codigo_produto:            'prod/cProd'
     codigo_ean:                'prod/cEAN'
@@ -230,7 +228,7 @@ default: &default
     total_ipi_devolucao:       'impostoDevol/IPI/vIPIDevol'
     informacoes_adicionais:    'infAdProd'
     total_tributos:            'imposto/vTotTrib'
-    icms:
+    icms: &default_items_icms_v310
       root: 'imposto/ICMS'
       origem:                       'imposto/ICMS/*/orig'
       cst:                          'imposto/ICMS/*/CST'
@@ -370,4 +368,36 @@ default: &default
 nfe:
   v3_10:
     reader_xml_paths:
-      <<: *default
+      <<: *default_nfe_v310
+  v4_00:
+    reader_xml_paths:
+      <<: *default_nfe_v310
+      pagamentos:
+        <<: *default_pagamentos_v310
+        troco: 'NFe/infNFe/pag/vTroco'
+        root: 'NFe/infNFe/pag/detPag'
+        indicacao_pagamento: 'indPag'
+      total_icms:
+        <<: *default_total_icms_v310
+        total_fcp:           'NFe/infNFe/total/ICMSTot/vFCP'
+        total_fcp_st:        'NFe/infNFe/total/ICMSTot/vFCPST'
+        total_fcp_st_retido: 'NFe/infNFe/total/ICMSTot/vFCPSTRet'
+        total_ipi_devolvido: 'NFe/infNFe/total/ICMSTot/vIPIDevol'
+
+      items:
+        <<: *default_items_v310
+        escala_relevante:        'prod/indEscala'
+        cnpj_fabricante:         'prod/CNPJFab'
+        codigo_beneficio_fiscal: 'prod/cBenef'
+        icms:
+          <<: *default_items_icms_v310
+          cfp_base_calculo:           'imposto/ICMS/*/vBCFCP'
+          cfp_percentual:             'imposto/ICMS/*/pFCP'
+          cfp_valor:                  'imposto/ICMS/*/vFCP'
+          cfp_st_base_calculo:        'imposto/ICMS/*/vBCFCPST'
+          cfp_st_percentual:          'imposto/ICMS/*/pFCPST'
+          cfp_st_valor:               'imposto/ICMS/*/vFCPST'
+          cfp_st_retido_base_calculo: 'imposto/ICMS/*/vBCFCPSTRet'
+          cfp_st_retido_percentual:   'imposto/ICMS/*/pFCPSTRet'
+          cfp_st_retido_valor:        'imposto/ICMS/*/vFCPSTRet'
+          aliquota_consumidor_final:  'imposto/ICMS/*/pST'

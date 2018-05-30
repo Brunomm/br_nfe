@@ -17,7 +17,7 @@ module BrNfe
 				def xml_version
 					@xml_version
 				end
-			
+
 			private
 
 				def path
@@ -29,7 +29,12 @@ module BrNfe
 				end
 
 				def find_xml_version
-					"v#{@xml.css("infNFe").attr("versao")}".gsub('.','_').to_sym
+					v = "v#{@xml.css("infNFe").attr("versao")}".gsub('.','_').to_sym
+					if v.in?( %i[v3_10 v4_00] )
+						v
+					else
+						:v4_00
+					end
 				end
 
 				def populate_invoice!
@@ -44,7 +49,9 @@ module BrNfe
 					@invoice.codigo_tipo_emissao       = @xml_nfe.css(path[:codigo_tipo_emissao]).text
 					@invoice.codigo_nf                 = @xml_nfe.css(path[:codigo_nf]).text
 					@invoice.natureza_operacao         = @xml_nfe.css(path[:natureza_operacao]).text
-					@invoice.forma_pagamento           = @xml_nfe.css(path[:forma_pagamento]).text
+
+					@invoice.forma_pagamento           = @xml_nfe.css(path[:forma_pagamento]).text # Removido na NF-e 4.0
+
 					@invoice.modelo_nf                 = @xml_nfe.css(path[:modelo_nf]).text
 					@invoice.serie                     = @xml_nfe.css(path[:serie]).text
 					@invoice.numero_nf                 = @xml_nfe.css(path[:numero_nf]).text.to_i
@@ -96,6 +103,11 @@ module BrNfe
 					@invoice.total_outras_despesas      = @xml_nfe.css(path[:total_icms][:total_outras_despesas]).text.to_f
 					@invoice.total_nf                   = @xml_nfe.css(path[:total_icms][:total_nf]).text.to_f
 					@invoice.total_tributos             = @xml_nfe.css(path[:total_icms][:total_tributos]).text.to_f
+					# NF-e v4
+					@invoice.total_fcp                  = @xml_nfe.css(path[:total_icms][:total_fcp]).text.to_f
+					@invoice.total_fcp_st               = @xml_nfe.css(path[:total_icms][:total_fcp_st]).text.to_f
+					@invoice.total_fcp_st_retido        = @xml_nfe.css(path[:total_icms][:total_fcp_st_retido]).text.to_f
+					@invoice.total_ipi_devolvido        = @xml_nfe.css(path[:total_icms][:total_ipi_devolvido]).text.to_f
 				end
 
 				def build_service_total_values!
@@ -147,14 +159,21 @@ module BrNfe
 				end
 
 				def build_pagamentos!
+					if (path[:pagamentos][:troco])
+						# NF-e v4
+						@invoice.pagamento_troco = @xml_nfe.css(path[:pagamentos][:troco]).text.to_f
+					end
+
 					@xml_nfe.css(path[:pagamentos][:root]).each do |xml_pag|
 						@invoice.pagamentos << {
-							forma_pagamento:    xml_pag.css(path[:pagamentos][:forma_pagamento]).text,
-							total:              xml_pag.css(path[:pagamentos][:total]).text.to_f,
-							tipo_integracao:    xml_pag.css(path[:pagamentos][:tipo_integracao]).text,
-							cartao_cnpj:        xml_pag.css(path[:pagamentos][:cartao_cnpj]).text,
-							cartao_bandeira:    xml_pag.css(path[:pagamentos][:cartao_bandeira]).text,
-							cartao_autorizacao: xml_pag.css(path[:pagamentos][:cartao_autorizacao]).text
+							forma_pagamento:     xml_pag.css(path[:pagamentos][:forma_pagamento]).text,
+							total:               xml_pag.css(path[:pagamentos][:total]).text.to_f,
+							tipo_integracao:     xml_pag.css(path[:pagamentos][:tipo_integracao]).text,
+							cartao_cnpj:         xml_pag.css(path[:pagamentos][:cartao_cnpj]).text,
+							cartao_bandeira:     xml_pag.css(path[:pagamentos][:cartao_bandeira]).text,
+							cartao_autorizacao:  xml_pag.css(path[:pagamentos][:cartao_autorizacao]).text,
+							# NF-e v4
+							indicacao_pagamento: xml_pag.css(path[:pagamentos][:indicacao_pagamento]).text,
 						}
 					end
 				end
